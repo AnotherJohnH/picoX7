@@ -47,7 +47,7 @@ void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
 
    for(unsigned i = 0; i < n; ++i)
    {
-      uint16_t sample = table_sine[phase] >> 2;
+      uint16_t sample = table_sine[phase];
 
       buffer[i] = (sample << 16) | sample;
 
