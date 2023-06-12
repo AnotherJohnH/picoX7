@@ -20,8 +20,6 @@
 // SOFTWARE.
 //------------------------------------------------------------------------------
 
-#include <cstdio>
-
 // \brief test PIO Audio driver
 
 #include <cstdio>
@@ -30,6 +28,7 @@
 #include "MTL/Pins.h"
 #include "MTL/PioAudio.h"
 
+#include "Usage.h"
 #include "Table_sine.h"
 
 //! 48 KHz, with pinout for Waveshare Pico-Audio
@@ -37,26 +36,42 @@ MTL::PioAudio<MTL::Pio0> audio{48000, MTL::PIN_31, MTL::PIN_29, MTL::PIN_32};
 
 PIO_AUDIO_ATTACH_IRQ_0(audio);
 
+Usage usage {};
+
 unsigned phase = 0;
 
 //! 
 void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
 {
+   usage.start();
+
    for(unsigned i = 0; i < n; ++i)
    {
       uint16_t sample = table_sine[phase] >> 2;
 
       buffer[i] = (sample << 16) | sample;
 
-      phase = (phase + 4) & TABLE_SINE_MASK;
+      phase = (phase + 3) & TABLE_SINE_MASK;
    }
+
+   usage.end();
 }
+
 
 int MTL_main()
 {
    audio.start();
 
-   while(true) {}
+   while(true)
+   {
+      puts("\033[H");
+
+      printf("FLASH: %2u%%   ", usage.getFLASHUsage());
+      printf("RAM: %2u%%   ", usage.getRAMUsage());
+      printf("CPU: %2u%%\n", usage.getCPUUsage());
+
+      usage.wait(40000);
+   }
 
    return 0;
 }

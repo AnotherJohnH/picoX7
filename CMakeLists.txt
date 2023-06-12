@@ -23,11 +23,13 @@
 cmake_minimum_required(VERSION 3.19.1)
 
 project(PicoSynth
-        LANGUAGES CXX
+        LANGUAGES CXX ASM
         VERSION 0.0.0)
 
 add_subdirectory(Platform)
 
-add_executable(picosynth Source/picosynth.cpp Source/Table_sine.cpp)
+add_executable(picosynth
+               Source/picosynth.cpp
+               Source/Table_sine.cpp)
 
 target_link_libraries(picosynth TNY MTL)
