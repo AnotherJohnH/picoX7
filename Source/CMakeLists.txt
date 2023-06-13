@@ -20,12 +20,8 @@
 #  SOFTWARE.
 #-------------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 3.19.1)
+add_subdirectory(SYN)
 
-project(PicoSynth
-        LANGUAGES CXX ASM
-        VERSION 0.0.0)
+add_executable(picosynth picosynth.cpp)
 
-add_subdirectory(Platform)
-
-add_subdirectory(Source)
+target_link_libraries(picosynth PRIVATE SYN TNY MTL)

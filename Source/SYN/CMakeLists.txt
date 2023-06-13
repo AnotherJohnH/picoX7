@@ -20,12 +20,6 @@
 #  SOFTWARE.
 #-------------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 3.19.1)
+add_library(SYN STATIC Table_sine.cpp)
 
-project(PicoSynth
-        LANGUAGES CXX ASM
-        VERSION 0.0.0)
-
-add_subdirectory(Platform)
-
-add_subdirectory(Source)
+target_include_directories(SYN PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/..)

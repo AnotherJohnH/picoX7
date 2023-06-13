@@ -1,6 +1,6 @@
 # PicoSynth
 
-Empty application.
+Software synthesizer implementation on the Raspberry Pi Pico.
 
 ## Status
 
@@ -10,7 +10,7 @@ Empty application.
 
 Build using cmake...
 
-mkdir build_native
-cd build_native
+mkdir build_rpipico
+cd build_rpipico
 cmake ..
 make

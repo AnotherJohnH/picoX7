@@ -27,8 +27,13 @@
 
 #pragma once
 
-#include "MTL/CortexM0/SysTick.h"
 #include "MTL/Config.h"
+
+#if defined(MTL_rpipico)
+#include "MTL/CortexM0/SysTick.h"
+#elif defined(MTL_mbedLPC1768)
+#include "MTL/CortexM3/SysTick.h"
+#endif
 
 //! Resource usgae measurement
 class Usage

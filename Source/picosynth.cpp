@@ -20,43 +20,75 @@
 // SOFTWARE.
 //------------------------------------------------------------------------------
 
-// \brief test PIO Audio driver
+// \brief Pico Synth
 
 #include <cstdio>
 
 #include "MTL/MTL.h"
 #include "MTL/Pins.h"
-#include "MTL/PioAudio.h"
 
 #include "Usage.h"
-#include "Table_sine.h"
+#include "Simple/Synth.h"
+
+static Synth synth {};
+static Usage usage {};
+
+//------------------------------------------------------------------------------
+// Raspberry Pi Pico driver
+
+#if defined(MTL_rpipico)
+
+#include "MTL/PioAudio.h"
 
 //! 48 KHz, with pinout for Waveshare Pico-Audio
-MTL::PioAudio<MTL::Pio0> audio{48000, MTL::PIN_31, MTL::PIN_29, MTL::PIN_32};
-
+static MTL::PioAudio<MTL::Pio0> audio {SYN::SAMPLE_FREQ,
+                                       /* MCLK */         MTL::PIN_31,
+                                       /* SD */           MTL::PIN_29,
+                                       /* LRCLK + SCLK */ MTL::PIN_32};
 PIO_AUDIO_ATTACH_IRQ_0(audio);
 
-Usage usage {};
-
-unsigned phase = 0;
-
-//! 
+//! DAC pump call-back from MTL::PinAudio<>
 void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
 {
    usage.start();
 
    for(unsigned i = 0; i < n; ++i)
    {
-      uint16_t sample = table_sine[phase];
+      SYN::Sample sample = synth();
 
       buffer[i] = (sample << 16) | sample;
-
-      phase = (phase + 3) & TABLE_SINE_MASK;
    }
 
    usage.end();
 }
 
+//------------------------------------------------------------------------------
+// mbed LPC1768 driver
+
+#elif defined(MTL_mbedLPC1768)
+
+#include "MTL/DACPump.h"
+
+MTL::DACPump<512> audio {SYN::SAMPLE_FREQ};
+
+//! DAC pump call-back from MTL::DACPump<>
+void MTL::DACPump_getSamples(uint32_t* buffer, unsigned n)
+{
+   usage.start();
+   
+   for(unsigned i = 0; i < n; ++i)
+   {
+      SYN::Sample sample = synth();
+
+      buffer[i] = uint16_t(sample + 0x8000);
+   }
+
+   usage.end();
+}
+
+//------------------------------------------------------------------------------
+
+#endif
 
 int MTL_main()
 {
