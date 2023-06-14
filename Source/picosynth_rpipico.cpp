@@ -26,19 +26,14 @@
 
 #include "MTL/MTL.h"
 #include "MTL/Pins.h"
+#include "MTL/PioAudio.h"
 
 #include "Usage.h"
 #include "Simple/Synth.h"
 
-static Synth synth {};
 static Usage usage {};
+static Synth synth {};
 
-//------------------------------------------------------------------------------
-// Raspberry Pi Pico driver
-
-#if defined(MTL_rpipico)
-
-#include "MTL/PioAudio.h"
 
 //! 48 KHz, with pinout for Waveshare Pico-Audio
 static MTL::PioAudio<MTL::Pio0> audio {SYN::SAMPLE_FREQ,
@@ -62,34 +57,6 @@ void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
    usage.end();
 }
 
-//------------------------------------------------------------------------------
-// mbed LPC1768 driver
-
-#elif defined(MTL_mbedLPC1768)
-
-#include "MTL/DACPump.h"
-
-MTL::DACPump<512> audio {SYN::SAMPLE_FREQ};
-
-//! DAC pump call-back from MTL::DACPump<>
-void MTL::DACPump_getSamples(uint32_t* buffer, unsigned n)
-{
-   usage.start();
-   
-   for(unsigned i = 0; i < n; ++i)
-   {
-      SYN::Sample sample = synth();
-
-      buffer[i] = uint16_t(sample + 0x8000);
-   }
-
-   usage.end();
-}
-
-//------------------------------------------------------------------------------
-
-#endif
-
 int MTL_main()
 {
    audio.start();
@@ -97,6 +64,7 @@ int MTL_main()
    while(true)
    {
       puts("\033[H");
+      printf("Pico Synth\n");
 
       printf("FLASH: %2u%%   ", usage.getFLASHUsage());
       printf("RAM: %2u%%   ", usage.getRAMUsage());

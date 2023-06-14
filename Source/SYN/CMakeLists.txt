@@ -22,4 +22,6 @@
 
 add_library(SYN STATIC Table_sine.cpp)
 
-target_include_directories(SYN PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/..)
+target_include_directories(SYN PUBLIC ..)
+
+target_link_libraries(SYN PUBLIC STB)

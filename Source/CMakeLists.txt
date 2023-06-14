@@ -22,6 +22,6 @@
 
 add_subdirectory(SYN)
 
-add_executable(picosynth picosynth.cpp)
+add_executable(picosynth picosynth_${PLT_TARGET}.cpp)
 
-target_link_libraries(picosynth PRIVATE SYN TNY MTL)
+target_link_libraries(picosynth PRIVATE SYN PLT)

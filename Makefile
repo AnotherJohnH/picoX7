@@ -1,5 +1,7 @@
 
-targets = rpipico
+targets = rpipico \
+          mbedLPC1768 \
+          native
 
 all: $(targets)
 
