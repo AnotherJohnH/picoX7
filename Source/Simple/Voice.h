@@ -20,44 +20,46 @@
 // SOFTWARE.
 //------------------------------------------------------------------------------
 
-// \brief Pico Synth
+#include "SYN/Sine.h"
+#include "SYN/VoiceBase.h"
 
-#include <cstdio>
-
-#include "PLT/Audio.h"
-#include "PLT/Event.h"
-
-#include "Simple/Synth.h"
-#include "Controller.h"
-
-static Synth<4>   synth {};
-static Controller controller {synth};
-
-class Monitor : public PLT::Audio::Out
+class Voice : public VoiceBase
 {
 public:
-   Monitor()
-      : PLT::Audio::Out(SYN::SAMPLE_FREQ, PLT::Audio::Format::SINT16, /* channels */ 2)
-   {}
+   Voice() = default;
+
+   SYN::Sample operator()()
+   {
+      return osc();
+   }
+
+   void tick()
+   {
+   }
+
+   void gateOn() override
+   {
+      osc.setNote(note);
+      osc.gain = 0.5;
+   }
+
+   void gateOff() override
+   {
+      osc.gain = 0.0;
+   }
+
+   void setLevel(uint8_t value) override
+   {
+   }
+
+   void setControl(uint8_t control, uint8_t value) override
+   {
+   }
+
+   void setPitch(int16_t value) override
+   {
+   }
 
 private:
-   void getSamples(int16_t* buffer, unsigned n) override
-   {
-      for(unsigned i = 0; i < n; i += 2)
-      {
-         buffer[i + 1] = buffer[i] = synth();
-      }
-   }
+   SYN::Sine osc{};
 };
-
-
-int main()
-{
-   Monitor monitor;
-
-   monitor.setEnable(true);
-
-   controller.tick();
-
-   return PLT::Event::mainLoop();
-}

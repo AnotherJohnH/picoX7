@@ -20,8 +20,32 @@
 #  SOFTWARE.
 #-------------------------------------------------------------------------------
 
-add_library(SYN STATIC Table_sine.cpp)
+add_custom_command(
+   COMMENT
+      "Auto-generate tables"
+   COMMAND
+      ${CMAKE_COMMAND}
+         -E env PYTHONPATH=${python_path}
+         ${CMAKE_CURRENT_SOURCE_DIR}/AUTO.py
+   DEPENDS
+      ${CMAKE_CURRENT_SOURCE_DIR}/AUTO.py
+   OUTPUT
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_sine.h
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_sine.cpp
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_freq.h
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_freq.cpp
+   )
 
-target_include_directories(SYN PUBLIC ..)
+add_library(SYN STATIC
+   Table_sine.cpp
+   Table_freq.cpp
+   )
 
-target_link_libraries(SYN PUBLIC STB)
+target_include_directories(SYN
+   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/..
+   PUBLIC ${CMAKE_CURRENT_BINARY_DIR}
+   )
+
+target_link_libraries(SYN
+   PUBLIC STB
+   )

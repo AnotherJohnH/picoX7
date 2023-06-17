@@ -30,22 +30,25 @@
 
 #include "Usage.h"
 #include "Simple/Synth.h"
+#include "Controller.h"
 
-static Usage usage {};
-static Synth synth {};
-
+static Usage      usage {};
+static Synth<4>   synth {};
+static Controller controller {synth};
 
 //! 48 KHz, with pinout for Waveshare Pico-Audio
-static MTL::PioAudio<MTL::Pio0> audio {SYN::SAMPLE_FREQ,
-                                       /* MCLK */         MTL::PIN_31,
-                                       /* SD */           MTL::PIN_29,
-                                       /* LRCLK + SCLK */ MTL::PIN_32};
+static MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK> audio {SYN::SAMPLE_FREQ,
+                                                        MTL::PIN_31,  // MCLK
+                                                        MTL::PIN_29,  // SD
+                                                        MTL::PIN_32}; // LRCLK + SCLK
 PIO_AUDIO_ATTACH_IRQ_0(audio);
 
-//! DAC pump call-back from MTL::PinAudio<>
+//! DAC pump call-back
 void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
 {
    usage.start();
+
+   synth.tick();
 
    for(unsigned i = 0; i < n; ++i)
    {
@@ -63,6 +66,8 @@ int MTL_main()
 
    while(true)
    {
+      controller.tick();
+
       puts("\033[H");
       printf("Pico Synth\n");
 

@@ -30,17 +30,22 @@
 
 #include "Usage.h"
 #include "Simple/Synth.h"
+#include "Controller.h"
 
-static Usage usage {};
-static Synth synth {};
+static Usage      usage {};
+static Synth<4>   synth {};
+static Controller controller {synth};
 
-MTL::DACPump<512> audio {SYN::SAMPLE_FREQ};
+MTL::DACPump<SAMPLES_PER_TICK> audio {SYN::SAMPLE_FREQ};
+DAC_PUMP_ATTACH_IRQ(audio);
 
-//! DAC pump call-back from MTL::DACPump<>
+//! DAC pump call-back
 void MTL::DACPump_getSamples(uint32_t* buffer, unsigned n)
 {
    usage.start();
-   
+
+   synth.tick();
+
    for(unsigned i = 0; i < n; ++i)
    {
       SYN::Sample sample = synth();
@@ -57,6 +62,8 @@ int MTL_main()
 
    while(true)
    {
+      controller.tick();
+
       puts("\033[H");
       printf("Pico Synth\n");
 

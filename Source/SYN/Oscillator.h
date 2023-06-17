@@ -28,6 +28,8 @@
 #include "Phase.h"
 #include "Sample.h"
 
+#include "Table_freq.h"
+
 namespace SYN
 {
    //! Base class for oscillator sources
@@ -105,7 +107,11 @@ namespace SYN
       {
          static const double NOTE_A4_FREQ = 440.0;
 
+#ifdef MTL_TARGET
+         setFreq(NOTE_A4_FREQ);
+#else
          setFreq(NOTE_A4_FREQ * pow(2, (note_cents + tune_cents) / 1200.0));
+#endif
       }
 
       static const unsigned PHASE_BITS    = sizeof(Phase) * 8;

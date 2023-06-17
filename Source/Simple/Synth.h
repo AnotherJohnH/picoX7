@@ -20,22 +20,13 @@
 // SOFTWARE.
 //------------------------------------------------------------------------------
 
-// \brief Simple synth
+#include "SYN/SynthBase.h"
 
-#include "SYN/Sine.h"
+#include "Voice.h"
 
-struct Synth
+template <unsigned N>
+class Synth : public SynthBase<N,Voice>
 {
-   Synth()
-   {
-      osc.setFreq(440.0);
-      osc.gain = 0.5;
-   }
-
-   SYN::Sample operator()()
-   {
-      return osc();
-   }
-
-   SYN::Sine osc{};
+public:
+   Synth() = default;
 };

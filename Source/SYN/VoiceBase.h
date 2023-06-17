@@ -20,44 +20,56 @@
 // SOFTWARE.
 //------------------------------------------------------------------------------
 
-// \brief Pico Synth
+#pragma once
 
-#include <cstdio>
+#include <cstdint>
 
-#include "PLT/Audio.h"
-#include "PLT/Event.h"
-
-#include "Simple/Synth.h"
-#include "Controller.h"
-
-static Synth<4>   synth {};
-static Controller controller {synth};
-
-class Monitor : public PLT::Audio::Out
+//! Base class for voices used with SynthBase
+class VoiceBase
 {
+   enum State { OFF, ON, DECAY };
+
 public:
-   Monitor()
-      : PLT::Audio::Out(SYN::SAMPLE_FREQ, PLT::Audio::Format::SINT16, /* channels */ 2)
-   {}
+   VoiceBase() = default;
+
+   bool isOn()    const { return state == ON; }
+   bool isDecay() const { return state == DECAY; }
+   bool isOff()   const { return state == OFF; }
+
+   uint8_t getNote() const { return note; }
+
+   unsigned getOrder() const { return order; }
+
+   //! MIDI note on event for this voice
+   void noteOn(uint8_t note_, uint8_t level_, unsigned order_)
+   {
+      state = ON;
+      order = order_;
+      note  = note_;
+
+      setLevel(level_);
+      gateOn();
+   }
+
+   //! MIDI note off event for this voice
+   void noteOff(unsigned order_)
+   {
+      state = DECAY;
+      order = order_;
+
+      gateOff();
+   }
+
+   virtual void gateOn() {}
+   virtual void gateOff() {}
+   virtual void setLevel(uint8_t value) {}
+   virtual void setControl(uint8_t control, uint8_t value) {}
+   virtual void setPitch(int16_t value) {}
+
+protected:
+   uint8_t note {};
 
 private:
-   void getSamples(int16_t* buffer, unsigned n) override
-   {
-      for(unsigned i = 0; i < n; i += 2)
-      {
-         buffer[i + 1] = buffer[i] = synth();
-      }
-   }
+   State    state {OFF}; 
+   unsigned order {};    //!< Event order on entry into current state
 };
-
-
-int main()
-{
-   Monitor monitor;
-
-   monitor.setEnable(true);
-
-   controller.tick();
-
-   return PLT::Event::mainLoop();
-}
