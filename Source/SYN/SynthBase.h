@@ -25,18 +25,18 @@
 #include <cstdint>
 
 #include "SYN/Sample.h"
-#include "STB/MIDIChannel.h"
+#include "STB/MIDIInstrument.h"
 
 static const unsigned TICK_FREQ        = 100; //!< Hz
 static const unsigned SAMPLES_PER_TICK = SYN::SAMPLE_FREQ / TICK_FREQ;
 
 //! Base class for synth
 template <unsigned N, typename VOICE>
-class SynthBase : public MIDI::Channel
+class SynthBase : public MIDI::Instrument
 {
 public:
    SynthBase()
-      : MIDI::Channel(N)
+      : MIDI::Instrument(N)
    {}
 
    //! Get next sample
@@ -48,7 +48,7 @@ public:
       {
          VOICE& v = voice[i];
 
-         if (not v.isOff())
+         if (not v.isMute())
             total += v();
       }
 
@@ -62,10 +62,12 @@ public:
       {
          VOICE& v = voice[i];
 
-         if (not v.isOff())
+         if (not v.isMute())
             v.tick();
       }
    }
+
+   // MIDI::Instrument implementation
 
    signed allocVoice() const override
    {
@@ -78,14 +80,14 @@ public:
       {
          const VOICE& v = voice[i];
 
-         if (v.isOff())
+         if (v.isMute())
          {
             // Free voice found
             return i;
          }
-         else if (v.isDecay())
+         else if (v.isOff())
          {
-            // Find oldest voice in decay
+            // Find oldest voice that is OFF
             if (v.getOrder() < first_decay)
             {
                first_decay       = v.getOrder();
@@ -94,7 +96,7 @@ public:
          }
          else
          {
-            // Find oldest voice that is on
+            // Find oldest voice that is ON
             if (v.getOrder() < first_on)
             {
                first_on       = v.getOrder();
@@ -126,8 +128,6 @@ public:
       return -1;
    }
 
-   // Implement instrument for MIDI::Channel
-
    void voiceOn(unsigned index_, uint8_t note_, uint8_t velocity_) override
    {
       voice[index_].noteOn(note_, velocity_, order++);
@@ -151,6 +151,10 @@ public:
    void voicePitch(unsigned index_, int16_t value_) override
    {
       voice[index_].setPitch(value_);
+   }
+
+   void voiceProgram(unsigned index_, uint8_t prog_) override
+   {
    }
 
 private:

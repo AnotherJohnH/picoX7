@@ -27,37 +27,147 @@
 
 #pragma once
 
-#include "STB/MIDIChannel.h"
+#include <cstdio>
 
-//! Resource usgae measurement
+#include "STB/MIDIInstrument.h"
+#include "MTL/rp2040/Uart.h"
+
+#define DBG if (1) printf
+
+//! MIDI interface
 class Controller
 {
 public:
    Controller() = default;
 
-   Controller(MIDI::Channel& channel_)
+   Controller(MIDI::Instrument& instrument_)
    {
-      attachChannel(channel_);
+      attachInstrument(instrument_);
    }
 
-   void attachChannel(MIDI::Channel& channel_)
+   void attachInstrument(MIDI::Instrument& instrument_)
    {
-      channel = &channel_;
+      inst = &instrument_;
    }
 
    void tick()
    {
-      if (tick_count == 0)
+      while(not midi.empty())
       {
-         channel->noteOn(0, 69, 127);
-         channel->noteOn(0, 73, 127);
-         channel->noteOn(0, 76, 127);
-      }
+         uint8_t byte = nextByte();
 
-      ++tick_count;
+         if ((byte & 0b10000000) != 0)
+         {
+            // New command
+            cmd = byte >> 4;
+
+            if (cmd == 0xF)
+            {
+               // System command
+
+               switch(byte)
+               {
+               case 0xFE:
+                  break;
+
+               default:
+                  printf("SYSTEM %02X\n", byte);
+                  break;
+               }
+            }
+            else
+            {
+               // Instrument command
+
+               chan = byte & 0xF;
+
+               channelCommand(chan, cmd, nextByte());
+            }
+         }
+         else
+         {
+            // Repeat last channel command
+            channelCommand(chan, cmd, byte);
+         }
+      }
    }
 
 private:
-   MIDI::Channel* channel {nullptr};
-   unsigned       tick_count {0};
+   uint8_t nextByte()
+   {
+      return midi.rx();
+   }
+
+   void channelCommand(unsigned chan, unsigned cmd, uint8_t byte)
+   {
+      switch(cmd)
+      {
+      case 0x8:
+         {
+            uint8_t note  = byte;
+            uint8_t level = nextByte();
+            DBG("CH%u NOTE OFF %3u %3u\n", chan, note, level);
+            inst->noteOff(chan, note, level);
+         }
+         break;
+
+      case 0x9:
+         {
+            uint8_t note  = byte;
+            uint8_t level = nextByte();
+            DBG("CH%u NOTE ON  %3u %3u\n", chan, note, level);
+            inst->noteOn(chan, note, level);
+         }
+         break;
+
+      case 0xA:
+         {
+            uint8_t note  = byte;
+            uint8_t level = nextByte();
+            DBG("CH%u NOTE PRE %3u %3u\n", chan, note, level);
+            inst->notePressure(chan, note, level);
+         }
+         break;
+
+      case 0xB:
+         {
+            uint8_t ctrl  = byte;
+            uint8_t value = nextByte();
+            DBG("CH%u CTRL     %3u %3u\n", chan, ctrl, value);
+            inst->controlChange(chan, ctrl, value);
+         }
+         break;
+
+      case 0xC:
+         {
+            uint8_t prog = byte;
+            DBG("CH%u PROG     %3u\n", chan, prog);
+            inst->programChange(chan, prog);
+         }
+         break;
+
+      case 0xD:
+         {
+            uint8_t level = byte;
+            DBG("CH%u PRES     %3u\n", chan, nextByte());
+            inst->channelPressure(chan, level);
+         }
+         break;
+
+      case 0xE:
+         {
+            uint8_t lsb   = byte;
+            uint8_t msb   = nextByte();
+            int16_t pitch = ((msb << 7) | lsb) - 0x2000;
+            DBG("CH%u PTCH     %d\n", chan, pitch);
+            inst->channelPitchBend(chan, pitch);
+         }
+         break;
+      }
+   }
+
+   MIDI::Instrument* inst {nullptr};
+   MTL::Uart1        midi {31250, 8, MTL::UART::NONE, 1};
+   unsigned          cmd {0};
+   unsigned          chan {0};
 };

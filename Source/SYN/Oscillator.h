@@ -62,10 +62,11 @@ namespace SYN
       }
 
       //! Set oscillator frequency from MIDI note value
-      void setNote(uint8_t midi_note)
+      void setNote(uint8_t midi_note_)
       {
          static const unsigned NOTE_A4_MIDI = 69;
 
+         midi_note  = midi_note_;
          note_cents = (midi_note - NOTE_A4_MIDI) * 100;
 
          updateFreqFromNote();
@@ -105,11 +106,10 @@ namespace SYN
    private:
       void updateFreqFromNote()
       {
-         static const double NOTE_A4_FREQ = 440.0;
-
 #ifdef MTL_TARGET
-         setFreq(NOTE_A4_FREQ);
+         setFreq(Freq::fromRaw(table_freq[midi_note + 1]));
 #else
+         static const double NOTE_A4_FREQ = 440.0;
          setFreq(NOTE_A4_FREQ * pow(2, (note_cents + tune_cents) / 1200.0));
 #endif
       }
@@ -117,7 +117,8 @@ namespace SYN
       static const unsigned PHASE_BITS    = sizeof(Phase) * 8;
       static const Phase_   PHASE_INC_1HZ = (uint64_t(1) << PHASE_BITS) / SAMPLE_FREQ;
 
-      signed tune_cents {0};
-      signed note_cents {0};
+      signed  tune_cents {0};
+      signed  note_cents {0};
+      uint8_t midi_note {0};
    };
 }

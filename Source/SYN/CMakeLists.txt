@@ -34,11 +34,14 @@ add_custom_command(
       ${CMAKE_CURRENT_BINARY_DIR}/Table_sine.cpp
       ${CMAKE_CURRENT_BINARY_DIR}/Table_freq.h
       ${CMAKE_CURRENT_BINARY_DIR}/Table_freq.cpp
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_ampl.h
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_ampl.cpp
    )
 
 add_library(SYN STATIC
    Table_sine.cpp
    Table_freq.cpp
+   Table_ampl.cpp
    )
 
 target_include_directories(SYN

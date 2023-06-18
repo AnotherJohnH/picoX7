@@ -103,3 +103,10 @@ build('freq',
       size   = 130,
       prefix = '0x',
       fmt    = '08x')
+
+build('ampl',
+      bits   = 32,
+      func   = lambda i,x : int(i * 0xFFFF / 127),
+      size   = 128,
+      prefix = '0x',
+      fmt    = '08x')

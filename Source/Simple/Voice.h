@@ -23,6 +23,8 @@
 #include "SYN/Sine.h"
 #include "SYN/VoiceBase.h"
 
+#include "Table_ampl.h"
+
 class Voice : public VoiceBase
 {
 public:
@@ -39,17 +41,18 @@ public:
 
    void gateOn() override
    {
+      osc.sync();
       osc.setNote(note);
-      osc.gain = 0.5;
    }
 
    void gateOff() override
    {
-      osc.gain = 0.0;
+      setMute();
    }
 
    void setLevel(uint8_t value) override
    {
+      osc.gain = SYN::Gain::fromRaw(table_ampl[value]);
    }
 
    void setControl(uint8_t control, uint8_t value) override
@@ -58,6 +61,7 @@ public:
 
    void setPitch(int16_t value) override
    {
+      osc.setTune(value);
    }
 
 private:

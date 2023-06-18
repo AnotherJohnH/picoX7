@@ -27,13 +27,15 @@
 #include "MTL/MTL.h"
 #include "MTL/Pins.h"
 #include "MTL/PioAudio.h"
+#include "MTL/rp2040/Uart.h"
 
 #include "Usage.h"
 #include "Simple/Synth.h"
 #include "Controller.h"
 
 static Usage      usage {};
-static Synth<4>   synth {};
+static Synth<8>   synth {};
+static MTL::Uart1 midi{31250, 8, MTL::UART::NONE, 1};
 static Controller controller {synth};
 
 //! 48 KHz, with pinout for Waveshare Pico-Audio
@@ -54,7 +56,7 @@ void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
    {
       SYN::Sample sample = synth();
 
-      buffer[i] = (sample << 16) | sample;
+      buffer[i] = (sample << 16) | (sample & 0xFFFF);
    }
 
    usage.end();
@@ -62,12 +64,15 @@ void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
 
 int MTL_main()
 {
+   printf("Pico Synth\n");
+
    audio.start();
 
    while(true)
    {
       controller.tick();
 
+#if 0
       puts("\033[H");
       printf("Pico Synth\n");
 
@@ -76,6 +81,7 @@ int MTL_main()
       printf("CPU: %2u%%\n", usage.getCPUUsage());
 
       usage.wait(40000);
+#endif
    }
 
    return 0;

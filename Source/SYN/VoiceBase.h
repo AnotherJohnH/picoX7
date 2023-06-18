@@ -27,15 +27,16 @@
 //! Base class for voices used with SynthBase
 class VoiceBase
 {
-   enum State { OFF, ON, DECAY };
+   enum State { MUTE, ON, OFF };
 
 public:
    VoiceBase() = default;
 
-   bool isOn()    const { return state == ON; }
-   bool isDecay() const { return state == DECAY; }
-   bool isOff()   const { return state == OFF; }
+   bool isMute() const { return state == MUTE; }
+   bool isOn()   const { return state == ON; }
+   bool isOff()  const { return state == OFF; }
 
+   //! Get current note playing
    uint8_t getNote() const { return note; }
 
    unsigned getOrder() const { return order; }
@@ -54,7 +55,7 @@ public:
    //! MIDI note off event for this voice
    void noteOff(unsigned order_)
    {
-      state = DECAY;
+      state = OFF;
       order = order_;
 
       gateOff();
@@ -69,7 +70,12 @@ public:
 protected:
    uint8_t note {};
 
+   void setMute()
+   {
+      state = MUTE;
+   }
+
 private:
-   State    state {OFF}; 
+   State    state {MUTE};
    unsigned order {};    //!< Event order on entry into current state
 };
