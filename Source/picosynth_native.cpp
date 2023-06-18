@@ -27,11 +27,33 @@
 #include "PLT/Audio.h"
 #include "PLT/Event.h"
 
-#include "Simple/Synth.h"
-#include "Controller.h"
+#include "STB/MIDIInterface.h"
 
-static Synth<4>   synth {};
-static Controller controller {synth};
+#include "Simple/Synth.h"
+
+
+class MidiIn : public MIDI::Interface
+{
+public:
+   MidiIn(MIDI::Instrument& instrument)
+      : MIDI::Interface(instrument)
+   {}
+
+   bool empty() const override { return n == sizeof(data); }
+
+   uint8_t rx() override { return data[n++]; }
+
+private:
+   unsigned n {0};
+   uint8_t  data[7] =
+   {
+      0x90, 0x40, 0x7F, 0x44, 0x7F, 0x47, 0x7F
+   };
+};
+
+
+static Synth<8> synth {};
+static MidiIn   midi_in {synth};
 
 class Monitor : public PLT::Audio::Out
 {
@@ -53,11 +75,13 @@ private:
 
 int main()
 {
+   printf("Pico Synth\n");
+
    Monitor monitor;
 
    monitor.setEnable(true);
 
-   controller.tick();
+   midi_in.tick();
 
    return PLT::Event::mainLoop();
 }

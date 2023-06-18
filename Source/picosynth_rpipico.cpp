@@ -29,14 +29,31 @@
 #include "MTL/PioAudio.h"
 #include "MTL/rp2040/Uart.h"
 
+#include "STB/MIDIInterface.h"
+
 #include "Usage.h"
 #include "Simple/Synth.h"
-#include "Controller.h"
 
-static Usage      usage {};
-static Synth<8>   synth {};
-static MTL::Uart1 midi{31250, 8, MTL::UART::NONE, 1};
-static Controller controller {synth};
+
+class MidiIn : public MIDI::Interface
+{
+public:
+   MidiIn(MIDI::Instrument& instrument)
+      : MIDI::Interface(instrument)
+   {}
+
+   bool empty() const override { return uart.empty(); }
+
+   uint8_t rx() { return uart.rx(); }
+
+private:
+   MTL::Uart1 uart{31250, 8, MTL::UART::NONE, 1};
+};
+
+
+static Usage    usage {};
+static Synth<8> synth {};
+static MidiIn   midi_in {synth};
 
 //! 48 KHz, with pinout for Waveshare Pico-Audio
 static MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK> audio {SYN::SAMPLE_FREQ,
@@ -70,7 +87,7 @@ int MTL_main()
 
    while(true)
    {
-      controller.tick();
+      midi_in.tick();
 
 #if 0
       puts("\033[H");

@@ -27,14 +27,33 @@
 #include "MTL/MTL.h"
 #include "MTL/Pins.h"
 #include "MTL/DACPump.h"
+#include "MTL/LPC1768/UART.h"
+
+#include "STB/MIDIInterface.h"
 
 #include "Usage.h"
 #include "Simple/Synth.h"
-#include "Controller.h"
 
-static Usage      usage {};
-static Synth<4>   synth {};
-static Controller controller {synth};
+
+class MidiIn : public MIDI::Interface
+{
+public:
+   MidiIn(MIDI::Instrument& instrument)
+      : MIDI::Interface(instrument)
+   {}
+
+   bool empty() const override { return uart.empty(); }
+
+   uint8_t rx() { return uart.rx(); }
+
+private:
+   MTL::UART0 uart{MTL::UART::BAUD_31250, 8, MTL::UART::NONE, 1};
+};
+
+
+static Usage    usage {};
+static Synth<8> synth {};
+static MidiIn   midi_in {synth};
 
 MTL::DACPump<SAMPLES_PER_TICK> audio {SYN::SAMPLE_FREQ};
 DAC_PUMP_ATTACH_IRQ(audio);
@@ -58,12 +77,15 @@ void MTL::DACPump_getSamples(uint32_t* buffer, unsigned n)
 
 int MTL_main()
 {
+   printf("Pico Synth\n");
+
    audio.start();
 
    while(true)
    {
-      controller.tick();
+      midi_in.tick();
 
+#if 0
       puts("\033[H");
       printf("Pico Synth\n");
 
@@ -72,6 +94,7 @@ int MTL_main()
       printf("CPU: %2u%%\n", usage.getCPUUsage());
 
       usage.wait(40000);
+#endif
    }
 
    return 0;
