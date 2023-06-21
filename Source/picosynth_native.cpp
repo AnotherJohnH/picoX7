@@ -29,7 +29,7 @@
 
 #include "STB/MIDIInterface.h"
 
-#include "Simple/Synth.h"
+#include "DX7/Synth.h"
 
 
 class MidiIn : public MIDI::Interface
@@ -45,9 +45,10 @@ public:
 
 private:
    unsigned n {0};
-   uint8_t  data[7] =
+   uint8_t  data[3] =
    {
-      0x90, 0x40, 0x7F, 0x44, 0x7F, 0x47, 0x7F
+      0x90, 0x45, 0x7F
+//, 0x44, 0x7F, 0x47, 0x7F
    };
 };
 

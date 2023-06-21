@@ -22,13 +22,60 @@
 
 #pragma once
 
-#include "SYN/SynthBase.h"
+#include "SYN/VoiceBase.h"
 
-#include "Voice.h"
+#include "OpsAlg.h"
 
-template <unsigned N>
-class Synth : public SynthBase<N,Voice>
+class Voice : public VoiceBase
 {
 public:
-   Synth() = default;
+   Voice() = default;
+
+   SYN::Sample operator()()
+   {
+      return ops.alg32();
+   }
+
+   void tick()
+   {
+   }
+
+   void gateOn() override
+   {
+      for(unsigned i = 0; i < 6; i++)
+      {
+         ops.setFrq(i, 37 * 4);
+         ops.setAmp(i, 0xFFF);
+      }
+      ops.setFbk(7);
+      //ops.setFrq(4, 36 * 4);
+   }
+
+   void gateOff() override
+   {
+      for(unsigned i = 0; i < 6; i++)
+      {
+         ops.setAmp(i, 0);
+      }
+      setMute();
+   }
+
+   void setLevel(uint8_t value) override
+   {
+      for(unsigned i = 0; i < 6; i++)
+      {
+         ops.setAmp(i, value);
+      }
+   }
+
+   void setControl(uint8_t control, uint8_t value) override
+   {
+   }
+
+   void setPitch(int16_t value) override
+   {
+   }
+
+private:
+   OpsAlg ops;
 };

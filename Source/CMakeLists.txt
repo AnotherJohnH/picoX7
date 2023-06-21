@@ -20,8 +20,11 @@
 #  SOFTWARE.
 #-------------------------------------------------------------------------------
 
+set(python_path ${CMAKE_CURRENT_SOURCE_DIR}/auto)
+
 add_subdirectory(SYN)
+add_subdirectory(DX7)
 
 add_executable(picosynth picosynth_${PLT_TARGET}.cpp)
 
-target_link_libraries(picosynth PRIVATE SYN PLT)
+target_link_libraries(picosynth PRIVATE DX7 SYN PLT)

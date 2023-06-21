@@ -20,6 +20,8 @@
 // SOFTWARE.
 //------------------------------------------------------------------------------
 
+#pragma once
+
 #include "SYN/Sine.h"
 #include "SYN/VoiceBase.h"
 

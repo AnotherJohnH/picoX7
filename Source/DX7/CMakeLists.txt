@@ -22,7 +22,7 @@
 
 add_custom_command(
    COMMENT
-      "Auto-generate tables"
+      "Auto-generate for DX7"
    COMMAND
       ${CMAKE_COMMAND}
          -E env PYTHONPATH=${python_path}
@@ -31,25 +31,22 @@ add_custom_command(
       ${CMAKE_CURRENT_SOURCE_DIR}/AUTO.py
       ${python_path}/Table.py
    OUTPUT
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_sine.h
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_sine.cpp
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_freq.h
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_freq.cpp
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_ampl.h
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_ampl.cpp
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_exp_14.h
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_exp_14.cpp
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_exp_22.h
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_exp_22.cpp
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_sine_15.h
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_sine_15.cpp
+      ${CMAKE_CURRENT_BINARY_DIR}/OpsAlg.h
    )
 
-add_library(SYN STATIC
-   Table_sine.cpp
-   Table_freq.cpp
-   Table_ampl.cpp
+add_library(DX7 STATIC
+   Table_dx7_exp_14.cpp
+   Table_dx7_exp_22.cpp
+   Table_dx7_sine_15.cpp
    )
 
-target_include_directories(SYN
-   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/..
+target_include_directories(DX7
    PUBLIC ${CMAKE_CURRENT_BINARY_DIR}
-   )
-
-target_link_libraries(SYN
-   PUBLIC STB
+   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
    )
