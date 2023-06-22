@@ -24,6 +24,7 @@
 
 #include "SYN/SynthBase.h"
 
+#include "SysEx.h"
 #include "Voice.h"
 
 template <unsigned N>
@@ -31,4 +32,6 @@ class Synth : public SynthBase<N,Voice>
 {
 public:
    Synth() = default;
+
+   SysEx program[32];
 };

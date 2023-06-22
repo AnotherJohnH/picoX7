@@ -33,7 +33,7 @@ public:
 
    SYN::Sample operator()()
    {
-      return ops.alg32();
+      return ops.alg5();
    }
 
    void tick()
@@ -42,13 +42,16 @@ public:
 
    void gateOn() override
    {
+      unsigned f14 = ((note + 6) * 1024) / 12;
+
       for(unsigned i = 0; i < 6; i++)
       {
-         ops.setFrq(i, 37 * 4);
-         ops.setAmp(i, 0xFFF);
+         ops.setFrq(i, f14);
       }
+
+      ops.setFrq(5, f14);
+
       ops.setFbk(7);
-      //ops.setFrq(4, 36 * 4);
    }
 
    void gateOff() override
@@ -64,12 +67,18 @@ public:
    {
       for(unsigned i = 0; i < 6; i++)
       {
-         ops.setAmp(i, value);
+         ops.setAmp(i, 0xFFF);
       }
    }
 
    void setControl(uint8_t control, uint8_t value) override
    {
+       if (control == 7)
+       {
+          ops.setAmp(1, value << 5);
+          ops.setAmp(3, value << 5);
+          ops.setAmp(5, value << 5);
+       }
    }
 
    void setPitch(int16_t value) override

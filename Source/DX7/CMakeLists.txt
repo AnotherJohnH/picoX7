@@ -37,13 +37,18 @@ add_custom_command(
       ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_exp_22.cpp
       ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_sine_15.h
       ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_sine_15.cpp
-      ${CMAKE_CURRENT_BINARY_DIR}/OpsAlg.h
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_sine_div3_15.h
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_sine_div3_15.cpp
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_sine_div5_15.h
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_sine_div5_15.cpp
    )
 
 add_library(DX7 STATIC
    Table_dx7_exp_14.cpp
    Table_dx7_exp_22.cpp
    Table_dx7_sine_15.cpp
+   Table_dx7_sine_div3_15.cpp
+   Table_dx7_sine_div5_15.cpp
    )
 
 target_include_directories(DX7

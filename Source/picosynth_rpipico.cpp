@@ -20,19 +20,20 @@
 // SOFTWARE.
 //------------------------------------------------------------------------------
 
-// \brief Pico Synth
+// \brief Pico Synth - for Raspberry Pi Pico
 
 #include <cstdio>
+
+#include "STB/MIDIInterface.h"
+
+#include "Usage.h"
+#include "DX7/Synth.h"
 
 #include "MTL/MTL.h"
 #include "MTL/Pins.h"
 #include "MTL/PioAudio.h"
 #include "MTL/rp2040/Uart.h"
-
-#include "STB/MIDIInterface.h"
-
-#include "Usage.h"
-#include "Simple/Synth.h"
+#include "MTL/rp2040/Clocks.h"
 
 
 class MidiIn : public MIDI::Interface
@@ -55,11 +56,15 @@ static Usage    usage {};
 static Synth<8> synth {};
 static MidiIn   midi_in {synth};
 
-//! 48 KHz, with pinout for Waveshare Pico-Audio
-static MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK> audio {SYN::SAMPLE_FREQ,
-                                                        MTL::PIN_31,  // MCLK
-                                                        MTL::PIN_29,  // SD
-                                                        MTL::PIN_32}; // LRCLK + SCLK
+//! Select a system clock with clean division to 49.1 KHz
+namespace MTL { Clocks::SysFreq clocks_sys_freq = Clocks::SYS_FREQ_137_48_MHZ; }
+
+//! 49.1 KHz I2S DAC, with pinout for Waveshare Pico-Audio
+//  buffer size to give a 100 Hz tick
+static MTL::PioAudio<MTL::Pio0,/* BUFFER_SIZE */ 491> audio {49100,
+                                                             MTL::PIN_31,  // MCLK
+                                                             MTL::PIN_29,  // SD
+                                                             MTL::PIN_32}; // LRCLK + SCLK
 PIO_AUDIO_ATTACH_IRQ_0(audio);
 
 //! DAC pump call-back
@@ -81,7 +86,7 @@ void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
 
 int MTL_main()
 {
-   printf("Pico Synth\n");
+   printf("Pico Synth - DX7\n");
 
    audio.start();
 

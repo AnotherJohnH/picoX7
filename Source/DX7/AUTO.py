@@ -59,52 +59,66 @@ decode = ['1/100/0 1/000/0 1/000/1 0/001/0 1/010/1 5/011/0',
           '5/001/0 1/110/0 1/010/3 0/011/3 0/011/3 0/011/3',
           '1/100/4 0/001/4 0/011/4 0/011/4 0/011/4 5/011/0',
           '0/101/5 0/011/5 0/011/5 0/011/5 0/011/5 5/011/5']
+
+def AlgTempolates():
    
-c = CxxFile.CxxFile('OpsAlg.h',  'Algorithm')
+   c = CxxFile.CxxFile('OpsAlg.h',  'Algorithm')
       
-c.p('#include "OpsBase.h"')
-c.p()
-c.p('class OpsAlg : public OpsBase')
-c.p('{')
-c.p('public:')
-c.p('   OpsAlg() = default;')
-c.p()
-
-alg = 0
-
-for line in decode:
-
-   alg += 1
-
-   op_list = line.split(' ')
-
+   c.p('#include "OpsBase.h"')
    c.p()
-   c.push('')
-   c.p(f'int32_t alg{alg}()')
-   c.push('{')
+   c.p('class OpsAlg : public OpsBase')
+   c.p('{')
+   c.p('public:')
+   c.p('   OpsAlg() = default;')
+   c.p()
 
-   for index in range(0, 6):
+   alg = 0
 
-      op     = op_list[index]
-      field  = op.split('/')
-      op_idx = 5 - index
+   for line in decode:
 
-      if op_idx == 0:
-         c.p('return ', end = '')
+      alg += 1
+
+      op_list = line.split(' ')
+
+      # Rotate COM 7th char forward by 1 operator
+      com = []
+      for index in range(0, 6):
+         com.append(op_list[index][6])
+
+      for index in range(0, 6):
+         if index == 0:
+            op_list[index] = op_list[index][:6] + com[5]
+         else:
+            op_list[index] = op_list[index][:6] + com[index - 1]
+
+      c.p()
+      c.push('')
+      c.p(f'int32_t alg{alg}()')
+      c.push('{')
+
+      for index in range(0, 6):
+
+         op     = op_list[index]
+         field  = op.split('/')
+         op_idx = 6 - index
+
+         if op_idx == 1:
+            c.p('return ', end = '')
+         else:
+            c.p('(void) ', end = '')
      
-      c.p(f'op<{op_idx}, ', end = '')
-      c.p(f'/* SEL */ {field[0]}, ', end = '')
-      c.p(f'/* A */ {field[1][0]}, ', end = '')
-      c.p(f'/* C */ {field[1][1]}, ', end = '')
-      c.p(f'/* D */ {field[1][2]}, ', end = '')
-      c.p(f'/* COM */ {field[2]}', end = '')
-      c.p(f'>();')
+         c.p(f'op<{op_idx}, ', end = '')
+         c.p(f'/* SEL */ {field[0]}, ', end = '')
+         c.p(f'/* A */ {field[1][0]}, ', end = '')
+         c.p(f'/* C */ {field[1][1]}, ', end = '')
+         c.p(f'/* D */ {field[1][2]}, ', end = '')
+         c.p(f'/* COM */ {int(field[2])+1}', end = '')
+         c.p(f'>();')
 
-   c.pop('}')
-   c.pop()
+      c.pop('}')
+      c.pop()
 
-c.p('};')
-   
+   c.p('};')
 
 #------------------------------------------------------------------------------
 
@@ -133,3 +147,20 @@ Table.build('dx7_sine_15',
       prefix     = '',
       fmt        = '6d')
 
+# 12-bit => 14-bit   sine table / 3
+Table.build('dx7_sine_div3_15',
+      bits       = 16,
+      func       = lambda i,x : int(math.sin((i + 0.5) * 2 * math.pi / 4096) * 0x3FFF / 3 + 0.5002),
+      log2_size  = 12,
+      typename   = "int16_t",
+      prefix     = '',
+      fmt        = '6d')
+
+# 12-bit => 14-bit   sine table / 5
+Table.build('dx7_sine_div5_15',
+      bits       = 16,
+      func       = lambda i,x : int(math.sin((i + 0.5) * 2 * math.pi / 4096) * 0x3FFF / 5 + 0.5002),
+      log2_size  = 12,
+      typename   = "int16_t",
+      prefix     = '',
+      fmt        = '6d')

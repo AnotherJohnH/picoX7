@@ -20,19 +20,19 @@
 // SOFTWARE.
 //------------------------------------------------------------------------------
 
-// \brief Pico Synth
+// \brief Pico Synth - for mbed LPC1768
 
 #include <cstdio>
+
+#include "STB/MIDIInterface.h"
+
+#include "Usage.h"
+#include "DX7/Synth.h"
 
 #include "MTL/MTL.h"
 #include "MTL/Pins.h"
 #include "MTL/DACPump.h"
 #include "MTL/LPC1768/UART.h"
-
-#include "STB/MIDIInterface.h"
-
-#include "Usage.h"
-#include "Simple/Synth.h"
 
 
 class MidiIn : public MIDI::Interface
@@ -77,7 +77,7 @@ void MTL::DACPump_getSamples(uint32_t* buffer, unsigned n)
 
 int MTL_main()
 {
-   printf("Pico Synth\n");
+   printf("Pico Synth - DX7\n");
 
    audio.start();
 

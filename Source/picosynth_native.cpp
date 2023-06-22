@@ -24,12 +24,12 @@
 
 #include <cstdio>
 
-#include "PLT/Audio.h"
-#include "PLT/Event.h"
-
 #include "STB/MIDIInterface.h"
 
 #include "DX7/Synth.h"
+
+#include "PLT/Audio.h"
+#include "PLT/Event.h"
 
 
 class MidiIn : public MIDI::Interface
@@ -76,7 +76,7 @@ private:
 
 int main()
 {
-   printf("Pico Synth\n");
+   printf("Pico Synth - DX7\n");
 
    Monitor monitor;
 

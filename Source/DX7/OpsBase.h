@@ -25,38 +25,62 @@
 #include "Table_dx7_exp_14.h"
 #include "Table_dx7_exp_22.h"
 #include "Table_dx7_sine_15.h"
+#include "Table_dx7_sine_div3_15.h"
+#include "Table_dx7_sine_div5_15.h"
 
+//! Model of YM21280 OPS
 class OpsBase
 {
 public:
    OpsBase() = default;
 
-   //! Set algporithm feedback
+   //! Set algorithm feedback
    void setFbk(unsigned fbl_)
    {
       fbl = fbl_ + 1 + 3;
    }
 
-   //! Set operatror frequency as a phase increment
+   //! Set operator frequency as a phase increment
    void setFrq(unsigned op, unsigned f14_)
    {
-      phase_inc_32[op] = f14_ << 18;
+      phase_inc_32[op] = table_dx7_exp_22[f14_] << 13;
    }
 
-   //! Set operatror amplitude
+   //! Set operator amplitude
    void setAmp(unsigned op, unsigned ec12_)
    {
       amp_14[op] = table_dx7_exp_14[ec12_ << 2];
+   }
+
+   //! Synchronize the oscillators
+   void sync()
+   {
+      for(unsigned i = 0; i < 6; ++i)
+      {
+         phase_accum_32[i] = 0;
+      }
    }
 
 protected:
    template <unsigned OP, unsigned SEL, bool A, bool C, bool D, unsigned COM>
    int32_t op()
    {
-      phase_accum_32[OP] += phase_inc_32[OP];
+      const unsigned i = OP - 1;
 
-      uint32_t phase_12  = (phase_accum_32[OP] + (modulation_12 << 18)) >> 20;
-      int32_t  output_15 = (table_dx7_sine_15[phase_12] * amp_14[OP] / signed(1 + COM)) >> 14;
+      phase_accum_32[i] += phase_inc_32[i];
+
+      uint32_t phase_12 = (phase_accum_32[i] + (modulation_12 << 22)) >> 20;
+
+      int32_t output_15;
+      switch (COM)
+      {
+      case 1: output_15 = (table_dx7_sine_15[phase_12]      * amp_14[i]) >> 14; break; //  1/1
+      case 2: output_15 = (table_dx7_sine_15[phase_12]      * amp_14[i]) >> 15; break; //  1/2
+      case 3: output_15 = (table_dx7_sine_div3_15[phase_12] * amp_14[i]) >> 14; break; //  1/3
+      case 4: output_15 = (table_dx7_sine_15[phase_12]      * amp_14[i]) >> 16; break; //  1/4
+      case 5: output_15 = (table_dx7_sine_div5_15[phase_12] * amp_14[i]) >> 14; break; //  1/5
+      case 6: output_15 = (table_dx7_sine_div3_15[phase_12] * amp_14[i]) >> 15; break; //  1/6
+      }
 
       int32_t sum_15 = 0;
       if (C) sum_15 = memory_15;
@@ -64,40 +88,24 @@ protected:
 
       switch(SEL)
       {
-      case 0:
-         modulation_12 = 0;
-         break;
-
-      case 1:
-         modulation_12 = output_15 >> 3;
-         break;
-
-      case 2:
-         modulation_12 = sum_15 >> 3;
-         break;
-
-      case 3:
-         modulation_12 = memory_15 >> 3;
-         break;
-
-      case 4:
-         modulation_12 = feedback1_15 >> 3;
-         feedback1_15  = output_15;
-         break;
-
-      case 5:
-         modulation_12 = (feedback1_15 + feedback2_15) >> fbl;
-         break;
+      case 0: modulation_12 = 0;                                    break;
+      case 1: modulation_12 = output_15 >> 3;                       break;
+      case 2: modulation_12 = sum_15 >> 3;                          break;
+      case 3: modulation_12 = memory_15 >> 3;                       break;
+      case 4: modulation_12 = feedback1_15 >> 3;                    break;
+      case 5: modulation_12 = (feedback1_15 + feedback2_15) >> fbl; break;
       }
 
       if (A)
       {
+         // Feeedback path enabled
          feedback2_15 = feedback1_15;
          feedback1_15 = output_15;
       }
 
       if (C or D)
       {
+         // Memory write enable
          memory_15 = sum_15;
       }
 
