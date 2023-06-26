@@ -20,19 +20,16 @@
 // SOFTWARE.
 //------------------------------------------------------------------------------
 
-// \brief Pico Synth - for mbed LPC1768
+// \brief picoX7 native build for testing
 
 #include <cstdio>
 
 #include "STB/MIDIInterface.h"
 
-#include "Usage.h"
 #include "DX7/Synth.h"
 
-#include "MTL/MTL.h"
-#include "MTL/Pins.h"
-#include "MTL/DACPump.h"
-#include "MTL/LPC1768/UART.h"
+#include "PLT/Audio.h"
+#include "PLT/Event.h"
 
 
 class MidiIn : public MIDI::Interface
@@ -42,60 +39,50 @@ public:
       : MIDI::Interface(instrument)
    {}
 
-   bool empty() const override { return uart.empty(); }
+   bool empty() const override { return n == sizeof(data); }
 
-   uint8_t rx() { return uart.rx(); }
+   uint8_t rx() override { return data[n++]; }
 
 private:
-   MTL::UART0 uart{MTL::UART::BAUD_31250, 8, MTL::UART::NONE, 1};
+   unsigned n {0};
+   uint8_t  data[3] =
+   {
+      0x90, 0x45, 0x7F
+//, 0x44, 0x7F, 0x47, 0x7F
+   };
 };
 
 
-static Usage    usage {};
 static Synth<8> synth {};
 static MidiIn   midi_in {synth};
 
-MTL::DACPump<SAMPLES_PER_TICK> audio {SYN::SAMPLE_FREQ};
-DAC_PUMP_ATTACH_IRQ(audio);
-
-//! DAC pump call-back
-void MTL::DACPump_getSamples(uint32_t* buffer, unsigned n)
+class Monitor : public PLT::Audio::Out
 {
-   usage.start();
+public:
+   Monitor()
+      : PLT::Audio::Out(SYN::SAMPLE_FREQ, PLT::Audio::Format::SINT16, /* channels */ 2)
+   {}
 
-   synth.tick();
-
-   for(unsigned i = 0; i < n; ++i)
+private:
+   void getSamples(int16_t* buffer, unsigned n) override
    {
-      SYN::Sample sample = synth();
-
-      buffer[i] = uint16_t(sample + 0x8000);
+      for(unsigned i = 0; i < n; i += 2)
+      {
+         buffer[i + 1] = buffer[i] = synth();
+      }
    }
+};
 
-   usage.end();
-}
 
-int MTL_main()
+int main()
 {
-   printf("Pico Synth - DX7\n");
+   printf("picoX7\n");
 
-   audio.start();
+   Monitor monitor;
 
-   while(true)
-   {
-      midi_in.tick();
+   monitor.setEnable(true);
 
-#if 0
-      puts("\033[H");
-      printf("Pico Synth\n");
+   midi_in.tick();
 
-      printf("FLASH: %2u%%   ", usage.getFLASHUsage());
-      printf("RAM: %2u%%   ", usage.getRAMUsage());
-      printf("CPU: %2u%%\n", usage.getCPUUsage());
-
-      usage.wait(40000);
-#endif
-   }
-
-   return 0;
+   return PLT::Event::mainLoop();
 }

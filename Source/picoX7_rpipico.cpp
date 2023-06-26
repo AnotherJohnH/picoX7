@@ -20,7 +20,7 @@
 // SOFTWARE.
 //------------------------------------------------------------------------------
 
-// \brief Pico Synth - for Raspberry Pi Pico
+// \brief DX7 simulation for Raspberry Pi Pico
 
 #include <cstdio>
 
@@ -86,7 +86,7 @@ void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
 
 int MTL_main()
 {
-   printf("Pico Synth - DX7\n");
+   printf("picoX7\n");
 
    audio.start();
 
@@ -96,7 +96,7 @@ int MTL_main()
 
 #if 0
       puts("\033[H");
-      printf("Pico Synth\n");
+      printf("picoX7\n");
 
       printf("FLASH: %2u%%   ", usage.getFLASHUsage());
       printf("RAM: %2u%%   ", usage.getRAMUsage());

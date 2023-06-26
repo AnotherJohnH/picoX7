@@ -1,26 +1,30 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2022 John D. Haughton
+// The data in this file is a derivative of data reverse engineered from die
+// photographs of the YM21280 published in Ken Shirriff's blog. That publicly
+// available document does not contain a copyright notice or any mention of
+// permissions or restrictions that apply to the use of the data. However,
+// according to law that does not necessarily mean that the data is free from
+// restrictions on its use. At the time of publication, the copyright holder 
+// is probably Yamaha. If the copyright holder wishes to retrospectively declare
+// reasonable and legal restrictions on the data, then either those restrictions
+// must be obeyed or this file shouled be deleted.
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
+// The statements above shall be included in all copies or substantial portions
+// of the data.
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// THE DATA IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
+// OUT OF OR IN CONNECTION WITH THE DATA OR THE USE OR OTHER DEALINGS IN THE
+// DATA.
 //------------------------------------------------------------------------------
 //
 // \brief OPS YM21280 Algorithm
+//
+// Credit to Ken Shirriff for his decode of the algorithm ROM in the YM21280
+// via decapping and die photography
 
 #pragma once
 

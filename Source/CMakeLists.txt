@@ -25,6 +25,11 @@ set(python_path ${CMAKE_CURRENT_SOURCE_DIR}/auto)
 add_subdirectory(SYN)
 add_subdirectory(DX7)
 
-add_executable(picosynth picosynth_${PLT_TARGET}.cpp)
+add_executable(picoX7 picoX7_${PLT_TARGET}.cpp)
 
-target_link_libraries(picosynth PRIVATE DX7 SYN PLT)
+if(${PLT_TARGET} STREQUAL native)
+   target_link_libraries(picoX7 PRIVATE DX7 SYN PLT)
+else()
+   target_link_libraries(picoX7 PRIVATE DX7 SYN TNY MTL)
+endif()
+
