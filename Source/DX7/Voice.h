@@ -22,6 +22,8 @@
 
 #pragma once
 
+#include <cstring>
+
 #include "SYN/VoiceBase.h"
 
 #include "Table_dx7_program.h"
@@ -34,10 +36,7 @@ class Voice : public VoiceBase
 public:
    Voice() = default;
 
-   SYN::Sample operator()()
-   {
-      return ops.alg5();
-   }
+   SYN::Sample operator()() { return ops(); }
 
    void tick()
    {
@@ -49,12 +48,19 @@ public:
 
       for(unsigned i = 0; i < 6; i++)
       {
-         ops.setFrq(i, f14);
+         if (sysex.osc_sync)
+         {
+            ops.sync();
+         }
+
+         if (sysex.op[i].osc_mode == 1)
+         {
+         }
+         else
+         {
+            ops.setFrq(i, f14);
+         }
       }
-
-      ops.setFrq(5, f14);
-
-      ops.setFbk(7);
    }
 
    void gateOff() override
@@ -63,6 +69,7 @@ public:
       {
          ops.setAmp(i, 0);
       }
+
       setMute();
    }
 
@@ -90,11 +97,15 @@ public:
 
    void setProgram(uint8_t prog) override
    {
-      const SysEx* sysex = (const SysEx*) &table_dx7_program[prog * sizeof(SysEx)];
+      memcpy(&sysex, (const SysEx*) &table_dx7_program[prog * sizeof(SysEx)], sizeof(SysEx));
 
-      (void) sysex;
+      sysex.print();
+
+      ops.setAlg(sysex.alg + 1);
+      ops.setFbk(sysex.feedback);
    }
 
 private:
    OpsAlg ops;
+   SysEx  sysex;
 };

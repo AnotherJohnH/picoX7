@@ -35,6 +35,49 @@ class OpsAlg : public OpsBase
 public:
    OpsAlg() = default;
 
+   int32_t operator()() { return ((*this).*alg_ptr)(); }
+
+   void setAlg(unsigned alg)
+   {
+      switch (alg)
+      {
+      case  1: alg_ptr = &OpsAlg::alg1;  break;
+      case  2: alg_ptr = &OpsAlg::alg2;  break;
+      case  3: alg_ptr = &OpsAlg::alg3;  break;
+      case  4: alg_ptr = &OpsAlg::alg4;  break;
+      case  5: alg_ptr = &OpsAlg::alg5;  break;
+      case  6: alg_ptr = &OpsAlg::alg6;  break;
+      case  7: alg_ptr = &OpsAlg::alg7;  break;
+      case  8: alg_ptr = &OpsAlg::alg8;  break;
+      case  9: alg_ptr = &OpsAlg::alg9;  break;
+      case 10: alg_ptr = &OpsAlg::alg10; break;
+      case 11: alg_ptr = &OpsAlg::alg11; break;
+      case 12: alg_ptr = &OpsAlg::alg12; break;
+      case 13: alg_ptr = &OpsAlg::alg13; break;
+      case 14: alg_ptr = &OpsAlg::alg14; break;
+      case 15: alg_ptr = &OpsAlg::alg15; break;
+      case 16: alg_ptr = &OpsAlg::alg16; break;
+      case 17: alg_ptr = &OpsAlg::alg17; break;
+      case 18: alg_ptr = &OpsAlg::alg18; break;
+      case 19: alg_ptr = &OpsAlg::alg19; break;
+      case 20: alg_ptr = &OpsAlg::alg20; break;
+      case 21: alg_ptr = &OpsAlg::alg21; break;
+      case 22: alg_ptr = &OpsAlg::alg22; break;
+      case 23: alg_ptr = &OpsAlg::alg23; break;
+      case 24: alg_ptr = &OpsAlg::alg24; break;
+      case 25: alg_ptr = &OpsAlg::alg25; break;
+      case 26: alg_ptr = &OpsAlg::alg26; break;
+      case 27: alg_ptr = &OpsAlg::alg27; break;
+      case 28: alg_ptr = &OpsAlg::alg28; break;
+      case 29: alg_ptr = &OpsAlg::alg29; break;
+      case 30: alg_ptr = &OpsAlg::alg30; break;
+      case 31: alg_ptr = &OpsAlg::alg31; break;
+      case 32: alg_ptr = &OpsAlg::alg32; break;
+      }
+   }
+
+private:
+
    int32_t alg1()
    {
       (void) op<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1>();
@@ -354,4 +397,6 @@ public:
       (void) op<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 6>();
       return op<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 6>();
    }
+
+   int32_t (OpsAlg::*alg_ptr)() {nullptr};
 };

@@ -22,8 +22,18 @@
 
 #pragma once
 
+#include <cstdio>
+
 struct SysEx
 {
+   void print()
+   {
+      printf("NAME: ");
+      for(unsigned i = 0; i < NAME_LEN; i++)
+         putchar(name[i]);
+      printf(" ALG: %u FBK: %u\n", alg, feedback);
+   }
+
    static const unsigned NUM_OP   = 6;
    static const unsigned NAME_LEN = 10;
 
