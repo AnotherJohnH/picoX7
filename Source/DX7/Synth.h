@@ -24,6 +24,8 @@
 
 #include "SYN/SynthBase.h"
 
+#include "Table_dx7_program.h"
+
 #include "SysEx.h"
 #include "Voice.h"
 
@@ -32,6 +34,4 @@ class Synth : public SynthBase<N,Voice>
 {
 public:
    Synth() = default;
-
-   SysEx program[32];
 };

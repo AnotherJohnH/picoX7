@@ -47,7 +47,7 @@ Limitations...
    + DAC implementation is quite different to the original. Suspect dynamic range is reduced.
    + Sample frequency of original is 49096 Hz not 49100 Hz
    + MC6800 CPU controller and firmware is not being emulated
-   + not using logs for sine amplitude modulation in the OPS so not bit accurate
+   + not using logs for sine amplitude modulation in the OPS so unlikely to be bit accurate
    + 8 voices not 16
 
 ## How to build
@@ -84,5 +84,5 @@ FLASHable image will be found under build sub directory here...
 
 ## Thanks and acknowledgements
 
-Ken Shirrif for his very helpful YM21280 reverse engineering blog series
+Ken Shirrif for his very helpful YM21280 reverse engineering series of blogs
 (https://www.righto.com/2021/11/reverse-engineering-yamaha-dx7.html)

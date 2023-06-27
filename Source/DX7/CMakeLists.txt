@@ -27,8 +27,10 @@ add_custom_command(
       ${CMAKE_COMMAND}
          -E env PYTHONPATH=${python_path}
          ${CMAKE_CURRENT_SOURCE_DIR}/AUTO.py
+             ${CMAKE_CURRENT_SOURCE_DIR}/rom1a.syx
    DEPENDS
       ${CMAKE_CURRENT_SOURCE_DIR}/AUTO.py
+      ${CMAKE_CURRENT_SOURCE_DIR}/rom1a.syx
       ${python_path}/Table.py
    OUTPUT
       ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_exp_14.h
@@ -41,6 +43,8 @@ add_custom_command(
       ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_sine_div3_15.cpp
       ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_sine_div5_15.h
       ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_sine_div5_15.cpp
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_program.h
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_program.cpp
    )
 
 add_library(DX7 STATIC
@@ -49,6 +53,7 @@ add_library(DX7 STATIC
    Table_dx7_sine_15.cpp
    Table_dx7_sine_div3_15.cpp
    Table_dx7_sine_div5_15.cpp
+   Table_dx7_program.cpp
    )
 
 target_include_directories(DX7

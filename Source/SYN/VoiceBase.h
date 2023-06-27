@@ -66,6 +66,7 @@ public:
    virtual void setLevel(uint8_t value) {}
    virtual void setControl(uint8_t control, uint8_t value) {}
    virtual void setPitch(int16_t value) {}
+   virtual void setProgram(uint8_t value) {}
 
 protected:
    uint8_t note {};

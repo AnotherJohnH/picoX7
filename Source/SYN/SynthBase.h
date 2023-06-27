@@ -37,7 +37,12 @@ class SynthBase : public MIDI::Instrument
 public:
    SynthBase()
       : MIDI::Instrument(N)
-   {}
+   {
+      for(unsigned i = 0; i < N; ++i)
+      {
+         voiceProgram(i, 0);
+      }
+   }
 
    //! Get next sample
    SYN::Sample operator()()
@@ -155,9 +160,12 @@ public:
 
    void voiceProgram(unsigned index_, uint8_t prog_) override
    {
+      voice[index_].setProgram(prog_);
    }
+
+protected:
+   VOICE voice[N];
 
 private:
    unsigned order {0}; //!< Order of last MIDI event
-   VOICE    voice[N];
 };

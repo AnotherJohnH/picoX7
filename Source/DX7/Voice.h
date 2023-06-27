@@ -24,7 +24,10 @@
 
 #include "SYN/VoiceBase.h"
 
+#include "Table_dx7_program.h"
+
 #include "OpsAlg.h"
+#include "SysEx.h"
 
 class Voice : public VoiceBase
 {
@@ -83,6 +86,13 @@ public:
 
    void setPitch(int16_t value) override
    {
+   }
+
+   void setProgram(uint8_t prog) override
+   {
+      const SysEx* sysex = (const SysEx*) &table_dx7_program[prog * sizeof(SysEx)];
+
+      (void) sysex;
    }
 
 private:
