@@ -44,51 +44,20 @@ public:
 
    void gateOn() override
    {
-      unsigned f14 = ((note + 6) * 1024) / 12;
-
-      for(unsigned i = 0; i < 6; i++)
-      {
-         if (sysex.osc_sync)
-         {
-            ops.sync();
-         }
-
-         if (sysex.op[i].osc_mode == 1)
-         {
-         }
-         else
-         {
-            ops.setFrq(i, f14);
-         }
-      }
+      ops.gateOn(note);
    }
 
    void gateOff() override
    {
-      for(unsigned i = 0; i < 6; i++)
-      {
-         ops.setAmp(i, 0);
-      }
-
-      setMute();
+      ops.gateOff();
    }
 
    void setLevel(uint8_t value) override
    {
-      for(unsigned i = 0; i < 6; i++)
-      {
-         ops.setAmp(i, 0xFFF);
-      }
    }
 
    void setControl(uint8_t control, uint8_t value) override
    {
-       if (control == 7)
-       {
-          ops.setAmp(1, value << 5);
-          ops.setAmp(3, value << 5);
-          ops.setAmp(5, value << 5);
-       }
    }
 
    void setPitch(int16_t value) override
@@ -97,10 +66,10 @@ public:
 
    void setProgram(uint8_t prog) override
    {
-      memcpy(&sysex, (const SysEx*) &table_dx7_program[prog * sizeof(SysEx)], sizeof(SysEx));
+      const SysEx* sysex = (const SysEx*) &table_dx7_program[prog * sizeof(SysEx)];
 
       if (debug)
-         sysex.print();
+         sysex->print();
 
       ops.prog(sysex);
    }
@@ -109,6 +78,5 @@ public:
 
 private:
    OpsAlg ops;
-   SysEx  sysex;
    bool   debug{false};
 };

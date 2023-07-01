@@ -74,7 +74,7 @@ def build(name,
 
       for i in range(0, size):
 
-         x = i / size
+         x = i / (size - 1)
          y = func(i, x)
 
          if i % 8 == 0:

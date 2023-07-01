@@ -53,7 +53,7 @@ private:
 
 
 static Usage    usage {};
-static Synth<8> synth {};
+static Synth<4> synth {};
 static MidiIn   midi_in {synth};
 
 //! Select a system clock with clean division to 49.1 KHz
@@ -96,7 +96,7 @@ int MTL_main()
    {
       midi_in.tick();
 
-#if 0
+#if 1
       puts("\033[H");
       printf("picoX7\n");
 

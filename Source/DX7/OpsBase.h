@@ -36,8 +36,10 @@ class OpsBase
 public:
    OpsBase() = default;
 
-   void prog(const SysEx& sysex)
+   void prog(const SysEx* sysex_)
    {
+      sysex = *sysex_;
+
       for(unsigned i = 0; i < 6; i++)
       {
          const SysEx::Op& op = sysex.op[i];
@@ -50,28 +52,42 @@ public:
       fbl = sysex.feedback + 1 + 3;
    }
 
-   virtual void setAlg(unsigned alg) = 0;
-
-   //! Set operator frequency as a phase increment
-   void setFrq(unsigned op, unsigned f14_)
+   void gateOn(unsigned note)
    {
-      phase_inc_32[op] = table_dx7_exp_22[f14_] << 13;
+      unsigned f14 = ((note + 6) * 1024) / 12;
+
+      for(unsigned i = 0; i < 6; ++i)
+      {
+         SysEx::Op& op = sysex.op[i];
+
+         eg_amp[i].gateOn();
+
+         if (sysex.osc_sync)
+         {
+            phase_accum_32[i] = 0;
+         }
+
+         if (op.osc_mode == SysEx::Op::FIXED)
+         {
+         }
+         else
+         {
+            f14 += ((op.osc_freq_coarse - 1) * 100 + op.osc_freq_fine) * 256 / 25;
+
+            phase_inc_32[i] = table_dx7_exp_22[f14] << 13;
+         }
+      }
    }
 
-   //! Set operator amplitude
-   void setAmp(unsigned op, unsigned ec12_)
-   {
-      amp_14[op] = table_dx7_exp_14[ec12_ << 2];
-   }
-
-   //! Synchronize the oscillators
-   void sync()
+   void gateOff()
    {
       for(unsigned i = 0; i < 6; ++i)
       {
-         phase_accum_32[i] = 0;
+         eg_amp[i].gateOff();
       }
    }
+
+   virtual void setAlg(unsigned alg) = 0;
 
 protected:
    template <unsigned OP, unsigned SEL, bool A, bool C, bool D, unsigned COM>
@@ -79,7 +95,7 @@ protected:
    {
       const unsigned i = OP - 1;
 
-      (void) eg_amp[i]();
+      int32_t amp_14 = eg_amp[i]();
 
       phase_accum_32[i] += phase_inc_32[i];
 
@@ -88,12 +104,12 @@ protected:
       int32_t output_15;
       switch (COM)
       {
-      case 1: output_15 = (table_dx7_sine_15[phase_12]      * amp_14[i]) >> 14; break; //  1/1
-      case 2: output_15 = (table_dx7_sine_15[phase_12]      * amp_14[i]) >> 15; break; //  1/2
-      case 3: output_15 = (table_dx7_sine_div3_15[phase_12] * amp_14[i]) >> 14; break; //  1/3
-      case 4: output_15 = (table_dx7_sine_15[phase_12]      * amp_14[i]) >> 16; break; //  1/4
-      case 5: output_15 = (table_dx7_sine_div5_15[phase_12] * amp_14[i]) >> 14; break; //  1/5
-      case 6: output_15 = (table_dx7_sine_div3_15[phase_12] * amp_14[i]) >> 15; break; //  1/6
+      case 1: output_15 = (table_dx7_sine_15[phase_12]      * amp_14) >> 14; break; //  1/1
+      case 2: output_15 = (table_dx7_sine_15[phase_12]      * amp_14) >> 15; break; //  1/2
+      case 3: output_15 = (table_dx7_sine_div3_15[phase_12] * amp_14) >> 14; break; //  1/3
+      case 4: output_15 = (table_dx7_sine_15[phase_12]      * amp_14) >> 16; break; //  1/4
+      case 5: output_15 = (table_dx7_sine_div5_15[phase_12] * amp_14) >> 14; break; //  1/5
+      case 6: output_15 = (table_dx7_sine_div3_15[phase_12] * amp_14) >> 15; break; //  1/6
       }
 
       int32_t sum_15 = 0;
@@ -131,7 +147,6 @@ private:
 
    uint32_t phase_accum_32[6] = {0};
    uint32_t phase_inc_32[6]   = {0};
-   int32_t  amp_14[6] = {0};
 
    int32_t  modulation_12 {0};
    int32_t  feedback1_15 {0};
@@ -139,4 +154,5 @@ private:
    int32_t  memory_15 {0};
 
    EnvGen   eg_amp[6];
+   SysEx    sysex;
 };

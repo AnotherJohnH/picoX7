@@ -75,3 +75,19 @@ Table.build('dx7_program',
             typename  = "uint8_t",
             prefix    = '0x',
             fmt       = '02x')
+
+Table.build('dx7_level_30',
+            bits      = 32,
+            func      = lambda i,x : int(x * 0x3FFFFFFF),
+            size      = 100,
+            typename  = "uint32_t",
+            prefix    = '0x',
+            fmt       = '08x')
+
+Table.build('dx7_rate_30',
+            bits      = 32,
+            func      = lambda i,x : int(0x3FFFFFFF / (180 * pow(3,-i/10) * 49096)),
+            size      = 100,
+            typename  = "uint32_t",
+            prefix    = '0x',
+            fmt       = '08x')

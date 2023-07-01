@@ -33,7 +33,7 @@ struct SysEx
          putchar(name[i]);
       printf("\" ALG %u FBK %u\n", alg + 1, feedback);
 
-      printf("    L1:R1 L2:R2 L3:R3 L4:R4 OUT\n");
+      printf("    L1:R1 L2:R2 L3:R3 L4:R4 OUT FREQ\n");
       printf("------------------------------------------------\n");
 
       for(unsigned i = 0; i < 6; ++i)
@@ -65,7 +65,18 @@ struct SysEx
             printf("%02u:%02u ", eg_amp.level[i], eg_amp.rate[i]);
          }
 
-         printf("%02u\n", out_level);
+         printf("%02u ", out_level);
+
+         if (osc_mode == RATIO)
+         {
+            printf("R%02u.%02u", osc_freq_coarse, osc_freq_fine);
+         }
+         else
+         {
+            printf("F%02u.%02u", osc_freq_coarse, osc_freq_fine);
+         }
+
+         printf("\n");
       }
 
       Envelope eg_amp{};

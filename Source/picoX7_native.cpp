@@ -78,6 +78,8 @@ int main()
 {
    printf("picoX7\n");
 
+   synth.programChange(0, 0);
+
    Monitor monitor;
 
    monitor.setEnable(true);

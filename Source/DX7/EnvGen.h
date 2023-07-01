@@ -24,72 +24,81 @@
 
 #include "SysEx.h"
 
+#include "Table_dx7_level_30.h"
+#include "Table_dx7_rate_30.h"
+
 class EnvGen
 {
+   enum Phase : uint8_t
+   {
+      P1 = 0, P2 = 1, P3 = 2, SUSTAIN = 3, P4 = 4, RELEASE = 4, COMPLETE = 5
+   };
+
 public:
    EnvGen() = default;
+
+   bool isComplete() const { return phase == COMPLETE; }
 
    //! Program the level and rate
    void prog(const SysEx::Envelope& env, uint8_t out_level)
    {
-#if 0 
-      for(unsigned n = 0; n < 4; ++n)
+      for(unsigned i = 0; i < 4; i++)
       {
-         if (n < 4) n -= 1;
+         Phase p = i == 3 ? P4 : Phase(i);
 
-         R[n] = rate_;
-         L[n] = level_;
-
-         if (n == 2)
-         {
-            R[3] = 0;
-            L[3] = L[2];
-         }
+         L[p] = table_dx7_level_30[env.level[i]];
+         R[p] = table_dx7_rate_30[env.rate[i]];
       }
-#endif
+
+      L[SUSTAIN] = L[P3];
+      R[SUSTAIN] = 0;
+
+      L[COMPLETE] = L[P4];
+      R[COMPLETE] = 0;
    }
 
    //! Start a note
-   void keyOn()
+   void gateOn()
    {
-      ampl = L[4];
-      setIndex(0);
+      ampl = L[P4];
+      setPhase(P1);
    }
 
    //! Release a note
-   void keyOff()
+   void gateOff()
    {
-      setIndex(4);
+      setPhase(RELEASE);
    }
 
    //! Get sample
-   int32_t operator()()
+   uint32_t operator()()
    {
       ampl += rate;
 
       if (rise == (ampl >= level))
       {
          ampl = level;
-         setIndex(index + 1);
+         setPhase(Phase(phase + 1));
       }
 
-      return ampl;
+      return ampl >> (30 - 14);
    }
 
 private:
-   void setIndex(uint8_t index_)
+   void setPhase(Phase phase_)
    {
-      index = index_;
-      rate  = R[index];
-      level = L[index];
+      phase = phase_;
+      level = L[phase];
       rise  = ampl < level;
+      rate  = rise ? +R[phase]
+                   : -R[phase];
    }
 
-   int32_t ampl{0};
-   int32_t rate{0};
-   int32_t level{0};
-   uint8_t index{0};
-   bool    rise{false};
-   int32_t R[5] = {};
-   int32_t L[5] = {};
+   int32_t  ampl{0};
+   int32_t  rate{0};
+   int32_t  level{0};
+   Phase    phase{P1};
+   bool     rise{false};
+   uint32_t R[6] = {};
+   uint32_t L[6] = {};
 };

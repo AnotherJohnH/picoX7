@@ -45,6 +45,10 @@ add_custom_command(
       ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_sine_div5_15.cpp
       ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_program.h
       ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_program.cpp
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_level_30.h
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_level_30.cpp
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_rate_30.h
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_rate_30.cpp
    )
 
 add_library(DX7 STATIC
@@ -54,6 +58,8 @@ add_library(DX7 STATIC
    Table_dx7_sine_div3_15.cpp
    Table_dx7_sine_div5_15.cpp
    Table_dx7_program.cpp
+   Table_dx7_level_30.cpp
+   Table_dx7_rate_30.cpp
    )
 
 target_include_directories(DX7
