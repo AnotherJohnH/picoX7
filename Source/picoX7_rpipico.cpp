@@ -88,6 +88,8 @@ int MTL_main()
 {
    printf("picoX7\n");
 
+   synth.programChange(0, 0);
+
    audio.start();
 
    while(true)

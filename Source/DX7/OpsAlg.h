@@ -37,7 +37,7 @@ public:
 
    int32_t operator()() { return ((*this).*alg_ptr)(); }
 
-   void setAlg(unsigned alg)
+   void setAlg(unsigned alg) override
    {
       switch (alg)
       {

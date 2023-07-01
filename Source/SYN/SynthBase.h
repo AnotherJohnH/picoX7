@@ -42,6 +42,8 @@ public:
       {
          voiceProgram(i, 0);
       }
+
+      voice[0].setDebug(true);
    }
 
    //! Get next sample

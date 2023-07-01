@@ -22,93 +22,74 @@
 
 #pragma once
 
-#include <cstring>
-
-#include "SYN/VoiceBase.h"
-
-#include "Table_dx7_program.h"
-
-#include "OpsAlg.h"
 #include "SysEx.h"
 
-class Voice : public VoiceBase
+class EnvGen
 {
 public:
-   Voice() = default;
+   EnvGen() = default;
 
-   SYN::Sample operator()() { return ops(); }
-
-   void tick()
+   //! Program the level and rate
+   void prog(const SysEx::Envelope& env, uint8_t out_level)
    {
-   }
-
-   void gateOn() override
-   {
-      unsigned f14 = ((note + 6) * 1024) / 12;
-
-      for(unsigned i = 0; i < 6; i++)
+#if 0 
+      for(unsigned n = 0; n < 4; ++n)
       {
-         if (sysex.osc_sync)
-         {
-            ops.sync();
-         }
+         if (n < 4) n -= 1;
 
-         if (sysex.op[i].osc_mode == 1)
+         R[n] = rate_;
+         L[n] = level_;
+
+         if (n == 2)
          {
-         }
-         else
-         {
-            ops.setFrq(i, f14);
+            R[3] = 0;
+            L[3] = L[2];
          }
       }
+#endif
    }
 
-   void gateOff() override
+   //! Start a note
+   void keyOn()
    {
-      for(unsigned i = 0; i < 6; i++)
+      ampl = L[4];
+      setIndex(0);
+   }
+
+   //! Release a note
+   void keyOff()
+   {
+      setIndex(4);
+   }
+
+   //! Get sample
+   int32_t operator()()
+   {
+      ampl += rate;
+
+      if (rise == (ampl >= level))
       {
-         ops.setAmp(i, 0);
+         ampl = level;
+         setIndex(index + 1);
       }
 
-      setMute();
+      return ampl;
    }
-
-   void setLevel(uint8_t value) override
-   {
-      for(unsigned i = 0; i < 6; i++)
-      {
-         ops.setAmp(i, 0xFFF);
-      }
-   }
-
-   void setControl(uint8_t control, uint8_t value) override
-   {
-       if (control == 7)
-       {
-          ops.setAmp(1, value << 5);
-          ops.setAmp(3, value << 5);
-          ops.setAmp(5, value << 5);
-       }
-   }
-
-   void setPitch(int16_t value) override
-   {
-   }
-
-   void setProgram(uint8_t prog) override
-   {
-      memcpy(&sysex, (const SysEx*) &table_dx7_program[prog * sizeof(SysEx)], sizeof(SysEx));
-
-      if (debug)
-         sysex.print();
-
-      ops.prog(sysex);
-   }
-
-   void setDebug(bool debug_) { debug = debug_; }
 
 private:
-   OpsAlg ops;
-   SysEx  sysex;
-   bool   debug{false};
+   void setIndex(uint8_t index_)
+   {
+      index = index_;
+      rate  = R[index];
+      level = L[index];
+      rise  = ampl < level;
+   }
+
+   int32_t ampl{0};
+   int32_t rate{0};
+   int32_t level{0};
+   uint8_t index{0};
+   bool    rise{false};
+   int32_t R[5] = {};
+   int32_t L[5] = {};
 };

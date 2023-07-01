@@ -28,17 +28,29 @@
 #include "Table_dx7_sine_div3_15.h"
 #include "Table_dx7_sine_div5_15.h"
 
+#include "EnvGen.h"
+
 //! Model of YM21280 OPS
 class OpsBase
 {
 public:
    OpsBase() = default;
 
-   //! Set algorithm feedback
-   void setFbk(unsigned fbl_)
+   void prog(const SysEx& sysex)
    {
-      fbl = fbl_ + 1 + 3;
+      for(unsigned i = 0; i < 6; i++)
+      {
+         const SysEx::Op& op = sysex.op[i];
+
+         eg_amp[i].prog(op.eg_amp, op.out_level);
+      }
+
+      setAlg(sysex.alg + 1);
+
+      fbl = sysex.feedback + 1 + 3;
    }
+
+   virtual void setAlg(unsigned alg) = 0;
 
    //! Set operator frequency as a phase increment
    void setFrq(unsigned op, unsigned f14_)
@@ -66,6 +78,8 @@ protected:
    int32_t op()
    {
       const unsigned i = OP - 1;
+
+      (void) eg_amp[i]();
 
       phase_accum_32[i] += phase_inc_32[i];
 
@@ -123,4 +137,6 @@ private:
    int32_t  feedback1_15 {0};
    int32_t  feedback2_15 {0};
    int32_t  memory_15 {0};
+
+   EnvGen   eg_amp[6];
 };

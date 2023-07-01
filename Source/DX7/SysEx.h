@@ -26,12 +26,20 @@
 
 struct SysEx
 {
-   void print()
+   void print() const
    {
-      printf("NAME: ");
+      printf("\"");
       for(unsigned i = 0; i < NAME_LEN; i++)
          putchar(name[i]);
-      printf(" ALG: %u FBK: %u\n", alg, feedback);
+      printf("\" ALG %u FBK %u\n", alg + 1, feedback);
+
+      printf("    L1:R1 L2:R2 L3:R3 L4:R4 OUT\n");
+      printf("------------------------------------------------\n");
+
+      for(unsigned i = 0; i < 6; ++i)
+      {
+         op[i].print(i + 1);
+      }
    }
 
    static const unsigned NUM_OP   = 6;
@@ -47,6 +55,18 @@ struct SysEx
    {
       enum ScaleCurve : uint8_t { NEG_LIN = 0, NEG_EXP = 1, POS_EXP = 2, POS_LIN = 3 };
       enum OscMode    : uint8_t { RATIO = 0, FIXED = 1 };
+
+      void print(unsigned n) const
+      {
+         printf("OP%u ", n);
+
+         for(unsigned i = 0; i < 4; i++)
+         {
+            printf("%02u:%02u ", eg_amp.level[i], eg_amp.rate[i]);
+         }
+
+         printf("%02u\n", out_level);
+      }
 
       Envelope eg_amp{};
       uint8_t  kbd_lev_scl_bpt;                 // 0..99  C3 = 39
