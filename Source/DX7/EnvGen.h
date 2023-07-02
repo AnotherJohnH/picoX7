@@ -24,6 +24,8 @@
 
 #include "SysEx.h"
 
+#include "Table_dx7_exp_14.h"
+
 #include "Table_dx7_level_30.h"
 #include "Table_dx7_rate_30.h"
 
@@ -81,7 +83,7 @@ public:
          setPhase(Phase(phase + 1));
       }
 
-      return ampl >> (30 - 14);
+      return table_dx7_exp_14[ampl >> (30 - 14)];
    }
 
 private:

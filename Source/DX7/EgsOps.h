@@ -38,6 +38,19 @@ class EgsOps : public VoiceBase
 public:
    EgsOps() = default;
 
+   //! Check if all amplitude envelopes are at L4
+   bool isComplete() const
+   {
+      for(unsigned i = 0; i < 6; ++i)
+      {
+         if (not egs_amp[i].isComplete())
+            return false;
+      }
+
+      return true;
+   }
+
+   //! Start a new note
    void gateOn()
    {
       unsigned f14 = ((getNote() + 6) * 1024) / 12;
@@ -58,13 +71,17 @@ public:
          }
          else
          {
-            f14 += ((op.osc_freq_coarse - 1) * 100 + op.osc_freq_fine) * 256 / 25;
+            unsigned scale = op.osc_freq_coarse == 0 ? 50
+                                                   : 100 * op.osc_freq_coarse;
 
-            phase_inc_32[i] = table_dx7_exp_22[f14] << 13;
+            scale = (100 + op.osc_freq_fine) * 256 / 100;
+
+            phase_inc_32[i] = (table_dx7_exp_22[f14] * scale) << (13 - 8);
          }
       }
    }
 
+   //! Release a new note
    void gateOff()
    {
       for(unsigned i = 0; i < 6; ++i)
@@ -81,7 +98,7 @@ protected:
       {
          const SysEx::Op& op = sysex.op[i];
 
-         egs_amp[i].prog(op.egs_amp, op.out_level);
+         egs_amp[i].prog(op.eg_amp, op.out_level);
       }
 
       fbl = sysex.feedback + 1 + 3;
@@ -89,7 +106,7 @@ protected:
 
    //! Simulate a single operator (and associated envelope generator)
    template <unsigned OP, unsigned SEL, bool A, bool C, bool D, unsigned COM>
-   int32_t op()
+   int32_t ops()
    {
       const unsigned i = OP - 1;
 

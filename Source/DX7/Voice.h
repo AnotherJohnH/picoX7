@@ -36,6 +36,10 @@ public:
 
    void tick()
    {
+      if (isComplete())
+      {
+         setMute();
+      }
    }
 
    void setLevel(uint8_t value) override
@@ -58,7 +62,10 @@ public:
       sysex = *sysex_ptr;
 
       if (debug)
+      {
+         printf("\nPROG %2u \n", number + 1);
          sysex.print();
+      }
 
       OpsAlg::prog();
    }
