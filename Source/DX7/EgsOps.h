@@ -22,6 +22,8 @@
 
 #pragma once
 
+#include "SYN/VoiceBase.h"
+
 #include "Table_dx7_exp_14.h"
 #include "Table_dx7_exp_22.h"
 #include "Table_dx7_sine_15.h"
@@ -30,37 +32,21 @@
 
 #include "EnvGen.h"
 
-//! Model of YM21280 OPS
-class OpsBase
+//! Model of YM21280 OPS and YM21290 EGS
+class EgsOps : public VoiceBase
 {
 public:
-   OpsBase() = default;
+   EgsOps() = default;
 
-   void prog(const SysEx* sysex_)
+   void gateOn()
    {
-      sysex = *sysex_;
-
-      for(unsigned i = 0; i < 6; i++)
-      {
-         const SysEx::Op& op = sysex.op[i];
-
-         eg_amp[i].prog(op.eg_amp, op.out_level);
-      }
-
-      setAlg(sysex.alg + 1);
-
-      fbl = sysex.feedback + 1 + 3;
-   }
-
-   void gateOn(unsigned note)
-   {
-      unsigned f14 = ((note + 6) * 1024) / 12;
+      unsigned f14 = ((getNote() + 6) * 1024) / 12;
 
       for(unsigned i = 0; i < 6; ++i)
       {
          SysEx::Op& op = sysex.op[i];
 
-         eg_amp[i].gateOn();
+         egs_amp[i].gateOn();
 
          if (sysex.osc_sync)
          {
@@ -83,19 +69,31 @@ public:
    {
       for(unsigned i = 0; i < 6; ++i)
       {
-         eg_amp[i].gateOff();
+         egs_amp[i].gateOff();
       }
    }
 
-   virtual void setAlg(unsigned alg) = 0;
-
 protected:
+   //! Re-program voice from SysEx
+   void prog()
+   {
+      for(unsigned i = 0; i < 6; i++)
+      {
+         const SysEx::Op& op = sysex.op[i];
+
+         egs_amp[i].prog(op.egs_amp, op.out_level);
+      }
+
+      fbl = sysex.feedback + 1 + 3;
+   }
+
+   //! Simulate a single operator (and associated envelope generator)
    template <unsigned OP, unsigned SEL, bool A, bool C, bool D, unsigned COM>
    int32_t op()
    {
       const unsigned i = OP - 1;
 
-      int32_t amp_14 = eg_amp[i]();
+      int32_t amp_14 = egs_amp[i]();
 
       phase_accum_32[i] += phase_inc_32[i];
 
@@ -153,6 +151,8 @@ private:
    int32_t  feedback2_15 {0};
    int32_t  memory_15 {0};
 
-   EnvGen   eg_amp[6];
+   EnvGen   egs_amp[6];
+
+protected:
    SysEx    sysex;
 };

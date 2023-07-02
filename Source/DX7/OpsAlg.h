@@ -28,18 +28,23 @@
 
 #pragma once
 
-#include "OpsBase.h"
+#include "EgsOps.h"
 
-class OpsAlg : public OpsBase
+class OpsAlg : public EgsOps
 {
 public:
    OpsAlg() = default;
 
+   //! Return next sample for the selected algorithm
    int32_t operator()() { return ((*this).*alg_ptr)(); }
 
-   void setAlg(unsigned alg) override
+protected:
+   //! Select the algorithm
+   void prog()
    {
-      switch (alg)
+      EgsOps::prog();
+
+      switch (sysex.alg + 1)
       {
       case  1: alg_ptr = &OpsAlg::alg1;  break;
       case  2: alg_ptr = &OpsAlg::alg2;  break;
@@ -77,7 +82,6 @@ public:
    }
 
 private:
-
    int32_t alg1()
    {
       (void) op<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1>();
@@ -398,5 +402,5 @@ private:
       return op<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 6>();
    }
 
-   int32_t (OpsAlg::*alg_ptr)() {nullptr};
+   int32_t (OpsAlg::*alg_ptr)() {&OpsAlg::alg1};
 };

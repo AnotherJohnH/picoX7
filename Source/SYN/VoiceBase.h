@@ -39,6 +39,7 @@ public:
    //! Get current note playing
    uint8_t getNote() const { return note; }
 
+   //! Get event order of current state
    unsigned getOrder() const { return order; }
 
    //! MIDI note on event for this voice
@@ -69,8 +70,6 @@ public:
    virtual void setProgram(uint8_t value) {}
 
 protected:
-   uint8_t note {};
-
    void setMute()
    {
       state = MUTE;
@@ -79,4 +78,5 @@ protected:
 private:
    State    state {MUTE};
    unsigned order {};    //!< Event order on entry into current state
+   uint8_t  note {};
 };

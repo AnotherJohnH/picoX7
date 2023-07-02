@@ -22,34 +22,20 @@
 
 #pragma once
 
-#include <cstring>
-
-#include "SYN/VoiceBase.h"
-
 #include "Table_dx7_program.h"
 
 #include "OpsAlg.h"
 #include "SysEx.h"
 
-class Voice : public VoiceBase
+class Voice : public OpsAlg
 {
 public:
    Voice() = default;
 
-   SYN::Sample operator()() { return ops(); }
+   void setDebug(bool debug_) { debug = debug_; }
 
    void tick()
    {
-   }
-
-   void gateOn() override
-   {
-      ops.gateOn(note);
-   }
-
-   void gateOff() override
-   {
-      ops.gateOff();
    }
 
    void setLevel(uint8_t value) override
@@ -64,19 +50,19 @@ public:
    {
    }
 
-   void setProgram(uint8_t prog) override
+   void setProgram(uint8_t number) override
    {
-      const SysEx* sysex = (const SysEx*) &table_dx7_program[prog * sizeof(SysEx)];
+     
+      const SysEx* sysex_ptr = (const SysEx*) &table_dx7_program[number * sizeof(SysEx)];
+
+      sysex = *sysex_ptr;
 
       if (debug)
-         sysex->print();
+         sysex.print();
 
-      ops.prog(sysex);
+      OpsAlg::prog();
    }
 
-   void setDebug(bool debug_) { debug = debug_; }
-
 private:
-   OpsAlg ops;
-   bool   debug{false};
+   bool debug{false};
 };
