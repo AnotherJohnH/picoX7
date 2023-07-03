@@ -38,7 +38,7 @@ struct SysEx
 
       for(unsigned i = 0; i < 6; ++i)
       {
-         op[i].print(i + 1);
+         op[5 - i].print(i + 1);
       }
    }
 
@@ -69,7 +69,14 @@ struct SysEx
 
          if (osc_mode == RATIO)
          {
-            printf("R%02u.%02u", osc_freq_coarse, osc_freq_fine);
+            if (osc_freq_coarse == 0)
+            {
+               printf("R00.%02u", 50 + (osc_freq_fine / 2));
+            }
+            else
+            {
+               printf("R%02u.%02u", osc_freq_coarse, osc_freq_fine);
+            }
          }
          else
          {

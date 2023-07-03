@@ -35,26 +35,40 @@
 #include "MTL/rp2040/Uart.h"
 #include "MTL/rp2040/Clocks.h"
 
-
-class MidiIn : public MIDI::Interface
+//! Slow MIDI in via the console UART
+class MidiIn0 : public MIDI::Interface
 {
 public:
-   MidiIn(MIDI::Instrument& instrument)
+   MidiIn0(MIDI::Instrument& instrument)
+      : MIDI::Interface(instrument)
+   {}
+
+   bool empty() const override { return MTL_getch_empty(); }
+
+   uint8_t rx() override { return MTL_getch(); }
+};
+
+//! Proper MIDI in at 31250 baud
+class MidiIn1 : public MIDI::Interface
+{
+public:
+   MidiIn1(MIDI::Instrument& instrument)
       : MIDI::Interface(instrument)
    {}
 
    bool empty() const override { return uart.empty(); }
 
-   uint8_t rx() { return uart.rx(); }
+   uint8_t rx() override { return uart.rx(); }
 
 private:
    MTL::Uart1 uart{31250, 8, MTL::UART::NONE, 1};
 };
 
 
-static Usage    usage {};
-static Synth<4> synth {};
-static MidiIn   midi_in {synth};
+static Usage     usage {};
+static Synth<4>  synth {};
+static MidiIn0   midi_in0 {synth};
+static MidiIn1   midi_in1 {synth};
 
 //! Select a system clock with clean division to 49.1 KHz
 namespace MTL { Clocks::SysFreq clocks_sys_freq = Clocks::SYS_FREQ_137_48_MHZ; }
@@ -94,9 +108,10 @@ int MTL_main()
 
    while(true)
    {
-      midi_in.tick();
+      midi_in0.tick();
+      midi_in1.tick();
 
-#if 1
+#if 0
       puts("\033[H");
       printf("picoX7\n");
 

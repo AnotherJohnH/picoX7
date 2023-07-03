@@ -34,4 +34,89 @@ class Synth : public SynthBase<N,Voice>
 {
 public:
    Synth() = default;
+
+   void sysEx(uint8_t byte)
+   {
+      if (byte == 0xF0)
+      {
+         printf("SYSEX START %u state", state);
+         state = 0;
+      }
+      else if (byte == 0xF7)
+      {
+         printf("\nSYSEX END %u state\n", state);
+
+         if ((id      == ID_YAMAHA) &&
+             (type    == TYPE_VOICE) &&
+             (channel == 0) &&
+             (size    == 0x80) &&
+             (size    == index))
+         {
+            for(unsigned i = 0; i < N; ++i)
+            {
+               this->voice[i].setProgramRaw(buffer);
+            }
+
+            printf("OK\n");
+         }
+         else
+         {
+            printf("BAD\n");
+         }
+      }
+      else
+      {
+         switch(state)
+         {
+         case 0:
+            id = byte;
+            ++state;
+            break;
+
+         case 1:
+            type = byte;
+            ++state;
+            break;
+
+         case 2:
+            channel = byte;
+            ++state;
+            break;
+
+         case 3:
+            size = byte << 7;
+            ++state;
+            break;
+
+         case 4:
+            size = size | byte;
+            ++state;
+            index = 0;
+            break;
+
+         case 5:
+            if (index < sizeof(buffer))
+            {
+               if ((index % 8) == 0)
+                  printf("\n%02X : ", index);
+
+               printf(" %02X", byte);
+               buffer[index++] = byte;
+            }
+            break;
+         }
+      }
+   }
+
+private:
+   const uint8_t ID_YAMAHA  = 0x43;
+   const uint8_t TYPE_VOICE = 0x00;
+
+   uint8_t  state{0};
+   uint8_t  id{};
+   uint8_t  type{};
+   uint8_t  channel{};
+   uint16_t size{};
+   uint8_t  index{0};
+   uint8_t  buffer[128];
 };

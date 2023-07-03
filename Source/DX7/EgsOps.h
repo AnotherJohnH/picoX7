@@ -53,11 +53,11 @@ public:
    //! Start a new note
    void gateOn()
    {
-      unsigned f14 = ((getNote() + 6) * 1024) / 12;
+      unsigned f14 = ((getNote() + 5) * 1024 + 400) / 12;
 
       for(unsigned i = 0; i < 6; ++i)
       {
-         SysEx::Op& op = sysex.op[i];
+         SysEx::Op& op = sysex.op[5 - i];
 
          egs_amp[i].gateOn();
 
@@ -71,10 +71,16 @@ public:
          }
          else
          {
-            unsigned scale = op.osc_freq_coarse == 0 ? 50
-                                                   : 100 * op.osc_freq_coarse;
+            unsigned scale;
 
-            scale = (100 + op.osc_freq_fine) * 256 / 100;
+            if (op.osc_freq_coarse == 0)
+            {
+               scale = (100 + op.osc_freq_fine) * 128 / 100;
+            }
+            else
+            {
+               scale = op.osc_freq_coarse * (100 + op.osc_freq_fine) * 256 / 100;
+            }
 
             phase_inc_32[i] = (table_dx7_exp_22[f14] * scale) << (13 - 8);
          }
@@ -96,12 +102,12 @@ protected:
    {
       for(unsigned i = 0; i < 6; i++)
       {
-         const SysEx::Op& op = sysex.op[i];
+         const SysEx::Op& op = sysex.op[5 - i];
 
          egs_amp[i].prog(op.eg_amp, op.out_level);
       }
 
-      fbl = sysex.feedback + 1 + 3;
+      fbl = (7 - sysex.feedback) + 5;
    }
 
    //! Simulate a single operator (and associated envelope generator)

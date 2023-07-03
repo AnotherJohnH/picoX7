@@ -78,6 +78,9 @@ int main()
 {
    printf("picoX7\n");
 
+   for(unsigned i = 0; i < 32; ++i)
+      synth.programChange(0, i);
+
    synth.programChange(0, 0);
 
    Monitor monitor;

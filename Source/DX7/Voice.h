@@ -56,14 +56,22 @@ public:
 
    void setProgram(uint8_t number) override
    {
-     
-      const SysEx* sysex_ptr = (const SysEx*) &table_dx7_program[number * sizeof(SysEx)];
+      if (debug)
+      {
+         printf("\nPROG %2u \n", number + 1);
+      }
+
+      setProgramRaw(&table_dx7_program[number * sizeof(SysEx)]);
+   }
+
+   void setProgramRaw(const uint8_t* ptr) override
+   {
+      const SysEx* sysex_ptr = (const SysEx*)ptr;
 
       sysex = *sysex_ptr;
 
       if (debug)
       {
-         printf("\nPROG %2u \n", number + 1);
          sysex.print();
       }
 
