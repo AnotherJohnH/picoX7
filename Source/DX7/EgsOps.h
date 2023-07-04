@@ -83,6 +83,8 @@ public:
             }
 
             phase_inc_32[i] = (table_dx7_exp_22[f14] * scale) << (13 - 8);
+
+            phase_inc_32[i] += (op.osc_detune - 7) << 14;
          }
       }
    }

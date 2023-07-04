@@ -83,6 +83,7 @@ struct SysEx
             printf("F%02u.%02u", osc_freq_coarse, osc_freq_fine);
          }
 
+         printf(" %2d", osc_detune - 7);
          printf("\n");
       }
 
