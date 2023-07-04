@@ -32,6 +32,9 @@
 #include "PLT/Event.h"
 
 
+static const unsigned SAMPLE_FREQ = 48000;
+
+
 class MidiIn : public MIDI::Interface
 {
 public:
@@ -60,7 +63,7 @@ class Monitor : public PLT::Audio::Out
 {
 public:
    Monitor()
-      : PLT::Audio::Out(SYN::SAMPLE_FREQ, PLT::Audio::Format::SINT16, /* channels */ 2)
+      : PLT::Audio::Out(SAMPLE_FREQ, PLT::Audio::Format::SINT16, /* channels */ 2)
    {}
 
 private:

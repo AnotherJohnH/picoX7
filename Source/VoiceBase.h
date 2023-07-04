@@ -22,50 +22,64 @@
 
 #pragma once
 
-#include "SYN/Sine.h"
-#include "SYN/VoiceBase.h"
+#include <cstdint>
 
-#include "Table_ampl.h"
-
-class Voice : public VoiceBase
+//! Base class for voices used with SynthBase
+class VoiceBase
 {
+   enum State { MUTE, ON, OFF };
+
 public:
-   Voice() = default;
+   VoiceBase() = default;
 
-   SYN::Sample operator()()
+   bool isMute() const { return state == MUTE; }
+   bool isOn()   const { return state == ON; }
+   bool isOff()  const { return state == OFF; }
+
+   //! Get current note playing
+   uint8_t getNote() const { return note; }
+
+   //! Get event order of current state
+   unsigned getOrder() const { return order; }
+
+   //! MIDI note on event for this voice
+   void noteOn(uint8_t note_, uint8_t level_, unsigned order_)
    {
-      return osc();
+      state = ON;
+      order = order_;
+      note  = note_;
+
+      setLevel(level_);
+      gateOn();
    }
 
-   void tick()
+   //! MIDI note off event for this voice
+   void noteOff(unsigned order_)
    {
+      state = OFF;
+      order = order_;
+
+      gateOff();
    }
 
-   void gateOn() override
-   {
-      osc.sync();
-      osc.setNote(note);
-   }
+   // Override for voice implementation
 
-   void gateOff() override
-   {
-      setMute();
-   }
+   virtual void gateOn() {}
+   virtual void gateOff() {}
+   virtual void setLevel(uint8_t value) {}
+   virtual void setControl(uint8_t control, uint8_t value) {}
+   virtual void setPitch(int16_t value) {}
+   virtual void setProgram(uint8_t value) {}
+   virtual void setProgramRaw(const uint8_t* raw) {}
 
-   void setLevel(uint8_t value) override
+protected:
+   void setMute()
    {
-      osc.gain = SYN::Gain::fromRaw(table_ampl[value]);
-   }
-
-   void setControl(uint8_t control, uint8_t value) override
-   {
-   }
-
-   void setPitch(int16_t value) override
-   {
-      osc.setTune(value);
+      state = MUTE;
    }
 
 private:
-   SYN::Sine osc{};
+   State    state {MUTE};
+   unsigned order {};     //!< Event order on entry into current state
+   uint8_t  note {};
 };

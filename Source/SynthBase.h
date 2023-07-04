@@ -24,13 +24,9 @@
 
 #include <cstdint>
 
-#include "SYN/Sample.h"
 #include "STB/MIDIInstrument.h"
 
-static const unsigned TICK_FREQ        = 100; //!< Hz
-static const unsigned SAMPLES_PER_TICK = SYN::SAMPLE_FREQ / TICK_FREQ;
-
-//! Base class for synth
+//! Base class for MIDI synth
 template <unsigned N, typename VOICE>
 class SynthBase : public MIDI::Instrument
 {
@@ -47,19 +43,19 @@ public:
    }
 
    //! Get next sample
-   SYN::Sample operator()()
+   int16_t operator()()
    {
-      signed total {0};
+      signed mix {0};
 
       for(unsigned i = 0; i < N; ++i)
       {
          VOICE& v = voice[i];
 
          if (not v.isMute())
-            total += v();
+            mix += v();
       }
 
-      return total / N;
+      return mix / N;
    }
 
    //! Control tick
@@ -118,7 +114,7 @@ public:
          return first_decay_index;
       }
 
-      // => Uset the oldest voice that is on
+      // => Use the oldest voice that is on
       return first_on_index;
    }
 

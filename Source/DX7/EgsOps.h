@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "SYN/VoiceBase.h"
+#include "VoiceBase.h"
 
 #include "Table_dx7_exp_14.h"
 #include "Table_dx7_exp_22.h"

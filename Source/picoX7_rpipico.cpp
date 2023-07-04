@@ -70,6 +70,7 @@ static Synth<4>  synth {};
 static MidiIn0   midi_in0 {synth};
 static MidiIn1   midi_in1 {synth};
 
+
 //! Select a system clock with clean division to 49.1 KHz
 namespace MTL { Clocks::SysFreq clocks_sys_freq = Clocks::SYS_FREQ_137_48_MHZ; }
 
@@ -90,7 +91,7 @@ void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
 
    for(unsigned i = 0; i < n; ++i)
    {
-      SYN::Sample sample = synth();
+      int16_t sample = synth();
 
       buffer[i] = (sample << 16) | (sample & 0xFFFF);
    }

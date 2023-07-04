@@ -22,10 +22,9 @@
 
 #pragma once
 
-#include "Table_dx7_program.h"
-
 #include "OpsAlg.h"
 #include "SysEx.h"
+#include "Table_dx7_program.h"
 
 class Voice : public OpsAlg
 {
@@ -44,14 +43,17 @@ public:
 
    void setLevel(uint8_t value) override
    {
+      // TODO
    }
 
    void setControl(uint8_t control, uint8_t value) override
    {
+      // TODO
    }
 
    void setPitch(int16_t value) override
    {
+      // TODO
    }
 
    void setProgram(uint8_t number) override

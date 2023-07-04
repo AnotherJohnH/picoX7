@@ -22,9 +22,7 @@
 
 #pragma once
 
-#include "SYN/SynthBase.h"
-
-#include "Table_dx7_program.h"
+#include "SynthBase.h"
 
 #include "SysEx.h"
 #include "Voice.h"
@@ -68,31 +66,11 @@ public:
       {
          switch(state)
          {
-         case 0:
-            id = byte;
-            ++state;
-            break;
-
-         case 1:
-            type = byte;
-            ++state;
-            break;
-
-         case 2:
-            channel = byte;
-            ++state;
-            break;
-
-         case 3:
-            size = byte << 7;
-            ++state;
-            break;
-
-         case 4:
-            size = size | byte;
-            ++state;
-            index = 0;
-            break;
+         case 0: id      = byte;                   ++state; break;
+         case 1: type    = byte;                   ++state; break;
+         case 2: channel = byte;                   ++state; break;
+         case 3: size    = byte << 7;              ++state; break;
+         case 4: size    = size | byte; index = 0; ++state; break;
 
          case 5:
             if (index < sizeof(buffer))

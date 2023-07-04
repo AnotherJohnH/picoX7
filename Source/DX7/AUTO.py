@@ -8,6 +8,7 @@ import CxxFile
 #------------------------------------------------------------------------------
 
 def readSysExFile(filename):
+   """ Read a binary file and return raw data """
 
    data = []
 
@@ -65,6 +66,24 @@ Table.build('dx7_sine_div5_15',
       prefix     = '',
       fmt        = '6d')
 
+# 0..99 => 30-bit EG level
+Table.build('dx7_level_30',
+            bits      = 32,
+            func      = lambda i,x : int(x * 0x3FFFFFFF),
+            size      = 100,
+            typename  = "uint32_t",
+            prefix    = '0x',
+            fmt       = '08x')
+
+# 0..99 => 30-bit EG rate
+Table.build('dx7_rate_30',
+            bits      = 32,
+            func      = lambda i,x : int(0x3FFFFFFF / (180 * pow(3,-i/10) * 49096)),
+            size      = 100,
+            typename  = "uint32_t",
+            prefix    = '0x',
+            fmt       = '08x')
+
 # Program ROM
 image = readSysExFile(sys.argv[1])
 
@@ -76,18 +95,3 @@ Table.build('dx7_program',
             prefix    = '0x',
             fmt       = '02x')
 
-Table.build('dx7_level_30',
-            bits      = 32,
-            func      = lambda i,x : int(x * 0x3FFFFFFF),
-            size      = 100,
-            typename  = "uint32_t",
-            prefix    = '0x',
-            fmt       = '08x')
-
-Table.build('dx7_rate_30',
-            bits      = 32,
-            func      = lambda i,x : int(0x3FFFFFFF / (180 * pow(3,-i/10) * 49096)),
-            size      = 100,
-            typename  = "uint32_t",
-            prefix    = '0x',
-            fmt       = '08x')
