@@ -48,7 +48,7 @@ public:
       {
          Phase p = i == 3 ? P4 : Phase(i);
 
-         L[p] = table_dx7_level_30[env.level[i]];
+         L[p] = table_dx7_level_30[env.level[i] * out_level / 100];
          R[p] = table_dx7_rate_30[env.rate[i]];
       }
 
