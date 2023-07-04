@@ -109,7 +109,7 @@ protected:
          egs_amp[i].prog(op.eg_amp, op.out_level);
       }
 
-      fbl = (7 - sysex.feedback) + 5;
+      fbl = (7 - sysex.feedback) + 4;
    }
 
    //! Simulate a single operator (and associated envelope generator)
