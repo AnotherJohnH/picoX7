@@ -107,11 +107,14 @@ void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
 
 int MTL_main()
 {
-   printf("Program      : picoX7\n");
-   //printf("Version      : %s\n", PLT_VERSION);
-   //printf("Commit       : %s\n", PLT_COMMIT);
-   printf("Built        : %s %s\n", __TIME__, __DATE__);
-   printf("Compiler     : %s\n", __VERSION__);
+   printf("\n");
+   printf("Program  : picoX7\n");
+   printf("Author   : Copyright (c) 2023 John D. Haughton\n");
+   printf("Version  : %s\n", MTL_VERSION);
+   printf("Commit   : %s\n", MTL_COMMIT);
+   printf("Built    : %s %s\n", __TIME__, __DATE__);
+   printf("Compiler : %s\n", __VERSION__);
+   printf("\n");
 
    synth.programChange(0, 0);
 

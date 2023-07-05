@@ -33,6 +33,7 @@
 
 
 static const unsigned SAMPLE_FREQ = 48000;
+static const unsigned NUM_VOICES  = 8;                       // Polyphony
 
 
 class MidiIn : public MIDI::Interface
@@ -50,13 +51,13 @@ private:
    unsigned n {0};
    uint8_t  data[7] =
    {
-      0x90, 0x45, 0x7F, 0x44, 0x7F, 0x47, 0x7F
+      0x90, 0x3C, 0x7F, 0x40, 0x7F, 0x43, 0x7F
    };
 };
 
 
-static Synth<8> synth {};
-static MidiIn   midi_in {synth};
+static Synth<NUM_VOICES> synth {};
+static MidiIn            midi_in {synth};
 
 class Monitor : public PLT::Audio::Out
 {
@@ -78,11 +79,14 @@ private:
 
 int main()
 {
-   printf("Program      : picoX7\n");
-   printf("Version      : %s\n", PLT_VERSION);
-   printf("Commit       : %s\n", PLT_COMMIT);
-   printf("Built        : %s %s\n", __TIME__, __DATE__);
-   printf("Compiler     : %s\n", __VERSION__);
+   printf("\n");
+   printf("Program  : picoX7\n");
+   printf("Author   : Copyright (c) 2023 John D. Haughton\n");
+   printf("Version  : %s\n", PLT_VERSION);
+   printf("Commit   : %s\n", PLT_COMMIT);
+   printf("Built    : %s %s\n", __TIME__, __DATE__);
+   printf("Compiler : %s\n", __VERSION__);
+   printf("\n");
 
    synth.programChange(0, 0);
 
