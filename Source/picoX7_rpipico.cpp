@@ -26,14 +26,21 @@
 
 #include "STB/MIDIInterface.h"
 
-#include "Usage.h"
-#include "DX7/Synth.h"
-
 #include "MTL/MTL.h"
 #include "MTL/Pins.h"
 #include "MTL/PioAudio.h"
 #include "MTL/rp2040/Uart.h"
 #include "MTL/rp2040/Clocks.h"
+
+#include "Usage.h"
+#include "DX7/Synth.h"
+
+
+static const unsigned SAMPLE_RATE = 49100;                   // DAC sample rate (Hz)
+static const unsigned TICK_RATE   = 100;                     // (Hz)
+static const unsigned BUFFER_SIZE = SAMPLE_RATE / TICK_RATE; // DAC buffer size (samples)
+static const unsigned NUM_VOICES  = 4;                       // Polyphony
+
 
 //! Slow MIDI in via the console UART
 class MidiIn0 : public MIDI::Interface
@@ -65,10 +72,8 @@ private:
 };
 
 
-static Usage     usage {};
-static Synth<4>  synth {};
-static MidiIn0   midi_in0 {synth};
-static MidiIn1   midi_in1 {synth};
+static Usage             usage {};
+static Synth<NUM_VOICES> synth {};
 
 
 //! Select a system clock with clean division to 49.1 KHz
@@ -76,10 +81,10 @@ namespace MTL { Clocks::SysFreq clocks_sys_freq = Clocks::SYS_FREQ_137_48_MHZ; }
 
 //! 49.1 KHz I2S DAC, with pinout for Waveshare Pico-Audio
 //  buffer size to give a 100 Hz tick
-static MTL::PioAudio<MTL::Pio0,/* BUFFER_SIZE */ 491> audio {49100,
-                                                             MTL::PIN_31,  // MCLK
-                                                             MTL::PIN_29,  // SD
-                                                             MTL::PIN_32}; // LRCLK + SCLK
+static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {SAMPLE_RATE,
+                                                   MTL::PIN_31,  // MCLK
+                                                   MTL::PIN_29,  // SD
+                                                   MTL::PIN_32}; // LRCLK + SCLK
 PIO_AUDIO_ATTACH_IRQ_0(audio);
 
 //! DAC pump call-back
@@ -99,13 +104,21 @@ void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
    usage.end();
 }
 
+
 int MTL_main()
 {
-   printf("picoX7\n");
+   printf("Program      : picoX7\n");
+   //printf("Version      : %s\n", PLT_VERSION);
+   //printf("Commit       : %s\n", PLT_COMMIT);
+   printf("Built        : %s %s\n", __TIME__, __DATE__);
+   printf("Compiler     : %s\n", __VERSION__);
 
    synth.programChange(0, 0);
 
    audio.start();
+
+   MidiIn0 midi_in0 {synth};
+   MidiIn1 midi_in1 {synth};
 
    while(true)
    {

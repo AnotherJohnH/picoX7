@@ -30,29 +30,33 @@
 #include "MTL/CortexM3/SysTick.h"
 #endif
 
-//! Resource usgae measurement
+//! Resource usage measurement
 class Usage
 {
 public:
    Usage() = default;
 
+   //! Start CPU usage timing
    void start()
    {
       start_t24 = tick;
       non_usage = (end_t24 - start_t24) & 0xFFFFFF;
    }
 
+   //! Stop CPU usage timing
    void end()
    {
       end_t24 = tick;
       usage   = (start_t24 - end_t24) & 0xFFFFFF;
    }
 
+   //! Get CPU usage (%)
    unsigned getCPUUsage() const
    {
       return usage * 100 / (non_usage + usage);
    }
 
+   //! Get FLASH memory usage (%)
    unsigned getFLASHUsage() const
    {
       extern uint8_t __text_start__;
@@ -61,6 +65,7 @@ public:
       return unsigned(&__text_end__ - &__text_start__) * 100 / FLASH_SIZE;
    }
 
+   //! Get RAM memory usage (%)
    unsigned getRAMUsage() const
    {
       extern uint8_t __data_start__;
@@ -69,6 +74,7 @@ public:
       return (&__bss_end__ - &__data_start__) * 100 / RAM_SIZE;
    }
 
+   //! Wait for a number of system ticks to elapse
    void wait(unsigned ticks)
    {
       uint32_t future = (tick + ticks) & 0xFFFFFF;

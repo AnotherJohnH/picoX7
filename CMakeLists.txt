@@ -22,9 +22,9 @@
 
 cmake_minimum_required(VERSION 3.19.1)
 
-project(PicoSynth
+project(picoX7
         LANGUAGES CXX ASM
-        VERSION 0.0.0)
+        VERSION 0.1.0)
 
 add_subdirectory(Platform)
 

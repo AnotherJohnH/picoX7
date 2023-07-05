@@ -1,7 +1,4 @@
 
-targets = rpipico \
-          native
-
-all: $(targets)
+all: rpipico native
 
 include Platform/build.make

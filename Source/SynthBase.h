@@ -34,11 +34,6 @@ public:
    SynthBase()
       : MIDI::Instrument(N)
    {
-      for(unsigned i = 0; i < N; ++i)
-      {
-         voiceProgram(i, 0);
-      }
-
       voice[0].setDebug(true);
    }
 

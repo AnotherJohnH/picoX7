@@ -29,6 +29,7 @@
 #include "Table_dx7_level_30.h"
 #include "Table_dx7_rate_30.h"
 
+//! DX7 envelope generator
 class EnvGen
 {
    enum Phase : uint8_t
@@ -39,6 +40,7 @@ class EnvGen
 public:
    EnvGen() = default;
 
+   //! Check if amplitude has reached L4
    bool isComplete() const { return phase == COMPLETE; }
 
    //! Program the level and rate
@@ -72,7 +74,7 @@ public:
       setPhase(RELEASE);
    }
 
-   //! Get sample
+   //! Get amplitude sample
    uint32_t operator()()
    {
       ampl += rate;
@@ -87,6 +89,7 @@ public:
    }
 
 private:
+   //! Change current phase
    void setPhase(Phase phase_)
    {
       phase = phase_;
@@ -96,11 +99,11 @@ private:
                    : -R[phase];
    }
 
-   int32_t  ampl{0};
-   int32_t  rate{0};
-   int32_t  level{0};
-   Phase    phase{P1};
-   bool     rise{false};
-   uint32_t R[6] = {};
-   uint32_t L[6] = {};
+   int32_t  ampl{0};     //!< Current amplitude
+   int32_t  rate{0};     //!< Rate for current phase
+   int32_t  level{0};    //!< Target level for current phase
+   Phase    phase{P1};   //!< Current phase
+   bool     rise{false}; //!< Direction of change in current phase
+   uint32_t R[6] = {};   //!< Programmed rates for each phase
+   uint32_t L[6] = {};   //!< programmed levels for each phase
 };

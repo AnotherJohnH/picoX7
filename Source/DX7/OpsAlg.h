@@ -30,6 +30,7 @@
 
 #include "EgsOps.h"
 
+//! Implement the 32 DX7 OP algorithms
 class OpsAlg : public EgsOps
 {
 public:
