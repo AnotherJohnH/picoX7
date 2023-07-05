@@ -29,7 +29,7 @@ add_executable(picoX7 picoX7_${PLT_TARGET}.cpp)
 target_include_directories(picoX7 PRIVATE .)
 
 if(${PLT_TARGET} STREQUAL native)
-   target_link_libraries(picoX7 PRIVATE DX7 PLT)
+   target_link_libraries(picoX7 PRIVATE DX7 PLT STB)
 else()
    target_link_libraries(picoX7 PRIVATE DX7 TNY MTL)
 endif()
