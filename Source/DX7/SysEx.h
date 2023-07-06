@@ -33,13 +33,21 @@ struct SysEx
          putchar(name[i]);
       printf("\" ALG %u FBK %u\n", alg + 1, feedback);
 
-      printf("    L1:R1 L2:R2 L3:R3 L4:R4 OUT FREQ\n");
+      printf("    L1:R1 L2:R2 L3:R3 L4:R4 OUT FREQ DET\n");
       printf("------------------------------------------------\n");
 
       for(unsigned i = 0; i < 6; ++i)
       {
          op[5 - i].print(i + 1);
       }
+
+      printf("PCH ");
+      for(unsigned i = 0; i < 4; i++)
+      {
+          printf("%02u:%02u ", eg_pitch.level[i], eg_pitch.rate[i]);
+      }
+      printf("\n");
+      printf("\n");
    }
 
    static const unsigned NUM_OP   = 6;

@@ -37,7 +37,11 @@ public:
    OpsAlg() = default;
 
    //! Return next sample for the selected algorithm
-   int32_t operator()() { return ((*this).*alg_ptr)(); }
+   int32_t operator()()
+   {
+      (void) egs_pitch();
+      return ((*this).*alg_ptr)();
+   }
 
 protected:
    //! Select the algorithm

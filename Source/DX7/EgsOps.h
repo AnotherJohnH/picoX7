@@ -109,6 +109,8 @@ protected:
          egs_amp[i].prog(op.eg_amp, op.out_level);
       }
 
+      egs_pitch.prog(sysex.eg_pitch, 99);
+
       fbl = (7 - sysex.feedback) + 4;
    }
 
@@ -179,5 +181,6 @@ private:
    EnvGen   egs_amp[6];
 
 protected:
+   EnvGen   egs_pitch;
    SysEx    sysex;
 };
