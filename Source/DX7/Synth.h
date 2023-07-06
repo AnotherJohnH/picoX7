@@ -27,13 +27,18 @@
 #include "SysEx.h"
 #include "Voice.h"
 
+#include "Table_dx7_rom_1.h"
+#include "Table_dx7_rom_2.h"
+#include "Table_dx7_rom_3.h"
+#include "Table_dx7_rom_4.h"
+
 template <unsigned N>
 class Synth : public SynthBase<N,Voice>
 {
 public:
    Synth() = default;
 
-   void sysEx(uint8_t byte)
+   void sysEx(uint8_t byte) override
    {
       if (byte == 0xF0)
       {
@@ -52,7 +57,7 @@ public:
          {
             for(unsigned i = 0; i < N; ++i)
             {
-               this->voice[i].setProgramRaw(buffer);
+               this->voice[i].loadProgram(0, (const SysEx*)buffer);
             }
 
             printf("OK\n");
@@ -87,6 +92,21 @@ public:
    }
 
 private:
+   void voiceProgram(unsigned index_, uint8_t number_) override
+   {
+      const SysEx* memory;
+
+      switch(number_ >> 5)
+      {
+      case 0:  memory = (const SysEx*) table_dx7_rom_1; break;
+      case 1:  memory = (const SysEx*) table_dx7_rom_2; break;
+      case 2:  memory = (const SysEx*) table_dx7_rom_3; break;
+      case 3:  memory = (const SysEx*) table_dx7_rom_4; break;
+      }
+
+      this->voice[index_].loadProgram(number_, &memory[number_ & 0x1F]);
+   }
+
    const uint8_t ID_YAMAHA  = 0x43;
    const uint8_t TYPE_VOICE = 0x00;
 

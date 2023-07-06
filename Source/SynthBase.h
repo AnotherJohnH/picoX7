@@ -151,11 +151,6 @@ public:
       voice[index_].setPitch(value_);
    }
 
-   void voiceProgram(unsigned index_, uint8_t prog_) override
-   {
-      voice[index_].setProgram(prog_);
-   }
-
 protected:
    VOICE voice[N];
 

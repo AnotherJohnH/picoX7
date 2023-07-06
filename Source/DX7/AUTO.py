@@ -7,7 +7,7 @@ import CxxFile
 
 #------------------------------------------------------------------------------
 
-def readSysExFile(filename):
+def cartridge(filename, name):
    """ Read a binary file and return raw data """
 
    data = []
@@ -19,7 +19,13 @@ def readSysExFile(filename):
             break
          data.append(int.from_bytes(byte, byteorder='big', signed=False))
 
-   return data
+   Table.build(name,
+               bits      = 8,
+               func      = lambda i,x : data[i + 6],
+               log2_size = 12,
+               typename  = "uint8_t",
+               prefix    = '0x',
+               fmt       = '02x')
 
 #------------------------------------------------------------------------------
 
@@ -84,14 +90,8 @@ Table.build('dx7_rate_30',
             prefix    = '0x',
             fmt       = '08x')
 
-# Program ROM
-image = readSysExFile(sys.argv[1])
-
-Table.build('dx7_program',
-            bits      = 8,
-            func      = lambda i,x : image[i + 6],
-            log2_size = 12,
-            typename  = "uint8_t",
-            prefix    = '0x',
-            fmt       = '02x')
-
+# Program cartridges
+cartridge(sys.argv[1], "dx7_rom_1")
+cartridge(sys.argv[2], "dx7_rom_2")
+cartridge(sys.argv[3], "dx7_rom_3")
+cartridge(sys.argv[4], "dx7_rom_4")

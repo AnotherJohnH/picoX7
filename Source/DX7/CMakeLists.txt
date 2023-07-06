@@ -28,9 +28,15 @@ add_custom_command(
          -E env PYTHONPATH=${python_path}
          ${CMAKE_CURRENT_SOURCE_DIR}/AUTO.py
              ${CMAKE_CURRENT_SOURCE_DIR}/rom1a.syx
+             ${CMAKE_CURRENT_SOURCE_DIR}/rom1b.syx
+             ${CMAKE_CURRENT_SOURCE_DIR}/rom2a.syx
+             ${CMAKE_CURRENT_SOURCE_DIR}/rom2b.syx
    DEPENDS
       ${CMAKE_CURRENT_SOURCE_DIR}/AUTO.py
       ${CMAKE_CURRENT_SOURCE_DIR}/rom1a.syx
+      ${CMAKE_CURRENT_SOURCE_DIR}/rom1b.syx
+      ${CMAKE_CURRENT_SOURCE_DIR}/rom2a.syx
+      ${CMAKE_CURRENT_SOURCE_DIR}/rom2b.syx
       ${python_path}/Table.py
    OUTPUT
       ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_exp_14.h
@@ -43,8 +49,14 @@ add_custom_command(
       ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_sine_div3_15.cpp
       ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_sine_div5_15.h
       ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_sine_div5_15.cpp
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_program.h
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_program.cpp
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_rom_1.h
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_rom_1.cpp
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_rom_2.h
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_rom_2.cpp
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_rom_3.h
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_rom_3.cpp
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_rom_4.h
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_rom_4.cpp
       ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_level_30.h
       ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_level_30.cpp
       ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_rate_30.h
@@ -57,9 +69,12 @@ add_library(DX7 STATIC
    Table_dx7_sine_15.cpp
    Table_dx7_sine_div3_15.cpp
    Table_dx7_sine_div5_15.cpp
-   Table_dx7_program.cpp
    Table_dx7_level_30.cpp
    Table_dx7_rate_30.cpp
+   Table_dx7_rom_1.cpp
+   Table_dx7_rom_2.cpp
+   Table_dx7_rom_3.cpp
+   Table_dx7_rom_4.cpp
    )
 
 target_include_directories(DX7
