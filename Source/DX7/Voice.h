@@ -52,7 +52,13 @@ public:
 
    void setPitch(int16_t value) override
    {
-      // TODO
+      // XXX needs to be added to the note value this is too late
+      pitch_bend = (value << 8);
+
+      for(unsigned i = 0; i < 6; ++i)
+      {
+         phase_inc_32[i] = init_phase_inc_32[i] + pitch_bend;
+      }
    }
 
    void loadProgram(uint8_t number, const SysEx* ptr)

@@ -82,9 +82,11 @@ public:
                scale = op.osc_freq_coarse * (100 + op.osc_freq_fine) * 256 / 100;
             }
 
-            phase_inc_32[i] = (table_dx7_exp_22[f14] * scale) << (13 - 8);
+            init_phase_inc_32[i] = (table_dx7_exp_22[f14] * scale) << (13 - 8);
 
-            phase_inc_32[i] += (op.osc_detune - 7) << 14;
+            init_phase_inc_32[i] += (op.osc_detune - 7) << 14;
+
+            phase_inc_32[i] = init_phase_inc_32[i] + pitch_bend;
          }
       }
    }
@@ -167,7 +169,7 @@ protected:
       return sum_15 << 1;
    }
 
-private:
+protected:
    uint8_t  fbl {0};
 
    uint32_t phase_accum_32[6] = {0};
@@ -180,7 +182,8 @@ private:
 
    EnvGen   egs_amp[6];
 
-protected:
+   uint32_t init_phase_inc_32[6] = {0};
+   int16_t  pitch_bend {0};
    EnvGen   egs_pitch;
    SysEx    sysex;
 };

@@ -130,8 +130,6 @@ int MTL_main()
 
 #if 0
       puts("\033[H");
-      printf("picoX7\n");
-
       printf("FLASH: %2u%%   ", usage.getFLASHUsage());
       printf("RAM: %2u%%   ", usage.getRAMUsage());
       printf("CPU: %2u%%\n", usage.getCPUUsage());
