@@ -1,5 +1,7 @@
 # picoX7
 
+![picox7](docs/picoX7.png)
+
 Retro FM synthesiser simulation using the Raspberry Pi Pico
 
 ## Description
