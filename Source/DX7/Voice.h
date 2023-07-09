@@ -23,6 +23,7 @@
 #pragma once
 
 #include "OpsAlg.h"
+#include "Lfo.h"
 #include "SysEx.h"
 
 class Voice : public OpsAlg
@@ -37,6 +38,58 @@ public:
       if (isComplete())
       {
          setMute();
+      }
+
+      lfo.tick();
+   }
+
+   //! Start a new note
+   void gateOn() override
+   {
+      unsigned n14 = ((getNote() + 5) * 1024 + 400) / 12;
+
+      for(unsigned i = 0; i < 6; ++i)
+      {
+         SysEx::Op& op = sysex.op[5 - i];
+
+         egs_amp[i].gateOn();
+
+         if (sysex.osc_sync)
+         {
+            phase_accum_32[i] = 0;
+         }
+
+         if (op.osc_mode == SysEx::Op::FIXED)
+         {
+         }
+         else
+         {
+            unsigned scale;
+
+            if (op.osc_freq_coarse == 0)
+            {
+               scale = (100 + op.osc_freq_fine) * 128 / 100;
+            }
+            else
+            {
+               scale = op.osc_freq_coarse * (100 + op.osc_freq_fine) * 256 / 100;
+            }
+
+            init_phase_inc_32[i] = (table_dx7_exp_22[n14] * scale) << (13 - 8);
+
+            init_phase_inc_32[i] += (op.osc_detune - 7) << 14;
+
+            phase_inc_32[i] = init_phase_inc_32[i] + pitch_bend;
+         }
+      }
+   }
+
+   //! Release a new note
+   void gateOff() override
+   {
+      for(unsigned i = 0; i < 6; ++i)
+      {
+         egs_amp[i].gateOff();
       }
    }
 
@@ -77,4 +130,5 @@ public:
 
 private:
    bool debug{false};
+   Lfo  lfo;
 };
