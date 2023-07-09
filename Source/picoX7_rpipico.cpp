@@ -37,7 +37,7 @@
 
 
 static const unsigned SAMPLE_RATE = 49100;                   // DAC sample rate (Hz)
-static const unsigned TICK_RATE   = 100;                     // (Hz)
+static const unsigned TICK_RATE   = 375;                     // 6800 firmware tick (375 Hz)
 static const unsigned BUFFER_SIZE = SAMPLE_RATE / TICK_RATE; // DAC buffer size (samples)
 static const unsigned NUM_VOICES  = 4;                       // Polyphony
 

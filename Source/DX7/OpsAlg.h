@@ -31,7 +31,7 @@
 #include "EgsOps.h"
 
 //! Implement the 32 DX7 OP algorithms
-class OpsAlg : public EgsOps
+class OpsAlg : public EgsOps</* NUM_OP */ 6>
 {
 public:
    OpsAlg() = default;
@@ -39,17 +39,15 @@ public:
    //! Return next sample for the selected algorithm
    int32_t operator()()
    {
-      (void) egs_pitch();
       return ((*this).*alg_ptr)();
    }
 
-protected:
    //! Select the algorithm
-   void prog()
+   void prog(const SysEx* sysex)
    {
-      EgsOps::prog();
+      EgsOps::prog(sysex);
 
-      switch (sysex.alg + 1)
+      switch (sysex->alg + 1)
       {
       case  1: alg_ptr = &OpsAlg::alg1;  break;
       case  2: alg_ptr = &OpsAlg::alg2;  break;

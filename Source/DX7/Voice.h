@@ -26,16 +26,34 @@
 #include "Lfo.h"
 #include "SysEx.h"
 
-class Voice : public OpsAlg
+#include "Table_dx7_exp_22.h"
+
+class Voice : public VoiceBase
 {
 public:
    Voice() = default;
 
    void setDebug(bool debug_) { debug = debug_; }
 
+   void loadProgram(uint8_t number, const SysEx* ptr)
+   {
+      sysex = *ptr;
+
+      if (debug)
+      {
+         printf("\nPROG %2u \n", number + 1);
+
+         ptr->print();
+      }
+
+      pitch_env.prog(ptr->eg_pitch, 99);
+
+      egs_ops.prog(ptr);
+   }
+
    void tick()
    {
-      if (isComplete())
+      if (egs_ops.isComplete())
       {
          setMute();
       }
@@ -46,18 +64,12 @@ public:
    //! Start a new note
    void gateOn() override
    {
-      unsigned n14 = ((getNote() + 5) * 1024 + 400) / 12;
+      // Compute note value (1-octave is 1024)
+      unsigned n14 = (getNote() * 1024 / 12) + tune;
 
       for(unsigned i = 0; i < 6; ++i)
       {
          SysEx::Op& op = sysex.op[5 - i];
-
-         egs_amp[i].gateOn();
-
-         if (sysex.osc_sync)
-         {
-            phase_accum_32[i] = 0;
-         }
 
          if (op.osc_mode == SysEx::Op::FIXED)
          {
@@ -79,18 +91,17 @@ public:
 
             init_phase_inc_32[i] += (op.osc_detune - 7) << 14;
 
-            phase_inc_32[i] = init_phase_inc_32[i] + pitch_bend;
+            egs_ops.setFreq(i, init_phase_inc_32[i] + pitch_bend);
          }
       }
+
+      egs_ops.keyOn();
    }
 
    //! Release a new note
    void gateOff() override
    {
-      for(unsigned i = 0; i < 6; ++i)
-      {
-         egs_amp[i].gateOff();
-      }
+      egs_ops.keyOff();
    }
 
    void setLevel(uint8_t value) override
@@ -110,25 +121,23 @@ public:
 
       for(unsigned i = 0; i < 6; ++i)
       {
-         phase_inc_32[i] = init_phase_inc_32[i] + pitch_bend;
+         egs_ops.setFreq(i, init_phase_inc_32[i] + pitch_bend);
       }
    }
 
-   void loadProgram(uint8_t number, const SysEx* ptr)
+   //! Return next sample for this voice
+   int32_t operator()()
    {
-      sysex = *ptr;
-
-      if (debug)
-      {
-         printf("\nPROG %2u \n", number + 1);
-
-         sysex.print();
-      }
-
-      OpsAlg::prog();
-   }
+      return egs_ops();
+   } 
 
 private:
-   bool debug{false};
-   Lfo  lfo;
+   bool     debug{false};
+   unsigned tune {460};             // A4 is close 440 Hz TODO re-check
+   int16_t  pitch_bend {0};
+   uint32_t init_phase_inc_32[6] = {0};
+   EnvGen   pitch_env;
+   Lfo      lfo;
+   OpsAlg   egs_ops;
+   SysEx    sysex;
 };

@@ -24,55 +24,83 @@
 
 #include "VoiceBase.h"
 
-#include "Table_dx7_exp_14.h"
-#include "Table_dx7_exp_22.h"
 #include "Table_dx7_sine_15.h"
 #include "Table_dx7_sine_div3_15.h"
 #include "Table_dx7_sine_div5_15.h"
 
 #include "EnvGen.h"
 
-//! Model of YM21280 OPS and YM21290 EGS
-class EgsOps : public VoiceBase
+//! Model of Yamaha OPS and EGS
+template <unsigned NUM_OP>
+class EgsOps
 {
 public:
    EgsOps() = default;
 
    //! Check if all amplitude envelopes are at L4
+   //! NOTE: This is not functionality performed by a real DX
    bool isComplete() const
    {
-      for(unsigned i = 0; i < 6; ++i)
+      for(unsigned i = 0; i < NUM_OP; ++i)
       {
-         if (not egs_amp[i].isComplete())
+         if (not egs[i].isComplete())
             return false;
       }
 
       return true;
    }
 
-protected:
-   //! Re-program voice from SysEx
-   void prog()
+   //! Re-program voice from packed SysEx
+   void prog(const SysEx* sysex)
    {
-      for(unsigned i = 0; i < 6; i++)
+      for(unsigned i = 0; i < NUM_OP; i++)
       {
-         const SysEx::Op& op = sysex.op[5 - i];
+         const SysEx::Op& op = sysex->op[5 - i];
 
-         egs_amp[i].prog(op.eg_amp, op.out_level);
+         egs[i].prog(op.eg_amp, op.out_level);
       }
 
-      egs_pitch.prog(sysex.eg_pitch, 99);
-
-      fbl = (7 - sysex.feedback) + 4;
+      fbl     = (7 - sysex->feedback) + 4;
+      op_sync = sysex->osc_sync;
    }
 
+   //! Start of note
+   void keyOn()
+   {
+      for(unsigned i = 0; i < NUM_OP; ++i)
+      {
+         if (op_sync)
+         {
+            phase_accum_32[i] = 0;
+         }
+
+         egs[i].gateOn();
+      }
+   }
+
+   //! Release of note
+   void keyOff()
+   {
+      for(unsigned i = 0; i < NUM_OP; ++i)
+      {
+         egs[i].gateOff();
+      }
+   }
+
+   //! Set operator frequency
+   void setFreq(unsigned i, uint32_t f14)
+   {
+      phase_inc_32[i] = f14;
+   }
+
+protected:
    //! Simulate a single operator (and associated envelope generator)
    template <unsigned OP, unsigned SEL, bool A, bool C, bool D, unsigned COM>
    int32_t ops()
    {
       const unsigned i = OP - 1;
 
-      int32_t amp_14 = egs_amp[i]();
+      int32_t amp_14 = egs[i]();
 
       phase_accum_32[i] += phase_inc_32[i];
 
@@ -119,21 +147,19 @@ protected:
       return sum_15 << 1;
    }
 
-protected:
+private:
+   // OPS state
    uint8_t  fbl {0};
+   bool     op_sync {true};
 
-   uint32_t phase_accum_32[6] = {0};
-   uint32_t phase_inc_32[6]   = {0};
+   uint32_t phase_accum_32[NUM_OP] = {0};
+   uint32_t phase_inc_32[NUM_OP]   = {0};
 
    int32_t  modulation_12 {0};
    int32_t  feedback1_15 {0};
    int32_t  feedback2_15 {0};
    int32_t  memory_15 {0};
 
-   EnvGen   egs_amp[6];
-
-   uint32_t init_phase_inc_32[6] = {0};
-   int16_t  pitch_bend {0};
-   EnvGen   egs_pitch;
-   SysEx    sysex;
+   // EGS state
+   EnvGen   egs[NUM_OP];
 };
