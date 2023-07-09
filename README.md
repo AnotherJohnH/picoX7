@@ -7,7 +7,7 @@ Retro FM synthesiser simulation using the Raspberry Pi Pico
 ## Description
 
 A software simulation of the Yamaha DX7 with a MIDI interface for
-the Raspberry Pi Pico.
+the Raspberry Pi Pico
 
 ## Software dependencies
 
@@ -79,7 +79,7 @@ To do, (at least)...
 Limitations...
    + DAC implementation is quite different to the original. Suspect dynamic range is reduced.
    + Sample frequency 49100 Hz (not 49096 Hz)
-   + MC6800 CPU controller and firmware is not being emulated
+   + Hitachi 6303 (~MC6803) CPU controller and firmware is not being emulated
    + not using logs for sine amplitude modulation in the OPS => almost certainly not bit accurate
    + 4 voices (not 16!) - Running on just one arm core at ~65% CPU usage
 
