@@ -117,7 +117,8 @@ Flashable image will be found under the build sub directory here...
 
 ## Thanks and acknowledgements
 
- + Ken Shirriff for his very helpful YM21280 reverse engineering series of [blogs](https://www.righto.com/2021/11/reverse-engineering-yamaha-dx7.html)
+ + [Ken Shirriff](https://github.com/shirriff) for his very helpful YM21280 reverse engineering series of [blogs](https://www.righto.com/2021/11/reverse-engineering-yamaha-dx7.html)
+ + [AJXS](https://github.com/ajxs) for their annotated [disassembly](https://ajxs.me/blog/Yamaha_DX7_Firmware_ROM_Disassembly.html) of the DX7 firmware ROM
  + The [Dexed](https://asb2m10.github.io/dexed) developers for providing an easily accessible DX7 audio reference
  + The raspberry-pi foundation for the innovative [RP2040](https://www.raspberrypi.com/documentation/microcontrollers/rp2040.html)
  + The engineers at [Yamaha](https://www.yamaha.com/en/ir/publications/pdf/an-2022-point01e.pdf)
