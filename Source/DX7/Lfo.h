@@ -185,7 +185,7 @@ public:
    }
 
    //! Start of note
-   void gateOn()
+   void keyOn()
    {
       delay_counter        = 0;
       fade_in_scale_factor = 0;

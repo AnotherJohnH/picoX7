@@ -96,6 +96,7 @@ public:
       }
 
       egs_ops.keyOn();
+      lfo.keyOn();
    }
 
    //! Release a new note

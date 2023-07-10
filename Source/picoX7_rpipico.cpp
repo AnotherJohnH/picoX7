@@ -71,16 +71,14 @@ private:
    MTL::Uart1 uart{31250, 8, MTL::UART::NONE, 1};
 };
 
+//! Select a system clock with clean division to 49.1 KHz
+namespace MTL { Clocks::SysFreq clocks_sys_freq = Clocks::SYS_FREQ_137_48_MHZ; }
 
 static Usage             usage {};
 static Synth<NUM_VOICES> synth {};
 
-
-//! Select a system clock with clean division to 49.1 KHz
-namespace MTL { Clocks::SysFreq clocks_sys_freq = Clocks::SYS_FREQ_137_48_MHZ; }
-
 //! 49.1 KHz I2S DAC, with pinout for Waveshare Pico-Audio
-//  buffer size to give a 100 Hz tick
+//  buffer sized to give a 375 Hz tick
 static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {SAMPLE_RATE,
                                                    MTL::PIN_31,  // MCLK
                                                    MTL::PIN_29,  // SD
@@ -98,6 +96,7 @@ void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
    {
       int16_t sample = synth();
 
+      // Same 16-nit sample to left and right audio streams
       buffer[i] = (sample << 16) | (sample & 0xFFFF);
    }
 
@@ -116,12 +115,12 @@ int MTL_main()
    printf("Compiler : %s\n", __VERSION__);
    printf("\n");
 
+   MidiIn0 midi_in0 {synth};
+   MidiIn1 midi_in1 {synth};
+
    synth.programChange(0, 0);
 
    audio.start();
-
-   MidiIn0 midi_in0 {synth};
-   MidiIn1 midi_in1 {synth};
 
    while(true)
    {

@@ -31,11 +31,10 @@
 #include "PLT/Audio.h"
 #include "PLT/Event.h"
 
-
-static const unsigned SAMPLE_FREQ = 48000;
+static const unsigned SAMPLE_FREQ = 48000;                   // DAC sample rate
 static const unsigned NUM_VOICES  = 8;                       // Polyphony
 
-
+//! Fake MIDI in with hard coded messages
 class MidiIn : public MIDI::Interface
 {
 public:
@@ -55,20 +54,20 @@ private:
    };
 };
 
-
 static Synth<NUM_VOICES> synth {};
-static MidiIn            midi_in {synth};
 
-class Monitor : public PLT::Audio::Out
+class Audio : public PLT::Audio::Out
 {
 public:
-   Monitor()
+   Audio()
       : PLT::Audio::Out(SAMPLE_FREQ, PLT::Audio::Format::SINT16, /* channels */ 2)
    {}
 
 private:
    void getSamples(int16_t* buffer, unsigned n) override
    {
+      synth.tick();
+
       for(unsigned i = 0; i < n; i += 2)
       {
          buffer[i + 1] = buffer[i] = synth();
@@ -76,6 +75,7 @@ private:
    }
 };
 
+static Audio audio;
 
 int main()
 {
@@ -88,11 +88,11 @@ int main()
    printf("Compiler : %s\n", __VERSION__);
    printf("\n");
 
+   MidiIn midi_in {synth};
+
    synth.programChange(0, 0);
 
-   Monitor monitor;
-
-   monitor.setEnable(true);
+   audio.setEnable(true);
 
    midi_in.tick();
 
