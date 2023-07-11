@@ -51,65 +51,11 @@ struct EnvGen
    uint8_t level[4] = {99, 99, 99,  0};  // 0..99
 };
 
+//! Packed voice parameters
 struct Packed
 {
-   void print() const
-   {
-      printf("\"");
-      for(unsigned i = 0; i < NAME_LEN; i++)
-         putchar(name[i]);
-      printf("\" ALG %u FBK %u\n", alg + 1, feedback);
-
-      printf("    L1:R1 L2:R2 L3:R3 L4:R4 OUT FREQ DET\n");
-      printf("------------------------------------------------\n");
-
-      for(unsigned i = 0; i < 6; ++i)
-      {
-         op[5 - i].print(i + 1);
-      }
-
-      printf("PCH ");
-      for(unsigned i = 0; i < 4; i++)
-      {
-          printf("%02u:%02u ", eg_pitch.level[i], eg_pitch.rate[i]);
-      }
-      printf("\n");
-      printf("\n");
-   }
-
    struct Op
    {
-      void print(unsigned n) const
-      {
-         printf("OP%u ", n);
-
-         for(unsigned i = 0; i < 4; i++)
-         {
-            printf("%02u:%02u ", eg_amp.level[i], eg_amp.rate[i]);
-         }
-
-         printf("%02u ", out_level);
-
-         if (osc_mode == RATIO)
-         {
-            if (osc_freq_coarse == 0)
-            {
-               printf("R00.%02u", 50 + (osc_freq_fine / 2));
-            }
-            else
-            {
-               printf("R%02u.%02u", osc_freq_coarse, osc_freq_fine);
-            }
-         }
-         else
-         {
-            printf("F%02u.%02u", osc_freq_coarse, osc_freq_fine);
-         }
-
-         printf(" %2d", osc_detune - 7);
-         printf("\n");
-      }
-
       EnvGen   eg_amp{};
       uint8_t  kbd_lvl_scl_bpt;                 // 0..99  C3 = 39
       uint8_t  kbd_lvl_scl_lft_depth;           // 0..99
@@ -210,6 +156,8 @@ struct Op
 {
    Op() = default;
 
+   void print(unsigned n) const;
+
    void operator=(const Packed::Op& packed)
    {
       eg_amp                = packed.eg_amp;
@@ -262,6 +210,8 @@ struct Voice
 {
    Voice() = default;
 
+   void print() const;
+
    //! Copy in a packed SysEx voice
    void operator=(const Packed& packed)
    {
@@ -296,5 +246,61 @@ struct Voice
    uint8_t transpose {0};       // 0-48     12 = C2
    uint8_t name[NAME_LEN];
 };
+
+void Op::print(unsigned n) const
+{
+   printf("OP%u ", n);
+
+   for(unsigned i = 0; i < 4; i++)
+   {
+      printf("%02u:%02u ", eg_amp.level[i], eg_amp.rate[i]);
+   }
+
+   printf("%02u ", out_level);
+
+   if (osc_mode == RATIO)
+   {
+      if (osc_freq_coarse == 0)
+      {
+         printf("R00.%02u", 50 + (osc_freq_fine / 2));
+      }
+      else
+      {
+         printf("R%02u.%02u", osc_freq_coarse, osc_freq_fine);
+      }
+   }
+   else
+   {
+      printf("F%02u.%02u", osc_freq_coarse, osc_freq_fine);
+   }
+
+   printf(" %2d", osc_detune - 7);
+
+   printf("\n");
+}
+
+void Voice::print() const
+{
+   printf("\"");
+   for(unsigned i = 0; i < NAME_LEN; i++)
+      putchar(name[i]);
+   printf("\" ALG %u FBK %u\n", alg + 1, feedback);
+
+   printf("    L1:R1 L2:R2 L3:R3 L4:R4 OUT FREQ DET\n");
+   printf("------------------------------------------------\n");
+
+   for(unsigned i = 0; i < 6; ++i)
+   {
+      op[5 - i].print(i + 1);
+   }
+
+   printf("PCH ");
+   for(unsigned i = 0; i < 4; i++)
+   {
+       printf("%02u:%02u ", eg_pitch.level[i], eg_pitch.rate[i]);
+   }
+   printf("\n");
+   printf("\n");
+}
 
 } // namespace SysEx

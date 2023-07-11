@@ -27,16 +27,6 @@
 //! DX7 LFO
 class Lfo
 {
-   enum Wave : uint8_t
-   {
-      TRIANGLE = 0,
-      SAW_DOWN = 1,
-      SAW_UP   = 2,
-      SQUARE   = 3,
-      SINE     = 4,
-      S_AND_H  = 5
-   };
-
 public:
    Lfo() = default;
 
@@ -78,7 +68,7 @@ public:
 
       sync = sysex->lfo_sync;
 
-      wave = Wave(sysex->lfo_waveform);
+      wave = sysex->lfo_waveform;
 
       // Scale 0..99 to full scale 8-bit e.g. 0..255
       amp_mod_depth = (sysex->lfo_amp_mod_depth * 660) >> 8;
@@ -138,7 +128,7 @@ public:
 
       switch(wave)
       {
-      case TRIANGLE:
+      case SysEx::TRIANGLE:
          output = phase_accum >> 7;
          if (phase_accum < 0)
          {
@@ -147,19 +137,19 @@ public:
          output += 128; 
          break; 
    
-      case SAW_DOWN:
+      case SysEx::SAW_DOWN:
          output = ~(phase_accum >> 8);
          break; 
    
-      case SAW_UP:
+      case SysEx::SAW_UP:
          output = phase_accum >> 8;
          break;
    
-      case SQUARE:
+      case SysEx::SQUARE:
          output = phase_accum < 0 ? 127 : -128;
          break;
    
-      case SINE:
+      case SysEx::SINE:
          {
             uint8_t index = (phase_accum >> 8) & 63;
             if (phase_accum & 0x4000)
@@ -174,7 +164,7 @@ public:
          }
          break;
 
-      case S_AND_H:
+      case SysEx::SAMPLE_AND_HOLD:
          if ((phase_accum - MIN_PHASE) < phase_inc)
          {
             rand_state = rand_state * 179 + 17;
@@ -209,13 +199,13 @@ private:
    static const Phase MIN_PHASE = -0x8000;
 
    // Configuration
-   uint16_t delay_increment {0};
-   uint16_t phase_inc {0};
-   bool     sync {false};
-   Wave     wave {TRIANGLE};
-   uint8_t  amp_mod_depth {0};
-   uint8_t  pitch_mod_depth {0};
-   uint8_t  pitch_mod_sense {0};
+   uint16_t        delay_increment {0};
+   uint16_t        phase_inc {0};
+   bool            sync {false};
+   SysEx::LfoWave  wave {SysEx::TRIANGLE};
+   uint8_t         amp_mod_depth {0};
+   uint8_t         pitch_mod_depth {0};
+   uint8_t         pitch_mod_sense {0};
 
    // State
    uint32_t delay_counter {0};

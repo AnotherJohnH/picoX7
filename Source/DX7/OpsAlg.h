@@ -43,7 +43,7 @@ public:
    }
 
    //! Select the algorithm
-   void prog(const SysEx::Packed* sysex)
+   void prog(const SysEx::Voice* sysex)
    {
       EgsOps::prog(sysex);
 

@@ -35,20 +35,20 @@ public:
 
    void setDebug(bool debug_) { debug = debug_; }
 
-   void loadProgram(uint8_t number, const SysEx::Packed* ptr)
+   void loadProgram(uint8_t number, const SysEx::Voice* voice)
    {
-      sysex = *ptr;
+      sysex = *voice;
 
       if (debug)
       {
          printf("\nPROG %2u \n", number + 1);
 
-         ptr->print();
+         voice->print();
       }
 
-      pitch_env.prog(ptr->eg_pitch, 99);
+      pitch_env.prog(voice->eg_pitch, 99);
 
-      egs_ops.prog(ptr);
+      egs_ops.prog(voice);
    }
 
    void tick()
@@ -69,7 +69,7 @@ public:
 
       for(unsigned i = 0; i < 6; ++i)
       {
-         SysEx::Packed::Op& op = sysex.op[5 - i];
+         SysEx::Op& op = sysex.op[5 - i];
 
          if (op.osc_mode == SysEx::FIXED)
          {
@@ -140,5 +140,5 @@ private:
    EnvGen        pitch_env;
    Lfo           lfo;
    OpsAlg        egs_ops;
-   SysEx::Packed sysex;
+   SysEx::Voice  sysex;
 };

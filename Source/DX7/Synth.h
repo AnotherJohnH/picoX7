@@ -52,12 +52,12 @@ public:
          if ((id      == ID_YAMAHA) &&
              (type    == TYPE_VOICE) &&
              (channel == 0) &&
-             (size    == 0x80) &&
+             (size    == sizeof(SysEx::Voice)) &&
              (size    == index))
          {
             for(unsigned i = 0; i < N; ++i)
             {
-               this->voice[i].loadProgram(0, (const SysEx::Packed*)buffer);
+               this->voice[i].loadProgram(0, &edit);
             }
 
             printf("OK\n");
@@ -78,7 +78,7 @@ public:
          case 4: size    = size | byte; index = 0; ++state; break;
 
          case 5:
-            if (index < sizeof(buffer))
+            if (index < sizeof(SysEx::Voice))
             {
                if ((index % 8) == 0)
                   printf("\n%02X : ", index);
@@ -104,11 +104,15 @@ private:
       case 3:  memory = (const SysEx::Packed*) table_dx7_rom_4; break;
       }
 
-      this->voice[index_].loadProgram(number_, &memory[number_ & 0x1F]);
+      edit = memory[number_ & 0x1F];
+
+      this->voice[index_].loadProgram(number_, &edit);
    }
 
    const uint8_t ID_YAMAHA  = 0x43;
    const uint8_t TYPE_VOICE = 0x00;
+
+   SysEx::Voice edit;
 
    uint8_t  state{0};
    uint8_t  id{};
@@ -116,5 +120,5 @@ private:
    uint8_t  channel{};
    uint16_t size{};
    uint8_t  index{0};
-   uint8_t  buffer[128];
+   uint8_t* buffer {(uint8_t*)&edit};
 };

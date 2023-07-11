@@ -50,12 +50,12 @@ public:
       return true;
    }
 
-   //! Re-program voice from packed SysExPacked
-   void prog(const SysEx::Packed* sysex)
+   //! Re-program voice from SysEx
+   void prog(const SysEx::Voice* sysex)
    {
       for(unsigned i = 0; i < NUM_OP; i++)
       {
-         const SysEx::Packed::Op& op = sysex->op[5 - i];
+         const SysEx::Op& op = sysex->op[5 - i];
 
          egs[i].prog(op.eg_amp, op.out_level);
       }
