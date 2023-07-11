@@ -176,20 +176,20 @@ struct Op
       osc_detune            = packed.osc_detune;
    }
 
-   EnvGen     eg_amp;
-   uint8_t    kbd_lvl_scl_bpt;        // 0-99  C3 = 39
-   uint8_t    kbd_lvl_scl_lft_depth;  // 0-99
-   uint8_t    kbd_lvl_scl_rgt_depth;  // 0-99
-   ScaleCurve kbd_lvl_scl_lft_curve;  // 0-3
-   ScaleCurve kbd_lvl_scl_rgt_curve;  // 0-3
-   uint8_t    kbd_rate_scale;         // 0-7
-   uint8_t    amp_mod_sense;          // 0-3
-   uint8_t    key_vel_sense;          // 0-7
-   uint8_t    out_level;              // 0-99
-   OscMode    osc_mode;               // 0-1
-   uint8_t    osc_freq_coarse;        // 0-31
-   uint8_t    osc_freq_fine;          // 0-99
-   uint8_t    osc_detune;             // 0-14   0 is -7
+   EnvGen     eg_amp {};
+   uint8_t    kbd_lvl_scl_bpt {};        // 0-99  C3 = 39
+   uint8_t    kbd_lvl_scl_lft_depth {};  // 0-99
+   uint8_t    kbd_lvl_scl_rgt_depth {};  // 0-99
+   ScaleCurve kbd_lvl_scl_lft_curve {};  // 0-3
+   ScaleCurve kbd_lvl_scl_rgt_curve {};  // 0-3
+   uint8_t    kbd_rate_scale {0};        // 0-7
+   uint8_t    amp_mod_sense {0};         // 0-3
+   uint8_t    key_vel_sense {0};         // 0-7
+   uint8_t    out_level {99};            // 0-99
+   OscMode    osc_mode {RATIO};          // 0-1
+   uint8_t    osc_freq_coarse {1};       // 0-31
+   uint8_t    osc_freq_fine {0};         // 0-99
+   uint8_t    osc_detune {7};            // 0-14   0 is -7
 };
 
 //! LFO parameters

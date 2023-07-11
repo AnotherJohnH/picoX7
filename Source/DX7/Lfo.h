@@ -30,12 +30,12 @@ class Lfo
 public:
    Lfo() = default;
 
-   //! Configure from SysExPacked program
-   void prog(const SysEx::Packed* sysex)
+   //! Configure from SysEx program
+   void prog(const SysEx::Lfo& sysex)
    {
       // Compute LFO delay increment from LFO delay
       // Invert 0..99 => 99..0
-      uint8_t  value   = 99 - sysex->lfo_delay;
+      uint8_t  value   = 99 - sysex.delay;
 
       // Treat as an 7-bit floating point value _EEEMMMM
       uint8_t  exp     = 7 - (value >> 4);
@@ -44,7 +44,7 @@ public:
       delay_increment = mantisa >> exp;
 
       // Compute LFO phase increment from LFO speed
-      if (sysex->lfo_speed == 0)
+      if (sysex.speed == 0)
       {
          // LFO speed 0 => 11
          phase_inc = 11;
@@ -52,7 +52,7 @@ public:
       else
       {
          // Scale 0..99 to full scale 8-bit e.g. 0..255
-         uint8_t scaled_speed = (sysex->lfo_speed * 660) >> 8;
+         uint8_t scaled_speed = (sysex.speed * 660) >> 8;
 
          if (scaled_speed < 160)
          {
@@ -66,18 +66,18 @@ public:
          }
       }
 
-      sync = sysex->lfo_sync;
+      sync = sysex.sync;
 
-      wave = sysex->lfo_waveform;
+      wave = sysex.waveform;
 
       // Scale 0..99 to full scale 8-bit e.g. 0..255
-      amp_mod_depth = (sysex->lfo_amp_mod_depth * 660) >> 8;
+      amp_mod_depth = (sysex.amp_mod_depth * 660) >> 8;
          
       // Scale 0..99 to full scale 8-bit e.g. 0..255
-      pitch_mod_depth = (sysex->lfo_pitch_mod_depth * 660) >> 8;
+      pitch_mod_depth = (sysex.pitch_mod_depth * 660) >> 8;
                                                           
-      static const uint8_t pitch_mod_sense_table[8] = {0, 10, 20, 33, 55, 92, 153, 255};
-      pitch_mod_sense = pitch_mod_sense_table[sysex->pitch_mod_sense];
+      //static const uint8_t pitch_mod_sense_table[8] = {0, 10, 20, 33, 55, 92, 153, 255};
+      //pitch_mod_sense = pitch_mod_sense_table[sysex->pitch_mod_sense];
    }
 
    //! Step the LFO and return current output (should be called at 375 Hz)
@@ -205,7 +205,6 @@ private:
    SysEx::LfoWave  wave {SysEx::TRIANGLE};
    uint8_t         amp_mod_depth {0};
    uint8_t         pitch_mod_depth {0};
-   uint8_t         pitch_mod_sense {0};
 
    // State
    uint32_t delay_counter {0};

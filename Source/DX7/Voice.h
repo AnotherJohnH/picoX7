@@ -46,6 +46,8 @@ public:
          voice->print();
       }
 
+      lfo.prog(voice->lfo);
+
       pitch_env.prog(voice->eg_pitch, 99);
 
       egs_ops.prog(voice);
