@@ -35,7 +35,7 @@ public:
 
    void setDebug(bool debug_) { debug = debug_; }
 
-   void loadProgram(uint8_t number, const SysEx* ptr)
+   void loadProgram(uint8_t number, const SysEx::Packed* ptr)
    {
       sysex = *ptr;
 
@@ -69,9 +69,9 @@ public:
 
       for(unsigned i = 0; i < 6; ++i)
       {
-         SysEx::Op& op = sysex.op[5 - i];
+         SysEx::Packed::Op& op = sysex.op[5 - i];
 
-         if (op.osc_mode == SysEx::Op::FIXED)
+         if (op.osc_mode == SysEx::FIXED)
          {
          }
          else
@@ -133,12 +133,12 @@ public:
    } 
 
 private:
-   bool     debug{false};
-   unsigned tune {460};             // A4 is close 440 Hz TODO re-check
-   int16_t  pitch_bend {0};
-   uint32_t init_phase_inc_32[6] = {0};
-   EnvGen   pitch_env;
-   Lfo      lfo;
-   OpsAlg   egs_ops;
-   SysEx    sysex;
+   bool          debug{false};
+   unsigned      tune {460};             // A4 is close 440 Hz TODO re-check
+   int16_t       pitch_bend {0};
+   uint32_t      init_phase_inc_32[6] = {0};
+   EnvGen        pitch_env;
+   Lfo           lfo;
+   OpsAlg        egs_ops;
+   SysEx::Packed sysex;
 };

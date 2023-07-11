@@ -44,7 +44,7 @@ public:
    bool isComplete() const { return phase == COMPLETE; }
 
    //! Program the level and rate
-   void prog(const SysEx::Envelope& env, uint8_t out_level)
+   void prog(const SysEx::EnvGen& env, uint8_t out_level)
    {
       for(unsigned i = 0; i < 4; i++)
       {

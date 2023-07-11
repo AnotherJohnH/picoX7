@@ -23,8 +23,35 @@
 #pragma once
 
 #include <cstdio>
+#include <cstdint>
+#include <cstring>
 
-struct SysEx
+namespace SysEx {
+
+static const unsigned NUM_OP   = 6;
+static const unsigned NAME_LEN = 10;
+
+enum ScaleCurve : uint8_t { NEG_LIN = 0, NEG_EXP = 1, POS_EXP = 2, POS_LIN = 3 };
+enum OscMode    : uint8_t { RATIO = 0, FIXED = 1 };
+
+enum LfoWave : uint8_t
+{
+   TRIANGLE        = 0,
+   SAW_DOWN        = 1,
+   SAW_UP          = 2,
+   SQUARE          = 3,
+   SINE            = 4,
+   SAMPLE_AND_HOLD = 5
+};
+
+//! Envelope generator parameters
+struct EnvGen
+{
+   uint8_t rate[4]  = {99, 99, 99, 99};  // 0..99
+   uint8_t level[4] = {99, 99, 99,  0};  // 0..99
+};
+
+struct Packed
 {
    void print() const
    {
@@ -50,20 +77,8 @@ struct SysEx
       printf("\n");
    }
 
-   static const unsigned NUM_OP   = 6;
-   static const unsigned NAME_LEN = 10;
-
-   struct Envelope
-   {
-      uint8_t rate[4]  = {99, 99, 99, 99};        // 0..99
-      uint8_t level[4] = {99, 99, 99,  0};        // 0..99
-   };
-
    struct Op
    {
-      enum ScaleCurve : uint8_t { NEG_LIN = 0, NEG_EXP = 1, POS_EXP = 2, POS_LIN = 3 };
-      enum OscMode    : uint8_t { RATIO = 0, FIXED = 1 };
-
       void print(unsigned n) const
       {
          printf("OP%u ", n);
@@ -95,17 +110,17 @@ struct SysEx
          printf("\n");
       }
 
-      Envelope eg_amp{};
-      uint8_t  kbd_lev_scl_bpt;                 // 0..99  C3 = 39
-      uint8_t  kbd_lev_scl_lft_depth;           // 0..99
-      uint8_t  kbd_lev_scl_rgt_depth;           // 0..99
+      EnvGen   eg_amp{};
+      uint8_t  kbd_lvl_scl_bpt;                 // 0..99  C3 = 39
+      uint8_t  kbd_lvl_scl_lft_depth;           // 0..99
+      uint8_t  kbd_lvl_scl_rgt_depth;           // 0..99
 
       union
       {
          struct
          {
-            ScaleCurve kbd_scale_left_curve  : 2; // 0..3   -LIN, -EXP, +EXP, +LIN
-            ScaleCurve kbd_scale_right_curve : 2; // 0..3   -LIN, -EXP, +EXP, +LIN
+            ScaleCurve kbd_lvl_scl_lft_curve : 2; // 0..3   -LIN, -EXP, +EXP, +LIN
+            ScaleCurve kbd_lvl_scl_rgt_curve : 2; // 0..3   -LIN, -EXP, +EXP, +LIN
             uint8_t                          : 4;
          };
 
@@ -116,7 +131,7 @@ struct SysEx
       {
          struct
          {
-            uint8_t    rate_scale            : 3; //
+            uint8_t    kbd_rate_scale        : 3; //
             uint8_t    osc_detune            : 4; // 0..14 -7..+7
             uint8_t                          : 1;
          };
@@ -152,9 +167,9 @@ struct SysEx
       uint8_t    osc_freq_fine;                   // 0..99
    };
 
-   Op       op[NUM_OP];
-   Envelope eg_pitch;
-   uint8_t  alg;                                  // 0..31
+   Op      op[NUM_OP];
+   EnvGen  eg_pitch;
+   uint8_t alg;                                  // 0..31
 
    union
    {
@@ -177,10 +192,10 @@ struct SysEx
    {
       struct
       {
-         uint8_t lfo_sync            : 1;        // 0..1
-         uint8_t lfo_wave            : 3;        // 0..5   TR, SD, SU, SQ, SI, SH
-         uint8_t lfo_pitch_mod_sense : 3;        // 0..7
-         uint8_t                     : 1;
+         uint8_t lfo_sync        : 1;        // 0..1
+         LfoWave lfo_waveform    : 3;        // 0..5   TR, SD, SU, SQ, SI, SH
+         uint8_t pitch_mod_sense : 3;        // 0..7
+         uint8_t                 : 1;
       };
 
       uint8_t lfo_bits;
@@ -189,3 +204,97 @@ struct SysEx
    uint8_t transpose;                            // 0..48  12 = C2
    char    name[NAME_LEN];                       // ASCII
 };
+
+//! Operator parameters
+struct Op
+{
+   Op() = default;
+
+   void operator=(const Packed::Op& packed)
+   {
+      eg_amp                = packed.eg_amp;
+      kbd_lvl_scl_bpt       = packed.kbd_lvl_scl_bpt;
+      kbd_lvl_scl_lft_depth = packed.kbd_lvl_scl_lft_depth;
+      kbd_lvl_scl_rgt_depth = packed.kbd_lvl_scl_rgt_depth;
+      kbd_lvl_scl_lft_curve = packed.kbd_lvl_scl_lft_curve;
+      kbd_lvl_scl_rgt_curve = packed.kbd_lvl_scl_rgt_curve;
+      kbd_rate_scale        = packed.kbd_rate_scale;
+      amp_mod_sense         = packed.amp_mod_sense;
+      key_vel_sense         = packed.key_vel_sense;
+      out_level             = packed.out_level;
+      osc_mode              = packed.osc_mode;
+      osc_freq_coarse       = packed.osc_freq_coarse;
+      osc_freq_fine         = packed.osc_freq_fine;
+      osc_detune            = packed.osc_detune;
+   }
+
+   EnvGen     eg_amp;
+   uint8_t    kbd_lvl_scl_bpt;        // 0-99  C3 = 39
+   uint8_t    kbd_lvl_scl_lft_depth;  // 0-99
+   uint8_t    kbd_lvl_scl_rgt_depth;  // 0-99
+   ScaleCurve kbd_lvl_scl_lft_curve;  // 0-3
+   ScaleCurve kbd_lvl_scl_rgt_curve;  // 0-3
+   uint8_t    kbd_rate_scale;         // 0-7
+   uint8_t    amp_mod_sense;          // 0-3
+   uint8_t    key_vel_sense;          // 0-7
+   uint8_t    out_level;              // 0-99
+   OscMode    osc_mode;               // 0-1
+   uint8_t    osc_freq_coarse;        // 0-31
+   uint8_t    osc_freq_fine;          // 0-99
+   uint8_t    osc_detune;             // 0-14   0 is -7
+};
+
+//! LFO parameters
+struct Lfo
+{
+   Lfo() = default;
+
+   uint8_t speed {0};           // 0-99
+   uint8_t delay {0};           // 0-99
+   uint8_t pitch_mod_depth {0}; // 0-99
+   uint8_t amp_mod_depth {0};   // 0-99
+   uint8_t sync {1};            // 0-1
+   LfoWave waveform {TRIANGLE}; // 0-5
+};
+
+//! Voice parameters
+struct Voice
+{
+   Voice() = default;
+
+   //! Copy in a packed SysEx voice
+   void operator=(const Packed& packed)
+   {
+      for(unsigned i = 0; i < NUM_OP; ++i)
+      {
+         op[i] = packed.op[i];
+      }
+
+      eg_pitch            = packed.eg_pitch;
+      alg                 = packed.alg;
+      feedback            = packed.feedback;
+      osc_sync            = packed.osc_sync;
+      lfo.speed           = packed.lfo_speed;
+      lfo.delay           = packed.lfo_delay;
+      lfo.pitch_mod_depth = packed.lfo_pitch_mod_depth;
+      lfo.amp_mod_depth   = packed.lfo_amp_mod_depth;
+      lfo.sync            = packed.lfo_sync;
+      lfo.waveform        = packed.lfo_waveform;
+      pitch_mod_sense     = packed.pitch_mod_sense;
+      transpose           = packed.transpose;
+
+      memcpy(name, packed.name, NAME_LEN);
+   }
+
+   Op      op[NUM_OP];
+   EnvGen  eg_pitch {};
+   uint8_t alg {0};             // 0-31
+   uint8_t feedback {0};        // 0-7
+   uint8_t osc_sync {1};        // 0-1
+   Lfo     lfo {};
+   uint8_t pitch_mod_sense {0}; // 0-7
+   uint8_t transpose {0};       // 0-48     12 = C2
+   uint8_t name[NAME_LEN];
+};
+
+} // namespace SysEx

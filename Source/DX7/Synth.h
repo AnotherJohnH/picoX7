@@ -57,7 +57,7 @@ public:
          {
             for(unsigned i = 0; i < N; ++i)
             {
-               this->voice[i].loadProgram(0, (const SysEx*)buffer);
+               this->voice[i].loadProgram(0, (const SysEx::Packed*)buffer);
             }
 
             printf("OK\n");
@@ -94,14 +94,14 @@ public:
 private:
    void voiceProgram(unsigned index_, uint8_t number_) override
    {
-      const SysEx* memory;
+      const SysEx::Packed* memory;
 
       switch(number_ >> 5)
       {
-      case 0:  memory = (const SysEx*) table_dx7_rom_1; break;
-      case 1:  memory = (const SysEx*) table_dx7_rom_2; break;
-      case 2:  memory = (const SysEx*) table_dx7_rom_3; break;
-      case 3:  memory = (const SysEx*) table_dx7_rom_4; break;
+      case 0:  memory = (const SysEx::Packed*) table_dx7_rom_1; break;
+      case 1:  memory = (const SysEx::Packed*) table_dx7_rom_2; break;
+      case 2:  memory = (const SysEx::Packed*) table_dx7_rom_3; break;
+      case 3:  memory = (const SysEx::Packed*) table_dx7_rom_4; break;
       }
 
       this->voice[index_].loadProgram(number_, &memory[number_ & 0x1F]);
