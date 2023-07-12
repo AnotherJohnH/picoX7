@@ -21,6 +21,8 @@ Both Pico and native targets should build on MacOS or Linux.
 
 ## Hardware information
 
+![prototype](docs/picoX7_breadboard.jpg)
+
 + Currently building for an I2S DAC based around the Cirrus Logic CS4344 from WaveShare
 (see below)
 Works well but notice Cirrus Logic have discontinued this device. Should be easy to switch
