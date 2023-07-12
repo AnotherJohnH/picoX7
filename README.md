@@ -23,6 +23,8 @@ Both Pico and native targets should build on MacOS or Linux.
 
 ![prototype](docs/picoX7_breadboard.jpg)
 
+NOTE: The circuit shown above turned out to be slightly noisy on the audio side. Adding GND connections from pins 33 and 28 on the Pico to corresponding pins on the DAC module solved the issue. (obviously mounting the Pico onto the DAC module is also a solution)
+
 + Currently building for an I2S DAC based around the Cirrus Logic CS4344 from WaveShare
 (see below)
 Works well but notice Cirrus Logic have discontinued this device. Should be easy to switch
@@ -119,7 +121,7 @@ Flashable image will be found under the build sub directory here...
 
 ## Thanks and acknowledgements
 
- + [Ken Shirriff](https://github.com/shirriff) for his very helpful YM21280 reverse engineering series of [blogs](https://www.righto.com/2021/11/reverse-engineering-yamaha-dx7.html)
+ + [Ken Shirriff](https://github.com/shirriff) for his very helpful series of [blogs](https://www.righto.com/2021/11/reverse-engineering-yamaha-dx7.html) reverse engineering the YM21280
  + [AJXS](https://github.com/ajxs) for their annotated [disassembly](https://ajxs.me/blog/Yamaha_DX7_Firmware_ROM_Disassembly.html) of the DX7 firmware ROM
  + The [Dexed](https://asb2m10.github.io/dexed) developers for providing an easily accessible DX7 audio reference
  + The raspberry-pi foundation for the innovative [RP2040](https://www.raspberrypi.com/documentation/microcontrollers/rp2040.html)
