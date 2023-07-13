@@ -27,16 +27,16 @@ add_custom_command(
       ${CMAKE_COMMAND}
          -E env PYTHONPATH=${python_path}
          ${CMAKE_CURRENT_SOURCE_DIR}/AUTO.py
-             ${CMAKE_CURRENT_SOURCE_DIR}/rom1a.syx
-             ${CMAKE_CURRENT_SOURCE_DIR}/rom1b.syx
-             ${CMAKE_CURRENT_SOURCE_DIR}/rom2a.syx
-             ${CMAKE_CURRENT_SOURCE_DIR}/rom2b.syx
+             ${CMAKE_CURRENT_SOURCE_DIR}/cart/rom1a.syx
+             ${CMAKE_CURRENT_SOURCE_DIR}/cart/rom1b.syx
+             ${CMAKE_CURRENT_SOURCE_DIR}/cart/rom2a.syx
+             ${CMAKE_CURRENT_SOURCE_DIR}/cart/rom2b.syx
    DEPENDS
       ${CMAKE_CURRENT_SOURCE_DIR}/AUTO.py
-      ${CMAKE_CURRENT_SOURCE_DIR}/rom1a.syx
-      ${CMAKE_CURRENT_SOURCE_DIR}/rom1b.syx
-      ${CMAKE_CURRENT_SOURCE_DIR}/rom2a.syx
-      ${CMAKE_CURRENT_SOURCE_DIR}/rom2b.syx
+      ${CMAKE_CURRENT_SOURCE_DIR}/cart/rom1a.syx
+      ${CMAKE_CURRENT_SOURCE_DIR}/cart/rom1b.syx
+      ${CMAKE_CURRENT_SOURCE_DIR}/cart/rom2a.syx
+      ${CMAKE_CURRENT_SOURCE_DIR}/cart/rom2b.syx
       ${python_path}/Table.py
    OUTPUT
       ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_exp_14.h
