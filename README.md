@@ -39,6 +39,7 @@ with a sample frequency of 49100 Hz
 |---|---|---|
 |1|UART-0|Debug console out (UART) TX|
 |2|UART-0|Extra MIDI IN (not MIDI baud rate)|
+|3|GND|UART GND|
 |6|UART-1|MIDI IN|
 |28|GND|DAC GND|
 |29|PIO|I2S DATA|
