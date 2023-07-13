@@ -23,7 +23,7 @@ Both Pico and native targets should build on MacOS or Linux.
 
 ![prototype](docs/picoX7_breadboard.jpg)
 
-NOTE: The circuit shown above turned out to be slightly noisy on the audio side. Adding GND connections from pins 33 and 28 on the Pico to corresponding pins on the DAC module solved the issue. (obviously mounting the Pico onto the DAC module is also a solution)
+**NOTE:** The circuit shown above turned out to be slightly noisy on the audio side. Adding GND connections from pins 33 and 28 on the Pico to corresponding pins on the DAC module solved the issue. (obviously mounting the Pico onto the DAC module is also a solution)
 
 + Currently building for an I2S DAC based around the Cirrus Logic CS4344 from WaveShare
 (see below)
@@ -40,10 +40,14 @@ with a sample frequency of 49100 Hz
 |1|UART-0|Debug console out (UART) TX|
 |2|UART-0|Extra MIDI IN (not MIDI baud rate)|
 |6|UART-1|MIDI IN|
+|28|GND|DAC GND|
 |29|PIO|I2S DATA|
 |31|PIO|MCLK (for I2S DAC chip)|
 |32|PIO|I2S LR CLK|
+|33|GND|DAC GND|
 |34|PIO|I2S DATA CLK|
+|38|GND|DAC GND|
+|39|VSYS|DAC VSYS|
 
 ### Components
 
