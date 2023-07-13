@@ -97,6 +97,10 @@ private:
       rise  = ampl < level;
       rate  = rise ? +R[phase]
                    : -R[phase];
+
+      if (rate > 0)
+         // Seems like attack needs to be 4 times faster
+         rate *= 4;
    }
 
    int32_t  ampl{0};     //!< Current amplitude
