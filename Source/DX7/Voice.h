@@ -75,6 +75,21 @@ public:
 
          if (op.osc_mode == SysEx::FIXED)
          {
+            unsigned f8;
+
+            switch(op.osc_freq_coarse & 0b11)
+            {
+            case 0b00: f8 =    1 << 8; break;
+            case 0b01: f8 =   10 << 8; break;
+            case 0b10: f8 =  100 << 8; break;
+            case 0b11: f8 = 1000 << 8; break;
+            }
+
+            // XXX The following is a kludged and wrong as the
+            //     the fine scaling is not linear
+            static const unsigned SAMPLE_RATE = 49100;
+            f8 += f8 * op.osc_freq_fine * 9 / 100;
+            egs_ops.setFreq(i, ((f8 << 14) / SAMPLE_RATE) << 10);
          }
          else
          {
