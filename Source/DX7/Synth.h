@@ -36,56 +36,126 @@ template <unsigned N>
 class Synth : public SynthBase<N,Voice>
 {
 public:
-   Synth() = default;
+   Synth()
+   {
+      // Load ROM 1 into the internal patch memory
+      memcpy(internal_patches, table_dx7_rom_1, sizeof(internal_patches));
+   }
 
+   //! Handle a SYSEX byte
    void sysEx(uint8_t byte) override
    {
       if (byte == 0xF0)
       {
-         printf("SYSEX START %u state", state);
+         printf("SYSEX START\n");
          state = 0;
       }
       else if (byte == 0xF7)
       {
-         printf("\nSYSEX END %u state\n", state);
-
-         if ((id      == ID_YAMAHA) &&
-             (type    == TYPE_VOICE) &&
-             (channel == 0) &&
-             (size    == sizeof(SysEx::Voice)) &&
-             (size    == index))
-         {
-            for(unsigned i = 0; i < N; ++i)
-            {
-               this->voice[i].loadProgram(0, &edit);
-            }
-
-            printf("OK\n");
-         }
-         else
-         {
-            printf("BAD\n");
-         }
+         printf("SYSEX END\n");
       }
       else
       {
          switch(state)
          {
-         case 0: id      = byte;                   ++state; break;
-         case 1: type    = byte;                   ++state; break;
-         case 2: channel = byte;                   ++state; break;
-         case 3: size    = byte << 7;              ++state; break;
-         case 4: size    = size | byte; index = 0; ++state; break;
+         case 0: // Identification
+            state = byte == ID_YAMAHA ? 1 : 10;
+            break;
 
-         case 5:
-            if (index < sizeof(SysEx::Voice))
+         case 1: // Sub-state and channel
             {
-               if ((index % 8) == 0)
-                  printf("\n%02X : ", index);
-
-               printf(" %02X", byte);
-               buffer[index++] = byte;
+               unsigned sub_status = (byte >> 4) & 0b111;
+               unsigned channel    = byte & 0b1111;
+               if (sub_status == 0)
+                  state = 2;
+               else if (sub_status == 1)
+                  state = 7;
+               (void) channel;
             }
+            break;
+
+         case 2: // voice patch or patches
+            state = 3;
+            index = 0;
+            if (byte == TYPE_1_VOICE)
+            {
+               printf("1 VOICE PROGRAM");
+               buffer      = (uint8_t*) &edit_patch;
+               buffer_size = sizeof(edit_patch);
+            }
+            else if (byte == TYPE_32_VOICES)
+            {
+               printf("32 VOICE PROGRAMS");
+               buffer      = (uint8_t*) &internal_patches;
+               buffer_size = sizeof(internal_patches);
+            }
+            else
+            {
+               state = 10;
+            }
+            break;
+
+         case 3: // byte count MS byte
+            size = byte << 7;
+            state = 4;
+            break;
+
+         case 4: // byte count LS byte
+            size |= byte;
+            if (size == buffer_size)
+            {
+               state = 5;
+            }
+            break;
+
+         case 5: // data
+            if ((index % 8) == 0)
+               printf("\n%02X : ", index);
+
+            printf(" %02X", byte);
+            buffer[index++] = byte;
+
+            if (index == buffer_size)
+            {
+               state = 6;
+            }
+            break;
+
+         case 6: // checksum
+            // TODO check the checksum
+            if (buffer == (const uint8_t*)&edit_patch)
+            {
+               for(unsigned i = 0; i < N; ++i)
+                  this->voice[i].loadProgram(0, &edit_patch);
+            }
+            break;
+
+         case 7:
+            group = byte >> 2;
+            param = (byte & 0b11) << 7;
+            state = 8;
+            break;
+
+         case 8:
+            param |= byte;
+            state = 9;
+            break;
+
+         case 9:
+            if (group == 0)
+            {
+               buffer = (uint8_t*) &edit_patch;
+               buffer[param] = byte;
+               for(unsigned i = 0; i < N; ++i)
+                  this->voice[i].loadProgram(0, &edit_patch);
+            }
+            else if (group == 2)
+            {
+               // TODO function parameters
+            }
+            break;
+
+         case 10: // Ignore
             break;
          }
       }
@@ -98,27 +168,32 @@ private:
 
       switch(number_ >> 5)
       {
-      case 0:  memory = (const SysEx::Packed*) table_dx7_rom_1; break;
+      case 0:  memory = internal_patches;                       break;
       case 1:  memory = (const SysEx::Packed*) table_dx7_rom_2; break;
+
+      // DX7 did not support selecting programs above 63
       case 2:  memory = (const SysEx::Packed*) table_dx7_rom_3; break;
       case 3:  memory = (const SysEx::Packed*) table_dx7_rom_4; break;
       }
 
-      edit = memory[number_ & 0x1F];
+      edit_patch = memory[number_ & 0x1F];
 
-      this->voice[index_].loadProgram(number_, &edit);
+      this->voice[index_].loadProgram(number_, &edit_patch);
    }
 
-   const uint8_t ID_YAMAHA  = 0x43;
-   const uint8_t TYPE_VOICE = 0x00;
+   const uint8_t ID_YAMAHA      = 67;
+   const uint8_t TYPE_1_VOICE   = 0;
+   const uint8_t TYPE_32_VOICES = 9;
 
-   SysEx::Voice edit;
+   SysEx::Voice  edit_patch;
+   SysEx::Packed internal_patches[32];
 
+   // SYSEX state machine state
    uint8_t  state{0};
-   uint8_t  id{};
-   uint8_t  type{};
-   uint8_t  channel{};
-   uint16_t size{};
-   uint8_t  index{0};
-   uint8_t* buffer {(uint8_t*)&edit};
+   uint8_t* buffer {};
+   size_t   buffer_size {};
+   size_t   size{};
+   unsigned index{};
+   uint8_t  group{};
+   unsigned param{};
 };
