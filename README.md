@@ -9,9 +9,13 @@ Retro FM synthesiser simulation using the Raspberry Pi Pico
 A software simulation of the Yamaha DX7 with a MIDI interface for
 the Raspberry Pi Pico
 
+[Video of the picoX7](https://www.youtube.com/watch?v=tPLasiQonrg) playing the Yamaha DX7 ROM cartrdige 1A patches...
+
+[![picoX7 rom1A](http://img.youtube.com/vi/tPLasiQonrg/0.jpg)](http://www.youtube.com/watch?v=tPLasiQonrg "picoX7 rom1A")
+
 ## Software dependencies
 
-+ Platform (https://github.com/AnotherJohnH/Platform)
++ https://github.com/AnotherJohnH/Platform
 + arm-none-eabi-gcc
 + cmake
 + ninja (make works too)
@@ -35,7 +39,7 @@ with a sample frequency of 49100 Hz
 + UART-1 (RX) implements the MIDI-IN interface
 + Two PIO state machines are used to generate I2S and MCLK for the DAC module
 
-|Pin|Peripherel|Allocation|
+|Pin|Peripheral|Allocation|
 |---|---|---|
 |1|UART-0|Debug console out (UART) TX|
 |2|UART-0|Extra MIDI IN (not MIDI baud rate)|
@@ -73,7 +77,7 @@ Done...
    + Voice allocator
    + YM21280 OPS simulation
    + Basic YM21290 EGS simulation
-   + DX7 sound patches are starting to sound recognisble
+   + DX7 voice patches are starting to sound recognisble
 
 To do, (at least)...
    - Tune EGS simulation
@@ -81,7 +85,7 @@ To do, (at least)...
    - LFO
    - Rate and level scaling
    - Mod and key sensitivity
-   - Logarithmic OPS implementation
+   - Maybe a logarithmic OPS implementation
    - Optimise to squeeze in more voices
    - Use the 2nd Arm Cortex-M0 (currently idle!)
 
@@ -90,7 +94,7 @@ Limitations...
    + Sample frequency 49100 Hz (not 49096 Hz)
    + Hitachi 6303 (~MC6803) CPU controller and firmware is not being emulated
    + not using logs for sine amplitude modulation in the OPS => almost certainly not bit accurate
-   + 4 voices (not 16!) - Running on just one arm core at ~65% CPU usage
+   + [4 voices](https://github.com/AnotherJohnH/picoX7/wiki/Software-Blog#16th-july-2023) (not 16!) - Running on just one arm core at ~65% CPU usage
 
 ## How to build
 
