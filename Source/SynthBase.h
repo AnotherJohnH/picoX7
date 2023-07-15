@@ -126,6 +126,12 @@ public:
       return -1;
    }
 
+   void voiceMute(unsigned index_) override
+   {
+      voice[index_].noteOff(order++);
+      voice[index_].mute();
+   }
+
    void voiceOn(unsigned index_, uint8_t note_, uint8_t velocity_) override
    {
       voice[index_].noteOn(note_, velocity_, order++);

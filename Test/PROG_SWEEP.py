@@ -11,3 +11,4 @@ for p in range(0, 127):
    midi.noteOn(note = 0x3C)
    time.sleep(1)
    midi.noteOff(note = 0x3C)
+   time.sleep(0.25)

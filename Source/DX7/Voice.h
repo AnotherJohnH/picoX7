@@ -57,7 +57,7 @@ public:
    {
       if (egs_ops.isComplete())
       {
-         setMute();
+         mute();
       }
 
       lfo.tick();

@@ -42,6 +42,7 @@ public:
       memcpy(internal_patches, table_dx7_rom_1, sizeof(internal_patches));
    }
 
+private:
    //! Handle a SYSEX byte
    void sysEx(uint8_t byte) override
    {
@@ -161,7 +162,6 @@ public:
       }
    }
 
-private:
    void voiceProgram(unsigned index_, uint8_t number_) override
    {
       const SysEx::Packed* memory;

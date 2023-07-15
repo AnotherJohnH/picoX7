@@ -21,7 +21,7 @@
 #------------------------------------------------------------------------------
 
 class MidiOut:
-   """ """
+   """ API for sending MIDI to a MIDI instrument """
 
    def __init__(self, device):
       self.out     = open(device, "wb")
@@ -45,6 +45,33 @@ class MidiOut:
 
    def ctrl(self, number, value):
       self.send([0xB0 | self.channel, number, value])
+
+   def allSoundsOff(self):
+      self.ctrl(0x78, 0)
+
+   def resetAllControllers(self):
+      self.ctrl(0x79, 0)
+
+   def localControl(self, on):
+      if on:
+         self.ctrl(0x7A, 0)
+      else:
+         self.ctrl(0x7A, 0x7F)
+
+   def allNotesOff(self):
+      self.ctrl(0x7B, 0)
+
+   def omniMode(self, on):
+      if on:
+         self.ctrl(0x7D, 0)
+      else:
+         self.ctrl(0x7C, 0)
+
+   def monoMode(self, num_channles = 0):
+      self.ctrl(0x7E, num_channels)
+
+   def polyMode(self):
+      self.ctrl(0x7F, 0)
 
    def prog(self, number):
       self.send([0xC0 | self.channel, number])

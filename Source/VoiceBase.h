@@ -64,17 +64,12 @@ public:
 
    // Override for voice implementation
 
+   virtual void mute() { state = MUTE; }
    virtual void gateOn() {}
    virtual void gateOff() {}
    virtual void setLevel(uint8_t value) {}
    virtual void setControl(uint8_t control, uint8_t value) {}
    virtual void setPitch(int16_t value) {}
-
-protected:
-   void setMute()
-   {
-      state = MUTE;
-   }
 
 private:
    State    state {MUTE};
