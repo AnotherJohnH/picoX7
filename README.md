@@ -23,7 +23,7 @@ Both Pico and native targets should build on MacOS or Linux.
 
 ![prototype](docs/picoX7_breadboard.jpg)
 
-**NOTE:** The circuit shown above turned out to be slightly noisy on the audio side. Adding GND connections from pins 33 and 28 on the Pico to corresponding pins on the DAC module solved the issue. (obviously mounting the Pico onto the DAC module is also a solution)
+**NOTE:** The circuit shown above turned out to be a bit noisy see [hardware blog: 13th July 2023](https://github.com/AnotherJohnH/picoX7/wiki/Hardware-Blog#13th-july-2023) for the solution.
 
 + Currently building for an I2S DAC based around the Cirrus Logic CS4344 from WaveShare
 (see below)
