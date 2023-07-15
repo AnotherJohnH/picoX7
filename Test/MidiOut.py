@@ -28,7 +28,8 @@ class MidiOut:
       self.channel = 0
 
    def __del__(self):
-      self.out.close()
+      if self.out:
+         self.out.close()
 
    def send(self, data):
       self.out.write(bytearray(data))
