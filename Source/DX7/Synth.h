@@ -174,6 +174,9 @@ private:
       // DX7 did not support selecting programs above 63
       case 2:  memory = (const SysEx::Packed*) table_dx7_rom_3; break;
       case 3:  memory = (const SysEx::Packed*) table_dx7_rom_4; break;
+
+      default:
+         return;
       }
 
       edit_patch = memory[number_ & 0x1F];
