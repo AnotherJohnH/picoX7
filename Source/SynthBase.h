@@ -38,9 +38,9 @@ public:
    }
 
    //! Get next sample
-   int16_t operator()()
+   int32_t operator()()
    {
-      signed mix {0};
+      int32_t mix {0};
 
       for(unsigned i = 0; i < N; ++i)
       {
