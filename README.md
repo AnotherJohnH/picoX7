@@ -72,7 +72,7 @@ with a sample frequency of 49100 Hz
 Incomplete but starting to work.
 
 Done...
-   + I2S (via PIO) 16-bit stereo DAC interface at 49100 Hz
+   + I2S (via PIO) 16-bit stereo DAC interface at 49096 Hz
    + Basic MIDI in support via UART
    + Voice allocator
    + YM21280 OPS simulation
@@ -90,11 +90,10 @@ To do, (at least)...
    - Use the 2nd Arm Cortex-M0 (currently idle!)
 
 Limitations...
-   + DAC implementation is quite different to the original. Suspect dynamic range is reduced.
-   + Sample frequency 49100 Hz (not 49096 Hz)
+   + DAC implementation is quite different to the original. Suspect dynamic range is reduced
    + Hitachi 6303 (~MC6803) CPU controller and firmware is not being emulated
    + not using logs for sine amplitude modulation in the OPS => almost certainly not bit accurate
-   + [4 voices](https://github.com/AnotherJohnH/picoX7/wiki/Software-Blog#16th-july-2023) (not 16!) - Running on just one arm core at ~65% CPU usage
+   + [8 voices](https://github.com/AnotherJohnH/picoX7/wiki/Software-Blog#16th-july-2023) (not 16!) - Running on just one arm core at ~85% CPU usage
 
 ## How to build
 

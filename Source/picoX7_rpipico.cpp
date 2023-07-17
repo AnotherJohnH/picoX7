@@ -35,15 +35,19 @@
 #include "Usage.h"
 #include "DX7/Synth.h"
 
-static const unsigned SAMPLE_RATE = 49100;                   // DAC sample rate (Hz)
+static const unsigned SAMPLE_RATE = 49096;                   // DAC sample rate (Hz)
 static const unsigned TICK_RATE   = 375;                     // 6800 firmware tick (375 Hz)
 static const unsigned BUFFER_SIZE = SAMPLE_RATE / TICK_RATE; // DAC buffer size (samples)
-static const unsigned NUM_VOICES  = 4;                       // Polyphony
+static const unsigned NUM_VOICES  = 8;                       // Polyphony
 
 //! Select a system clock with clean division to 49.1 KHz
-namespace MTL { Clocks::SysFreq clocks_sys_freq = Clocks::SYS_FREQ_137_48_MHZ; }
+//namespace MTL { Clocks::SysFreq clocks_sys_freq = Clocks::SYS_FREQ_137_48_MHZ; }
+
+//! Select a system clock with clean division to 49.095 KHz
 //namespace MTL { Clocks::SysFreq clocks_sys_freq = Clocks::SYS_FREQ_157_10_MHZ; }
-//namespace MTL { Clocks::SysFreq clocks_sys_freq = Clocks::SYS_FREQ_191_08_MHZ; }
+
+//! Select a system clock with clean division to 49.096 KHz
+namespace MTL { Clocks::SysFreq clocks_sys_freq = Clocks::SYS_FREQ_191_08_MHZ; }
 
 
 //! Slow MIDI in via the console UART

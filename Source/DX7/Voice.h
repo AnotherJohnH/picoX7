@@ -87,7 +87,7 @@ public:
 
             // XXX The following is a kludged and wrong as the
             //     the fine scaling is not linear
-            static const unsigned SAMPLE_RATE = 49100;
+            static const unsigned SAMPLE_RATE = 49096;
             f8 += f8 * op.osc_freq_fine * 9 / 100;
             egs_ops.setFreq(i, ((f8 << 14) / SAMPLE_RATE) << 10);
          }
