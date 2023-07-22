@@ -41,9 +41,7 @@ public:
 
       if (debug)
       {
-         printf("\nPROG %2u \n", number + 1);
-
-         voice->print();
+         voice->print(number + 1);
       }
 
       lfo.prog(voice->lfo);

@@ -23,6 +23,7 @@
 #pragma once
 
 #include <cstdio>
+#include <cstdarg>
 #include <cstdint>
 #include <cstring>
 
@@ -210,7 +211,7 @@ struct Voice
 {
    Voice() = default;
 
-   void print() const;
+   void print(unsigned ) const;
 
    //! Copy in a packed SysEx voice
    void operator=(const Packed& packed)
@@ -247,9 +248,27 @@ struct Voice
    uint8_t name[NAME_LEN];
 };
 
+
+// Some helpers for pretty printing
+static const char* FG_GREEN   = "\e[32m";
+static const char* FG_DEFAULT = "\e[39m";
+static void fgGreen()   { printf("%s", FG_GREEN); }
+static void fgDefault() { printf("%s", FG_DEFAULT); }
+
+static void fmtf(const char* fix, const char* format = "", ...)
+{
+   printf("%s%s%s ", FG_GREEN, fix, FG_DEFAULT);
+
+   va_list ap;
+   va_start(ap, format);
+   vfprintf(stdout, format, ap);
+}
+
 void Op::print(unsigned n) const
 {
+   fgGreen();
    printf("OP%u ", n);
+   fgDefault();
 
    for(unsigned i = 0; i < 4; i++)
    {
@@ -275,26 +294,48 @@ void Op::print(unsigned n) const
    }
 
    printf(" %2d", osc_detune - 7);
+   printf("  %2d", amp_mod_sense);
+   printf("  %2d", key_vel_sense);
+
+   printf("  %2u  %2u:%2u  %u:%u  %u",
+          kbd_lvl_scl_bpt,
+          kbd_lvl_scl_lft_depth, kbd_lvl_scl_rgt_depth,
+          kbd_lvl_scl_lft_curve, kbd_lvl_scl_rgt_curve,
+          kbd_rate_scale);
 
    printf("\n");
 }
 
-void Voice::print() const
+void Voice::print(unsigned n) const
 {
-   printf("\"");
+   fmtf("#", "%03u", n);
+   fmtf(" NAME");
    for(unsigned i = 0; i < NAME_LEN; i++)
       putchar(name[i]);
-   printf("\" ALG %u FBK %u\n", alg + 1, feedback);
+   fmtf("ALG", "%u", alg + 1);
+   fmtf(" FBK", "%u", feedback);
+   fmtf(" OSY", "%u", osc_sync);
+   fmtf(" PMS", "%u", pitch_mod_sense);
+   fmtf(" TRN", "%02d\n", transpose - 24);
 
-   printf("    L1:R1 L2:R2 L3:R3 L4:R4 OUT FREQ DET\n");
-   printf("------------------------------------------------\n");
+   fmtf("LFO");
+   fmtf("SPD", "%2u", lfo.speed);
+   fmtf(" DLY", "%02u", lfo.delay);
+   fmtf(" PMD", "%02u", lfo.pitch_mod_depth);
+   fmtf(" AMD", "%02u", lfo.amp_mod_depth);
+   fmtf(" SYN", "%u", lfo.sync);
+   fmtf(" WAV", "%u", lfo.waveform);
+   printf("\n");
+
+   fmtf("    L1:R1 L2:R2 L3:R3 L4:R4 OUT FREQ  DET AMS KVS BPT DEPTH  CRV RSC", "\n");
+   fmtf("--------------------------------------------------------------------", "\n");
 
    for(unsigned i = 0; i < 6; ++i)
    {
       op[5 - i].print(i + 1);
    }
 
-   printf("PCH ");
+   fmtf("PCH");
    for(unsigned i = 0; i < 4; i++)
    {
        printf("%02u:%02u ", eg_pitch.level[i], eg_pitch.rate[i]);
