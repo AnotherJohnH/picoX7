@@ -1,6 +1,6 @@
 
 CXXFLAGS=-Wall -Wno-gnu-anonymous-struct -Wno-nested-anon-types \
-         --pedantic --std=gnu++14
+         --std=gnu++14
 
 SOURCE=exp_dx7.cpp Table_dx7_rom_1.cpp
 BINARY=exp_dx7

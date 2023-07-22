@@ -48,8 +48,8 @@ public:
 // SCI_CTRL_STATUS:                          equ  $11
 // SCI_RECEIVE:                              equ  $12
 // SCI_TRANSMIT:                             equ  $13
-// 
-// 
+
+
 // ; ==============================================================================
 // ; Peripheral Addresses.
 // ; These constants are the addresses of the synth's various peripherals.
@@ -58,51 +58,51 @@ public:
 // ; Decoder IC24 selects a specific peripheral based on low-order address bits
 // ; A3-A1. The peripheral can use A0.
 // ; ==============================================================================
-// 
+//
 // ; These use an Intel 8255 Peripheral Interface Controller, IO Ports A and B
 // P_LCD_DATA:                               equ  $2800
 // P_LCD_CTRL:                               equ  $2801
-// 
+//
 // ; This peripheral is the 8255's 'IO Port C'. It is used to read the
 // ; cartridge's state, as well as the portamento, and sustain pedal state.
 // ; The 8255's C7 line is multiplexed with Port A's A7. This is used to read
 // ; the LCD's ready state.
 // P_CRT_PEDALS_LCD:                         equ  $2802
-// 
+//
 // ; The control register for the 8255 Programmable Peripheral Interface chip
 // ; used to interface with the various peripherals on the address bus.
 // P_8255_CTRL:                              equ  $2803
-// 
+//
 // ; The OPS 'Mode' register.
 // ; Bit 7 = Mute. Bit 6 = Clear OSC Key Sync. Bit 5 = Set OSC Key Sync.
 // P_OPS_MODE:                               equ  $2804
-// 
+//
 // ; The Ops Algorithm/Feedback register.
 // ; Bits 0-2 = Feedback, Bits 3-7 = Algorithm Select.
 // P_OPS_ALG_FDBK:                           equ  $2805
-// 
+//
 // ; Used to send the 3-bit analog volume value to the DAC.
 // P_DAC:                                    equ  $280A
 // P_ACEPT:                                  equ  $280C
 // P_LED1:                                   equ  $280E
 // P_LED2:                                   equ  $280F
-// 
+//
 // ; Address range $30xx is decoded to the EGS chip.
-// 
+//
 // ; The EGS Voice Pitch register. Length: 32.
 // P_EGS_VOICE_PITCH:                        equ  $3000
-// 
+//
 // ; The EGS Operator Pitch register. Length: 16.
 // P_EGS_OP_PITCH:                           equ  $3020
 // P_EGS_OP_DETUNE:                          equ  $3030
 // P_EGS_OP_EG_RATES:                        equ  $3040
 // P_EGS_OP_EG_LEVELS:                       equ  $3060
-// 
+//
 // ; Length: 6.
 // P_EGS_OP_LEVELS:                          equ  $3080
 // P_EGS_OP_SENS_SCALING:                    equ  $30E0
 // P_EGS_AMP_MOD:                            equ  $30F0
-// 
+//
 // ; The 'Voice Events' register.
 // ; This is not a buffer, it is the input to a shift register. Writing to this
 // ; register triggers a key event on the EGS chip.
@@ -110,7 +110,7 @@ public:
 // P_EGS_VOICE_EVENTS:                       equ  $30F1
 // P_EGS_PITCH_MOD_HIGH:                     equ  $30F2
 // P_EGS_PITCH_MOD_LOW:                      equ  $30F3
-// 
+//
 // ; The cartridge address range, decoded by IC63
 // P_CRT_START:                              equ  $4000
 // P_CRT_START_IC2:                          equ  $4800
@@ -119,7 +119,7 @@ public:
 const uint8_t* p_crt_start;
 const uint8_t* p_crt_start_ic2;
 const uint8_t* p_crt_end;
- 
+
 // ; ==============================================================================
 // ; Intel 8255 'Control Words'.
 // ; These constants are the 'Control Words' for the Intel 8255 Peripheral
@@ -130,8 +130,8 @@ const uint8_t* p_crt_end;
 // ; ==============================================================================
 // I8255_CONTROL_WORD_5:                     equ  %10001001
 // I8255_CONTROL_WORD_13:                    equ  %10011001
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; LCD Controller Constants.
 // ; The DX7 uses a KS0066U-compatible LCD module. These bitmasks are used to
@@ -140,14 +140,14 @@ const uint8_t* p_crt_end;
 // LCD_CTRL_RS:                              equ  1
 // LCD_CTRL_RW:                              equ  2
 // LCD_CTRL_RW_RS:                           equ  3
-// 
+//
 // ; RS=Low, RW=Low := Instruction Write.
 // LCD_CTRL_E:                               equ  4
 // LCD_CTRL_E_RS:                            equ  5
 // LCD_CTRL_E_RW:                            equ  6
 // LCD_BUSY_FLAG:                            equ  $80
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; LCD Instruction Constants.
 // ; The DX7 uses a KS0066U-compatible LCD module. These constants are instruction
@@ -162,8 +162,8 @@ const uint8_t* p_crt_end;
 // LCD_INSTR_FUNC_SET_8BIT_2_LINE:           equ  $38
 // LCD_INSTR_SET_CURSOR_POSITION:            equ  $80
 // LCD_INSTR_SET_CURSOR_TO_LINE_2:           equ  $C0
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; General Bitmasks.
 // ; These general bitmask constants are used throughout the ROM.
@@ -173,8 +173,8 @@ const uint8_t* p_crt_end;
 // SCI_RIE_RE_TE:                            equ  %111010
 // SCI_RIE_RE_TIE_TE:                        equ  %111110
 // KEY_EVENT_ACTIVE:                         equ  %10000000
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; Cartridge Status.
 // ; These bitmasked flags indicate the physical status of the synth's cartridge
@@ -182,8 +182,8 @@ const uint8_t* p_crt_end;
 // ; ==============================================================================
 // CRT_FLAG_INSERTED:                        equ  %100000
 // CRT_FLAG_PROTECTED:                       equ  %1000000
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; Memory Protect Status.
 // ; These bitmasked flags are used to store the status of the synth's
@@ -191,8 +191,8 @@ const uint8_t* p_crt_end;
 // ; ==============================================================================
 // MEM_PROTECT_INT:                          equ  %1000000
 // MEM_PROTECT_CRT:                          equ  %10000000
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; Modulation Pedal Input Status.
 // ; These bitmasked flags are used to determine the status of the synth's
@@ -201,11 +201,11 @@ const uint8_t* p_crt_end;
 // ; ==============================================================================
 // PEDAL_STATUS_SUSTAIN_ACTIVE:              equ  1
 // PEDAL_STATUS_PORTAMENTO_ACTIVE:           equ  %10
-// 
+//
 // ; Used to mask both pedal inputs, when reading both is necessary.
 // PEDAL_STATUS_MASK:                        equ  %11
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; Patch Edit Buffer Status Flags.
 // ; These flags determine the status of the synth's 'Patch Edit Buffer'.
@@ -214,8 +214,8 @@ const uint8_t* p_crt_end;
 // ; ==============================================================================
 // EDITED_PATCH_IN_WORKING:                  equ  1
 // EDITED_PATCH_IN_COMPARE:                  equ  2
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI Error Status.
 // ; These constants are used to track the status of the MIDI buffers. If an error
@@ -224,8 +224,8 @@ const uint8_t* p_crt_end;
 // ; ==============================================================================
 // MIDI_STATUS_ERROR:                        equ  1
 // MIDI_STATUS_BUFFER_FULL:                  equ  2
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; Firmware Variables.
 // ; These are the synth's firmware variables located in its internal memory.
@@ -234,93 +234,93 @@ const uint8_t* p_crt_end;
 // ; considered volatile. The remaining memory locations are persistent. This
 // ; includes the internal patch memory.
 // ; ==============================================================================
-// 
+//
 // ; The last key pressed on the synth's keyboard.
 // M_NOTE_KEY:                               equ  $81
-// 
+//
 // ; The velocity of the last keyboard keypress.
 // M_NOTE_VEL:                               equ  $82
-// 
+//
 // ; The status of the portamento, and sustain modulation pedals.
 // ; Bit 0 = Sustain, Bit 1 = Portamento.
 // M_PEDAL_INPUT_STATUS:                     equ  $83
-// 
+//
 // ; The incoming analog data read from the synth's various analog inputs.
 // ; This variable is set in the main IRQ handler.
 // M_ANALOG_DATA:                            equ  $84
-// 
+//
 // ; The source of the last read analog input event.
 // ; The source will be one of the synth's analog inputs, such as the modulation
 // ; wheel, keyboard, aftertouch, etc.
 // ; This variable is set in the main IRQ handler.
 // M_ANALOG_DATA_SRC:                        equ  $85
 // M_INPUT_ANALOG_UPDATE_MOD_TOGGLE:         equ  $86
-// 
+//
 // ; This variable stores the synth's up/down increment/decrement value.
 // ; These values are set by either the up/down buttons, or the slider input.
 // ; These value are to be considered a signed 8-bit value, and are used
 // ; for arithmetic purposes. e.g: A numeric value with the 'No/Down'
 // ; value added will be decremented by one.
 // M_UP_DOWN_INCREMENT:                      equ  $87
-// 
+//
 // ; Bit 7 = CRT mem protect. Bit 6 = INT mem protect.
 // M_MEM_PROTECT_FLAGS:                      equ  $88
-// 
+//
 // ; This flag states whether the last input event originated from the slider.
 // M_SLIDER_INPUT_EVENT:                     equ  $89
-// 
+//
 // ; This variable holds which memory (Internal/Cartridge) is currently being
 // ; changed when selecting memory protection ON/OFF.
 // M_MEM_PROTECT_MODE:                       equ  $8A
-// 
+//
 // ; This flag variable is used suring cartridge saving and loading.
 // ; It stores a 'Confirm' bit, which is used to indicate whether the user has
 // ; 'confirmed' the current operation.
 // ; Bit 7 = Read(0)/Write(1). Bit 0 = Confirm.
 // M_CRT_SAVE_LOAD_FLAGS:                    equ  $8B
-// 
+//
 // ; This flag holds whether the 'Function' button is currently being held down.
 // M_BTN_FUNC_STATE:                         equ  $8C
-// 
+//
 // ; When this flag is set the next keypress event will be used to set the
 // ; synth's key transpose.
 // M_EDIT_KEY_TRANSPOSE_ACTIVE:              equ  $8D
 // M_MONO_ACTIVE_VOICE_COUNT:                equ  $8E
-// 
+//
 // ; The direction of legato, when the synth is in monophonic mode.
 // ; 1 = Up, 0 = Down.
 // M_LEGATO_DIRECTION:                       equ  $8F
 // M_NOTE_KEY_LAST:                          equ  $90
 // M_MONO_SUSTAIN_PEDAL_ACTIVE:              equ  $91
 // M_SUB_CPU_READ_KEY:                       equ  $92
-// 
+//
 // ; This flag stores whether the patch serialise/deserialise operation in the
 // ; 'PATCH_READ_WRITE' subroutine is reading from memory, or writing to it.
 // ; This is set by pressing the 'STORE' button.
 // M_PATCH_READ_OR_WRITE:                    equ  $93
-// 
+//
 // ; 'Toggle' variable used to determine whether the keyboard scaling
 // ; 'depth', or 'curve' values are currently being edited.
 // ; This value is either 0x0, or 0xFF.
 // M_EDIT_KBD_SCALE_TOGGLE:                  equ  $94
 // M_EDIT_EG_RATE_LVL_SUB_FN:                equ  $95
-// 
+//
 // ; Osc Mode/Sync Flag.
 // ; This flag is used to determine whether the synth UI is currently editing
 // ; the Oscillator Mode, or Oscillator Sync, based on cycling through these
 // ; values using Button 17.
 // M_EDIT_OSC_MODE_SYNC_FLAG:                equ  $96
 // M_TEST_MODE_BUTTON_CHECK:                 equ  $97
-// 
+//
 // ; This variable seems to hold the source of the last analog input event.
 // M_LAST_ANALOG_INPUT_EVENT:                equ  $98
-// 
+//
 // ; This flag is set when the 'Edit/Char' button is held down during
 // ; editing a patch name. It causes the front panel buttons to input
 // ; characters when pressed.
 // ; Refer to page 46 of the DX7 manual.
 // M_EDIT_ASCII_MODE:                        equ  $99
-// 
+//
 // ; This flag controls whether the synth checks for incoming 'Active Sensing'
 // ; MIDI messages.
 // M_MIDI_ACTV_SENS_RX_ENABLE:               equ  $9A
@@ -354,7 +354,7 @@ uint8_t m_midi_actv_sens_rx_ctr {0};
 // M_VOICE_PITCH_GLISS_PTR:                  equ  $CA
 uint8_t& m_key_pitch     = ram[0x9D];
 uint8_t& m_key_pitch_low = ram[0x9E];
- 
+
 // ; This variable is used as a loop counter when processing the pitch EG.
 // M_PITCH_EG_VOICE_INDEX:                   equ  $CC
 // M_PITCH_EG_VOICE_LEVELS_PTR:              equ  $CD
@@ -369,7 +369,7 @@ uint8_t& m_key_pitch_low = ram[0x9E];
 // ; keypress if 'LFO Sync' is enabled.
 // M_LFO_PHASE_ACCUMULATOR:                  equ  $D7
 uint16_t m_lfo_phase_accumulator {0};
- 
+
 // ; The current amplitude of the synth's LFO wave.
 // M_LFO_CURR_AMPLITUDE:                     equ  $D9
 // M_LFO_SAMPLE_HOLD_ACCUMULATOR:            equ  $DA
@@ -395,21 +395,21 @@ uint8_t m_lfo_sample_hold_reset_flag {0};
 // ; processing. It is the increment/decrement calculated from the portamento
 // ; 'rate' variable.
 // M_PORTA_RATE_INCREMENT:                   equ  $E0
-// 
+//
 // ; The last read MIDI data byte.
 // M_MIDI_INCOMING_DATA:                     equ  $E1
 // M_MIDI_SYSEX_CHECKSUM:                    equ  $E2
-// 
+//
 // ; The number of MIDI data bytes processed during an incoming MIDI message.
 // ; Specifically this is used to store the number of bytes that have been
 // ; processed so far in the subroutine to handle incoming buffered MIDI data.
 // M_MIDI_PROCESSED_DATA_COUNT:              equ  $E7
 // M_MIDI_BUFFER_ERROR_CODE:                 equ  $E8
-// 
+//
 // ; The MIDI transmit ring buffer's read, and write pointers.
 // M_MIDI_TX_BFR_WRITE_PTR:                  equ  $EA
 // M_MIDI_TX_BFR_READ_PTR:                   equ  $EC
-// 
+//
 // ; The MIDI receive ring buffer's read, and write pointers.
 // M_MIDI_RX_BFR_WRITE_PTR:                  equ  $EE
 // M_MIDI_RX_BFR_READ_PTR:                   equ  $F0
@@ -417,17 +417,17 @@ uint8_t m_lfo_sample_hold_reset_flag {0};
 // M_MIDI_SYSEX_PARAM_GRP:                   equ  $F3
 // M_MIDI_SYSEX_RX_COUNT:                    equ  $F4
 // M_MIDI_SYSEX_RX_DATA_COUNT:               equ  $F5
-// 
+//
 // ; This flag indicates whether there is pending received MIDI to be processed.
 // M_MIDI_RX_BUFFER_PENDING:                 equ  $F6
 bool m_midi_rx_buffer_pending {false};
 
 // ; The last received MIDI status byte.
 // M_MIDI_STATUS_BYTE:                       equ  $F7
-// 
+//
 // ; Whether 'SYS INFO AVAIL' is enabled on the synth.
 // M_MIDI_SYS_INFO_AVAIL:                    equ  $F8
-// 
+//
 // ; These variables are used as pointers for the block copy subroutine.
 // ; They point to the source, and destination addresses to copy from/to.
 // M_COPY_SRC_PTR:                           equ  $F9
@@ -438,28 +438,34 @@ uint8_t* m_copy_dest_ptr;
 
 // ; The start address of the synth's external RAM chips.
 // M_EXTERNAL_RAM_START:                     equ  $1000
-// 
+//
 // ; The address of the synth's 'Patch Edit Buffer'.
 // ; This is where the currently loaded patch is stored in memory.
 // M_PATCH_CURRENT_BUFFER:                   equ  $2000
 // M_PATCH_CURRENT_ALG:                      equ  $2086
 // M_PATCH_CURRENT_LFO_SPEED:                equ  $2089
 // M_PATCH_CURRENT_LFO_DELAY:                equ  $208A
-// M_PATCH_CURRENT_LFO_PITCH_MOD_DEPTH       equ  $208B
+// M_PATCH_CURRENT_LFO_PITCH_MOD_DEPTH:      equ  $208B
+// M_PATCH_CURRENT_LFO_AMP_MOD_DEPTH:        equ  $208C
 // M_PATCH_CURRENT_LFO_SYNC:                 equ  $208D
+// M_PATCH_CURRENT_LFO_WAVEFORM              equ  $208E
 // M_PATCH_CURRENT_TRANSPOSE:                equ  $2090
 // M_PATCH_CURRENT_NAME:                     equ  $2091
 // M_PATCH_CURRENT_NAME_LAST_CHAR:           equ  $209A
 // M_PATCH_CURRENT_OPS_ON_OFF:               equ  $209B
 uint8_t  m_patch_current_buffer[0x9C];
-uint8_t& m_patch_current_alg            = m_patch_current_buffer[0x86];
-uint8_t& m_patch_current_lfo_speed      = m_patch_current_buffer[0x89];
-uint8_t& m_patch_current_lfo_delay      = m_patch_current_buffer[0x8A];
-uint8_t& m_patch_current_lfo_sync       = m_patch_current_buffer[0x8D];
-uint8_t& m_patch_current_transpose      = m_patch_current_buffer[0x90];
-uint8_t* m_patch_current_name           = &m_patch_current_buffer[0x91];
-uint8_t* m_patch_current_name_last_char = &m_patch_current_buffer[0x9A];
-uint8_t* m_patch_current_ops_on_off     = &m_patch_current_buffer[0x9B];
+uint8_t& m_patch_current_alg                 = m_patch_current_buffer[0x86];
+uint8_t& m_patch_current_lfo_speed           = m_patch_current_buffer[0x89];
+uint8_t& m_patch_current_lfo_delay           = m_patch_current_buffer[0x8A];
+uint8_t& m_patch_current_lfo_pitch_mod_depth = m_patch_current_buffer[0x8B];
+uint8_t& m_patch_current_lfo_amp_mod_depth   = m_patch_current_buffer[0x8C];
+uint8_t& m_patch_current_lfo_sync            = m_patch_current_buffer[0x8D];
+uint8_t& m_patch_current_lfo_waveform        = m_patch_current_buffer[0x8E];
+uint8_t& m_patch_current_pitch_mod_sens      = m_patch_current_buffer[0x8F];
+uint8_t& m_patch_current_transpose           = m_patch_current_buffer[0x90];
+uint8_t* m_patch_current_name                = &m_patch_current_buffer[0x91];
+uint8_t* m_patch_current_name_last_char      = &m_patch_current_buffer[0x9A];
+uint8_t* m_patch_current_ops_on_off          = &m_patch_current_buffer[0x9B];
 
 // ; When the synth is placed in 'Compare Mode' the status of the operators for
 // ; the current patch are stored here.
@@ -479,50 +485,50 @@ uint8_t m_selected_operator;
 // ; In contrast to the last button variable, this variable also tracks input
 // ; events from the front-panel slider.
 // M_LAST_INPUT_EVENT:                       equ  $20A0
-// 
+//
 // ; The 'Input Mode' the synth is currently in.
 // ; This is either, 'Play Mode', 'Edit Mode', or 'Function Mode'.
 // M_INPUT_MODE:                             equ  $20A1
-// 
+//
 // ; The 0 indexed number of the last pressed button.
 // M_LAST_PRESSED_BTN:                       equ  $20A2
-// 
+//
 // ; The parameter currently selected to be edited while in 'EDIT' mode.
 // M_EDIT_PARAM_CURRENT:                     equ  $20A3
-// 
+//
 // ; This variable holds both whether Internal, or cartridge memory is selected,
 // ; and the current 'UI Mode'. A value of 0 selects internal memory, a value of
 // ; 1 selects cartridge. The other 'UI Mode' values are used to determine
 // ; what specific function is being performed by the UI.
 // M_MEM_SELECT_UI_MODE:                     equ  $20A4
-// 
+//
 // ; This variable holds the current patch's 'modified' state.
 // ; A non-zero value here indicates that this patch has been edited.
 // ; 0x2 = Edited patch in compare buffer. 0x1 = Currently editing patch.
 // M_PATCH_CURRENT_MODIFIED_FLAG:            equ  $20A5
 // M_PATCH_COMPARE_MODIFIED_FLAG:            equ  $20A6
 // M_PEDAL_INPUT_STATUS_PREVIOUS:            equ  $20A7
-// 
+//
 // ; The parameter currently selected to be edited while the synth is in
 // ; 'Function' mode.
 // M_FN_PARAM_CURRENT:                       equ  $20A8
-// 
+//
 // ; Whether the synth is configured to be polyphonic, or monophonic.
 // ; 0 = Poly, 1 = Mono.
 // M_MONO_POLY:                              equ  $20A9
-// 
+//
 // ; The synth's 'portamento mode'.
 // ; Poly: 0 = Retain, 1 = Follow.
 // ; Mono: 0 = Fingered, 1 = Full.
 // M_PORTA_MODE:                             equ  $20AA
-// 
+//
 // ; This variable holds whether Glissando is ON/OFF.
 // M_PORTA_GLISS_ENABLED:                    equ  $20AB
-// 
+//
 // ; The purpose of this variable is unknown, however it is set once to
 // ; 0x7F on reset, and set to 0x7F on MIDI error.
 // M_ERR_HANDLING_FLAG:                      equ  $20AC
-// 
+//
 // ; This variable holds the which 'sub-function' of button 8 in
 // ; 'Function Mode' is currently selected.
 // ; *0 = Edit MIDI RX ch.
@@ -530,11 +536,11 @@ uint8_t m_selected_operator;
 // ; *2 = Transmit MIDI.
 // M_EDIT_BTN_8_SUB_FN:                      equ  $20AD
 // M_PATCH_NAME_EDIT_ACTIVE:                 equ  $20AE
-// 
+//
 // ; Whether the currently loaded patch is from internal, or cartridge memory.
 // ; A non-zero value indicates the patch is loaded from the cartridge.
 // M_PATCH_CURRENT_CRT_OR_INT:               equ  $20AF
-// 
+//
 // ; Voice 'Status' buffer.
 // ; This buffer stores the current status for each of the synth's voices.
 // ; There are 2 byte entries for each of the 16 voices.
@@ -543,62 +549,62 @@ uint8_t m_selected_operator;
 // ; The entry is cleared when a voice is removed in monophonic mode.
 // ; Bit 0 = Sustain Active, Bit 1 = Note currently being held.
 // M_VOICE_STATUS:                           equ  $20B0
-// 
+//
 // ; This section of RAM is used to store incoming MIDI performance data
 // ; received over SYSEX.
 // ; While this area normally holds the current voice event data, since this
 // ; cannot be used while receiving a bulk SYSEX transfer, this area in memory
 // ; doubles as a buffer to store incoming SYSEX data.
 // M_MIDI_PERF_DATA_BUFFER:                  equ  $20B0
-// 
+//
 // ; This buffer holds the 'target' pitch of each of the synth's 16 voices.
 // ; During the portamento/glissando processing subroutine, the individual
 // ; voices transition from their 'current' pitch towards this pitch.
 // ; This pitch is set by the main 'Voice add' subroutines.
 // M_VOICE_PITCH_TARGET:                     equ  $20D0
-// 
+//
 // ; This buffer holds the 'portamento' pitch of each of the synth's 16 voices.
 // ; During the portamento/glissando processing subroutine, if portamento is
 // ; currently active the individual voices transition from this pitch towards
 // ; their target pitch value. This pitch is set by the main
 // ; 'Voice add' subroutines.
 // M_VOICE_PITCH_PORTAMENTO:                 equ  $20F0
-// 
+//
 // ; This buffer holds the 'glissando' pitch of each of the synth's 16 voices.
 // ; During the portamento/glissando processing subroutine, if glissando is
 // ; currently active the individual voices transition from this pitch towards
 // ; their target pitch value. This pitch is set by the main 'Voice add'
 // ; subroutines.
 // M_VOICE_PITCH_GLISSANDO:                  equ  $2110
-// 
+//
 // ; The current Pitch EG step for each of the synth's voices.
 // M_VOICE_PITCH_EG_CURR_STEP:               equ  $2130
-// 
+//
 // ; The current Pitch EG level for each of the synth's voices.
 // M_VOICE_PITCH_EG_CURR_LEVEL:              equ  $2140
-// 
+//
 // ; This array contains the quantised pitch EG rate and level values.
 // ; Entries 0-3 contain the RATE values, 4-7 contain the LEVEL values.
 // ; Length: 8.
 // M_PATCH_PITCH_EG_VALUES:                  equ  $2160
-// 
+//
 // ; The final pitch EG level for the current patch.
 // ; This doubles as the INITIAL pitch EG level.
 // M_PATCH_PITCH_EG_VALUES_FINAL_LEVEL:      equ  $2167
-// 
+//
 // ; This buffer holds the active 'Key Events'. Each of the 16 entries are a
 // ; single byte storing the note in bits 0..6, with bit 7 holding the key
 // ; state, whether it is active or not.
 // ; Length: 16.
 // M_KEY_EVENT_BUFFER:                       equ  $2168
-// 
+//
 // ; Options Flag Variable for CRT Read/Write Functions.
 // ; Bit 7 is used to store whether the operation is read, or write.
 // ; Refer to the 'CRT_READ_WRITE_ALL' subroutine for more information.
 // M_CRT_RW_FLAGS:                           equ  $2178
 // M_CRT_WRITE_PATCH_COUNTER:                equ  $2179
 // M_CRT_FORMAT_PATCH_INDEX:                 equ  $217A
-// 
+//
 // ; These variables are used during the conversion of a stored integer into its
 // ; ASCII representation. They are used to hold the powers-of-ten of an integer.
 // ; For more specific information, refer to the 'CONVERT_INT_TO_STR' function.
@@ -606,12 +612,12 @@ uint8_t m_selected_operator;
 // M_PARSED_INT_TENS:                        equ  $217D
 // M_PARSED_INT_HNDRDS:                      equ  $217E
 // M_PARSED_INT_THSNDS:                      equ  $217F
-// 
+//
 // ; During the patch loading process, this variable is used as a pointer to
 // ; hold a function address, which is called once for each of the synth's six
 // ; operators. Refer to the patch loading subroutine for more information.
 // M_PATCH_LOAD_FUNC_PTR:                    equ  $2183
-// 
+//
 // ; The operator keyboard scaling curve data.
 // ; When the keyboard scaling for an operator is parsed from the patch data,
 // ; this curve data is created with the amplitude scaling factor for the full
@@ -621,10 +627,10 @@ uint8_t m_selected_operator;
 // ; Length: 6 * 43.
 // M_OPERATOR_KEYBOARD_SCALING:              equ  $2187
 // M_OPERATOR_KEYBOARD_SCALING_2:            equ  $21B2
-// 
+//
 // ; Parsed Individual Operator Volume. Length: 6.
 // M_OP_VOLUME:                              equ  $228B
-// 
+//
 // ; This buffer is temporary storage for a serialised patch, prior to being
 // ; written to memory. Length: 128.
 // M_PATCH_SERIALISED_TEMP:                  equ  $2291
@@ -666,7 +672,7 @@ uint8_t  m_pitch_bnd_input {0};
 // ; If this flag is set, then voices 8-15 are processed, otherwise voices 0-7
 // ; are processed.
 // M_PORTA_UPDATE_VOICE_SWITCH:              equ  $232B
-// 
+//
 // ; This flag is used to determine whether pitch modulation should be updated
 // ; in the interrupt cycle. The effect is that pitch-mod is processed once
 // ; every two periodic timer interrupts.
@@ -675,11 +681,11 @@ bool m_pitch_update_toggle {false};
 
 // ; The counter used to 'blink' the LED dot.
 // M_COMPARE_PATCH_LED_BLINK_COUNTER:        equ  $232D
-// 
+//
 // ; Modulation-source control flags variable.
 // ; Bit 0 = Pitch, Bit 1 = Amplitude, Bit 2 = EG Bias.
 // M_MOD_WHEEL_ASSIGN_FLAGS:                 equ  $232E
-// 
+//
 // ; These 'scaled input' variables refer to the raw analog input 'scaled' by
 // ; this particular modulation-source's 'range' parameter.
 // M_MOD_WHEEL_SCALED_INPUT:                 equ  $232F
@@ -690,7 +696,7 @@ bool m_pitch_update_toggle {false};
 // M_AFTERTOUCH_ASSIGN_FLAGS:                equ  $2334
 // M_AFTERTOUCH_SCALED_INPUT:                equ  $2335
 // M_MOD_WHEEL_RANGE:                        equ  $2336
-// 
+//
 // ; These 'Analog Input' variables are used to store the raw analog input for
 // ; each of these analog modulation sources. These will be scaled according
 // ; to the 'range' of each input source, and stored in the associated
@@ -703,18 +709,18 @@ bool m_pitch_update_toggle {false};
 // M_AFTERTOUCH_RANGE:                       equ  $233C
 // M_AFTERTOUCH_ANALOG_INPUT:                equ  $233D
 // M_PITCH_BEND_VALUE:                       equ  $233E
-// 
+//
 // ; The outgoing MIDI transmit ring buffer.
 // M_MIDI_TX_BUFFER:                         equ  $2340
-// 
+//
 // ; The incoming MIDI received ring buffer.
 // M_MIDI_RX_BUFFER:                         equ  $23F4
 // M_MIDI_TX_DATA_PRESENT:                   equ  $2570
-// 
+//
 // ; The 'format' of incoming SYSEX MIDI data.
 // ; 1 = Receive perf data, 0 = Receive patch, 9 = Receive bulk.
 // M_MIDI_SYSEX_FORMAT:                      equ  $2571
-// 
+//
 // ; This flag determines whether an 'Active Sensing' signal is due to be sent.
 // M_MIDI_ACTV_SENS_TX_TRIGGER:              equ  $2572
 // M_MIDI_RX_CH:                             equ  $2573
@@ -733,7 +739,7 @@ bool m_midi_actv_sens_tx_trigger {false};
 // M_TEST_STAGE:                             equ  $257F
 // M_TEST_STAGE_SUB:                         equ  $2580
 // M_TEST_STAGE_2:                           equ  $2581
-// 
+//
 // ; This variable is a timer for triggering the 'Active Sensing' MIDI message.
 // M_MIDI_ACTV_SENS_TX_CNTR:                 equ  $2582
 // M_TEST_LAST_ANALOG_INPUT:                 equ  $2582
@@ -743,19 +749,19 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; When an edited patch is 'compared' with the original, stored patch, this is
 // ; the memory location where the edited patch is copied to.
 // M_PATCH_COMPARE_BUFFER:                   equ  $2584
-// 
+//
 // ; The first line buffer for the synth's LCD screen. Length: 16.
 // M_LCD_BUFFER_LN_1:                        equ  $261F
 // M_LCD_BUFFER_LN_2:                        equ  $262F
-// 
+//
 // ; This buffer stores the LCD screen's current contents.
 // ; During writing the string buffer to the LCD, if the current char to be
 // ; written matches the one in there, the copy process is skipped.
 // ; Length: 32.
 // M_LCD_BUFFER_CONTENTS:                    equ  $263F
 // M_STACK_TOP:                              equ  $27FF
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI Error Status.
 // ; These constants are used to track the status of the MIDI buffers. If an error
@@ -782,8 +788,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // MIDI_STATUS_STOP:                         equ  $FC
 // MIDI_STATUS_ACTIVE_SENSING:               equ  $FE
 // MIDI_STATUS_RESET:                        equ  $FF
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; Front Panel Buttons.
 // ; These constants are used when referencing front-panel button input.
@@ -830,8 +836,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // BUTTON_FUNCTION:                          equ  $27
 // BUTTON_NO_DOWN:                           equ  $28
 // BUTTON_YES_UP:                            equ  $29
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; User-Interface 'Sub-Modes'.
 // ; These user-interface 'sub-modes' are used by various user-interface
@@ -846,8 +852,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // UI_MODE_CRT_LOAD_SAVE:                    equ  4
 // UI_MODE_FUNCTION:                         equ  5
 // UI_MODE_SET_MEM_PROTECT:                  equ  6
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; Synth 'Input Mode'.
 // ; This is the main 'Input Mode' for the synthesiser. This controls the main
@@ -858,8 +864,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // INPUT_MODE_PLAY:                          equ  0
 // INPUT_MODE_EDIT:                          equ  1
 // INPUT_MODE_FN:                            equ  2
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; 'VOICE_REMOVE' Specific Variables.
 // ; The memory locations in 0xAx, to 0xBx are typically scratch registers, which
@@ -870,8 +876,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // VR_REMOVE_VOICE_CMD:                      equ  $9F
 // VR_VOICE_PITCH_EG_CURR_STEP_PTR:          equ  $A6
 // VR_VOICE_STATUS_PTR:                      equ  $A8
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; 'VOICE_ADD' Specific Variables.
 // ; The memory locations in 0xAx, to 0xBx are typically scratch registers, which
@@ -892,8 +898,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // VA_LOOP_INDEX:                            equ  $AF
 // VA_OP_SENS_PTR:                           equ  $B0
 // VA_OP_VOLUME_PTR:                         equ  $B2
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; 'LFO Waves.
 // ; These constants are the values corresponding to the various LFO Waves.
@@ -904,8 +910,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // LFO_WAVE_SQUARE:                          equ  3
 // LFO_WAVE_SINE:                            equ  4
 // LFO_WAVE_S_H:                             equ  5
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; 'PATCH_LOAD_OPERATOR_KBD_SCALING' Specific Variables.
 // ; The memory locations in 0xAx, to 0xBx are typically scratch registers, which
@@ -922,14 +928,14 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // K_OPERATOR_OUTPUT_LVL:                    equ  $B3
 // K_OPERATOR_CURRENT_PTR:                   equ  $F9
 
- 
+
 // ; ==============================================================================
 // ; ROM Disassembly.
 // ; This is the beginning of the ROM's code section, starting at 0xC000.
 // ; ==============================================================================
 // ORG $C000
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_ENTRY
 // ; ==============================================================================
@@ -941,16 +947,16 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; and restored by 'cli'.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_ENTRY:
 //     SEI
 //     CLR     TIMER_CTRL_STATUS
 //     CLR     M_PATCH_CURRENT_MODIFIED_FLAG
-// 
+//
 // _RESET_TEST_STAGE:
 //     LDD     #0
 //     STD     M_TEST_STAGE
-// 
+//
 // _RESET_INPUT_VARIABLES:
 //     CLR     P_EGS_PITCH_MOD_HIGH
 //     CLR     P_EGS_PITCH_MOD_LOW
@@ -965,8 +971,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     BSR     TEST_RESET_VOICE_PARAMS
 //     CLI
 //     BRA     _BEGIN_TESTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_RESET_VOICE_PARAMS
 // ; ==============================================================================
@@ -978,10 +984,10 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; pitch EG levels, and portamento rate.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_RESET_VOICE_PARAMS:
 //     LDAA    #$FF
-// 
+//
 // ; Reset portamento increment to instantaneous.
 //     STAA    <M_PORTA_RATE_INCREMENT
 //     LDD     #$100
@@ -989,14 +995,14 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     CLR     M_MONO_POLY                         ; Reset synth to polyphonic.
 //     LDAA    #%11000000
 //     STAA    M_PEDAL_INPUT_STATUS
-// 
+//
 // ; The following loop resets the current pitch EG levels for all 16 voices.
 // ; It sets each of the pitch EG levels to 0x4000.
-// 
+//
 // _RESET_PITCH_EG_LEVELS:
 //     LDAB    #16
 //     LDX     #M_VOICE_PITCH_EG_CURR_LEVEL
-// 
+//
 // _RESET_PITCH_EG_LOOP:
 //     LDAA    #64
 //     STAA    0,x
@@ -1006,16 +1012,16 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     DECB
 //     BNE     _RESET_PITCH_EG_LOOP                ; if ACCB > 0, loop.
 //     RTS
-// 
-// 
+//
+//
 // _BEGIN_TESTS:
 //     JSR     TEST_RAM
 //     JSR     TEST_PRINT_STAGE_NAME
-// 
+//
 // ; Falls-through to begin the full diagnostic test run.
 //     JSR     TEST_STAGE_1_TONE
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_MAIN_LOOP
 // ; ==============================================================================
@@ -1031,13 +1037,13 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; will jump to the reset handler.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_MAIN_LOOP:
 //     BSR     TEST_MAIN_FUNCTIONS_1
 //     BSR     TEST_MAIN_FUNCTIONS_2
 //     BRA     TEST_MAIN_LOOP
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_MAIN_FUNCTIONS_1
 // ; ==============================================================================
@@ -1048,31 +1054,31 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; This subroutine initialises the currently selected diagnotic test function.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_MAIN_FUNCTIONS_1:
 //     TST     M_LAST_ANALOG_INPUT_EVENT
 //     BNE     _IS_LAST_BTN_NO?
 //     RTS
-// 
+//
 // ; If the last button was 'DOWN' decrement the test stage.
-// 
+//
 // _IS_LAST_BTN_NO?:
 //     LDAB    M_LAST_INPUT_EVENT
 //     CMPB    #BUTTON_NO_DOWN
 //     BNE     _IS_LAST_BTN_YES?
 //     JSR     TEST_STAGE_DECREMENT
 //     BRA     _END_TEST_MAIN_FUNCTIONS_1
-// 
+//
 // ; If the last button was 'UP' increment the test stage.
-// 
+//
 // _IS_LAST_BTN_YES?:
 //     CMPB    #BUTTON_YES_UP
 //     BNE     _IS_TEST_STG_7?
-// 
+//
 // _ADVANCE_STAGE:
 //     JSR     TEST_STAGE_INCREMENT
 //     BRA     _END_TEST_MAIN_FUNCTIONS_1
-// 
+//
 // _IS_TEST_STG_7?:
 //     LDAB    M_TEST_STAGE
 //     CMPB    #7
@@ -1082,45 +1088,45 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     BNE     _IS_BUTTON_16_PRESSED?
 //     JSR     TEST_STAGE_8_CRT_EEPROM
 //     BRA     _END_TEST_MAIN_FUNCTIONS_1
-// 
+//
 // _IS_BUTTON_16_PRESSED?:
 //     CMPB    #16
 //     BNE     _END_TEST_MAIN_FUNCTIONS_1
 //     JSR     TEST_STAGE_8_COPY_CRT_TO_RAM
 //     BRA     _END_TEST_MAIN_FUNCTIONS_1
-// 
+//
 // _IS_TEST_STG_2?:
 //     CMPB    #2
 //     BNE     _IS_TEST_STG_3?
 //     JSR     TEST_STAGE_3_SWITCHES
 //     BRA     _END_TEST_MAIN_FUNCTIONS_1
-// 
+//
 // _IS_TEST_STG_3?:
 //     CMPB    #3
 //     BNE     _IS_TEST_STG_5?
 //     JSR     TEST_STAGE_4_KBD
 //     BRA     _END_TEST_MAIN_FUNCTIONS_1
-// 
+//
 // _IS_TEST_STG_5?:
 //     CMPB    #4
 //     BNE     _END_TEST_MAIN_FUNCTIONS_1
-// 
+//
 // _IS_LAST_BTN_FUNC?:
 //     LDAB    M_LAST_INPUT_EVENT
 //     CMPB    #BUTTON_FUNCTION
 //     BNE     _TEST_5
 //     CLR     M_TEST_AD_STAGE_FLAGS
 //     BRA     _ADVANCE_STAGE
-// 
+//
 // _TEST_5:
 //     JSR     TEST_STAGE_5_AD
-// 
+//
 // _END_TEST_MAIN_FUNCTIONS_1:
 //     CLR     M_LAST_ANALOG_INPUT_EVENT
 //     CLR     M_LAST_INPUT_EVENT
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_MAIN_FUNCTIONS_2
 // ; ==============================================================================
@@ -1131,60 +1137,60 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; This subroutine initialises the currently selected diagnotic test function.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_MAIN_FUNCTIONS_2:
 //     LDAA    M_TEST_STAGE
 //     CMPA    #1
 //     BNE     _NOT_TEST_STAGE_2
-// 
+//
 // _TEST_STAGE_2:
 //     JSR     TEST_STAGE_2_LCD
 //     RTS
-// 
+//
 // _NOT_TEST_STAGE_2:
 //     CMPA    M_TEST_STAGE_2
 //     BNE     _IS_TEST_STAGE_6?
 //     BRA     _IS_TEST_STAGE_3?
-// 
+//
 // _IS_TEST_STAGE_6?:
 //     STAA    M_TEST_STAGE_2
 //     CMPA    #5
 //     BNE     _IS_TEST_STAGE_7?
 //     JSR     TEST_STAGE_6_CRT_READ
 //     RTS
-// 
+//
 // _IS_TEST_STAGE_7?:
 //     CMPA    #6
 //     BNE     _IS_TEST_STAGE_3?
 //     JSR     TEST_STAGE_7_CRT_WRITE
 //     RTS
-// 
+//
 // _IS_TEST_STAGE_3?:
 //     CMPA    #2
 //     BNE     _END_TEST_MAIN_FUNCTIONS_2
-// 
+//
 // ; The following section deals with completing the A/D input tests.
 // ; This code deals specifically with the sustain, and portamento
 // ; pedal input.
-// 
+//
 // _TEST_STAGE_3_PEDAL_CHECK:
 //     JSR     MAIN_PORTA_SUS_PDL_STATE_UPDATE
 //     LDAA    M_TEST_STAGE_SUB
 //     CMPA    #40
 //     BNE     _TEST_STAGE_3_CHECK_PORTA_PDL
-// 
+//
 // _TEST_STAGE_3_CHECK_SUSTAIN_PDL:
 //     LDAB    M_PEDAL_INPUT_STATUS
 //     BITB    #1
 //     BEQ     _END_TEST_MAIN_FUNCTIONS_2
-// 
+//
 // ; If the sustain pedal check was successful, advance the A/D test,
 // ; and proceed to testing the portamento pedal input.
 //     INCA
 //     STAA    M_TEST_STAGE_SUB
 //     LDX     #aPushPortamanto
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; LCD_CLR_WRITE_LINE_2_THEN_PRINT
 // ; ==============================================================================
@@ -1200,29 +1206,29 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; * IX:   A pointer to the string to print to the 2nd line of the LCD.
 // ;
 // ; ==============================================================================
-// 
+//
 // LCD_CLR_WRITE_LINE_2_THEN_PRINT:
 //     PSHX
 //     JSR     LCD_CLEAR_STR_BUFFER_LINE_2
 //     PULX
 //     JMP     LCD_WRITE_LINE_2_THEN_PRINT
-// 
-// 
+//
+//
 // _TEST_STAGE_3_CHECK_PORTA_PDL:
 //     CMPA    #41
 //     BNE     _END_TEST_MAIN_FUNCTIONS_2
-// 
+//
 // _TEST_IS_PORTA_PEDAL_ACTIVE?:
 //     LDAB    M_PEDAL_INPUT_STATUS
 //     BITB    #%10
 //     BEQ     _END_TEST_MAIN_FUNCTIONS_2
 //     LDX     #aOk
 //     BRA     LCD_CLR_WRITE_LINE_2_THEN_PRINT
-// 
+//
 // _END_TEST_MAIN_FUNCTIONS_2:
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_COPY_CRT_TO_RAM
 // ; ==============================================================================
@@ -1233,7 +1239,7 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; Used as part of the synth's diagnostic tests.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_STAGE_8_COPY_CRT_TO_RAM:
 //     LDD     #P_CRT_START
 //     STD     <M_COPY_DEST_PTR
@@ -1242,8 +1248,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     CLR     M_CRT_RW_FLAGS
 //     JSR     CRT_READ_WRITE_ALL
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_STAGE_INCREMENT
 // ; ==============================================================================
@@ -1253,39 +1259,39 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; Handles incrementing the current test stage number.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_STAGE_INCREMENT:
 //     JSR     TEST_STAGE_1_TONE_STOP
-// 
+//
 // ; If the synth is currently at test stage 8, then advancing the test stage
 // ; will call the reset handler, and exit the diagnostic mode.
-// 
+//
 // _ARE_TESTS_FINISHED?:
 //     LDAA    M_TEST_STAGE
 //     CMPA    #7
 //     BEQ     _TESTS_FINISHED
-// 
+//
 // _TESTS_NOT_FINISHED:
 //     BSR     TEST_STAGE_5_AD_CHECK_COMPLETE_FLAG
 //     INC     M_TEST_STAGE
 //     LDAA    M_TEST_STAGE
-// 
+//
 // _IS_TEST_STAGE_4?:
 //     CMPA    #3
 //     BNE     _STOP_TEST_TONE
 //     INCA
-// 
+//
 // ; Stores the test stage in memory at this location.
 // ; This is never referenced explicitly anywhere else.
 //     STAA    $2078
 //     JSR     PATCH_LOAD_DATA
-// 
+//
 // ; Falls-through to stop tone, and return.
-// 
+//
 // _STOP_TEST_TONE:
 //     BSR     TEST_CLEAR_FLAGS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_1_TONE_STOP
 // ; ==============================================================================
@@ -1295,18 +1301,18 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; Stops the 440hz test tone produced by diagnostic test 1.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_STAGE_1_TONE_STOP:
 //     LDAA    #69
 //     STAA    <M_NOTE_KEY
 //     JSR     VOICE_REMOVE_KEY
 //     RTS
-// 
-// 
+//
+//
 // _TESTS_FINISHED:
 //     JMP     HANDLER_RESET
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_CLEAR_FLAGS
 // ; ==============================================================================
@@ -1318,7 +1324,7 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; in the individual diagnostic tests.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_CLEAR_FLAGS:
 //     CLR     M_TEST_STAGE_SUB
 //     CLR     M_PATCH_CURRENT_MODIFIED_FLAG
@@ -1328,8 +1334,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     JSR     TEST_PRINT_STAGE_NAME
 //     JSR     TEST_RESET_VOICE_PARAMS
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_STAGE_DECREMENT
 // ; ==============================================================================
@@ -1339,29 +1345,29 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; Handles decrementing the current test stage number.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_STAGE_DECREMENT:
 //     TST     M_TEST_STAGE
-// 
+//
 // ; Check if we're at test stage 1.
 //     BEQ     _END_TEST_STAGE_DECREMENT
 //     BSR     TEST_STAGE_5_AD_CHECK_COMPLETE_FLAG
 //     DEC     M_TEST_STAGE
 //     BSR     TEST_CLEAR_FLAGS
-// 
+//
 // ; Check if we're back at test stage 1 after decrementing the current test
 // ; stage number. If so, the test 1 subroutine is initiated. This check is
 // ; performed since test 1 is not part of the main diagnostic test loop.
-// 
+//
 // _IS_TEST_STAGE_1?:
 //     TST     M_TEST_STAGE
 //     BNE     _END_TEST_STAGE_DECREMENT
 //     JSR     TEST_STAGE_1_TONE
-// 
+//
 // _END_TEST_STAGE_DECREMENT:
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_5_AD_CHECK_COMPLETE_FLAG
 // ; ==============================================================================
@@ -1378,25 +1384,25 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; * 0xFF: The AD test stage complete flag.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_STAGE_5_AD_CHECK_COMPLETE_FLAG:
 //     LDAB    <M_TEST_AD_STAGE_FLAGS
 //     BEQ     _TEST_5_COMPLETE
 //     CMPB    #%111111
 //     BEQ     _TEST_5_COMPLETE
-// 
+//
 // _TEST_5_INCOMPLETE:
 //     PULX
 //     LDX     #aNotCompleted
 //     JMP     LCD_CLR_WRITE_LINE_2_THEN_PRINT
-// 
+//
 // _TEST_5_COMPLETE:
 //     CLR     M_TEST_AD_STAGE_FLAGS
 //     RTS
-// 
+//
 // aNotCompleted:       FCC "NOT COMPLETED !", 0
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_PRINT_STAGE_NAME
 // ; ==============================================================================
@@ -1410,28 +1416,28 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; Test two clears the LCD screen, so nothing is printed.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_PRINT_STAGE_NAME:
 //     JSR     LCD_CLEAR_STR_BUFFER
 //     LDX     #M_LCD_BUFFER_LN_1
 //     STX     <M_COPY_DEST_PTR
-// 
+//
 // ; This strin pointer points to ' TEST '.
 //     LDX     #(aInitVoiceTest+$A)
 //     JSR     LCD_WRITE_STR_TO_BUFFER
-// 
+//
 // ; Check if this is test stage 2.
 // ; Test two clears the LCD, so this is skipped.
-// 
+//
 // _IS_TEST_STAGE_2?:
 //     LDAB    M_TEST_STAGE
 //     CMPB    #2
 //     BNE     _PRINT_TEST_NAME_TO_BUFFER
-// 
+//
 // ; In the case of test 2, the LED contents are cleared.
 //     CLR     M_PATCH_CURRENT_NUMBER
 //     JSR     LED_PRINT_PATCH_NUMBER
-// 
+//
 // _PRINT_TEST_NAME_TO_BUFFER:
 //     LDAB    M_TEST_STAGE
 //     ASLB
@@ -1439,7 +1445,7 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     ABX
 //     LDX     0,x
 //     JMP     LCD_WRITE_BFR_AND_PRINT
-// 
+//
 // ; ==============================================================================
 // ; Test Stage Names.
 // ; This table contains pointers to the null-terminated test stage names.
@@ -1462,8 +1468,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // a6CrtR:              FCC "6 CRT R", 0
 // a7CrtW:              FCC "7 CRT W", 0
 // a8CrtRw:             FCC "8 CRT RW", 0
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_1_TONE
 // ; ==============================================================================
@@ -1472,16 +1478,16 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; generation ability.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_STAGE_1_TONE:
 //     JSR     EGS_RESET_VOICES
-// 
+//
 // ; The following lines initialise the 'Edit Patch' buffer with the default
 // ; patch data so that a pure sine wave can be synthesised during the test.
 //     LDD     #PATCH_INIT_VOICE_BUFFER
 //     JSR     PATCH_DESERIALISE
 //     JSR     PATCH_LOAD_DATA
-// 
+//
 // ; Add the note A4 (440hz) to the active note buffer. This note is
 // ; then removed, presumably to reset it in some way, and then re-added.
 //     LDAA    #69
@@ -1489,14 +1495,14 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     JSR     VOICE_ADD_CHECK_KEY_EVENT_COUNT
 //     JSR     VOICE_REMOVE_KEY
 //     JSR     VOICE_ADD_CHECK_KEY_EVENT_COUNT
-// 
+//
 // _PRINT_ROM_VERSION:
 //     LDX     #aAdjVr3M1018
 //     JMP     LCD_CLR_WRITE_LINE_2_THEN_PRINT
-// 
+//
 // aAdjVr3M1018:        FCC "ADJ VR3 M1.0-1.8", 0
 // aV1824Oct85Test:     FCC " V1.8 24-Oct-85  Test Entry ?", 0
-// 
+//
 // ; ==============================================================================
 // ; Initialise Patch Buffer.
 // ; This buffer contains the data to initialise the patch 'Edit Buffer'.
@@ -1524,8 +1530,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     FCB 0, 8, $23, 0, 0, 0, $31
 //     FCB $18
 // aInitVoiceTest:      FCC "INIT VOICE TEST ", 0
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_3_SWITCHES
 // ; ==============================================================================
@@ -1538,49 +1544,49 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; * 0x2580: The 'target switch', which is the next expected.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_STAGE_3_SWITCHES:
 //     LDAA    <M_LAST_ANALOG_INPUT_EVENT
 //     CMPA    #40
 //     BLS     _IS_TEST_ALREADY_COMPLETE?
 //     RTS
-// 
+//
 // ; This flag is reset in the clear test flags function.
-// 
+//
 // _IS_TEST_ALREADY_COMPLETE?:
 //     LDAA    M_TEST_STAGE_SUB
 //     CMPA    #40
 //     BNE     _TEST_SWITCHES
 //     RTS
-// 
+//
 // ; Print the current button number to the LED.
-// 
+//
 // _TEST_SWITCHES:
 //     STAA    M_PATCH_CURRENT_NUMBER
 //     JSR     LED_PRINT_PATCH_NUMBER
-// 
+//
 // ; Test whether the last pressed button is equal to the expected test
 // ; switch number.
 //     LDAA    M_TEST_STAGE_SUB
 //     SUBA    M_LAST_INPUT_EVENT
 //     BEQ     _CORRECT_BUTTON_PRESSED
-// 
+//
 // ; If the incorrect button has been pressed, the number corresponding to
 // ; this key will be shown on the LED output, and the appropriate message
 // ; printed to the LCD.
-// 
+//
 // _INCORRECT_BUTTON_PRESSED:
 //     LDAA    #60
 //     STAA    M_TEST_STAGE_SUB
 //     LDX     #aErrorSeeLed
-// 
+//
 // _PRINT_MESSAGE_SEE_LED:
 //     JMP     LCD_CLR_WRITE_LINE_2_THEN_PRINT
-// 
+//
 // _CORRECT_BUTTON_PRESSED:
 //     INC     M_TEST_STAGE_SUB
 //     LDAA    M_TEST_STAGE_SUB
-// 
+//
 // ; Increment the test switch, and store to the currently selected
 // ; patch number register, so that it will display on the LED.
 //     STAA    M_PATCH_CURRENT_NUMBER
@@ -1589,17 +1595,17 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     JSR     LED_PRINT_PATCH_NUMBER
 //     JSR     LCD_CLEAR_STR_BUFFER_LINE_2
 //     JMP     LCD_PRINT_STR_BUFFER
-// 
+//
 // _TEST_SUSTAIN:
 //     LDX     #aPushSustain
 //     BRA     _PRINT_MESSAGE_SEE_LED
-// 
+//
 // aErrorSeeLed:        FCC "ERROR SEE LED", 0
 // aOk:                 FCC " OK", 0
 // aPushSustain:        FCC "push sustain", 0
 // aPushPortamanto:     FCC "push portamanto", 0
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_4_KBD
 // ; ==============================================================================
@@ -1612,70 +1618,70 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; * 0x2580: The 'target key', which is the next expected.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_STAGE_4_KBD:
 //     LDAA    <M_LAST_ANALOG_INPUT_EVENT
-// 
+//
 // ; This comparison checks whether the last analog input event
 // ; was '44', indicating a 'Key Down' event.
 //     CMPA    #44
 //     BEQ     _LAST_INPUT_IS_KEY_DOWN
 //     RTS
-// 
+//
 // _LAST_INPUT_IS_KEY_DOWN:
 //     LDAA    M_TEST_STAGE_SUB
 //     CMPA    #61
 //     BNE     _IS_CORRECT_KEYPRESS_SEQUENCE?
 //     RTS
-// 
+//
 // ; Test if the keys were pressed in the correct sequence.
 // ; This is performed by storing the next expected key number in 0x2580,
 // ; This value, plus 36, is subtracted from the last key event recorded.
 // ; If the resulting number is zero, that indicates the correct key in the
 // ; sequence was pressed.
-// 
+//
 // _IS_CORRECT_KEYPRESS_SEQUENCE?:
 //     LDAA    <M_NOTE_KEY
 //     SUBA    #36
 //     SUBA    M_TEST_STAGE_SUB
 //     BEQ     _KEY_IS_CORRECT
 //     LDX     #aKbdError
-// 
+//
 // _CLEAR_LCD_LINE_2:
 //     JSR     LCD_CLR_WRITE_LINE_2_THEN_PRINT
 //     JMP     _PRINT_NOTES
-// 
+//
 // _KEY_IS_CORRECT:
 //     LDAA    <M_NOTE_VEL
 //     CMPA    #80
 //     BLS     _VELOCITY_IS_OK
 //     LDX     #aTouchErr
 //     BRA     _CLEAR_LCD_LINE_2
-// 
+//
 // _VELOCITY_IS_OK:
 //     INC     M_TEST_STAGE_SUB
-// 
+//
 // ; Check whether the test just finished the final key, and the test
 // ; is finished.
 //     LDAA    M_TEST_STAGE_SUB
 //     CMPA    #61
 //     BEQ     _TEST_4_COMPLETE
-// 
+//
 // ; Store the next key number in the patch number register, so
 // ; that it is printed to the LED output. Clear the second line
 // ; of the string buffer.
-// 
+//
 // _TEST_4_INCOMPLETE:
 //     STAA    M_PATCH_CURRENT_NUMBER
 //     JSR     LED_PRINT_PATCH_NUMBER
 //     JSR     LCD_CLEAR_STR_BUFFER_LINE_2
 //     JMP     _PRINT_NOTES
-// 
+//
 // _TEST_4_COMPLETE:
 //     LDX     #aKbdOk
 //     JMP     LCD_CLR_WRITE_LINE_2_THEN_PRINT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; LCD_CLEAR_STR_BUFFER_LINE_2
 // ; ==============================================================================
@@ -1685,24 +1691,24 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; Clears the second line of the LCD string buffer, then returns to the caller.
 // ;
 // ; ==============================================================================
-// 
+//
 // LCD_CLEAR_STR_BUFFER_LINE_2:
 //     LDAB    #16
 //     LDX     #M_LCD_BUFFER_LN_2
-// 
+//
 // ; Load ASCII space to ACCA.
 //     LDAA    #' '
-// 
+//
 // _CLR_2ND_LINE_LOOP:
 //     STAA    0,x
 //     INX
 //     DECB
 //     BNE     _CLR_2ND_LINE_LOOP                  ; If b > 0, loop.
 //     RTS
-// 
-// 
+//
+//
 // ; Print to LCD Buffer Line 2 + 10.
-// 
+//
 // _PRINT_NOTES:
 //     LDX     #$2639
 //     STX     <M_COPY_DEST_PTR
@@ -1713,8 +1719,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // aKbdError:           FCC "KBD ERROR", 0
 // aKbdOk:              FCC "KBD OK", 0
 // aTouchErr:           FCC "TOUCH ERR", 0
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_5_AD
 // ; ==============================================================================
@@ -1727,10 +1733,10 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; * 0x2582: The last analog data source that data was received from.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_STAGE_5_AD:
 //     LDAB    <M_ANALOG_DATA_SRC
-// 
+//
 // ; If the last analog data source touched has not changed, then
 // ; do not re-print its name to the LCD.
 //     CMPB    $2582
@@ -1740,7 +1746,7 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     PSHB
 //     JSR     LCD_CLEAR_STR_BUFFER_LINE_2
 //     PULB
-// 
+//
 // ; The last-touched analog data source is stored in B. This is then used as
 // ; an input into a string table, to display the name of the control being
 // ; touched.
@@ -1751,7 +1757,7 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     LDX     0,x
 //     JSR     LCD_WRITE_LINE_2_THEN_PRINT
 //     LDAB    $2582
-// 
+//
 // ; The following code uses the data source number as an input to a table of
 // ; powers of two. This value is then OR'd with the AD test stage flag
 // ; variable to set the corresponding stage as having been complete. Once all
@@ -1762,20 +1768,20 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     ORAA    <M_TEST_AD_STAGE_FLAGS
 //     ANDA    #%111111
 //     STAA    <M_TEST_AD_STAGE_FLAGS
-// 
+//
 // ; The following subroutine quantises the raw analog input value (0-255) to
 // ; the final output range (0-99).
-// 
+//
 // _QUANTISE_OUTPUT:
 //     LDAA    <M_ANALOG_DATA
 //     LDAB    #99
 //     MUL
 //     STAA    M_PATCH_CURRENT_NUMBER
 //     JSR     LED_PRINT_PATCH_NUMBER
-// 
+//
 // _END_TEST_STAGE_5_AD:
 //     RTS
-// 
+//
 // STR_PTRS_TEST_AD:
 //     FDB aDataEntry
 //     FDB aPBend
@@ -1793,8 +1799,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // aDataEntry:          FCC "DATA ENTRY", 0
 // aPBend:              FCC "P BEND", 0
 // aMWheel:             FCC "M WHEEL", 0
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_CRT_EEPROM
 // ; ==============================================================================
@@ -1808,27 +1814,27 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; successfully. The cartridge is then cleared again.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_STAGE_8_CRT_EEPROM:
 //     JSR     TEST_CRT_CHECK_INSERTED
 //     JSR     TEST_CRT_CHECK_MEM_PROTECTION
 //     LDX     #aJustCheck
 //     JSR     LCD_CLR_WRITE_LINE_2_THEN_PRINT
 //     JSR     TEST_CRT_CLEAR_CARTRIDGE
-// 
+//
 // _BEGIN_READ_WRITE_TEST:
 //     LDX     #P_CRT_START
-// 
+//
 // _CRT_RW_TEST_LOOP:
 //     TST     0,x
 //     TST     0,x
 //     TST     0,x
 //     TST     0,x
-// 
+//
 // _IS_BYTE_CLEARED?:
 //     BEQ     _CLEAR_BYTE_SUCCESS
 //     JMP     PRINT_TEST_CRT_ERROR_MSG
-// 
+//
 // _CLEAR_BYTE_SUCCESS:
 //     BSR     TEST_CRT_WRITE_BYTE
 //     INX
@@ -1837,8 +1843,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     JSR     TEST_CRT_CLEAR_CARTRIDGE
 //     LDX     #aEepromOk
 //     JMP     LCD_CLR_WRITE_LINE_2_THEN_PRINT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_CRT_WRITE_BYTE
 // ; ==============================================================================
@@ -1858,11 +1864,11 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; * The carry flag is set to indicate an error condition.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_CRT_WRITE_BYTE:
 //     LDAA    #$55                                ; 'U'
 //     JSR     CRT_WRITE_BYTE
-// 
+//
 // ; If the carry-bit is set after the previous function call, it indicates an
 // ; error condition has occurred.
 //     BCS     CRT_PRINT_TEST_ERROR
@@ -1870,8 +1876,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     JSR     CRT_WRITE_BYTE
 //     BCS     CRT_PRINT_TEST_ERROR
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_CRT_CLEAR_CARTRIDGE
 // ; ==============================================================================
@@ -1882,26 +1888,26 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; diagnostic tests.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_CRT_CLEAR_CARTRIDGE:
 //     LDX     #P_CRT_START
 //     CLRA
-// 
+//
 // _CRT_CLEAR_LOOP:
 //     JSR     CRT_WRITE_BYTE
-// 
+//
 // ; If the carry bit is set, this indicates an error condition.
 //     BCS     CRT_PRINT_TEST_ERROR
 //     INX
 //     CPX     #P_CRT_END
 //     BNE     _CRT_CLEAR_LOOP                     ; If IX < 0x5000, loop.
 //     RTS
-// 
+//
 // CRT_PRINT_TEST_ERROR:
 //     PULX
 //     BRA     PRINT_TEST_CRT_ERROR_MSG
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_STAGE_6_CRT_READ
 // ; ==============================================================================
@@ -1911,18 +1917,18 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; Tests the ability of the synth to read each byte of the cartridge memory.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_STAGE_6_CRT_READ:
 //     BSR     TEST_CRT_CHECK_INSERTED
 //     LDX     #P_CRT_START
 //     LDD     #0
-// 
+//
 // ; Tests the ability to read each byte by setting ACCA to an arbitrary value
 // ; by adding the LSB of the destination address to the MSB, then loading
 // ; ACCB from cartridge memory, copying ACCB to ACCA, then testing if the
 // ; values are equal.
 // ; If they're not equal, an error message is printed.
-// 
+//
 // _CRT_READ_LOOP:
 //     STD     <M_COPY_DEST_PTR
 //     ABA
@@ -1930,9 +1936,9 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     CBA
 //     BEQ     _INCREMENT_POINTER
 //     JMP     PRINT_TEST_CRT_ERROR_MSG
-// 
+//
 // ; Increment the copy destination, and source pointers.
-// 
+//
 // _INCREMENT_POINTER:
 //     LDD     <M_COPY_DEST_PTR
 //     ADDD    #1
@@ -1941,8 +1947,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     BNE     _CRT_READ_LOOP                      ; If IX < 0x5000, loop.
 //     LDX     #aReadOk
 //     JMP     LCD_CLR_WRITE_LINE_2_THEN_PRINT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_STAGE_7_CRT_WRITE
 // ; ==============================================================================
@@ -1954,7 +1960,7 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; written.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_STAGE_7_CRT_WRITE:
 //     BSR     TEST_CRT_CHECK_INSERTED
 //     BSR     TEST_CRT_CHECK_MEM_PROTECTION
@@ -1964,8 +1970,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     BSR     TEST_CRT_WRITE_BYTE
 //     LDX     #aWriteOk
 //     JMP     LCD_CLR_WRITE_LINE_2_THEN_PRINT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_CRT_CHECK_INSERTED
 // ; ==============================================================================
@@ -1978,19 +1984,19 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; the LCD screen.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_CRT_CHECK_INSERTED:
 //     LDAA    P_CRT_PEDALS_LCD
 //     BITA    #CRT_FLAG_INSERTED
 //     BNE     _PRINT_INSERT_CRT_MSG
 //     RTS
-// 
+//
 // _PRINT_INSERT_CRT_MSG:
 //     PULX
 //     LDX     #(aNotReadyInsert+$10)
 //     JMP     LCD_CLR_WRITE_LINE_2_THEN_PRINT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_CRT_CHECK_MEM_PROTECTION
 // ; ==============================================================================
@@ -2003,18 +2009,18 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; cartridge.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_CRT_CHECK_MEM_PROTECTION:
 //     BITA    #CRT_FLAG_PROTECTED
 //     BNE     _PRINT_MSG_MEM_PROTECTED
 //     RTS
-// 
+//
 // _PRINT_MSG_MEM_PROTECTED:
 //     PULX
 //     LDX     #aMemoryProtecte
 //     JMP     LCD_CLR_WRITE_LINE_2_THEN_PRINT
-// 
-// 
+//
+//
 // PRINT_TEST_CRT_ERROR_MSG:
 //     LDX     #aError
 //     JMP     LCD_CLR_WRITE_LINE_2_THEN_PRINT
@@ -2023,8 +2029,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // aError:              FCC " ! ERROR ! ", 0
 // aReadOk:             FCC "READ OK", 0
 // aWriteOk:            FCC "WRITE OK", 0
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_2_LCD
 // ; ==============================================================================
@@ -2034,15 +2040,15 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; Tests the LCD, and LED output by printing a test pattern to each.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_STAGE_2_LCD:
 //     TST     $20A5
-// 
+//
 // ; Branch if 0x20A5 is non-zero.
 // ; This value is used as a 'toggle' to decide whether the LCD screen
 // ; should be filled or cleared.
 //     BNE     _FILL_SCREEN
-// 
+//
 // ; Load 0xFF into ACCB, which is used to clear the LED contents.
 // ; Load 0x20 into ACCA, which is an ASCII space value, used to clear
 // ; the LCD screen buffer contents.
@@ -2051,69 +2057,69 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     LDAA    #' '
 //     STAA    M_TEST_STAGE_SUB
 //     STAA    M_PATCH_CURRENT_MODIFIED_FLAG
-// 
+//
 // _PRINT_LED_PATTERN:
 //     STAB    P_LED2
 //     STAB    P_LED1
-// 
+//
 // ; Clears the LCD string buffer with the contents of ACCA.
 // ; This is either space, or 0xFF, as seen above.
-// 
+//
 // _PRINT_LCD_PATTERN:
 //     LDAB    #32
 //     LDX     #M_LCD_BUFFER_LN_1
-// 
+//
 // _CLEAR_LCD_LOOP:
 //     STAA    0,x
 //     INX
 //     DECB
 //     BNE     _CLEAR_LCD_LOOP                     ; If ACCB > 0, loop.
-// 
+//
 // _WRITE_LCD_CONTENTS:
 //     LDX     #M_LCD_BUFFER_LN_1
 //     JSR     LCD_PRINT_STR_BUFFER
-// 
+//
 // ; Create an artificial delay to 'blink' the LCD screen.
-// 
+//
 // _DELAY:
 //     LDAB    #33
-// 
+//
 // DELAY_LOOP:
 //     JSR     DELAY_450_CYCLES
 //     DECB
 //     BNE     DELAY_LOOP                          ; If ACCB > 0, loop.
 //     RTS
-// 
+//
 // _FILL_SCREEN:
 //     LDAB    M_PATCH_CURRENT_NUMBER
 //     BEQ     _TEST_2_RESET_LED
-// 
+//
 // ; Shift ACCB left one bit.
 // ; The effect of this operation is to increment the LED 'pattern'.
 //     ASLB
-// 
+//
 // _STORE_LED_CONTENTS:
 //     STAB    M_PATCH_CURRENT_NUMBER
 //     LDAA    M_TEST_STAGE_SUB
-// 
+//
 // _SET_LCD_CONTENTS:
 //     CMPA    #32
 //     BNE     _CLEAR_LCD
 //     LDAA    #$FF
-// 
+//
 // _STORE_LCD_CONTENTS:
 //     STAA    M_TEST_STAGE_SUB
 //     BRA     _PRINT_LED_PATTERN
-// 
+//
 // _CLEAR_LCD:
 //     LDAA    #' '
 //     BRA     _STORE_LCD_CONTENTS
-// 
+//
 // _TEST_2_RESET_LED:
 //     LDAB    #$FF
 //     BRA     _STORE_LED_CONTENTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_RAM
 // ; ==============================================================================
@@ -2125,16 +2131,16 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; location.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_RAM:
 //     LDX     #M_EXTERNAL_RAM_START
 //     STX     <M_COPY_SRC_PTR
 //     LDX     #$27C0
 //     STX     <M_COPY_DEST_PTR
-// 
+//
 // ; Copy the 32 byte block pointed to by the origin pointer to
 // ; the temporary address.
-// 
+//
 // _TEST_RAM_LOOP:
 //     BSR     TEST_RAM_COPY_BLOCK_TO_TEMP
 //     BSR     TEST_RAM_BLOCK
@@ -2143,8 +2149,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     CPX     #$27C0
 //     BCS     _TEST_RAM_LOOP                      ; If ORIGIN < 0x27C0, loop.
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_RAM_COPY_BLOCK_TO_TEMP
 // ; ==============================================================================
@@ -2164,7 +2170,7 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; * 0x2185: The data dest pointer used as an argument to memcpy.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_RAM_COPY_BLOCK_TO_TEMP:
 //     LDX     <M_COPY_SRC_PTR
 //     STX     $2183
@@ -2172,8 +2178,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     STX     $2185
 //     BSR     TEST_RAM_MEMCPY
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_RAM_COPY_BLOCK_FROM_TEMP
 // ; ==============================================================================
@@ -2184,7 +2190,7 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; to their original location in memory.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_RAM_COPY_BLOCK_FROM_TEMP:
 //     LDX     <M_COPY_DEST_PTR
 //     STX     $2183
@@ -2195,8 +2201,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     ABX
 //     STX     <M_COPY_SRC_PTR                     ; Increment ORIGIN by 32.
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_RAM_MEMCPY
 // ; ==============================================================================
@@ -2213,10 +2219,10 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; * 0x2183:   Pointer to the origin in memory.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_RAM_MEMCPY:
 //     CLRB
-// 
+//
 // _TEST_RAM_MEMCPY_LOOP:
 //     LDX     $2183
 //     ABX
@@ -2224,14 +2230,14 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     LDX     $2185
 //     ABX
 //     STAA    0,x
-// 
+//
 // _INCREMENT_TEST_RAM_LOOP_COUNTER:
 //     INCB
 //     CMPB    #32
 //     BNE     _TEST_RAM_MEMCPY_LOOP
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_RAM_BLOCK
 // ; ==============================================================================
@@ -2248,29 +2254,29 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; * IX:   The starting address of the test.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_RAM_BLOCK:
 //     CLRB                                        ; B is used as the loop index.
-// 
+//
 // TEST_RAM_BLOCK_LOOP:
 //     LDX     <M_COPY_SRC_PTR
 //     ABX
 //     LDAA    #$55                                ; 'U'
-// 
+//
 // ; Test writing 0x55 to 0xF9+ACCB.
 //     BSR     TEST_RAM_ADDRESS
 //     LDAA    #$AA
-// 
+//
 // ; Test writing 0xAA to 0xF9+ACCB.
 //     BSR     TEST_RAM_ADDRESS
-// 
+//
 // _INCREMENT_TEST_BLOCK_LOOP_COUNTER:
 //     INCB
 //     CMPB    #32
 //     BNE     TEST_RAM_BLOCK_LOOP                 ; If ACCB < 32, loop.
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; TEST_RAM_ADDRESS
 // ; ==============================================================================
@@ -2290,31 +2296,31 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; * ACCA: The byte to be written.
 // ;
 // ; ==============================================================================
-// 
+//
 // TEST_RAM_ADDRESS:
 //     STAA    0,x
-// 
+//
 // ; Check whether the memory read back at *(IX) matches ACCA.
 //     CMPA    0,x
 //     BNE     _TEST_RAM_FAIL
 //     RTS
-// 
+//
 // _TEST_RAM_FAIL:
 //     LDX     #aErrorRamIc
 //     JSR     LCD_CLR_WRITE_LINE_2_THEN_PRINT
-// 
+//
 // ; The following lines pop the return subroutine addresses from the
 // ; stack, and then jump to the main diagnostic loop.
-// 
+//
 // _CLEAR_RETURN_ADDRESSES:
 //     PULX
 //     PULX
 //     PULX
 //     JMP     TEST_MAIN_LOOP
-// 
+//
 // aErrorRamIc:         FCC "ERROR RAM IC", 0
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; HNDLR_RESET
 // ; ==============================================================================
@@ -2326,153 +2332,153 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; all parameters are set to acceptable values.
 // ;
 // ; ==============================================================================
-// 
+//
 // HANDLER_RESET:
 //     LDAA    #$FF
-// 
+//
 // ; Set all fields in CCR (Condition Code Register).
 //     TAP
-// 
+//
 // ; Set up the synth's IO ports.
 // ; Set all lines in IO Port 4 to function as outputs.
 // ; Set IO Port 1 as an input.
 // ; Set lines 0, and 4 of IO Port 2 to function as outputs.
 // ; For more information refer to page 142 of the Hitachi HD6303 series handbook.
-// 
+//
 // _RESET_IO_PORTS:
 //     STAA    <IO_PORT_4_DIR
 //     CLR     IO_PORT_1_DIR
 //     LDAA    #%10001
 //     STAA    <IO_PORT_2_DIR
 //     CLR     IO_PORT_2_DATA
-// 
+//
 // _SET_STACK_TOP:
 //     LDS     #M_STACK_TOP
-// 
+//
 // ; The following memory address is never directly referenced in the code.
 // ; Likely it was used manually for debugging purposes by external tools.
 //     LDAA    #1
 //     STAA    $2575
-// 
+//
 // ; Ensure that the 'Master Tune' value is within the 0 - 0x1FF range.
-// 
+//
 // _CLAMP_MASTER_TUNE:
 //     LDD     M_MASTER_TUNE
 //     LSRD
 //     CLRA
 //     LSLD
 //     STD     M_MASTER_TUNE
-// 
+//
 // _RESET_PITCH_BEND_RANGE:
 //     LDAA    #13
 //     CMPA    M_PITCH_BND_RANGE
 //     BHI     _RESET_PITCH_BEND_STEP
 //     CLR     M_PITCH_BND_RANGE
-// 
+//
 // _RESET_PITCH_BEND_STEP:
 //     CMPA    M_PITCH_BND_STEP
 //     BHI     _RESET_MIDI_CH
 //     CLR     M_PITCH_BND_STEP
-// 
+//
 // _RESET_MIDI_CH:
 //     LDAA    #16
 //     CMPA    M_MIDI_RX_CH
 //     BHI     _RESET_MIDI_TX_CH                   ; If 16 > MIDI_CH, branch.
 //     CLR     M_MIDI_RX_CH
-// 
+//
 // _RESET_MIDI_TX_CH:
 //     CLR     M_MIDI_TX_CH
-// 
+//
 // _RESET_PORTA_TIME:
 //     LDAA    #100
 //     CMPA    M_PORTA_TIME
 //     BHI     _SET_EDIT_PARAM_ABOVE_5
 //     CLR     M_PORTA_TIME
-// 
+//
 // _SET_EDIT_PARAM_ABOVE_5:
 //     LDAA    M_EDIT_PARAM_CURRENT
 //     ANDA    #31
 //     CMPA    #5
 //     BHI     _RESET_PATCH_INFO
 //     LDAA    #6
-// 
+//
 // _RESET_PATCH_INFO:
 //     STAA    M_EDIT_PARAM_CURRENT
-// 
+//
 // ; Set all operators as being enabled.
 //     LDAA    #%111111
 //     STAA    M_PATCH_CURRENT_OPS_ON_OFF
-// 
+//
 // ; If the currently selected operator is a value above 5, reset to
 // ; the default of 5.
-// 
+//
 // _RESET_SELECTED_OPERATOR:
 //     LDAA    #5
 //     CMPA    M_SELECTED_OPERATOR
 //     BHI     _RESET_SWITCH_MODE
 //     STAA    M_SELECTED_OPERATOR
-// 
+//
 // ; Checks that the synth's input mode is set to a valid value.
 // ; If it's set to an invalid value, the synth is set to a default value
 // ; of 'Function Mode'.
-// 
+//
 // _RESET_SWITCH_MODE:
 //     LDAA    #INPUT_MODE_FN
 //     CMPA    M_INPUT_MODE
 //     BHI     _RESET_UI_MODE
 //     STAA    M_INPUT_MODE
-// 
+//
 // ; Resets the current UI mode. Ensures it has a valid value.
-// 
+//
 // _RESET_UI_MODE:
 //     LDAA    #UI_MODE_SET_MEM_PROTECT
 //     CMPA    M_MEM_SELECT_UI_MODE
 //     BHI     _RESET_LAST_PRESSED_BUTTON
 //     STAA    M_MEM_SELECT_UI_MODE
-// 
+//
 // _RESET_LAST_PRESSED_BUTTON:
 //     LDAA    #BUTTON_FUNCTION
 //     CMPA    M_LAST_PRESSED_BTN
 //     BHI     _RESET_CURRENT_PATCH_NUMBER
 //     STAA    M_LAST_PRESSED_BTN
-// 
+//
 // _RESET_CURRENT_PATCH_NUMBER:
 //     LDAA    #31
 //     CMPA    M_PATCH_CURRENT_NUMBER
 //     BHI     _RESET_CURRENT_EDIT_PARAM           ; If <= 31, branch.
 //     STAA    M_PATCH_CURRENT_NUMBER
-// 
+//
 // _RESET_CURRENT_EDIT_PARAM:
 //     CMPA    M_FN_PARAM_CURRENT
 //     BHI     _RESET_INT_RAM                      ; If <= 31, branch.
 //     STAA    M_FN_PARAM_CURRENT
-// 
+//
 // ; This subroutine clears all 128 bytes of internal RAM.
-// 
+//
 // _RESET_INT_RAM:
 //     LDX     #$80
 //     LDAB    #128
-// 
+//
 // _RESET_INT_RAM_BYTE:
 //     CLR     0,x
 //     INX
 //     DECB
 //     BNE     _RESET_INT_RAM_BYTE                 ; If ACCB > 0, loop.
-// 
+//
 // ; Reset memory protection flags.
 // ; Sets protection for both CRT and INT memory ON.
-// 
+//
 // _RESET_MEM_PROTECT:
 //     LDAA    #%11000000
 //     STAA    <M_MEM_PROTECT_FLAGS
 //     LDAA    #$F7
 //     STAA    M_ERR_HANDLING_FLAG
-// 
+//
 // _RESET_VOICES:
 //     JSR     VOICE_RESET_EVENT_AND_PITCH_BUFFERS
 //     LDAA    #7
 //     STAA    P_DAC
-// 
+//
 // _RESET_ANALOG_INPUT_VALUES:
 //     CLRA
 //     STAA    M_MOD_WHEEL_ANALOG_INPUT
@@ -2482,7 +2488,7 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     JSR     VOICE_DEACTIVATE_ALL
 //     JSR     MOD_PROCESS_INPUT_SOURCES
 //     JSR     PORTA_COMPUTE_RATE_VALUE
-// 
+//
 // ; Resets the LCD screen buffers, initialises the LCD controller,
 // ; then prints the synth's 'Welcome Message'.
 //     JSR     LCD_CLEAR_STR_BUFFER
@@ -2490,37 +2496,37 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     JSR     MIDI_INIT
 //     LDAA    #1
 //     STAA    <IO_PORT_2_DATA
-// 
+//
 // _RESET_LED:
 //     CLRA
 //     STAA    P_LED2
 //     STAA    P_LED1
 //     TAP                                         ; Clear CCR.
-// 
+//
 // ; Delay for 100x450 cycles to display the synth's welcome message.
 //     LDAB    #100
-// 
+//
 // _RESET_WELCOME_DELAY:
 //     JSR     DELAY_450_CYCLES
 //     DECB
 //     BNE     _RESET_WELCOME_DELAY                ; If ACCB > 0, loop.
 // ; Enable OCF IRQ.
-// 
+//
 // _RESET_TIMER_INT:
 //     LDAA    #%1000
 //     STAA    <TIMER_CTRL_STATUS
 //     TST     M_INPUT_MODE
 //     BNE     _LOAD_PATCH_FROM_WRK_BFR
-// 
+//
 // ; The following code loads whatever patch was previously selected.
 // ; If it has been edited, the patch is loaded from the edit buffer,
 // ; otherwise it is reloaded from its original location in RAM.
-// 
+//
 // _LOAD_PATCH:
 //     LDAA    M_PATCH_CURRENT_MODIFIED_FLAG
 //     CMPA    #EDITED_PATCH_IN_WORKING
 //     BEQ     _LOAD_PATCH_FROM_WRK_BFR
-// 
+//
 // _LOAD_PATCH_FROM_RAM:
 //     LDAA    M_PATCH_CURRENT_NUMBER
 //     STAA    M_LAST_PRESSED_BTN
@@ -2529,26 +2535,26 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     JSR     MEMORY_SELECT_CRT
 //     TST     M_MEM_SELECT_UI_MODE
 //     BEQ     _BATTERY_CHECK
-// 
+//
 // _SWITCH_TO_PATCH:
 //     JSR     PATCH_PROGRAM_CHANGE
 //     BRA     _BATTERY_CHECK
-// 
+//
 // _LOAD_PATCH_FROM_WRK_BFR:
 //     JSR     UI_PRINT_MAIN
 //     JSR     PATCH_LOAD_DATA
 //     JSR     LED_PRINT_PATCH_NUMBER
-// 
+//
 // _BATTERY_CHECK:
 //     JSR     BATTERY_CHECK
-// 
+//
 // _RESET_PORTA_SUS_PDL_STATUS:
 //     LDAA    P_CRT_PEDALS_LCD
 //     ANDA    #PEDAL_STATUS_MASK
 //     STAA    M_PEDAL_INPUT_STATUS_PREVIOUS
 //     STAA    <M_PEDAL_INPUT_STATUS               ; Falls-through to main loop.
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MAIN_LOOP
 // ; ==============================================================================
@@ -2564,7 +2570,7 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; sound chips.
 // ;
 // ; ==============================================================================
-// 
+//
 // MAIN_LOOP:
 //     BSR     MAIN_PROCESS_INPUT
 //     JSR     MIDI_PROCESS_RECEIVED_DATA
@@ -2573,8 +2579,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     JSR     MAIN_VALIDATE_PORTAMENTO
 //     JSR     MAIN_CHECK_MIDI_ERROR_FLAG
 //     BRA     MAIN_LOOP
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MAIN_PROCESS_BUTTON_INPUT
 // ; ==============================================================================
@@ -2584,10 +2590,10 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; Handles the button input recorded in the interrupt function.
 // ;
 // ; ==============================================================================
-// 
+//
 // MAIN_PROCESS_INPUT:
 //     LDAA    <M_LAST_ANALOG_INPUT_EVENT
-// 
+//
 // ; Check whether there is a button event that needs processing.
 // ; If the last analog input source value is '0', or above '43', then the last
 // ; physical user action was something other than a button press.
@@ -2596,29 +2602,29 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     CLR     M_LAST_ANALOG_INPUT_EVENT
 //     CMPA    #43
 //     BHI     _END_MAIN_PROCESS_INPUT             ; If A > 43, branch.
-// 
+//
 // _IS_LAST_INPUT_SOURCE_SLIDER?:
 //     BEQ     _IS_UI_MODE_MEM_PROTECT?
 //     CLR     M_SLIDER_INPUT_EVENT
-// 
+//
 // _IS_UI_MODE_MEM_PROTECT?:
 //     LDAB    M_MEM_SELECT_UI_MODE
 //     CMPB    #UI_MODE_SET_MEM_PROTECT
 //     BNE     _IS_EDITING_PATCH_NAME?
-// 
+//
 // _IS_BUTTON_ABOVE_33?:
 //     CMPA    #33
 //     BCS     MAIN_PROCESS_INPUT_END              ; If A > 33, return.
-// 
+//
 // ; If the user is in the process of editing a patch name, and is in
 // ; 'ASCII Input Mode' capture all button input, and handle it in this
 // ; handler. The 'Key Transpose Active' flag is cleared at this point.
-// 
+//
 // _IS_EDITING_PATCH_NAME?:
 //     CLR     M_EDIT_KEY_TRANSPOSE_ACTIVE
 //     TST     M_EDIT_ASCII_MODE
 //     BNE     _EDIT_PATCH_NAME
-// 
+//
 // ; Test if the 'Function' button is being pressed.
 // ; If so, test whether the diagnostic mode button combination is active.
 //     TST     M_BTN_FUNC_STATE
@@ -2630,11 +2636,11 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     BNE     _LOOKUP_BTN_FN_TABLE
 //     CMPA    #6
 //     BHI     MAIN_PROCESS_INPUT_END
-// 
+//
 // ; Load the table of button mode pointers, and use the current 'Input Mode'
 // ; as an index into the table. From this table, the table of function pointers
 // ; used to facilitate the button functions is loaded.
-// 
+//
 // _LOOKUP_BTN_FN_TABLE:
 //     ASLB
 //     LDX     #TABLE_SWITCH_MODES
@@ -2643,18 +2649,18 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     LDAB    M_LAST_INPUT_EVENT
 //     TST     M_INPUT_MODE
 //     BNE     _LOAD_BTN_FUNCTION_PTR
-// 
+//
 // ; If the synth is in 'Play Mode', start at index 31, since buttons 0-30 all
 // ; perform the identical task of loading a patch. For this reason, if the
 // ; triggering button is below, or equal to 31, set to 0.
 //     SUBB    #31
 //     BPL     _LOAD_BTN_FUNCTION_PTR
 //     CLRB
-// 
+//
 // ; Use the current button as an index into this mode's table of function
 // ; pointers, then jump to the appropriate subroutine associated with the
 // ; last-pressed button.
-// 
+//
 // _LOAD_BTN_FUNCTION_PTR:
 //     PSHB
 //     ASLB
@@ -2667,22 +2673,22 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     CMPA    #INPUT_MODE_EDIT
 //     BEQ     _BTN_MODE_EDIT
 //     BRA     LCD_SET_CURSOR_BLINK_OFF
-// 
+//
 // ; If the synth is in 'Play Mode', and the patch in the 'Edit Buffer' has
 // ; not been modified, then turn the LCD blinking cursor off.
-// 
+//
 // _BTN_MODE_PLAY:
 //     LDAA    M_PATCH_CURRENT_MODIFIED_FLAG
 //     CMPA    #EDITED_PATCH_IN_WORKING
 //     BNE     LCD_SET_CURSOR_BLINK_OFF
-// 
+//
 // _END_MAIN_PROCESS_INPUT:
 //     RTS
-// 
+//
 // ; The following sequence checks the various scenarios in which the LCD
 // ; blinking effect should NOT be turned off. The following sequence
 // ; falls-through to turn the LCD blink off.
-// 
+//
 // _BTN_MODE_EDIT:
 //     BNE     LCD_SET_CURSOR_BLINK_OFF
 //     CMPB    #BUTTON_6
@@ -2695,8 +2701,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     BEQ     MAIN_PROCESS_INPUT_END
 //     CMPB    #BUTTON_FUNCTION
 //     BHI     MAIN_PROCESS_INPUT_END
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; LCD_SET_CURSOR_BLINK_OFF
 // ; ==============================================================================
@@ -2707,24 +2713,24 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; effect.
 // ;
 // ; ==============================================================================
-// 
+//
 // LCD_SET_CURSOR_BLINK_OFF:
 //     LDAA    #LCD_INSTR_SET_BLINK_OFF
 //     JSR     LCD_WRITE_INSTRUCTION
 //     CLR     M_PATCH_NAME_EDIT_ACTIVE
-// 
+//
 // MAIN_PROCESS_INPUT_END:
 //     RTS
-// 
-// 
+//
+//
 // _EDIT_PATCH_NAME:
 //     JSR     INPUT_EDIT_PATCH_NAME_ASCII_MODE
 //     RTS
-// 
+//
 // _FN_IS_DOWN:
 //     JSR     INPUT_CHECK_TEST_BTN_COMBO
 //     RTS
-// 
+//
 // ; ==============================================================================
 // ; Pointers to the tables of button handling function pointers for each of the
 // ; synth's three button modes.
@@ -2733,7 +2739,7 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     FDB TABLE_BTN_MODE_PLAY
 //     FDB TABLE_BTN_MODE_EDIT
 //     FDB TABLE_BTN_MODE_FUNC
-// 
+//
 // ; ==============================================================================
 // ; 'Play Mode' (Mode 0) button function pointers.
 // ; This table starts at button 32, since in play mode buttons 0-31 initiate
@@ -2753,7 +2759,7 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     FDB BTN_YES_NO_SEND_MIDI
 //     FDB BTN_HNDLR_42
 //     FDB BTN_SLIDER
-// 
+//
 // ; ==============================================================================
 // ; Function pointers for the button handlers for each of the synth's buttons
 // ; when in 'Edit Mode'.
@@ -2803,7 +2809,7 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     FDB BTN_YES_NO_SEND_MIDI
 //     FDB BTN_HNDLR_42
 //     FDB BTN_SLIDER
-// 
+//
 // ; ==============================================================================
 // ; Function pointers for the button handlers for each of the synth's buttons
 // ; when in 'Function Mode'.
@@ -2853,8 +2859,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     FDB BTN_YES_NO_SEND_MIDI
 //     FDB BTN_CLEAR_RW_FLAG_AND_EXIT
 //     FDB BTN_SLIDER
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MAIN_PORTA_SUS_PDL_STATE_UPDATE
 // ; ==============================================================================
@@ -2867,18 +2873,18 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; The Portamento/Sustain pedal state flags are set here.
 // ;
 // ; ==============================================================================
-// 
+//
 // MAIN_PORTA_SUS_PDL_STATE_UPDATE:
 //     LDAA    P_CRT_PEDALS_LCD
 //     ANDA    #PEDAL_STATUS_MASK
 //     PSHA
-// 
+//
 // ; Compare IO Port C's current state to that of the sustain/porta pedal
 // ; status recorded on the previous iteration.
-// 
+//
 // _CHECK_SUSTAIN_PEDAL_STATUS:
 //     ANDA    #1
-// 
+//
 // ; Check whether the current state differs from the previous state.
 //     EORA    M_PEDAL_INPUT_STATUS_PREVIOUS
 //     BITA    #1
@@ -2886,34 +2892,34 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     PULA
 //     PSHA                                        ; Restore, and save A.
 //     BITA    #1
-// 
+//
 // ; If the state has changed, set the appropriate bit in the
 // ; Portamento/Sustain pedal flags register.
 // ; Set ACCB to 127 if the status changed to 'ON', otherwise 0 for 'OFF'.
 // ; The next method will then transfer the appropriate mode change data
 // ; to the MIDI TX buffer.
 //     BEQ     _SUSTAIN_STATE_CHANGED_OFF
-// 
+//
 // _SUSTAIN_STATE_CHANGED_ON:
 //     OIM     #1, M_PEDAL_INPUT_STATUS
 //     LDAB    #127
 //     BRA     _SEND_SUSTAIN_MIDI_MSG
-// 
+//
 // _SUSTAIN_STATE_CHANGED_OFF:
 //     AIM     #%11111110, M_PEDAL_INPUT_STATUS
 //     JSR     MAIN_PROCESS_SUSTAIN_PEDAL
 //     CLRB
-// 
+//
 // _SEND_SUSTAIN_MIDI_MSG:
 //     JSR     MIDI_SEND_CC_64
-// 
+//
 // _CHECK_PORTA_PEDAL_STATUS:
 //     PULA
 //     PSHA                                        ; Restore, and save A.
-// 
+//
 // ; Check whether the current state differs from the previous state.
 //     EORA    M_PEDAL_INPUT_STATUS_PREVIOUS
-// 
+//
 // ; Refer to documentation above regarding handling the state change,
 // ; and sending the appropriate MIDI message.
 //     BITA    #%10
@@ -2922,25 +2928,25 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     PSHA
 //     BITA    #%10
 //     BEQ     _PORTA_STATE_CHANGED_OFF
-// 
+//
 // _PORTA_STATE_CHANGED_ON:
 //     OIM     #%10, M_PEDAL_INPUT_STATUS
 //     LDAB    #127
 //     BRA     _SEND_PORTA_MIDI_MSG
-// 
+//
 // _PORTA_STATE_CHANGED_OFF:
 //     AIM     #%11111101, M_PEDAL_INPUT_STATUS
 //     CLRB
-// 
+//
 // _SEND_PORTA_MIDI_MSG:
 //     JSR     MIDI_SEND_CC_65
-// 
+//
 // _END_MAIN_PORTA_SUS_PDL_STATE_UPDATE:
 //     PULA
 //     STAA    M_PEDAL_INPUT_STATUS_PREVIOUS
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MAIN_ACTV_SENS_TX_CHECK
 // ; ==============================================================================
@@ -2951,17 +2957,17 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; 'active sensing' MIDI message is pushed to the synth's MIDI TX buffer.
 // ;
 // ; ==============================================================================
-// 
+//
 // MAIN_ACTV_SENS_TX_CHECK:
 //     TST     M_MIDI_ACTV_SENS_TX_TRIGGER
 //     BEQ     _END_MAIN_ACTV_SENS_TX_CHECK
 //     JSR     MIDI_SEND_ACTIVE_SENSING
 //     CLR     M_MIDI_ACTV_SENS_TX_TRIGGER
-// 
+//
 // _END_MAIN_ACTV_SENS_TX_CHECK:
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MAIN_VALIDATE_PORTAMENTO
 // ; ==============================================================================
@@ -2973,16 +2979,16 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; If this value is zero, then the portamento increment value is calculated.
 // ;
 // ; ==============================================================================
-// 
+//
 // MAIN_VALIDATE_PORTAMENTO:
 //     TST     M_PORTA_RATE_INCREMENT
 //     BEQ     _PORTA_RATE_INVALID
 //     RTS
-// 
+//
 // _PORTA_RATE_INVALID:
 //     JMP     PORTA_COMPUTE_RATE_VALUE
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MAIN_CHECK_MIDI_ERROR_FLAG
 // ; ==============================================================================
@@ -2993,29 +2999,29 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; appropriate message to the LCD screen.
 // ;
 // ; ==============================================================================
-// 
+//
 // MAIN_CHECK_MIDI_ERROR_FLAG:
 //     LDAA    <M_MIDI_BUFFER_ERROR_CODE
 //     CMPA    #MIDI_STATUS_ERROR
 //     BNE     _STATUS_NON_ZERO
 //     LDX     #aMidiDataError
 //     BRA     _PRINT_MIDI_ERROR
-// 
+//
 // _STATUS_NON_ZERO:
 //     CMPA    #MIDI_STATUS_BUFFER_FULL
 //     BNE     _END_MAIN_CHECK_MIDI_ERROR_FLAG
 //     LDX     #aMidiBufferFull
-// 
+//
 // _PRINT_MIDI_ERROR:
 //     JSR     LCD_CLR_WRITE_LINE_2_THEN_PRINT
 //     CLR     M_MIDI_BUFFER_ERROR_CODE
 //     LDAA    #$F7
 //     STAA    M_ERR_HANDLING_FLAG
-// 
+//
 // _END_MAIN_CHECK_MIDI_ERROR_FLAG:
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; HNDLR_IRQ
 // ; ==============================================================================
@@ -3034,22 +3040,22 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; mechanism used to communicate with the synth's 'Sub-CPU'.
 // ;
 // ; ==============================================================================
-// 
+//
 // HANDLER_IRQ:
 //     LDAB    <IO_PORT_2_DATA
 //     PSHB
 //     JSR     READ_BYTE_FROM_SUB_CPU
 //     CMPA    #158
 //     BLS     _IS_BTN_DOWN_EVENT?                 ; If A <= 158, branch.
-// 
+//
 // ; An 'origin' value above 158 indicates that this data originates from a
 // ; keyboard event. The first data byte is the source, indicating which key
 // ; was pressed, the second data byte indicates the velocity.
 // ; The DX7 considers a key event with zero velocity to be a 'Key Up' event.
-// 
+//
 // _KEYBOARD_INPUT:
 //     STAA    <M_SUB_CPU_READ_KEY
-// 
+//
 // ; Subtract 123, since the keyboard starts at C2 (MIDI 36).
 // ; @TODO: Verify.
 //     SUBA    #123
@@ -3057,33 +3063,33 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     JSR     READ_BYTE_FROM_SUB_CPU
 //     STAA    <M_NOTE_VEL
 //     BEQ     _HANDLE_KEY_UP_EVENT
-// 
+//
 // _HANDLE_KEY_DOWN_EVENT:
 //     CLI
 //     LDAA    #44
 //     STAA    <M_LAST_ANALOG_INPUT_EVENT
 //     JSR     INPUT_KEY_DOWN
 //     JMP     HNDLR_IRQ_EXIT
-// 
+//
 // _HANDLE_KEY_UP_EVENT:
 //     CLI
 //     JSR     INPUT_KEY_UP
 //     JMP     HNDLR_IRQ_EXIT
 // ; A value of '152' indicates a 'Button Pressed' event.
 // ; Subtract 80 from the 'source' value to properly index the buttons.
-// 
+//
 // _IS_BTN_DOWN_EVENT?:
 //     CMPA    #152
 //     BNE     _IS_BTN_UP_EVENT?
-// 
+//
 // _HANDLE_BTN_DOWN:
 //     JSR     READ_BYTE_FROM_SUB_CPU
 //     CLI
 //     SUBA    #80
 //     JSR     INPUT_BTN_PRESSED
 //     JMP     HNDLR_IRQ_EXIT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; INPUT_BTN_PRESSED
 // ; ==============================================================================
@@ -3093,38 +3099,38 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; Input handler function for when a front-panel button is pressed.
 // ;
 // ; ==============================================================================
-// 
+//
 // INPUT_BTN_PRESSED:
 //     STAA    M_LAST_INPUT_EVENT
 //     INCA
 //     STAA    <M_LAST_ANALOG_INPUT_EVENT
 //     DECA
 //     PSHA
-// 
+//
 // ; Check if the 'Begin Test Yes/No?' dialog is active.
 // ; This is the point where the user selects whether they want to enter the
 // ; synth's diagnostic mode. Selecting 'Yes' at this point jumps to the main
 // ; diagnostic mode entry point.
-// 
+//
 // _INIT_TEST_MODE_CHECK?:
 //     LDAA    <M_TEST_MODE_BUTTON_CHECK
 //     CMPA    #2
 //     BNE     _PULL_A_AND_END
-// 
+//
 // _IS_BTN_YES?:
 //     PULA
 //     CMPA    #BUTTON_YES_UP
 //     BNE     _BTN_NOT_YES
-// 
+//
 // _YES_TO_TEST?:
 //     CLR     M_LAST_ANALOG_INPUT_EVENT
 //     LDAB    #1
 //     STAB    <IO_PORT_2_DATA
 //     JMP     TEST_ENTRY
-// 
+//
 // ; If 'No' is pressed, clear the test trigger flags, and restore the
 // ; previous state.
-// 
+//
 // _BTN_NOT_YES:
 //     CLR     M_TEST_MODE_BUTTON_CHECK
 //     LDAA    M_FN_PARAM_CURRENT
@@ -3132,31 +3138,31 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     INCA
 //     STAA    <M_LAST_ANALOG_INPUT_EVENT
 //     BRA     _END_INPUT_BTN_PRESSED
-// 
+//
 // _PULL_A_AND_END:
 //     PULA
-// 
+//
 // _END_INPUT_BTN_PRESSED:
 //     LDAA    M_LAST_INPUT_EVENT
 //     STAA    M_LAST_PRESSED_BTN
 //     RTS
-// 
+//
 // ; A value of '152' indicates a 'Button Released' event.
 // ; Subtract 80 from the 'source' value to properly index the buttons.
-// 
-// 
+//
+//
 // _IS_BTN_UP_EVENT?:
 //     CMPA    #153
 //     BNE     _IS_ANALOG_INPUT_EVENT?
-// 
+//
 // _HANDLE_BTN_UP:
 //     JSR     READ_BYTE_FROM_SUB_CPU
 //     CLI
 //     SUBA    #80
 //     JSR     INPUT_BTN_RELEASED
 //     JMP     HNDLR_IRQ_EXIT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; INPUT_BTN_RELEASED
 // ; ==============================================================================
@@ -3166,32 +3172,32 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; Input handler for when a front-panel button is released.
 // ;
 // ; ==============================================================================
-// 
+//
 // INPUT_BTN_RELEASED:
 //     CMPA    #BUTTON_STORE
 //     BEQ     _UI_FN_STORE
-// 
+//
 // _IS_BTN_EDIT?:
 //     CMPA    #BUTTON_EDIT_CHAR
 //     BEQ     _BTN_EDIT
-// 
+//
 // _IS_BTN_FUNC?:
 //     CMPA    #BUTTON_FUNCTION
 //     BEQ     _CLEAR_FUNC_BUTTON_STATE
-// 
+//
 // ; Check if the released button is button 16. If so, check if the test mode
 // ; button check counter is 1. If it is, reset it to 0. Refer to the input
 // ; 'Test button combo' check function for more information.
-// 
+//
 // _IS_BTN_16?:
 //     CMPA    #BUTTON_16
 //     BEQ     _BTN_IS_16
 //     RTS
-// 
+//
 // ; Test if the synth is currently in the process of using the
 // ; 'Edit/Char' key to input characters. If so, exit here. Since in this
 // ; mode this button is used to enter a character.
-// 
+//
 // _UI_FN_STORE:
 //     TST     M_EDIT_ASCII_MODE
 //     BNE     _UI_FN_STORE_ABORT
@@ -3199,38 +3205,38 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     LDAA    #42
 //     STAA    M_LAST_INPUT_EVENT
 //     STAA    <M_LAST_ANALOG_INPUT_EVENT
-// 
+//
 // _UI_FN_STORE_ABORT:
 //     RTS
-// 
+//
 // ; If the 'Edit' button is being released, then clear the 'ASCII Edit Mode'
 // ; flag used for inputting chars from the front-panel buttons.
-// 
+//
 // _BTN_EDIT:
 //     CLR     M_EDIT_ASCII_MODE
 //     RTS
-// 
+//
 // _CLEAR_FUNC_BUTTON_STATE:
 //     CLR     M_BTN_FUNC_STATE
 //     RTS
-// 
+//
 // _BTN_IS_16:
 //     LDAA    <M_TEST_MODE_BUTTON_CHECK
 //     CMPA    #1
 //     BEQ     _RESET_TEST_MODE_BTN_CHECK
 //     RTS
-// 
+//
 // _RESET_TEST_MODE_BTN_CHECK:
 //     CLR     M_TEST_MODE_BUTTON_CHECK
 //     RTS
-// 
-// 
+//
+//
 // ; Handle any other non-button, non-keyboard analog input event.
-// 
+//
 // _IS_ANALOG_INPUT_EVENT?:
 //     CMPA    #143
 //     BLS     INPUT_ANALOG_STORE_EVENT
-// 
+//
 // _HANDLE_ANALOG_INPUT_EVENT:
 //     ANDA    #%111
 //     STAA    <M_ANALOG_DATA_SRC
@@ -3241,7 +3247,7 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     LDAB    <M_ANALOG_DATA_SRC
 //     ANDB    #%111
 //     JSR     JUMP_TO_RELATIVE_OFFSET
-// 
+//
 // ; ==============================================================================
 // ; The following is a table of relative-addressed pointers to
 // ; the functions which handle the various analog input events.
@@ -3267,14 +3273,14 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     FCB 7                                       ; Jumps to 0xCA04.
 //     FCB 2
 //     FCB 0                                       ; Jumps to 0xC9CA.
-// 
-// 
+//
+//
 // INPUT_ANALOG_STORE_EVENT:
 //     LDAA    #45
 //     STAA    <M_LAST_ANALOG_INPUT_EVENT
 //     JMP     HNDLR_IRQ_EXIT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; INPUT_ANALOG_SRC_2
 // ; ==============================================================================
@@ -3287,14 +3293,14 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; called from the main IRQ handler.
 // ;
 // ; ==============================================================================
-// 
+//
 // INPUT_ANALOG_SRC_2:
 //     STAA    M_PITCH_BEND_INPUT
 //     JSR     MIDI_SEND_PITCH_BEND
 //     JSR     PITCH_BEND_PARSE
 //     BRA     INPUT_ANALOG_STORE_EVENT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; INPUT_ANALOG_SRC_3
 // ; ==============================================================================
@@ -3307,12 +3313,12 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; called from the main IRQ handler.
 // ;
 // ; ==============================================================================
-// 
+//
 // INPUT_ANALOG_SRC_3:
 //     STAA    M_MOD_WHEEL_ANALOG_INPUT
 //     JSR     MIDI_SEND_CC_1_FROM_ANALOG_INPUT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; INPUT_ANALOG_UPDATE_MODULATION
 // ; ==============================================================================
@@ -3324,16 +3330,16 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; wheel, aftertouch, foot, or breath control.
 // ;
 // ; ==============================================================================
-// 
+//
 // INPUT_ANALOG_UPDATE_MODULATION:
 //     COM     M_INPUT_ANALOG_UPDATE_MOD_TOGGLE
 //     BNE     _STORE_ANALOG_INPUT
 //     JSR     MOD_PROCESS_INPUT_SOURCES
-// 
+//
 // _STORE_ANALOG_INPUT:
 //     BRA     INPUT_ANALOG_STORE_EVENT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; INPUT_ANALOG_SRC_4
 // ; ==============================================================================
@@ -3346,13 +3352,13 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; called from the main IRQ handler.
 // ;
 // ; ==============================================================================
-// 
+//
 // INPUT_ANALOG_SRC_4:
 //     STAA    M_FOOT_CTRL_ANALOG_INPUT
 //     JSR     MIDI_SEND_CC_4_FROM_ANALOG_INPUT
 //     BRA     INPUT_ANALOG_UPDATE_MODULATION
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; INPUT_ANALOG_SRC_5
 // ; ==============================================================================
@@ -3365,13 +3371,13 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; called from the main IRQ handler.
 // ;
 // ; ==============================================================================
-// 
+//
 // INPUT_ANALOG_SRC_5:
 //     STAA    M_BRTH_CTRL_ANALOG_INPUT
 //     JSR     MIDI_SEND_CC_2_FROM_ANALOG_INPUT
 //     BRA     INPUT_ANALOG_UPDATE_MODULATION
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; INPUT_ANALOG_SRC_6
 // ; ==============================================================================
@@ -3384,13 +3390,13 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; called from the main IRQ handler.
 // ;
 // ; ==============================================================================
-// 
+//
 // INPUT_ANALOG_SRC_6:
 //     STAA    M_AFTERTOUCH_ANALOG_INPUT
 //     JSR     MIDI_SEND_AFTERTOUCH
 //     BRA     INPUT_ANALOG_UPDATE_MODULATION
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; INPUT_ANALOG_SRC_7
 // ; ==============================================================================
@@ -3404,12 +3410,12 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; called from the main IRQ handler.
 // ;
 // ; ==============================================================================
-// 
+//
 // INPUT_ANALOG_SRC_7:
 //     STAA    M_BATTERY_VOLTAGE
 //     BRA     INPUT_ANALOG_STORE_EVENT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; INPUT_ANALOG_SRC_1
 // ; ==============================================================================
@@ -3422,13 +3428,13 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; called from the main IRQ handler.
 // ;
 // ; ==============================================================================
-// 
+//
 // INPUT_ANALOG_SRC_1:
 //     JSR     MIDI_SEND_SLIDER_EVENT
 //     JSR     INPUT_SLIDER
 //     JMP     HNDLR_IRQ_EXIT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; INPUT_SLIDER
 // ; ==============================================================================
@@ -3440,10 +3446,10 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; from this function.
 // ;
 // ; ==============================================================================
-// 
+//
 // INPUT_SLIDER:
 //     LDAA    #1
-// 
+//
 // ; Set this flag to '1' to indicate that this 'Up/Down' event came from
 // ; slider input. If the synth's input mode is 0 ('Play' Mode), set
 // ; to 2 ('Function' Mode) as a default.
@@ -3451,59 +3457,59 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     LDAB    M_INPUT_MODE
 //     BNE     _LOAD_EDIT_PARAM
 //     LDAB    #INPUT_MODE_FN
-// 
+//
 // ; Load a pointer to the 'Slider Edit Parameters' table.
 // ; This table contains pointers to a pointer to the current parameter in
 // ; memory that's being edited, depending on what input mode the synth is in.
-// 
+//
 // _LOAD_EDIT_PARAM:
 //     ASLB
 //     LDX     #TABLE_SLIDER_EDIT_PARAMS
 //     ABX
-// 
+//
 // ; Load a pointer to the current parameter for this 'Input Mode' into IX,
 // ; and then load this parameter's value into ACCB.
 //     LDX     0,x
 //     LDAB    0,x
 //     PSHB
-// 
+//
 // ; If the synth's input mode is 0 ('Play' Mode), set to
 // ; mode 2 ('Function' Mode) as a default.
-// 
+//
 // _CHECK_INPUT_MODE:
 //     LDAB    M_INPUT_MODE
 //     BNE     _LOAD_MAX_VALUE_TABLE
 //     LDAB    #INPUT_MODE_FN
-// 
+//
 // ; Load the pointer to the correct maximum value table, depending on what
 // ; 'Input Mode' the synth is currently in.
-// 
+//
 // _LOAD_MAX_VALUE_TABLE:
 //     ASLB
 //     LDX     #TABLE_SLIDER_MAX_VALUES
 //     ABX
 //     LDX     0,x
-// 
+//
 // ; Load the currently edited parameter's maximum value into ACCA.
-// 
+//
 // _LOAD_MAX_VALUE:
 //     PULB
 //     ABX
 //     LDAA    0,x
 //     INCA
-// 
+//
 // _CALCULATE_INCREMENT:
 //     LDAB    <M_ANALOG_DATA
 //     MUL
 //     STAA    <M_UP_DOWN_INCREMENT
-// 
+//
 // _END_INPUT_SLIDER:
 //     LDAA    #43
 //     STAA    <M_LAST_ANALOG_INPUT_EVENT
 //     STAA    M_LAST_INPUT_EVENT
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; Slider Edit Param Table.
 // ; This table contains pointers to the current variable being edited by the
@@ -3514,7 +3520,7 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     FDB 0
 //     FDB M_EDIT_PARAM_CURRENT
 //     FDB M_FN_PARAM_CURRENT
-// 
+//
 // ; ==============================================================================
 // ; Pointers to the tables of maximum values for the current parameter being
 // ; edited by the front-panel slider, depending on what 'Input Mode' the synth
@@ -3524,14 +3530,14 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     FDB 0
 //     FDB TABLE_MAX_VALUE_EDIT_MODE
 //     FDB TABLE_MAX_VALUE_FUNC_MODE
-// 
+//
 // HNDLR_IRQ_EXIT:
 //     PULB
-// 
+//
 // ; Restore interrupt status.
 //     STAB    <IO_PORT_2_DATA
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; HANDLER_NMI
 // ; ==============================================================================
@@ -3542,11 +3548,11 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; otherwise unhandled interrupts.
 // ;
 // ; ==============================================================================
-// 
+//
 // HANDLER_NMI:
 //     RTI
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; READ_BYTE_FROM_SUB_CPU
 // ; ==============================================================================
@@ -3558,22 +3564,22 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; manual.
 // ;
 // ; ==============================================================================
-// 
+//
 // READ_BYTE_FROM_SUB_CPU:
 //     TIM     #%10, IO_PORT_2_DATA
-// 
+//
 // ; Loop if CPU line 21 has not yet gone low.
 //     BNE     READ_BYTE_FROM_SUB_CPU
-// 
+//
 // ; Read byte from IO Port 1.
 //     LDAA    <IO_PORT_1_DATA
 //     CLR     IO_PORT_2_DATA
-// 
+//
 // ; Reset port 2 status?
 //     STAB    P_ACEPT
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; BTN_EDIT
 // ; ==============================================================================
@@ -3584,49 +3590,49 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; This is where functionality for comparing a working patch is facilitated.
 // ;
 // ; ==============================================================================
-// 
+//
 // BTN_EDIT:
 //     LDAA    #INPUT_MODE_EDIT
 //     STAA    M_INPUT_MODE
-// 
+//
 // _IS_NAME_EDIT_ACTIVE?:
 //     TST     M_PATCH_NAME_EDIT_ACTIVE
 //     BEQ     _BTN_EDIT_DISABLE_INTERRUPTS
-// 
+//
 // ; If the synth is currently in patch name edit mode, then holding down the
 // ; 'Char/Edit' button will change the synth's front panel buttons to input
 // ; characters directly.
 // ; This flag is cleared in the 'Button Up' event handler.
 // ; Refer to page 46 of the DX7 manual.
-// 
+//
 // _SET_PATCH_EDIT_FLAG:
 //     LDAA    #1
 //     STAA    <M_EDIT_ASCII_MODE
 //     RTS
-// 
+//
 // ; Save IRQ state.
-// 
+//
 // _BTN_EDIT_DISABLE_INTERRUPTS:
 //     LDAA    <IO_PORT_2_DATA
 //     PSHA
-// 
+//
 // ; Save timer state.
 //     LDAA    <TIMER_CTRL_STATUS
 //     PSHA
-// 
+//
 // ; Clear timer and port 2 interrupts.
 //     CLR     IO_PORT_2_DATA
 //     CLR     TIMER_CTRL_STATUS
 //     LDAA    #LCD_INSTR_SET_BLINK_OFF
 //     JSR     LCD_WRITE_INSTRUCTION
-// 
+//
 // ; If we're not in the process of editing the synth parameters, exit.
 // ; Otherwise fall-through to 'PATCH_COMPARE'.
 //     LDAA    M_MEM_SELECT_UI_MODE
 //     CMPA    #UI_MODE_EDIT
 //     BNE     RESTORE_IRQ_AND_EXIT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PATCH_COMPARE
 // ; ==============================================================================
@@ -3640,18 +3646,18 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; If the patch has not been modified, nothing  will happen.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_COMPARE:
 //     LDAA    M_PATCH_CURRENT_MODIFIED_FLAG
-// 
+//
 // ; If the patch has not been modified, exit.
 //     BEQ     RESTORE_IRQ_AND_EXIT
 //     CMPA    #EDITED_PATCH_IN_WORKING
 //     BNE     _COPY_PATCH_FROM_COMPARE
-// 
+//
 // ; The following subroutine copies the edit buffer to the compare
 // ; buffer, and then reloads the current patch from its original source.
-// 
+//
 // _COPY_PATCH_TO_COMPARE:
 //     JSR     PATCH_COPY_TO_COMPARE
 //     LDAA    #EDITED_PATCH_IN_COMPARE
@@ -3659,51 +3665,51 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     LDAA    M_PATCH_CURRENT_NUMBER
 //     TST     M_PATCH_CURRENT_CRT_OR_INT
 //     BEQ     _PATCH_IN_INT_MEMORY
-// 
+//
 // ; If the patch is loaded from the CRT, check the port input to determine
 // ; if the cartridge is present. If not, print an error message.
-// 
+//
 // _PATCH_IN_CRT_MEMORY:
 //     LDAB    P_CRT_PEDALS_LCD
 //     ANDB    #CRT_FLAG_INSERTED
 //     BNE     _PRINT_NOT_READY_MSG
 //     JSR     PATCH_LOAD_FROM_CRT
 //     BRA     _END_PATCH_COMPARE
-// 
+//
 // _PRINT_NOT_READY_MSG:
 //     LDX     #aNotReadyInsert
 //     JSR     LCD_WRITE_LINE_1_THEN_PRINT
 //     BRA     RESTORE_IRQ_STATUS_FROM_STACK
-// 
+//
 // _PATCH_IN_INT_MEMORY:
 //     JSR     PATCH_LOAD_FROM_INT
-// 
+//
 // _END_PATCH_COMPARE:
 //     JSR     PATCH_LOAD_DATA
-// 
-// 
+//
+//
 // RESTORE_IRQ_AND_EXIT:
 //     LDAA    #UI_MODE_EDIT
 //     STAA    M_MEM_SELECT_UI_MODE
 //     JSR     UI_PRINT_MAIN
 //     JSR     LED_PRINT_PATCH_NUMBER
-// 
-// 
+//
+//
 // RESTORE_IRQ_STATUS_FROM_STACK:
 //     PULA
 //     STAA    <TIMER_CTRL_STATUS
 //     PULA
 //     STAA    <IO_PORT_2_DATA
 //     RTS
-// 
-// 
+//
+//
 // _COPY_PATCH_FROM_COMPARE:
 //     JSR     PATCH_COPY_FROM_COMPARE
 //     LDAA    #EDITED_PATCH_IN_WORKING
 //     STAA    M_PATCH_CURRENT_MODIFIED_FLAG
 //     BRA     _END_PATCH_COMPARE
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MEMORY_SELECT_INT
 // ; ==============================================================================
@@ -3715,20 +3721,20 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; This function sets the 'UI Mode' flag accordingly.
 // ;
 // ; ==============================================================================
-// 
+//
 // MEMORY_SELECT_INT:
 //     CLR     M_INPUT_MODE
 //     CLR     M_MEM_SELECT_UI_MODE
-// 
-// 
+//
+//
 // _CLR_PATCH_NAME_EDIT_FLAG:
 //     CLR     M_PATCH_NAME_EDIT_ACTIVE
-// 
+//
 // MENU_PRINT_UI_LED:
 //     JSR     UI_PRINT_MAIN
 //     JMP     LED_PRINT_PATCH_NUMBER
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MEMORY_SELECT_CRT
 // ; ==============================================================================
@@ -3741,26 +3747,26 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; If the cartridge is not inserted, an error message is printed.
 // ;
 // ; ==============================================================================
-// 
+//
 // MEMORY_SELECT_CRT:
 //     LDAA    P_CRT_PEDALS_LCD
 //     ANDA    #CRT_FLAG_INSERTED
 //     BEQ     _CRT_IS_INSERTED
-// 
+//
 // CRT_SET_PRINT_NOT_INSERTED:
 //     CLR     M_MEM_SELECT_UI_MODE
-// 
+//
 // CRT_PRINT_NOT_INSERTED:
 //     LDX     #aNotReadyInsert
 //     JMP     LCD_WRITE_LINE_1_THEN_PRINT
-// 
+//
 // _CRT_IS_INSERTED:
 //     CLR     M_INPUT_MODE
 //     LDAA    #UI_MODE_CRT_INSERTED
 //     STAA    M_MEM_SELECT_UI_MODE
 //     BRA     _CLR_PATCH_NAME_EDIT_FLAG
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; BTN_FN_PARAM
 // ; ==============================================================================
@@ -3775,13 +3781,13 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ;
 // ;
 // ; ==============================================================================
-// 
+//
 // BTN_FN_PARAM:
 //     LDAA    M_LAST_PRESSED_BTN
 //     STAA    M_FN_PARAM_CURRENT
 //     BRA     INPUT_RESET_TO_FN_MODE
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; BTN_FUNC
 // ; ==============================================================================
@@ -3793,13 +3799,13 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; is set to 'Function Mode'.
 // ;
 // ; ==============================================================================
-// 
+//
 // BTN_FUNC:
 //     LDAA    #2
 //     STAA    <M_BTN_FUNC_STATE
 //     CLR     M_TEST_MODE_BUTTON_CHECK
-// 
-// 
+//
+//
 // INPUT_RESET_TO_FN_MODE:
 //     LDAA    #INPUT_MODE_FN
 //     STAA    M_INPUT_MODE
@@ -3807,8 +3813,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     STAA    M_MEM_SELECT_UI_MODE
 //     CLR     M_CRT_SAVE_LOAD_FLAGS
 //     BRA     MENU_PRINT_UI_LED
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; BTN_EDIT_PARAM
 // ; ==============================================================================
@@ -3823,17 +3829,17 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ;
 // ;
 // ; ==============================================================================
-// 
+//
 // BTN_EDIT_PARAM:
 //     LDAA    #UI_MODE_EDIT
 //     STAA    M_MEM_SELECT_UI_MODE
 //     LDAA    M_LAST_PRESSED_BTN
 //     STAA    M_EDIT_PARAM_CURRENT
-// 
+//
 // BTN_PRINT_UI_AND_EXIT:
 //     BRA     MENU_PRINT_UI_LED
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; BTN_EDIT_COPY_OP
 // ; ==============================================================================
@@ -3844,19 +3850,19 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; copying an operator (1-6) being pressed.
 // ;
 // ; ==============================================================================
-// 
+//
 // BTN_EDIT_COPY_OP:
 //     TST     M_PATCH_READ_OR_WRITE
 //     BEQ     MENU_PRINT_UI_LED
-// 
+//
 // ; Set the flag indicating the patch currently in the synth's 'Edit Buffer'
 // ; has been modified.
 //     LDAA    #EDITED_PATCH_IN_WORKING
 //     STAA    M_PATCH_CURRENT_MODIFIED_FLAG
 //     JSR     LED_PRINT_PATCH_NUMBER
 //     JMP     PATCH_COPY_OPERATOR
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; BTN_EDIT_VOICE_NAME
 // ; ==============================================================================
@@ -3868,16 +3874,16 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; in 'Voice Edit Mode'. This affects how user input is captured.
 // ;
 // ; ==============================================================================
-// 
+//
 // BTN_EDIT_VOICE_NAME:
 //     LDAA    #UI_MODE_EDIT_PATCH_NAME
 //     STAA    M_MEM_SELECT_UI_MODE
-// 
+//
 // ; Set the flag indicating that patch name editing is active.
 //     STAA    M_PATCH_NAME_EDIT_ACTIVE
 //     BRA     BTN_PRINT_UI_AND_EXIT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; BTN_CRT_LOAD_SAVE
 // ; ==============================================================================
@@ -3887,11 +3893,11 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; Button handler for buttons 15/16.
 // ;
 // ; ==============================================================================
-// 
+//
 // BTN_CRT_LOAD_SAVE:
 //     LDAA    M_LAST_PRESSED_BTN
 //     CLRB
-// 
+//
 // ; The following lines 'shift' the LSB from A into the MSB from B. This is used
 // ; to indicate whether the intended function was to 'Save' (Button 15),
 // ; or 'Load' (Button 16).
@@ -3900,8 +3906,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     LDAA    #UI_MODE_CRT_LOAD_SAVE
 //     STAA    M_MEM_SELECT_UI_MODE
 //     BRA     BTN_PRINT_UI_AND_EXIT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; BTN_EDIT_KEY_TRANSPOSE
 // ; ==============================================================================
@@ -3914,13 +3920,13 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; This sets the associated flag, which will capture the next key press.
 // ;
 // ; ==============================================================================
-// 
+//
 // BTN_EDIT_KEY_TRANSPOSE:
 //     LDAA    #1
 //     STAA    <M_EDIT_KEY_TRANSPOSE_ACTIVE
 //     JMP     BTN_EDIT_PARAM
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; BTN_HANDLR_STORE
 // ; ==============================================================================
@@ -3930,26 +3936,26 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; Handles the 'store' front-panel button being pressed.
 // ;
 // ; ==============================================================================
-// 
+//
 // BTN_STORE:
 //     LDAA    #$FF
 //     STAA    <M_PATCH_READ_OR_WRITE
-// 
+//
 // ; Check which button mode we're in.
 // ; If we're in 'Play' mode, then this button handler will initiate storing the
 // ; working patch. If we're in any other mode, it will initiate operator EG copy.
 //     TST     M_INPUT_MODE
 //     BEQ     _BTN_MODE_0
-// 
+//
 // ; Check if we're currently in 'compare' mode.
 // ; If there's an edited patch in the compare buffer, exit.
-// 
+//
 // _BTN_STORE_IS_IN_COMPARE_MODE?:
 //     LDAA    M_PATCH_CURRENT_MODIFIED_FLAG
 //     CMPA    #EDITED_PATCH_IN_COMPARE
 //     BNE     _PRINT_EG_COPY
 //     RTS
-// 
+//
 // _PRINT_EG_COPY:
 //     JSR     LCD_CLEAR_STR_BUFFER
 //     LDX     #M_LCD_BUFFER_LN_1
@@ -3966,8 +3972,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     LDX     #aToOp_0
 //     JMP     LCD_WRITE_BFR_AND_PRINT
 // aToOp_0:             FCC " to OP?", 0
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; BTN_HNDLR_42
 // ; ==============================================================================
@@ -3978,48 +3984,48 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; 'button input 42'.
 // ;
 // ; ==============================================================================
-// 
+//
 // BTN_HNDLR_42:
 //     LDAA    M_INPUT_MODE
 //     CMPA    #INPUT_MODE_FN
 //     BEQ     BTN_CLEAR_RW_FLAG_AND_EXIT
-// 
+//
 // _IS_INPUT_MODE_EDIT?:
 //     CMPA    #INPUT_MODE_EDIT
 //     BNE     _BTN_HANDLER_42_INPUT_MODE_PLAY
 //     LDAA    M_EDIT_PARAM_CURRENT
-// 
+//
 // _END_BTN_HANDLER_42:
 //     STAA    M_LAST_PRESSED_BTN
 //     JSR     UI_PRINT_MAIN
 //     RTS
-// 
+//
 // _BTN_HANDLER_42_INPUT_MODE_PLAY:
 //     LDAA    M_PATCH_CURRENT_NUMBER
 //     BRA     _END_BTN_HANDLER_42
-// 
+//
 // BTN_CLEAR_RW_FLAG_AND_EXIT:
 //     CLR     M_PATCH_READ_OR_WRITE
 //     RTS
-// 
-// 
+//
+//
 // _BTN_MODE_0:
 //     TST     M_MEM_SELECT_UI_MODE
 //     BEQ     _CHECK_INT_MEM_PROTECT_STATE
 //     JSR     CRT_CHECK_PROTECTION
 //     JSR     MEMORY_CHECK_CRT_PROTECT
 //     BRA     _PRINT_STORE_MSG
-// 
+//
 // _CHECK_INT_MEM_PROTECT_STATE:
 //     JSR     MEMORY_CHECK_INT_PROTECT
-// 
+//
 // _PRINT_STORE_MSG:
 //     JSR     LCD_CLEAR_STR_BUFFER_LINE_2
 //     LDX     #aMemoryStore
 //     JMP     LCD_CLR_WRITE_LINE_2_THEN_PRINT
 // aMemoryStore:        FCC " MEMORY STORE", 0
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; BTN_FN_MIDI
 // ; ==============================================================================
@@ -4035,38 +4041,38 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; *2 = Transmit MIDI.
 // ;
 // ; ==============================================================================
-// 
+//
 // BTN_FN_MIDI:
 //     LDAA    M_LAST_PRESSED_BTN
-// 
+//
 // ; If the last-pressed button is already the same as the currently selected
 // ; 'Edit Parameter' it means that this button has been pressed multiple
 // ; sequential times. In this case, increment the sub-function mode.
 //     CMPA    M_FN_PARAM_CURRENT
 //     BNE     _RESET_SUB_FN
-// 
+//
 // _INCREMENT_SUB_FN:
 //     INC     M_EDIT_BTN_8_SUB_FN
 //     LDAA    M_EDIT_BTN_8_SUB_FN
 //     TST     M_MIDI_SYS_INFO_AVAIL
 //     BEQ     _IS_SUB_FN_2?
-// 
+//
 // _IS_SUB_FN_AT_MAX?:
 //     CMPA    #3
 //     BNE     SET_UI_TO_FN_MODE
-// 
+//
 // _RESET_SUB_FN:
 //     CLR     M_EDIT_BTN_8_SUB_FN
 //     BRA     SET_UI_TO_FN_MODE
-// 
+//
 // ; Advancing to the third 'function' is not available if 'SYS INFO AVAIL'
 // ; is not enabled.
-// 
+//
 // _IS_SUB_FN_2?:
 //     CMPA    #2
 //     BNE     SET_UI_TO_FN_MODE
 //     BRA     _RESET_SUB_FN
-// 
+//
 // SET_UI_TO_FN_MODE:
 //     LDAA    #UI_MODE_FUNCTION
 //     STAA    M_MEM_SELECT_UI_MODE
@@ -4074,8 +4080,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     STAA    M_FN_PARAM_CURRENT
 //     JSR     UI_PRINT_MAIN
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; BTN_EDIT_OSC_MODE_SYNC
 // ; ==============================================================================
@@ -4085,11 +4091,11 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; through these with sequential presses.
 // ;
 // ; ==============================================================================
-// 
+//
 // BTN_EDIT_OSC_MODE_SYNC:
 //     LDAA    M_LAST_PRESSED_BTN
 //     CMPA    M_EDIT_PARAM_CURRENT
-// 
+//
 // ; If the last-pressed button is already the same as the currently selected
 // ; 'Edit Parameter' it means that this button has been pressed multiple
 // ; sequential times. In this case, increment the flag.
@@ -4098,21 +4104,21 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     LDAA    <M_EDIT_OSC_MODE_SYNC_FLAG
 //     CMPA    #2
 //     BNE     BTN_SET_INPUT_MODE_EDIT
-// 
+//
 // _CLEAR_OSC_MODE_SYNC_FLAG:
 //     CLR     M_EDIT_OSC_MODE_SYNC_FLAG
-// 
+//
 // BTN_SET_INPUT_MODE_EDIT:
 //     LDAA    #UI_MODE_EDIT
 //     STAA    M_MEM_SELECT_UI_MODE
 //     LDAA    M_LAST_PRESSED_BTN
 //     STAA    M_EDIT_PARAM_CURRENT
-// 
+//
 // PRINT_UI_AND_RETURN:
 //     JSR     UI_PRINT_MAIN
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; BTN_MEMORY_PROTECT
 // ; ==============================================================================
@@ -4121,7 +4127,7 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; being pressed.
 // ;
 // ; ==============================================================================
-// 
+//
 // BTN_MEMORY_PROTECT:
 //     LDAA    M_LAST_PRESSED_BTN
 //     STAA    <M_MEM_PROTECT_MODE
@@ -4129,8 +4135,8 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     JSR     LCD_WRITE_INSTRUCTION
 //     LDAA    #UI_MODE_SET_MEM_PROTECT
 //     BRA     BTN_SAVE_UI_MODE_AND_RETURN
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; BTN_EDIT_OP_SELECT
 // ; ==============================================================================
@@ -4139,24 +4145,24 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; while the synth is in 'Edit Mode'.
 // ;
 // ; ==============================================================================
-// 
+//
 // BTN_EDIT_OP_SELECT:
 //     DEC     M_SELECTED_OPERATOR
-// 
+//
 // ; Decrement the currently selected operator.
 // ; If the resulting value would be negative, rotate back to operator 6.
 //     BPL     _END_BTN_EDIT_OP_SELECT
 //     LDAA    #5
 //     STAA    M_SELECTED_OPERATOR
-// 
+//
 // _END_BTN_EDIT_OP_SELECT:
 //     LDAA    #UI_MODE_EDIT
-// 
+//
 // BTN_SAVE_UI_MODE_AND_RETURN:
 //     STAA    M_MEM_SELECT_UI_MODE
 //     BRA     PRINT_UI_AND_RETURN
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; BTN_EDIT_KBD_SCALING
 // ; ==============================================================================
@@ -4168,15 +4174,15 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; elsewhere in the UI functions to determine which parameter is being edited.
 // ;
 // ; ==============================================================================
-// 
+//
 // BTN_EDIT_KBD_SCALING:
 //     LDAA    M_LAST_PRESSED_BTN
 //     CMPA    M_EDIT_PARAM_CURRENT
 //     BNE     BTN_SET_INPUT_MODE_EDIT
 //     COM     M_EDIT_KBD_SCALE_TOGGLE
 //     BRA     BTN_SET_INPUT_MODE_EDIT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; BTN_EDIT_EG_RATE_LVL
 // ; ==============================================================================
@@ -4188,28 +4194,28 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; different modes.
 // ;
 // ; ==============================================================================
-// 
+//
 // BTN_EDIT_EG_RATE_LVL:
 //     LDAA    M_LAST_PRESSED_BTN
 //     CMPA    M_EDIT_PARAM_CURRENT
-// 
+//
 // ; If the last-pressed button is already the same as the currently selected
 // ; 'Edit Parameter' it means that this button has been pressed multiple
 // ; sequential times. In this case, increment the 'sub-function' flag.
 //     BNE     _RESET_SUB_FN_FLAG
 //     INC     M_EDIT_EG_RATE_LVL_SUB_FN
 //     LDAA    <M_EDIT_EG_RATE_LVL_SUB_FN
-// 
+//
 // ; If the incremented value is now equal to '4', fall-through to clear
 // ; the value, set the synth's 'Input Mode', and return.
 //     CMPA    #4
 //     BNE     BTN_SET_INPUT_MODE_EDIT
-// 
+//
 // _RESET_SUB_FN_FLAG:
 //     CLR     M_EDIT_EG_RATE_LVL_SUB_FN
 //     BRA     BTN_SET_INPUT_MODE_EDIT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PATCH_PROGRAM_CHANGE
 // ; ==============================================================================
@@ -4219,11 +4225,11 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; This is the main entry point for loading a patch.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_PROGRAM_CHANGE:
 //     JSR     MIDI_SEND_PROG_CHG                  ; Falls-through to patch r/w.
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PATCH_READ_WRITE
 // ; ==============================================================================
@@ -4232,28 +4238,28 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; 'edit' patch buffer, or vice-versa.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_READ_WRITE:
 //     JSR     LCD_SET_CURSOR_BLINK_OFF
 //     LDAB    <IO_PORT_2_DATA
 //     PSHB
 //     LDAB    <TIMER_CTRL_STATUS
 //     PSHB
-// 
+//
 // ; Save the state of the timer control register on the stack.
 // ; Disable all timer interrupts prior to entering the function.
 //     CLR     IO_PORT_2_DATA
 //     CLR     TIMER_CTRL_STATUS
 //     LDAA    M_MEM_SELECT_UI_MODE
 //     BNE     _PATCH_RW_IS_CRT_INSERTED?
-// 
+//
 // _READ_OR_WRITE_INT?:
 //     LDAA    <M_PATCH_READ_OR_WRITE
 //     BNE     _WRITE_SELECTED_INT
-// 
+//
 // ; Check if the patch in the working buffer has been modified.
 // ; If so, copy it into the compare buffer before loading the new patch.
-// 
+//
 // _IS_PATCH_MODIFIED_INT?:
 //     TST     M_PATCH_CURRENT_MODIFIED_FLAG
 //     BEQ     _LOAD_PATCH_INT
@@ -4264,21 +4270,21 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     LDAA    M_PATCH_CURRENT_OPS_ON_OFF
 //     STAA    M_PATCH_COMPARE_OPS_ON_OFF
 //     JSR     PATCH_COPY_TO_COMPARE
-// 
+//
 // _LOAD_PATCH_INT:
 //     CLR     M_PATCH_CURRENT_CRT_OR_INT
 //     LDAA    M_LAST_PRESSED_BTN
 //     STAA    M_PATCH_CURRENT_NUMBER
 //     JSR     PATCH_LOAD_FROM_INT
-// 
+//
 // _PATCH_LOAD_SUCCESS:
 //     TST     M_MIDI_SYS_INFO_AVAIL
 //     BEQ     _PATCH_LOAD_TO_EGS
 //     JSR     MIDI_SYSEX_DUMP_CURRENT_VOICE
-// 
+//
 // _PATCH_LOAD_TO_EGS:
 //     JSR     PATCH_LOAD_DATA
-// 
+//
 // _PATCH_READ_WRITE_SUCCESS:
 //     JSR     UI_PRINT_MAIN
 //     CLR     M_PATCH_CURRENT_MODIFIED_FLAG
@@ -4286,25 +4292,25 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     JSR     LED_PRINT_PATCH_NUMBER
 //     LDAA    #%111111
 //     STAA    M_PATCH_CURRENT_OPS_ON_OFF
-// 
+//
 // ; Restore the saved timer control register values.
 // ; Re-enable interrupts.
-// 
+//
 // _END_PATCH_READ_WRITE:
 //     PULB
 //     STAB    <TIMER_CTRL_STATUS
 //     PULB
 //     STAB    <IO_PORT_2_DATA
 //     RTS
-// 
+//
 // _WRITE_SELECTED_INT:
 //     BRA     _PATCH_WRITE_TO_INT
-// 
+//
 // _PATCH_RW_IS_CRT_INSERTED?:
 //     LDAA    P_CRT_PEDALS_LCD
 //     ANDA    #CRT_FLAG_INSERTED
 //     BEQ     _READ_OR_WRITE_CRT?
-// 
+//
 // ; Restore the saved timer control register values.
 // ; Re-enable interrupts.
 //     PULB
@@ -4312,7 +4318,7 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     PULB
 //     STAB    <IO_PORT_2_DATA
 //     JMP     CRT_SET_PRINT_NOT_INSERTED
-// 
+//
 // _READ_OR_WRITE_CRT?:
 //     LDAA    <M_PATCH_READ_OR_WRITE
 //     BNE     _WRITE_SELECTED_CRT
@@ -4323,10 +4329,10 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     PULB
 //     STAB    <IO_PORT_2_DATA
 //     JMP     CRT_FORMAT_CONFLICT
-// 
+//
 // ; Check if the patch in the working buffer has been modified.
 // ; If so, copy it into the compare buffer before loading the new patch.
-// 
+//
 // _IS_PATCH_MODIFIED_CRT?:
 //     TST     M_PATCH_CURRENT_MODIFIED_FLAG
 //     BEQ     _LOAD_PATCH_CRT
@@ -4337,7 +4343,7 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     LDAA    M_PATCH_CURRENT_OPS_ON_OFF
 //     STAA    M_PATCH_COMPARE_OPS_ON_OFF
 //     JSR     PATCH_COPY_TO_COMPARE
-// 
+//
 // _LOAD_PATCH_CRT:
 //     LDAA    #1
 //     STAA    M_PATCH_CURRENT_CRT_OR_INT
@@ -4345,13 +4351,13 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     STAA    M_PATCH_CURRENT_NUMBER
 //     JSR     PATCH_LOAD_FROM_CRT
 //     BRA     _PATCH_LOAD_SUCCESS
-// 
+//
 // _PATCH_WRITE_TO_INT:
 //     LDAA    M_LAST_PRESSED_BTN
 //     STAA    M_PATCH_CURRENT_NUMBER
 //     JSR     PATCH_WRITE_TO_INT
 //     BRA     _PATCH_READ_WRITE_SUCCESS
-// 
+//
 // _WRITE_SELECTED_CRT:
 //     JSR     CRT_CHECK_FORMAT
 //     BEQ     _PATCH_WRITE_TO_CRT
@@ -4360,18 +4366,18 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     PULB
 //     STAB    <IO_PORT_2_DATA
 //     JMP     CRT_FORMAT_CONFLICT
-// 
+//
 // _PATCH_WRITE_TO_CRT:
 //     LDX     #M_LCD_BUFFER_LN_1
 //     STX     <M_COPY_DEST_PTR
 //     LDX     #aCartridgeVoice
 //     JSR     LCD_WRITE_STR_TO_BUFFER
 //     JSR     PRINT_MSG_UNDER_WRITING
-// 
+//
 // _SERIALISE_PATCH_DATA:
 //     LDD     #M_PATCH_SERIALISED_TEMP
 //     JSR     PATCH_SERIALISE
-// 
+//
 // ; Multiply the patch number by 128 to get the byte offset. Add this offset
 // ; to 0x4000 to get the memory address in the cartridge to store the data at.
 // ; Then write from the temp serialised patch address.
@@ -4384,17 +4390,17 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     LDX     #M_PATCH_SERIALISED_TEMP
 //     STX     <M_COPY_SRC_PTR
 //     JSR     PATCH_WRITE_TO_CRT
-// 
+//
 // ; If the carry flag is set, an error condition has occurred.
 //     BCS     _CRT_WRITE_ERR
 //     JMP     _PATCH_READ_WRITE_SUCCESS
-// 
+//
 // _CRT_WRITE_ERR:
 //     LDX     #aWriteError
 //     JSR     LCD_CLR_WRITE_LINE_2_THEN_PRINT
 //     JMP     _END_PATCH_READ_WRITE
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PRING_MSG_MEM_PROTECTED
 // ; ==============================================================================
@@ -4404,13 +4410,13 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; This is called by various functions related to memory.
 // ;
 // ; ==============================================================================
-// 
+//
 // PRINT_MSG_MEMORY_PROTECTED:
 //     CLR     M_PATCH_READ_OR_WRITE
 //     LDX     #aMemoryProtecte
 //     JMP     LCD_CLR_WRITE_LINE_2_THEN_PRINT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PATCH_LOAD_FROM_CRT
 // ; ==============================================================================
@@ -4423,11 +4429,11 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // ; * ACCA: The patch number to load.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_LOAD_FROM_CRT:
 //     LDAB    #128
 //     MUL
-// 
+//
 // ; Calculate the offset from the start of patch memory.
 //     ADDD    #P_CRT_START
 //     STD     <M_COPY_DEST_PTR
@@ -4445,7 +4451,7 @@ void patch_load_from_crt(uint8_t number)
    crt_read_patch();
    patch_deserialise(m_patch_serialised_temp);
 }
- 
+
 // ; ==============================================================================
 // ; CRT_CHECK_FORMAT
 // ; ==============================================================================
@@ -4464,22 +4470,22 @@ void patch_load_from_crt(uint8_t number)
 // ; * CCR[Z]: Whether badly formatted bytes were found on the cartridge.
 // ;
 // ; ==============================================================================
-// 
+//
 // CRT_CHECK_FORMAT:
 //     LDX     #$4FE0                              ; Start address.
 //     CLRA
-// 
+//
 // _CRT_FORMAT_CHECK_LOOP:
 //     TST     0,x
 //     TST     0,x
 //     TST     0,x
 //     TST     0,x
-// 
+//
 // ; Load the current byte from the cartridge into ACCB, and mask the
 // ; most-significant bit.
 //     LDAB    0,x
 //     ANDB    #%10000000
-// 
+//
 // ; Clear the carry bit.
 // ; Rotate the read value to the left twice to move the MSB into the LSB.
 // ; This value is then added to the accumulated number of badly formatted
@@ -4493,14 +4499,14 @@ void patch_load_from_crt(uint8_t number)
 //     BNE     _CRT_FORMAT_CHECK_LOOP              ; If IX < 0x5000, loop.
 //     TSTA
 //     RTS
-// 
-// 
+//
+//
 // CRT_FORMAT_CONFLICT:
 //     LDX     #aFormatConflict
 //     JMP     LCD_CLR_WRITE_LINE_2_THEN_PRINT
 // aFormatConflict:     FCC "FORMAT CONFLICT!", 0
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; LED_PRINT_PATCH_NUMBER
 // ; ==============================================================================
@@ -4517,49 +4523,49 @@ void patch_load_from_crt(uint8_t number)
 // ; * 0x209D: The current patch number to print to the LED.
 // ;
 // ; ==============================================================================
-// 
+//
 // LED_PRINT_PATCH_NUMBER:
 //     LDAB    M_PATCH_CURRENT_NUMBER
-// 
+//
 // ; Increment to index from 1-32.
 //     INCB
 //     CLRA
 //     JSR     CONVERT_INT_TO_STR
-// 
+//
 // ; If the 'tens' slot is empty, don't display a number on LED2.
 //     LDAB    M_PARSED_INT_TENS
 //     BEQ     _CLEAR_LED2
 //     LDX     #TABLE_LED_SEGMENT_MAPPING
 //     ABX
 //     LDAA    0,x
-// 
+//
 // _PRINT_DIGITS:
 //     STAA    P_LED2
 //     LDAB    M_PARSED_INT_DIGITS
 //     LDX     #TABLE_LED_SEGMENT_MAPPING
 //     ABX
 //     LDAA    0,x
-// 
+//
 // ; If the patch in the working buffer has been edited, then print the
 // ; trailing '.' char on the LED.
 //     LDAB    M_PATCH_CURRENT_MODIFIED_FLAG
 //     CMPB    #EDITED_PATCH_IN_WORKING
 //     BNE     _ENABLE_LED1_DOT
 //     ANDA    #%1111111
-// 
+//
 // _STORE_LED1_DATA:
 //     STAA    P_LED1
 //     RTS
-// 
+//
 // _ENABLE_LED1_DOT:
 //     ORAA    #%10000000
 //     BRA     _STORE_LED1_DATA
-// 
+//
 // _CLEAR_LED2:
 //     LDAA    #%11111111
 //     BRA     _PRINT_DIGITS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; LED Segment Codes.
 // ; The following values represent the values to be sent to the LED
@@ -4576,8 +4582,8 @@ void patch_load_from_crt(uint8_t number)
 //     FCB $F8
 //     FCB $80
 //     FCB $98
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; BTN_YES_NO_SEND_MIDI
 // ; ==============================================================================
@@ -4589,11 +4595,11 @@ void patch_load_from_crt(uint8_t number)
 // ; then fall through to the main button handler.
 // ;
 // ; ==============================================================================
-// 
+//
 // BTN_YES_NO_SEND_MIDI:
 //     JSR     MIDI_SEND_YES_NO
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; BTN_YES_NO
 // ; ==============================================================================
@@ -4604,10 +4610,10 @@ void patch_load_from_crt(uint8_t number)
 // ; flag indicating whether the 'Up/Down' event came from the slider.
 // ;
 // ; ==============================================================================
-// 
+//
 // BTN_YES_NO:
 //     CLR     M_SLIDER_INPUT_EVENT
-// 
+//
 // ; If the pressed button was 'NO', then 0xFF is stored in the increment
 // ; variable. Otherwise the value for 'YES' is 0x1. These values are used in
 // ; various places for arithmetic purposes.
@@ -4615,72 +4621,72 @@ void patch_load_from_crt(uint8_t number)
 //     SUBA    #BUTTON_NO_DOWN
 //     BNE     _STORE_INCREMENT
 //     LDAA    #$FF
-// 
+//
 // _STORE_INCREMENT:
 //     STAA    <M_UP_DOWN_INCREMENT
-// 
+//
 // ; This label is referenced by the main slider input handler.
 // ; In this case the 'Up/Down' increment will have already been set by the
 // ; analog event handler.
-// 
+//
 // BTN_SLIDER:
 //     LDAA    M_MEM_SELECT_UI_MODE
 //     CMPA    #UI_MODE_CRT_LOAD_SAVE
 //     BNE     _IS_MODE_MEM_PROTECT?
 //     JMP     BTN_YES_NO_CRT_READ_WRITE
-// 
+//
 // _IS_MODE_MEM_PROTECT?:
 //     CMPA    #UI_MODE_SET_MEM_PROTECT
 //     BNE     _IS_SYNTH_IN_PLAY_MODE?
 //     JMP     BTN_YES_NO_SET_MEM_PROTECT_STATUS
-// 
+//
 // _IS_SYNTH_IN_PLAY_MODE?:
 //     LDAA    M_INPUT_MODE
 //     BNE     _IS_SYNTH_IN_EDIT_MODE?
-// 
+//
 // ; If the synth is in 'Play Mode', treat the Up/Down press as though it is
 // ; in 'Function Mode'.
 //     BRA     _FUNCTION_MODE
-// 
+//
 // _IS_SYNTH_IN_EDIT_MODE?:
 //     CMPA    #INPUT_MODE_EDIT
 //     BEQ     _IS_NAME_EDIT_MODE?
-// 
+//
 // _IS_SYNTH_IN_FN_MODE?:
 //     CMPA    #INPUT_MODE_FN
 //     BEQ     _FUNCTION_MODE
 //     RTS
-// 
+//
 // _FUNCTION_MODE:
 //     JMP     _FUNC_MODE_IS_BUTTON_ABOVE_16
-// 
+//
 // ; If the synth is in 'Name Edit' mode, Up/Down button input will be
 // ; captured, and handled by the name editing handler function, and not
 // ; processed further here.
-// 
+//
 // _IS_NAME_EDIT_MODE?:
 //     TST     M_PATCH_NAME_EDIT_ACTIVE
 //     BNE     _END_BTN_YES_NO
-// 
+//
 // _IS_EDITED_PATCH_IN_COMPARE?:
 //     LDAA    M_PATCH_CURRENT_MODIFIED_FLAG
 //     CMPA    #EDITED_PATCH_IN_COMPARE
 //     BNE     _EDIT_MODE
-// 
+//
 // _END_BTN_YES_NO:
 //     RTS
-// 
+//
 // _EDIT_MODE:
 //     LDAB    M_EDIT_PARAM_CURRENT
 //     CMPB    #27
 //     BHI     _IS_PARAM_20?                       ; Branch if B > 27.
-// 
+//
 // ; The following section deals with incrementing/decrementing the actual
 // ; data values in patch memory. This is facilitated by loading either the
 // ; offset of the parameter relative to patch memory (0..155), or the offset
 // ; relative to a single operator in patch memory (0..20), depending on what
 // ; kind of parameter this is.
-// 
+//
 // _LOAD_EDIT_PARAM_TABLE:
 //     SUBB    #6
 //     ASLB
@@ -4688,27 +4694,27 @@ void patch_load_from_crt(uint8_t number)
 //     ABX
 //     LDD     0,x
 //     LDX     #M_PATCH_CURRENT_BUFFER
-// 
+//
 // ; If the location of this parameter in memory is above 133 it's a
 // ; patch-wide parameter, and not an operator parameter.
-// 
+//
 // _BTN_YES_NO_IS_OPERATOR_PARAM?:
 //     CMPB    #133
 //     BHI     _EDIT_VALUE                         ; If B > 133, branch.
-// 
+//
 // _IS_PARAM_8?:
 //     CMPB    #8
 //     BEQ     _SAVE_B_GET_OP_INDEX
 //     CMPB    #12
 //     BLS     _IS_PARAM_20?
-// 
+//
 // _SAVE_B_GET_OP_INDEX:
 //     PSHB
-// 
+//
 // _LOAD_OFFSET_OPERATOR_PTR:
 //     JSR     PATCH_GET_PTR_TO_SELECTED_OP
 //     PULB
-// 
+//
 // _EDIT_VALUE:
 //     ABX
 //     JSR     BTN_INC_DEC_PARAM_VALUES
@@ -4718,27 +4724,27 @@ void patch_load_from_crt(uint8_t number)
 //     PSHA
 //     LDAA    <TIMER_CTRL_STATUS
 //     PSHA
-// 
+//
 // _BTN_YES_NO_DISABLE_INTERRUPTS:
 //     CLR     TIMER_CTRL_STATUS
 //     CLR     IO_PORT_2_DATA
-// 
+//
 // _RELOAD_EDIT_PARAM:
 //     JSR     PATCH_LOAD_EDIT_PARAM
 //     JSR     UI_PRINT_MAIN
-// 
+//
 // _SET_PATCH_AS_EDITED:
 //     LDAA    #EDITED_PATCH_IN_WORKING
 //     STAA    M_PATCH_CURRENT_MODIFIED_FLAG
 //     JSR     LED_PRINT_PATCH_NUMBER
-// 
+//
 // _RE_ENABLE_INTERRUPTS:
 //     PULA
 //     STAA    <TIMER_CTRL_STATUS
 //     PULA
 //     STAA    <IO_PORT_2_DATA
 //     RTS
-// 
+//
 // _IS_PARAM_20?:
 //     LDAB    <M_EDIT_EG_RATE_LVL_SUB_FN
 //     LDAA    M_EDIT_PARAM_CURRENT
@@ -4746,89 +4752,89 @@ void patch_load_from_crt(uint8_t number)
 //     BNE     _IS_PARAM_21?
 //     PSHB
 //     BRA     _LOAD_OFFSET_OPERATOR_PTR
-// 
+//
 // _IS_PARAM_21?:
 //     CMPA    #21
 //     BNE     _IS_PARAM_28?
 //     ADDB    #4
 //     PSHB
 //     BRA     _LOAD_OFFSET_OPERATOR_PTR
-// 
+//
 // _IS_PARAM_28?:
 //     CMPA    #28
 //     BNE     _IS_PARAM_29?
-// 
+//
 // _EDIT_PARAM_PITCH_EG_RATE:
 //     ADDB    #126
 //     BRA     _LOAD_OFFSET_PATCH_PTR
-// 
+//
 // _IS_PARAM_29?:
 //     CMPA    #29
 //     BNE     _IS_PARAM_23?
-// 
+//
 // _EDIT_PARAM_PITCH_EG_LVL:
 //     ADDB    #130
-// 
+//
 // _LOAD_OFFSET_PATCH_PTR:
 //     LDX     #M_PATCH_CURRENT_BUFFER
 //     BRA     _EDIT_VALUE
-// 
+//
 // ; The keyboard scaling 'toggle' variable is either 0x0, or 0xFF.
 // ; This value will be incremented to then test against zero, to determine
 // ; which parameter is being edited.
-// 
+//
 // _IS_PARAM_23?:
 //     LDAB    <M_EDIT_KBD_SCALE_TOGGLE
 //     CMPA    #23
 //     BNE     _IS_PARAM_24?
 //     INCB
 //     BEQ     _EDIT_PARAM_KBD_SCALE_RHT_CURVE
-// 
+//
 // _EDIT_PARAM_KBD_SCALE_LFT_CURVE:
 //     LDAB    #11
 //     PSHB
 //     JMP     _LOAD_OFFSET_OPERATOR_PTR
-// 
+//
 // _EDIT_PARAM_KBD_SCALE_RHT_CURVE:
 //     LDAB    #12
 //     PSHB
 //     JMP     _LOAD_OFFSET_OPERATOR_PTR
-// 
+//
 // _IS_PARAM_24?:
 //     CMPA    #24
 //     BNE     _IS_PARAM_OSC_MODE_SYNC?
 //     INCB
 //     BEQ     _EDIT_PARAM_KBD_SCALE_RHT_DEPTH
-// 
+//
 // _EDIT_PARAM_KBD_SCALE_LFT_DEPTH:
 //     LDAB    #9
 //     PSHB
 //     JMP     _LOAD_OFFSET_OPERATOR_PTR
-// 
+//
 // _EDIT_PARAM_KBD_SCALE_RHT_DEPTH:
 //     LDAB    #10
 //     PSHB
 //     JMP     _LOAD_OFFSET_OPERATOR_PTR
-// 
+//
 // _IS_PARAM_OSC_MODE_SYNC?:
 //     CMPA    #16
 //     BEQ     _EDIT_PARAM_OSC_MODE_SYNC
 //     RTS
-// 
+//
 // _EDIT_PARAM_OSC_MODE_SYNC:
 //     LDAB    <M_EDIT_OSC_MODE_SYNC_FLAG
 //     BNE     _LOAD_OSC_SYNC_OFFSET
-// 
+//
 // _LOAD_OSC_MODE_OFFSET:
 //     LDAB    #17
 //     PSHB
 //     JMP     _LOAD_OFFSET_OPERATOR_PTR
-// 
+//
 // _LOAD_OSC_SYNC_OFFSET:
 //     LDAB    #136
 //     JMP     _EDIT_VALUE
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; BTN_INC_DEC_PARAM_VALUES
 // ; ==============================================================================
@@ -4843,104 +4849,104 @@ void patch_load_from_crt(uint8_t number)
 // ; input handler.
 // ;
 // ; ==============================================================================
-// 
+//
 // BTN_INC_DEC_PARAM_VALUES:
 //     LDAA    <M_UP_DOWN_INCREMENT
 //     LDAB    <M_SLIDER_INPUT_EVENT
 //     BNE     _END_BTN_INC_DEC_PARAM_VALUES
 //     PSHX
-// 
+//
 // _IS_UP_OR_DOWN?:
 //     LDAA    <M_UP_DOWN_INCREMENT
 //     BMI     _BTN_NO
-// 
+//
 // _BTN_YES:
 //     LDAA    0,x
-// 
+//
 // ; If the synth is in 'Play Mode', switch to 'Function Mode'.
 //     LDAB    M_INPUT_MODE
 //     BNE     _GET_PARAM_SRC
 //     LDAB    #2
-// 
+//
 // ; Depending on the button mode we're in, select which parameter the value
 // ; to be edited is indexed by.
-// 
+//
 // _GET_PARAM_SRC:
 //     ASLB
 //     LDX     #TABLE_EDIT_PARAM_SRC
 //     ABX
 //     LDX     0,x
-// 
+//
 // ; Load the number of the parameter into ACCB.
 //     LDAB    0,x
 //     PSHB
-// 
+//
 // ; Depending on which 'Input Mode' the synth is in, select the appropriate
 // ; table containing the maximum values by using the current input mode as an
 // ; index into this lookup table containing pointers to the different maximum
 // ; value tables.
-// 
+//
 // _GET_PARAM_TABLE:
 //     LDX     #TABLE_MAX_VALUE_TBL_PTRS
 //     LDAB    M_INPUT_MODE
 //     BNE     _LOAD_TABLE
 //     LDAB    #2
-// 
+//
 // ; Load the maximum value table, and then use the parameter value retrieved
 // ; earlier as an index into this table, to get the maximum value for
 // ; this parameter.
-// 
+//
 // _LOAD_TABLE:
 //     ASLB
 //     ABX
 //     LDX     0,x
 //     PULB
 //     ABX
-// 
+//
 // ; Check if the current value is at the maximum value. If so, return.
 // ; Otherwise, increment the value by adding the 'YES' value of '1'.
 // ; If this causes it to overflow the maximum, then set the value to
 // ; its maximum.
-// 
+//
 // _IS_VALUE_AT_MAXIMUM?:
 //     CMPA    0,x
 //     BEQ     _RESTORE_IX_AND_EXIT
 //     ADDA    <M_UP_DOWN_INCREMENT
 //     CMPA    0,x
 //     BHI     _RESET_TO_MAX
-// 
+//
 // _RESTORE_IX_AND_EXIT:
 //     PULX
-// 
+//
 // ; Store the incremented/decremented value.
-// 
+//
 // _END_BTN_INC_DEC_PARAM_VALUES:
 //     STAA    0,x
 //     RTS
-// 
+//
 // _RESET_TO_MAX:
 //     LDAA    0,x
 //     BRA     _RESTORE_IX_AND_EXIT
-// 
+//
 // ; All of the numeric parameters that are edited through this function
 // ; have a minimum of zero, so if the value is already zero, then the
 // ; function exits here.
-// 
+//
 // _BTN_NO:
 //     LDAA    0,x
 //     BEQ     _RESTORE_IX_AND_EXIT
-// 
+//
 // ; Since a value indicating a decrement will have its MSB set, adding this
 // ; value to a numeric value will constitute a subtraction operation.
 // ; If the resulting decrement underflows, set the result to 0.
-// 
+//
 // _HANDLE_DECREMENT:
 //     ADDA    <M_UP_DOWN_INCREMENT
 //     BPL     _RESTORE_IX_AND_EXIT
 //     CLRA
 //     BRA     _RESTORE_IX_AND_EXIT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PATCH_LOAD_EDIT_PARAM
 // ; ==============================================================================
@@ -4953,7 +4959,7 @@ void patch_load_from_crt(uint8_t number)
 // ; parameter is then looked up in a table, and called.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_LOAD_EDIT_PARAM:
 //     LDAB    M_EDIT_PARAM_CURRENT
 //     SUBB    #6
@@ -4962,17 +4968,17 @@ void patch_load_from_crt(uint8_t number)
 //     ABX
 //     LDX     0,x
 //     JSR     0,x
-// 
+//
 // PATCH_LOAD_PARAM_EDIT_RETURN:
 //     RTS
-// 
-// 
+//
+//
 // PATCH_LOAD_OP_PITCH_AND_ALG:
 //     JSR     PATCH_LOAD_OPERATOR_PITCH
 //     JSR     PATCH_LOAD_ALG_MODE
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; Current Edit Parameter Pointers.
 // ; This table contains pointers to the current parameter being edited. This
@@ -4987,7 +4993,7 @@ void patch_load_from_crt(uint8_t number)
 //     FDB 0
 //     FDB M_EDIT_PARAM_CURRENT
 //     FDB M_FN_PARAM_CURRENT
-// 
+//
 // ; ==============================================================================
 // ; Max Edit Parameter Value Pointers.
 // ; This table contains pointers to the tables of maximum values for the
@@ -4998,7 +5004,7 @@ void patch_load_from_crt(uint8_t number)
 //     FDB 0
 //     FDB TABLE_MAX_VALUE_EDIT_MODE
 //     FDB TABLE_MAX_VALUE_FUNC_MODE
-// 
+//
 // ; ==============================================================================
 // TABLE_MAX_VALUE_EDIT_MODE:
 //     FCB 0
@@ -5031,7 +5037,7 @@ void patch_load_from_crt(uint8_t number)
 //     FCB 7
 //     FCB $63
 //     FCB $63
-// 
+//
 // ; ==============================================================================
 // TABLE_MAX_VALUE_FUNC_MODE:
 //     FCB 0
@@ -5066,7 +5072,7 @@ void patch_load_from_crt(uint8_t number)
 //     FCB 1
 //     FCB 1
 //     FCB 1
-// 
+//
 // ; ==============================================================================
 // ; Patch Load Parameter Functions.
 // ; These functions are used to re-load individual patch parameters after
@@ -5097,48 +5103,48 @@ void patch_load_from_crt(uint8_t number)
 //     FDB PATCH_LOAD_OPERATOR_KBD_VEL_SENS
 //     FDB PATCH_LOAD_PITCH_EG_VALUES
 //     FDB PATCH_LOAD_PITCH_EG_VALUES
-// 
+//
 // _FUNC_MODE_IS_BUTTON_ABOVE_16:
 //     LDAB    M_FN_PARAM_CURRENT
 //     STAB    M_LAST_PRESSED_BTN
 //     CMPB    #BUTTON_16
 //     BHI     BTN_YES_NO_FN_16_TO_32
-// 
+//
 // _BTN_16_OR_LESS:
 //     CMPB    #BUTTON_8
 //     BNE     _IS_BTN_LESS_THAN_8?
-// 
+//
 // ; If there is an active voice event (Key Up/Key Down), then don't
 // ; process this event.
-// 
+//
 // _BTN_8:
 //     JSR     VOICE_SEARCH_FOR_ACTIVE_KEY_EVENT
 //     BNE     BTN_YES_NO_END
 //     JMP     BTN_YES_NO_FN_8
-// 
+//
 // _IS_BTN_LESS_THAN_8?:
 //     BCS     _BTN_LESS_THAN_8
-// 
+//
 // _IS_BTN_12?:
 //     CMPB    #BUTTON_12
 //     BEQ     BTN_YES_NO_END
-// 
+//
 // _IS_BTN_13?:
 //     CMPB    #BUTTON_13
 //     BEQ     BTN_YES_NO_END
-// 
+//
 // ; In 'Function Mode' button 14 is the battery check.
 // ; There's no additional functionality associated with this button in this mode.
-// 
+//
 // _IS_BTN_14?:
 //     CMPB    #BUTTON_14
 //     BNE     _BTN_9_TO_11
 //     RTS
-// 
+//
 // _BTN_9_TO_11:
 //     JMP     BTN_YES_NO_FN_9_TO_11
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; INPUT_UNKNOWN
 // ; ==============================================================================
@@ -5146,12 +5152,12 @@ void patch_load_from_crt(uint8_t number)
 // ; This subroutine does not appear to be referenced, or called from anywhere.
 // ;
 // ; ==============================================================================
-// 
+//
 // INPUT_UNKNOWN?:
 //     JSR     VOICE_SEARCH_FOR_ACTIVE_KEY_EVENT
 //     BNE     BTN_YES_NO_END
-// 
-// 
+//
+//
 // _BTN_LESS_THAN_8:
 //     ASLB
 //     LDX     #TABLE_FN_PARAMS
@@ -5159,16 +5165,16 @@ void patch_load_from_crt(uint8_t number)
 //     LDX     0,x
 //     LDAB    M_FN_PARAM_CURRENT
 //     BNE     BTN_YES_NO_INC_DEC
-// 
+//
 // ; Set the synth's 'Master Tune' parameter.
 // ; Editing this parameter only responds to slider input.
 //     TST     M_SLIDER_INPUT_EVENT
 //     BEQ     MASTER_TUNE_EXIT
-// 
+//
 // ; Falls-through to store the master tune setting, and return.
 //     LDAB    <M_ANALOG_DATA
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MASTER_TUNE_SET
 // ; ==============================================================================
@@ -5182,16 +5188,16 @@ void patch_load_from_crt(uint8_t number)
 // ; * ACCB: The value to input into the master tune 'register'.
 // ;
 // ; ==============================================================================
-// 
+//
 // MASTER_TUNE_SET:
 //     CLRA
 //     LSLD
 //     STD     M_MASTER_TUNE
-// 
+//
 // MASTER_TUNE_EXIT:
 //     RTS
-// 
-// 
+//
+//
 // BTN_YES_NO_INC_DEC:
 //     JSR     BTN_INC_DEC_PARAM_VALUES
 //     STAA    0,x
@@ -5206,11 +5212,11 @@ void patch_load_from_crt(uint8_t number)
 //     JSR     VOICE_RESET
 //     PULA
 //     STAA    <IO_PORT_2_DATA
-// 
+//
 // BTN_YES_NO_END:
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; BTN_YES_NO_FN_ABOVE_16
 // ; ==============================================================================
@@ -5231,126 +5237,126 @@ void patch_load_from_crt(uint8_t number)
 // ; (Pitch, Amplitude, EG Bias).
 // ;
 // ; ==============================================================================
-// 
+//
 // BTN_YES_NO_FN_16_TO_32:
 //     LDAB    M_FN_PARAM_CURRENT
-// 
+//
 // ; Subtract 16, and use as index into param table.
 //     SUBB    #16
 //     ASLB
 //     LDX     #TABLE_FUNC_PARAMS_16_32
 //     ABX
-// 
+//
 // ; Load IX from params table.
 //     LDX     0,x
 //     LSRB
-// 
+//
 // ; Perform a modulus operation here to get the index into the current
 // ; 4-button grouping.
 // ; If the resulting value is non-zero, this means it corresponds to one of
 // ; the 'Modulation-Source' toggle variables. If this is the case, branch.
 //     ANDB    #%11                                ; B = B % 4.
 //     BNE     _NON_RANGE_VALUE
-// 
+//
 // _RANGE_VALUE:
 //     LDAA    <M_UP_DOWN_INCREMENT
-// 
+//
 // ; If the originating input event came from the slider, exit.
 //     TST     M_SLIDER_INPUT_EVENT
 //     BNE     _STORE_AND_UPDATE_PITCH_MOD?
-// 
+//
 // _IS_INCREMENT_POSITIVE?:
 //     TSTA
 //     BMI     _INCREMENT_NEGATIVE
-// 
+//
 // _IS_VALUE_AT_MAX?:
 //     LDAA    0,x
 //     CMPA    #99
 //     BEQ     _END_BTN_YES_NO_FN_16_TO_32
-// 
+//
 // ; Add the increment value. If the parameter value overflows the maximum
 // ; value of 99, clamp it at 99.
 //     ADDA    <M_UP_DOWN_INCREMENT
 //     CMPA    #99
 //     BHI     _CLAMP_VALUE_AT_MAX
-// 
+//
 // _STORE_AND_UPDATE_PITCH_MOD?:
 //     STAA    0,x
 //     JSR     MOD_PROCESS_INPUT_SOURCES
 //     TST     M_INPUT_MODE
 //     BEQ     _END_BTN_YES_NO_FN_16_TO_32
 //     JSR     UI_PRINT_MAIN
-// 
+//
 // _END_BTN_YES_NO_FN_16_TO_32:
 //     RTS
-// 
+//
 // _CLAMP_VALUE_AT_MAX:
 //     LDAA    #99
 //     BRA     _STORE_AND_UPDATE_PITCH_MOD?
-// 
+//
 // _INCREMENT_NEGATIVE:
 //     LDAA    0,x
 //     BEQ     _END_BTN_YES_NO_FN_16_TO_32
-// 
+//
 // ; Add the increment value. This is effectively a subtraction operation.
 // ; If the parameter value underflows the minimum value of 0, clamp it at 0.
 //     ADDA    <M_UP_DOWN_INCREMENT
 //     BMI     _CLAMP_VALUE_AT_MIN
 //     BRA     _STORE_AND_UPDATE_PITCH_MOD?
-// 
+//
 // _CLAMP_VALUE_AT_MIN:
 //     CLRA
 //     BRA     _STORE_AND_UPDATE_PITCH_MOD?
-// 
+//
 // _NON_RANGE_VALUE:
 //     LDAA    <M_SLIDER_INPUT_EVENT
 //     BNE     _FN_16_TO_32_SLIDER_EVENT
-// 
+//
 // ; If the button pressed is the fourth in the grouping (EG Bias)
 // ; then increment ACCB to create a usable bitmask by causing value 3
 // ; to occupy bit 3.
-// 
+//
 // _IS_BIAS_BUTTON?:
 //     CMPB    #3
 //     BNE     _STORE_VALUE
 //     INCB
-// 
+//
 // _STORE_VALUE:
 //     LDAA    <M_UP_DOWN_INCREMENT
 //     BMI     _CLEAR_PARAM_FLAG
-// 
+//
 // ; Set the corresponding flag with a logical OR using the modulo'd
 // ; button input as a bitmask.
-// 
+//
 // _SET_PARAM_FLAG:
 //     ORAB    0,x
 //     TBA
 //     BRA     _STORE_AND_UPDATE_PITCH_MOD?
-// 
+//
 // ; The following section creates a negative bitmask from the
 // ; modulo'd button input number, and then uses a logical AND to clear
 // ; the corresponding bit in the flag variable.
-// 
+//
 // _CLEAR_PARAM_FLAG:
 //     COMB
 //     ANDB    0,x
 //     TBA
 //     BRA     _STORE_AND_UPDATE_PITCH_MOD?
-// 
+//
 // _FN_16_TO_32_SLIDER_EVENT:
 //     LDAA    <M_UP_DOWN_INCREMENT
 //     BNE     _NON_RANGE_BTN_YES
 //     LDAA    #$FF
-// 
+//
 // _STORE_SLIDER_NO_YES_FLAG:
 //     STAA    <M_UP_DOWN_INCREMENT
 //     BRA     _IS_BIAS_BUTTON?
-// 
+//
 // _NON_RANGE_BTN_YES:
 //     LDAA    #1
 //     BRA     _STORE_SLIDER_NO_YES_FLAG
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; VOICE_RESET
 // ; ==============================================================================
@@ -5360,11 +5366,11 @@ void patch_load_from_crt(uint8_t number)
 // ; Resets all synth voice data, and clears the EGS' voice data buffers.
 // ;
 // ; ==============================================================================
-// 
+//
 // VOICE_RESET:
 //     JSR     EGS_RESET_VOICES                    ; Falls-through below.
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; VOICE_RESET_DATA
 // ; ==============================================================================
@@ -5383,25 +5389,25 @@ void patch_load_from_crt(uint8_t number)
 // ; * 0x86:  Used as a loop index when clearing buffers.
 // ;
 // ; ==============================================================================
-// 
+//
 // VOICE_RESET_EVENT_AND_PITCH_BUFFERS:
 //     LDAB    #32
 //     LDX     #M_VOICE_STATUS
-// 
+//
 // _CLEAR_VOICE_EVENTS_LOOP:
 //     CLR     0,x
 //     INX
 //     DECB
 //     BNE     _CLEAR_VOICE_EVENTS_LOOP            ; If ACCB > 0, loop.
-// 
+//
 // ; The following code clears the three sequential 'Voice Pitch Buffers'
 // ; by setting the entry for each voice pitch to 0x2EA8.
-// 
+//
 // _CLEAR_PITCH_BUFFERS:
 //     LDAA    #48
 //     STAA    <$86                                ; Loop index.
 //     LDD     #$2EA8
-// 
+//
 // _CLEAR_PITCH_BUFFERS_LOOP:
 //     STD     0,x
 //     INX
@@ -5412,8 +5418,8 @@ void patch_load_from_crt(uint8_t number)
 //     CLR     M_LEGATO_DIRECTION
 //     CLR     M_NOTE_KEY_LAST
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; BTN_YES_NO_FN_8
 // ; ==============================================================================
@@ -5426,60 +5432,60 @@ void patch_load_from_crt(uint8_t number)
 // ; Refer to the 'sub-function' flag variable for more information.
 // ;
 // ; ==============================================================================
-// 
+//
 // BTN_YES_NO_FN_8:
 //     LDAA    M_EDIT_BTN_8_SUB_FN
 //     BNE     _IS_SUB_FN_1?
-// 
+//
 // _SUB_FN_0:
 //     JSR     VOICE_RESET
 //     LDX     #M_MIDI_RX_CH
 //     JMP     BTN_YES_NO_INC_DEC
-// 
+//
 // _IS_SUB_FN_1?:
 //     CMPA    #1
 //     BNE     _SUB_FN_2
-// 
+//
 // _SUB_FN_1:
 //     TST     M_SLIDER_INPUT_EVENT
 //     BNE     _READ_SLIDER_UP_DWN?
 //     TST     M_UP_DOWN_INCREMENT
 //     BMI     _SET_SYS_INFO_UNAVAIL
-// 
+//
 // _SET_SYS_INFO_AVAIL:
 //     LDAA    #1
 //     STAA    M_MIDI_SYS_INFO_AVAIL
 //     BRA     _END_BTN_YES_NO_FN_8
-// 
+//
 // _SET_SYS_INFO_UNAVAIL:
 //     CLR     M_MIDI_SYS_INFO_AVAIL
 //     BRA     _END_BTN_YES_NO_FN_8
-// 
+//
 // _READ_SLIDER_UP_DWN?:
 //     LDAA    <M_UP_DOWN_INCREMENT
 //     CMPA    #7
 //     BHI     _SET_SYS_INFO_AVAIL
 //     BRA     _SET_SYS_INFO_UNAVAIL
-// 
+//
 // _SUB_FN_2:
 //     TST     M_SLIDER_INPUT_EVENT
 //     BEQ     _IS_YES_PRESSED?
 //     RTS
-// 
+//
 // _IS_YES_PRESSED?:
 //     TST     M_UP_DOWN_INCREMENT
 //     BPL     _MIDI_TRANSMIT
 //     RTS
-// 
+//
 // _MIDI_TRANSMIT:
 //     JSR     LCD_CLEAR_STR_BUFFER
 //     JSR     LCD_PRINT_STR_BUFFER
 //     JSR     MIDI_SYSEX_DUMP_BULK
-// 
+//
 // _END_BTN_YES_NO_FN_8:
 //     JMP     UI_PRINT_MAIN
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; BTN_YES_NO_FN_9_TO_11
 // ; ==============================================================================
@@ -5491,58 +5497,58 @@ void patch_load_from_crt(uint8_t number)
 // ; function, and cartridge formatting.
 // ;
 // ; ==============================================================================
-// 
+//
 // BTN_YES_NO_FN_9_TO_11:
 //     TST     M_INPUT_MODE
 //     BNE     _IS_SLIDER_INPUT?
-// 
+//
 // _INPUT_MODE_PLAY:
 //     RTS
-// 
+//
 // ; Exit if this event came from the slider.
-// 
+//
 // _IS_SLIDER_INPUT?:
 //     TST     M_SLIDER_INPUT_EVENT
 //     BEQ     _IS_BUTTON_YES_OR_NO
 //     RTS
-// 
+//
 // _IS_BUTTON_YES_OR_NO:
 //     TST     M_UP_DOWN_INCREMENT
 //     BPL     _IS_CONFIRM_FLAG_SET?
-// 
+//
 // _FN_9_TO_11_BTN_NO:
 //     JMP     INPUT_RESET_TO_FN_MODE
-// 
+//
 // ; Test if the 'Confirm' flag in the 'Load/Save Flags' register is set.
-// 
+//
 // _IS_CONFIRM_FLAG_SET?:
 //     TST     M_CRT_SAVE_LOAD_FLAGS
 //     BNE     _CONFIRM_FLAG_SET
-// 
+//
 // ; This sets bit 0, which indicates that the device is in a
 // ; 'confirmation' state.
-// 
+//
 // _SET_CONFIRM_FLAG:
 //     INC     M_CRT_SAVE_LOAD_FLAGS
-// 
+//
 // ; Falls-through below to print and return.
-// 
+//
 // MENU_PRINT_MSG_CONFIRMATION:
 //     LDX     #aAreYouSure
-// 
-// 
+//
+//
 // MENU_PRINT_LINE_2:
 //     JMP     LCD_CLR_WRITE_LINE_2_THEN_PRINT
-// 
+//
 // _CONFIRM_FLAG_SET:
 //     LDAB    M_FN_PARAM_CURRENT
 //     SUBB    #8
 //     BNE     _IS_BTN_10?
-// 
+//
 // ; Copy the 'Recall Buffer' into the 'Edit Buffer', and restore the
 // ; modified flag, the patch number, and the status of the individual
 // ; operators.
-// 
+//
 // _BTN_9_EDIT_RECALL:
 //     JSR     PATCH_COPY_FROM_COMPARE
 //     LDAA    M_PATCH_COMPARE_NUMBER
@@ -5551,42 +5557,42 @@ void patch_load_from_crt(uint8_t number)
 //     STAA    M_PATCH_CURRENT_MODIFIED_FLAG
 //     LDAA    M_PATCH_COMPARE_OPS_ON_OFF
 //     STAA    M_PATCH_CURRENT_OPS_ON_OFF
-// 
+//
 // ; Save timer and IRQ status to recall later.
 //     LDAA    <IO_PORT_2_DATA
 //     PSHA
 //     LDAA    <TIMER_CTRL_STATUS
 //     PSHA
-// 
+//
 // _EDIT_RECALL_DISABLE_IRQ:
 //     CLR     IO_PORT_2_DATA
 //     CLR     TIMER_CTRL_STATUS
 //     BRA     _LOAD_PATCH_TO_EGS
-// 
+//
 // _IS_BTN_10?:
 //     CMPB    #1
 //     BNE     _IS_BTN_11?
-// 
+//
 // _BTN_10_VOICE_INIT:
 //     LDAA    <IO_PORT_2_DATA
 //     PSHA
 //     LDAA    <TIMER_CTRL_STATUS
 //     PSHA
-// 
+//
 // _VOICE_INIT_DISABLE_IRQ:
 //     CLR     IO_PORT_2_DATA
 //     CLR     TIMER_CTRL_STATUS
-// 
+//
 // ; Load, and deserialise the initialise voice buffer into the
 // ; 'Edit Buffer', then reset the status of the individual operators.
-// 
+//
 // _DESERIALISE_INIT_BUFFER:
 //     LDD     #PATCH_INIT_VOICE_BUFFER
 //     JSR     PATCH_DESERIALISE
 //     CLR     M_PATCH_CURRENT_MODIFIED_FLAG
 //     LDAA    #%111111
 //     STAA    M_PATCH_CURRENT_OPS_ON_OFF
-// 
+//
 // _LOAD_PATCH_TO_EGS:
 //     JSR     MIDI_SYSEX_DUMP_CURRENT_VOICE
 //     JSR     PATCH_LOAD_DATA
@@ -5595,12 +5601,12 @@ void patch_load_from_crt(uint8_t number)
 //     LDAA    M_EDIT_PARAM_CURRENT
 //     STAA    M_LAST_PRESSED_BTN
 //     JMP     RESTORE_IRQ_AND_EXIT
-// 
+//
 // _IS_BTN_11?:
 //     CMPB    #2
 //     BEQ     CRT_FORMAT
 //     RTS
-// 
+//
 // ; ==============================================================================
 // ; CRT_FORMAT
 // ; ==============================================================================
@@ -5612,7 +5618,7 @@ void patch_load_from_crt(uint8_t number)
 // ; 'Function Mode'.
 // ;
 // ; ==============================================================================
-// 
+//
 // CRT_FORMAT:
 //     JSR     CRT_CHECK_INSERTED
 //     JSR     CRT_CHECK_PROTECTION
@@ -5620,32 +5626,32 @@ void patch_load_from_crt(uint8_t number)
 //     JSR     PRINT_MSG_UNDER_WRITING
 //     LDX     #P_CRT_START
 //     STX     <M_COPY_DEST_PTR
-// 
+//
 // _SET_FORMAT_LOOP_INDEX:
 //     LDAB    #32
 //     STAB    M_CRT_FORMAT_PATCH_INDEX
-// 
+//
 // _CRT_FORMAT_LOOP:
 //     LDX     #PATCH_INIT_VOICE_BUFFER
 //     STX     <M_COPY_SRC_PTR
 //     JSR     PATCH_WRITE_TO_CRT
-// 
+//
 // ; If CCR[c] is set, an error has occurred.
 //     BCS     _CRT_FORMAT_FAIL
 //     DEC     M_CRT_FORMAT_PATCH_INDEX
 //     BNE     _CRT_FORMAT_LOOP                    ; If *(0x217A) > 0, loop.
 //     LDX     #aFormattingEnd
-// 
+//
 // _END_BTN_YES_NO_FN_9_TO_11:
 //     CLR     M_CRT_SAVE_LOAD_FLAGS
 //     JMP     LCD_CLR_WRITE_LINE_2_THEN_PRINT
-// 
+//
 // _CRT_FORMAT_FAIL:
 //     LDX     #aWriteError
 //     BRA     _END_BTN_YES_NO_FN_9_TO_11
 // aFormattingEnd:      FCC " FORMATTING END ", 0
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; CRT_CHECK_INSERTED
 // ; ==============================================================================
@@ -5658,18 +5664,18 @@ void patch_load_from_crt(uint8_t number)
 // ; to the LCD screen.
 // ;
 // ; ==============================================================================
-// 
+//
 // CRT_CHECK_INSERTED:
 //     LDAA    P_CRT_PEDALS_LCD
 //     ANDA    #CRT_FLAG_INSERTED
 //     BEQ     _END_CRT_CHECK_INSERTED
 //     JSR     CRT_PRINT_NOT_INSERTED
 //     PULX
-// 
+//
 // _END_CRT_CHECK_INSERTED:
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; CRT_CHECK_PROTECTION
 // ; ==============================================================================
@@ -5682,18 +5688,18 @@ void patch_load_from_crt(uint8_t number)
 // ; An error message to the LCD output buffer if memory protection is enabled.
 // ;
 // ; ==============================================================================
-// 
+//
 // CRT_CHECK_PROTECTION:
 //     LDAA    P_CRT_PEDALS_LCD
 //     ANDA    #CRT_FLAG_PROTECTED
 //     BEQ     _END_CRT_CHECK_PROTECTION
 //     JSR     PRINT_MSG_MEMORY_PROTECTED
 //     PULX
-// 
+//
 // _END_CRT_CHECK_PROTECTION:
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MEMORY_CHECK_CRT_PROTECT
 // ; ==============================================================================
@@ -5704,18 +5710,18 @@ void patch_load_from_crt(uint8_t number)
 // ; at 0x88.
 // ;
 // ; ==============================================================================
-// 
+//
 // MEMORY_CHECK_CRT_PROTECT:
 //     LDAA    <M_MEM_PROTECT_FLAGS
 //     ANDA    #MEM_PROTECT_CRT
 //     BEQ     _END_MEMORY_CHECK_CRT_PROTECT
 //     JSR     PRINT_MSG_MEMORY_PROTECTED
 //     PULX
-// 
+//
 // _END_MEMORY_CHECK_CRT_PROTECT:
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MEMORY_CHECK_INT_PROTECT
 // ; ==============================================================================
@@ -5728,18 +5734,18 @@ void patch_load_from_crt(uint8_t number)
 // ; at 0x88.
 // ;
 // ; ==============================================================================
-// 
+//
 // MEMORY_CHECK_INT_PROTECT:
 //     LDAA    <M_MEM_PROTECT_FLAGS
 //     ANDA    #MEM_PROTECT_INT
 //     BEQ     _END_MEMORY_CHECK_INT_PROTECT
 //     JSR     PRINT_MSG_MEMORY_PROTECTED
 //     PULX
-// 
+//
 // _END_MEMORY_CHECK_INT_PROTECT:
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; BTN_YES_NO_CRT_READ_WRITE
 // ; ==============================================================================
@@ -5750,45 +5756,45 @@ void patch_load_from_crt(uint8_t number)
 // ; handle cartridge functionality.
 // ;
 // ; ==============================================================================
-// 
+//
 // BTN_YES_NO_CRT_READ_WRITE:
 //     TST     M_SLIDER_INPUT_EVENT
-// 
+//
 // ; If this input originated from the slider, exit.
 //     BNE     _CRT_RW_SLIDER_EVENT
-// 
+//
 // _IS_BUTTON_UP_OR_DOWN:
 //     TST     M_UP_DOWN_INCREMENT
 //     BMI     _CRT_RW_BTN_NO
-// 
+//
 // ; Checks the 'confirmation bit' (bit 0) in the flag variable.
-// 
+//
 // _CHECK_CONFIRMATION?:
 //     LDAA    <M_CRT_SAVE_LOAD_FLAGS
 //     BITA    #1
 //     BNE     _CONFIRMED
 //     INC     M_CRT_SAVE_LOAD_FLAGS
 //     JMP     MENU_PRINT_MSG_CONFIRMATION
-// 
+//
 // _CONFIRMED:
 //     JSR     CRT_CHECK_INSERTED
 //     JSR     CRT_CHECK_FORMAT
 //     BEQ     _CRT_FORMAT_OK
 //     JMP     CRT_FORMAT_CONFLICT
-// 
+//
 // _CRT_FORMAT_OK:
 //     TST     M_CRT_SAVE_LOAD_FLAGS
 //     BMI     _TEST_MEM_PROTECT_INT
-// 
+//
 // _TEST_MEM_PROTECT_CRT:
 //     JSR     CRT_CHECK_PROTECTION
 //     JSR     MEMORY_CHECK_CRT_PROTECT
 //     BSR     PRINT_MSG_UNDER_WRITING
 //     BRA     _MEM_PROTECT_OK
-// 
+//
 // _TEST_MEM_PROTECT_INT:
 //     JSR     MEMORY_CHECK_INT_PROTECT
-// 
+//
 // _MEM_PROTECT_OK:
 //     LDD     #P_CRT_START
 //     STD     <M_COPY_DEST_PTR
@@ -5796,21 +5802,21 @@ void patch_load_from_crt(uint8_t number)
 //     STD     <M_COPY_SRC_PTR
 //     TST     M_CRT_SAVE_LOAD_FLAGS
 //     BMI     _READ_OPERATION
-// 
+//
 // ; Set CRT_RW_FLAGS to 'Write'.
 //     LDAA    #%10000000
 //     STAA    M_CRT_RW_FLAGS
-// 
+//
 // _BEGIN_CRT_RW:
 //     JMP     CRT_READ_WRITE_ALL
-// 
+//
 // _CRT_RW_BTN_NO:
 //     JMP     INPUT_RESET_TO_FN_MODE
-// 
+//
 // _CRT_RW_SLIDER_EVENT:
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PRINT_MSG_UNDER_WRITING
 // ; ==============================================================================
@@ -5820,19 +5826,19 @@ void patch_load_from_crt(uint8_t number)
 // ; Prints the 'UNDER WRITING' message to the second line of the synth's LCD.
 // ;
 // ; ==============================================================================
-// 
+//
 // PRINT_MSG_UNDER_WRITING:
 //     LDX     #aUnderWriting
 //     JMP     MENU_PRINT_LINE_2
-// 
-// 
+//
+//
 // ; Set CRT_RW_FLAGS to 'Read'.
-// 
+//
 // _READ_OPERATION:
 //     CLR     M_CRT_RW_FLAGS
 //     BRA     _BEGIN_CRT_RW
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; BTN_YES_NO_SET_MEM_PROTECT_STATUS
 // ; ==============================================================================
@@ -5842,51 +5848,51 @@ void patch_load_from_crt(uint8_t number)
 // ; Handles the 'Yes/No' menu input when changing the memory protect status.
 // ;
 // ; ==============================================================================
-// 
+//
 // BTN_YES_NO_SET_MEM_PROTECT_STATUS:
 //     LDAA    <M_MEM_PROTECT_FLAGS
 //     LDAB    <M_SLIDER_INPUT_EVENT
 //     BNE     _END_BTN_YES_NO_SET_MEM_PROTECT_STATUS
-// 
+//
 // _IS_BUTTON_YES_OR_NO?:
 //     LDAB    <M_UP_DOWN_INCREMENT
 //     BMI     _SET_MEM_PROTECT_BTN_NO
-// 
+//
 // _SET_MEM_PROTECT_BTN_YES:
 //     LDAB    <M_MEM_PROTECT_MODE
 //     CMPB    #BUTTON_MEM_PROTECT_INT
 //     BNE     _ENABLE_MEM_PROTECT_CRT
-// 
+//
 // _ENABLE_MEM_PROTECT_INT:
 //     ORAA    #MEM_PROTECT_INT
 //     BRA     _STORE_MEM_PROTECT_STATUS
-// 
+//
 // _ENABLE_MEM_PROTECT_CRT:
 //     ORAA    #MEM_PROTECT_CRT
-// 
+//
 // _STORE_MEM_PROTECT_STATUS:
 //     STAA    <M_MEM_PROTECT_FLAGS
 //     LDAA    <M_MEM_PROTECT_MODE
 //     STAA    M_LAST_PRESSED_BTN
 //     JSR     UI_PRINT_MAIN
-// 
+//
 // _END_BTN_YES_NO_SET_MEM_PROTECT_STATUS:
 //     RTS
-// 
+//
 // _SET_MEM_PROTECT_BTN_NO:
 //     LDAB    <M_MEM_PROTECT_MODE
 //     CMPB    #BUTTON_MEM_PROTECT_INT
 //     BNE     _DISABLE_MEM_PROTECT_CRT
-// 
+//
 // _DISABLE_MEM_PROTECT_INT:
 //     ANDA    #MEM_PROTECT_CRT
 //     BRA     _STORE_MEM_PROTECT_STATUS
-// 
+//
 // _DISABLE_MEM_PROTECT_CRT:
 //     ANDA    #MEM_PROTECT_INT
 //     BRA     _STORE_MEM_PROTECT_STATUS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; INPUT_EDIT_PATCH_NAME_ASCII_MODE
 // ; ==============================================================================
@@ -5905,42 +5911,42 @@ void patch_load_from_crt(uint8_t number)
 // ;           buffer to print the name chars to.
 // ;
 // ; ==============================================================================
-// 
+//
 // INPUT_EDIT_PATCH_NAME_ASCII_MODE:
 //     LDAB    $20A2
 //     CMPB    #39
 //     BHI     _IS_BTN_DOWN?                       ; If B > 39, branch.
-// 
+//
 // ; If the user pressed a key to enter a specific letter.
 // ; If we're currently in 'compare' mode, do nothing.
-// 
+//
 // _PRESSED_ASCII_KEY:
 //     LDAA    M_PATCH_CURRENT_MODIFIED_FLAG
 //     CMPA    #EDITED_PATCH_IN_COMPARE
 //     BEQ     _END_INPUT_EDIT_PATCH_NAME_ASCII_MODE
-// 
+//
 // ; Use the last pressed front-panel button as an index into the ASCII table.
 // ; Write this char to the LCD screen, and then write it to the destination
 // ; name buffer.
 //     LDX     #TABLE_ASCII_CHARS
 //     ABX
-// 
+//
 // ; Write the selected char to the LCD.
 //     LDAA    0,x
 //     JSR     LCD_WRITE_DATA
-// 
+//
 // ; Write the selected char to the LCD buffer.
 //     LDAA    0,x
 //     LDX     <M_COPY_DEST_PTR
 //     STAA    0,x
-// 
+//
 // ; Write the selected char to the name buffer.
 //     LDX     <M_COPY_SRC_PTR
 //     STAA    0,x
 //     BSR     MIDI_SYSEX_SEND_NAME_EDIT
 //     CPX     #M_PATCH_CURRENT_NAME_LAST_CHAR
 //     BEQ     _SHIFT_LCD_CURSOR_LEFT
-// 
+//
 // _INCREMENT_NAME_EDIT_PTR:
 //     INX
 //     STX     <M_COPY_SRC_PTR
@@ -5950,15 +5956,15 @@ void patch_load_from_crt(uint8_t number)
 //     LDAA    #EDITED_PATCH_IN_WORKING
 //     STAA    M_PATCH_CURRENT_MODIFIED_FLAG
 //     RTS
-// 
+//
 // _IS_BTN_DOWN?:
 //     CMPB    #BUTTON_NO_DOWN
 //     BNE     _IS_BTN_UP?
-// 
+//
 // _BTN_DOWN:
 //     LDX     <M_COPY_SRC_PTR
 //     CPX     #M_PATCH_CURRENT_NAME
-// 
+//
 // ; If cursor is decreased past the name start.
 //     BEQ     _END_INPUT_EDIT_PATCH_NAME_ASCII_MODE
 //     DEX
@@ -5967,24 +5973,24 @@ void patch_load_from_crt(uint8_t number)
 //     DEX
 //     STX     <M_COPY_DEST_PTR
 //     BSR     MIDI_SYSEX_SEND_NAME_EDIT
-// 
+//
 // _SHIFT_LCD_CURSOR_LEFT:
 //     LDAA    #LCD_INSTR_SHIFT_CURSOR_LEFT
-// 
+//
 // _SET_LCD_CURSOR:
 //     JSR     LCD_WRITE_INSTRUCTION
-// 
+//
 // _END_INPUT_EDIT_PATCH_NAME_ASCII_MODE:
 //     RTS
-// 
+//
 // _IS_BTN_UP?:
 //     CMPB    #BUTTON_YES_UP
 //     BNE     _END_INPUT_EDIT_PATCH_NAME_ASCII_MODE
-// 
+//
 // _BTN_UP:
 //     LDX     <M_COPY_SRC_PTR
 //     CPX     #M_PATCH_CURRENT_NAME_LAST_CHAR
-// 
+//
 // ; If cursor is increased past the name end.
 //     BEQ     _END_INPUT_EDIT_PATCH_NAME_ASCII_MODE
 //     INX
@@ -5993,12 +5999,12 @@ void patch_load_from_crt(uint8_t number)
 //     INX
 //     STX     <M_COPY_DEST_PTR
 //     BSR     MIDI_SYSEX_SEND_NAME_EDIT
-// 
+//
 // _SHIFT_LCD_CURSOR_RIGHT:
 //     LDAA    #LCD_INSTR_SHIFT_CURSOR_RIGHT
 //     BRA     _SET_LCD_CURSOR
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_SYSEX_SEND_NAME_EDIT
 // ; ==============================================================================
@@ -6014,22 +6020,22 @@ void patch_load_from_crt(uint8_t number)
 // ; * IX:   The address of the edited character in the patch 'Edit buffer'.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_SYSEX_SEND_NAME_EDIT:
 //     PSHX
 //     JSR     MIDI_SYSEX_SEND_PARAM_CHG
 //     PULX
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; ASCII Character Table.
 // ; Used in patch name editing.
 // ; ==============================================================================
 // TABLE_ASCII_CHARS:   FCC "1234567890ABCDEFGHIJKLMNOPQRSTUVWX"
 //     FCC "YZ -. "
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; INPUT_CHECK_TEST_BTN_COMBO
 // ; ==============================================================================
@@ -6047,7 +6053,7 @@ void patch_load_from_crt(uint8_t number)
 // ; * 0x97: The 'test mode' button counter.
 // ;
 // ; ==============================================================================
-// 
+//
 // INPUT_CHECK_TEST_BTN_COMBO:
 //     LDAB    M_LAST_PRESSED_BTN
 //     CMPB    #BUTTON_16
@@ -6055,24 +6061,24 @@ void patch_load_from_crt(uint8_t number)
 //     CMPB    #BUTTON_32
 //     BEQ     _BUTTON_32_DOWN
 //     RTS
-// 
+//
 // _BUTTON_15_DOWN:
 //     INC     M_TEST_MODE_BUTTON_CHECK
 //     RTS
-// 
+//
 // _BUTTON_32_DOWN:
 //     LDAA    <M_TEST_MODE_BUTTON_CHECK
 //     CMPA    #1
 //     BEQ     _INIT_TEST_MODE
 //     RTS
-// 
+//
 // _INIT_TEST_MODE:
 //     INC     M_TEST_MODE_BUTTON_CHECK
 //     JSR     LCD_CLEAR_STR_BUFFER
 //     LDX     #aV1824Oct85Test
 //     JMP     LCD_WRITE_LINE_1_THEN_PRINT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; VOICE_SEARCH_FOR_ACTIVE_KEY_EVENT
 // ; ==============================================================================
@@ -6090,17 +6096,17 @@ void patch_load_from_crt(uint8_t number)
 // ; found.
 // ;
 // ; ==============================================================================
-// 
+//
 // VOICE_SEARCH_FOR_ACTIVE_KEY_EVENT:
 //     PSHX
 //     PSHB
 //     PSHA
 //     LDAB    #16
 //     LDX     #M_VOICE_STATUS
-// 
+//
 // ; If either of the two lowest bits are set it indicates that either a
 // ; 'Key Down', or 'Key Up' event is currently being processed for this key.
-// 
+//
 // _ACTIVE_KEY_EVENT_SEARCH_LOOP:
 //     LDAA    1,x
 //     ANDA    #%11
@@ -6109,14 +6115,14 @@ void patch_load_from_crt(uint8_t number)
 //     INX
 //     DECB
 //     BNE     _ACTIVE_KEY_EVENT_SEARCH_LOOP       ; If B > 0, loop.
-// 
+//
 // _END_VOICE_SEARCH_FOR_ACTIVE_KEY_EVENT:
 //     PULA
 //     PULB
 //     PULX
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; INPUT_KEY_DOWN
 // ; ==============================================================================
@@ -6127,11 +6133,11 @@ void patch_load_from_crt(uint8_t number)
 // ; This function falls-through to the voice add function.
 // ;
 // ; ==============================================================================
-// 
+//
 // INPUT_KEY_DOWN:
 //     JSR     MIDI_SEND_NOTE_ON
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; VOICE_ADD
 // ; ==============================================================================
@@ -6148,47 +6154,47 @@ void patch_load_from_crt(uint8_t number)
 // ; This is also where the master tune is set.
 // ;
 // ; ==============================================================================
-// 
+//
 // VOICE_ADD:
 //     LDAB    <M_NOTE_KEY
-// 
+//
 // ; Add the current transpose value, and subtract 24,  to take into account
 // ; that this is a -24 - 24 range.
 //     ADDB    M_PATCH_CURRENT_TRANSPOSE
 //     SUBB    #24
-// 
+//
 // ; If the result is > 127, set to 127.
 //     CMPB    #127
 //     BLS     _GET_KEY_PITCH
 //     LDAB    #127
-// 
+//
 // _GET_KEY_PITCH:
 //     JSR     VOICE_CONVERT_NOTE_TO_PITCH
 //     LDAB    M_PATCH_CURRENT_MODIFIED_FLAG
-// 
+//
 // ; Check if the patch is modified. If it is, check if the synth is currently
 // ; waiting for the next key event to modify the key transpose value.
-// 
+//
 // _IS_PATCH_MODIFIED?:
 //     CMPB    #EDITED_PATCH_IN_COMPARE
 //     BEQ     _IS_SYNTH_MONO?
-// 
+//
 // ; If the synth is set to 'Key Transpose' mode, then the next key pressed
 // ; will be used to set the transpose amount.
-// 
+//
 // _IS_KEY_TRANSPOSE_ACTIVE?:
 //     LDAB    <M_EDIT_KEY_TRANSPOSE_ACTIVE
 //     BNE     KEY_TRANSPOSE_SET
-// 
+//
 // _IS_SYNTH_MONO?:
 //     LDAB    M_MONO_POLY
 //     BNE     _VOICE_ADD_SYNTH_IS_MONO
 //     JMP     VOICE_ADD_POLY
-// 
+//
 // _VOICE_ADD_SYNTH_IS_MONO:
 //     JMP     VOICE_ADD_MONO
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; KEY_TRANSPOSE_SET
 // ; ==============================================================================
@@ -6201,46 +6207,46 @@ void patch_load_from_crt(uint8_t number)
 // ; indicating that next key note value is to be stored as the centre-note value.
 // ;
 // ; ==============================================================================
-// 
+//
 // KEY_TRANSPOSE_SET:
 //     LDAB    <M_NOTE_KEY
-// 
+//
 // ; Enforce the centre-note value being between 36, and 84.
 //     CMPB    #36
 //     BCS     _VALUE_UNDER_36
 //     CMPB    #84
 //     BLS     _SAVE_KEY_TRANSPOSE_VALUE
-// 
+//
 // _VALUE_OVER_84:
 //     LDAB    #84
 //     BRA     _SAVE_KEY_TRANSPOSE_VALUE
-// 
+//
 // _VALUE_UNDER_36:
 //     LDAB    #36
-// 
+//
 // _SAVE_KEY_TRANSPOSE_VALUE:
 //     SUBB    #36
 //     STAB    M_PATCH_CURRENT_TRANSPOSE
-// 
+//
 // _SAVE_INPUT_VALUE:
 //     LDAA    M_EDIT_PARAM_CURRENT
 //     STAA    M_LAST_PRESSED_BTN
 //     JSR     UI_PRINT_MAIN
-// 
+//
 // _SET_PATCH_MODIFIED_FLAG:
 //     LDAA    #EDITED_PATCH_IN_WORKING
 //     STAA    M_PATCH_CURRENT_MODIFIED_FLAG
 //     JSR     LED_PRINT_PATCH_NUMBER
-// 
+//
 // ; Clear the 'Key Tranpose Mode' flag.
 //     CLR     M_EDIT_KEY_TRANSPOSE_ACTIVE
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; Length: 128.
 // ; ==============================================================================
-// 
+//
 // TABLE_KEY_PITCH:
 //     FCB 0, 0, 1, 2, 4, 5, 6
 //     FCB 8, 9, $A, $C, $D, $E
@@ -6267,7 +6273,7 @@ void patch_load_from_crt(uint8_t number)
 //     FCB $95, $96, $98, $99, $9A
 //     FCB $9C, $9D, $9E, $A0, $A1
 //     FCB $A2, $A4, $A5, $A6, $A8
-// 
+//
 const uint8_t table_key_pitch[128] =
 {
    0x00, 0x00, 0x01, 0x02, 0x04, 0x05, 0x06, 0x08,
@@ -6287,7 +6293,7 @@ const uint8_t table_key_pitch[128] =
    0x94, 0x95, 0x96, 0x98, 0x99, 0x9A, 0x9C, 0x9D,
    0x9E, 0xA0, 0xA1, 0xA2, 0xA4, 0xA5, 0xA6, 0xA8
 };
-// 
+//
 // ; ==============================================================================
 // ; VOICE_ADD_POLY
 // ; ==============================================================================
@@ -6299,14 +6305,14 @@ const uint8_t table_key_pitch[128] =
 // ; and voice target pitch buffers for the currently selected voice.
 // ;
 // ; ==============================================================================
-// 
+//
 // VOICE_ADD_POLY:
 //     LDAA    #16
 //     STAA    <VA_FIND_VOICE_LOOP_INDEX
 //     DECA
 //     STAA    <VA_VOICE_INDEX
 // ; Search for an entry in 0x20B0 where bit 1 is 0.
-// 
+//
 // _FIND_INACTIVE_VOICE_LOOP:
 //     LDX     #M_VOICE_STATUS
 //     LDAB    <VA_CURR_VOICE_INDEX
@@ -6314,97 +6320,97 @@ const uint8_t table_key_pitch[128] =
 //     ASLB
 //     ABX
 //     LDAA    1,x
-// 
+//
 // _IS_KEY_EVENT_OFF?:
 //     BITA    #VOICE_STATUS_ACTIVE
 //     BEQ     _VOICE_KEY_EVENT_OFF
-// 
+//
 // _VOICE_ADD_POLY_INCREMENT_INDEX:
 //     INC     VA_CURR_VOICE_INDEX
 //     DEC     VA_FIND_VOICE_LOOP_INDEX
 //     BNE     _FIND_INACTIVE_VOICE_LOOP
-// 
+//
 // _EXIT_NO_INACTIVE_VOICE_EVENTS:
 //     RTS
-// 
+//
 // _VOICE_KEY_EVENT_OFF:
 //     LDAA    <TIMER_CTRL_STATUS
 //     PSHA
 //     CLR     TIMER_CTRL_STATUS                   ; Clear timer interrupt.
-// 
+//
 // ; Store ACCB into the 'Buffer Offset' value. This value will be the
 // ; current voice number * 2, used as an offset into the voice buffers.
-// 
+//
 // ; Shift the buffer offset value to the left, and add '1' to create the
 // ; bitmask for sending a 'Note Off' event for this voice to the EGS chip.
-// 
+//
 // _SEND_NOTE_OFF_TO_EGS:
 //     STAB    <VA_BUFFER_OFFSET
 //     INCB
 //     ASLB
 //     STAB    P_EGS_VOICE_EVENTS
-// 
+//
 // ; Increment this value back to '16', so that it can serve as an iterator
 // ; value for the portamento mode 'Follow' loop.
-// 
+//
 // _SET_INDEX:
 //     INC     VA_VOICE_INDEX
-// 
+//
 // ; Increment the 'current voice' index so that the next 'Voice Add'
 // ; command starts at the most likely free voice.
 //     INC     VA_CURR_VOICE_INDEX
-// 
+//
 // _VOICE_ADD_POLY_SETUP_POINTERS:
 //     LDX     #M_VOICE_PITCH_TARGET
 //     STX     <VA_VOICE_PITCH_TARGET_PTR
 //     LDX     #M_VOICE_STATUS
 //     STX     <VA_VOICE_STATUS_PTR
-// 
+//
 // _VOICE_ADD_POLY_IS_PORTA_PDL_ACTIVE?:
 //     LDAA    <M_PEDAL_INPUT_STATUS
 //     BITA    #PEDAL_STATUS_PORTAMENTO_ACTIVE
 //     BEQ     _VOICE_ADD_POLY_NO_PORTAMENTO
-// 
+//
 // ; If the portamento rate is at maximum (0xFF), no pitch transition occurs.
-// 
+//
 // _VOICE_ADD_POLY_IS_PORTA_RATE_MAX?:
 //     LDAA    <M_PORTA_RATE_INCREMENT
 //     CMPA    #$FF
 //     BEQ     _VOICE_ADD_POLY_NO_PORTAMENTO
-// 
+//
 // ; If the synth's portamento mode is set to 'Follow', in which all active
 // ; notes transition to the latest note event, update all of the voices that
 // ; are currently being sustained by the sustain pedal, setting their target
 // ; pitch to the new value. This will cause the main portamento handler to
 // ; transition their pitches towards that of the new note.
-// 
+//
 // _PORTAMENTO_ACTIVE:
 //     TST     M_PORTA_MODE
 //     BEQ     _SET_PORTA_GLISS_PITCH
-// 
+//
 // _PORTA_FOLLOW_UPDATE_VOICE_LOOP:
 //     LDX     <VA_VOICE_STATUS_PTR
 //     LDAA    1,x
-// 
+//
 // ; Check if this voice is being sustained. If so, update its target pitch.
-// 
+//
 // _IS_VOICE_ACTIVE?:
 //     BITA    #VOICE_STATUS_ACTIVE
 //     BNE     _INCREMENT_KEY_EVENT_POINTER
-// 
+//
 // ; The new key pitch is stored in the 'Target Pitch' entry for this voice.
-// 
+//
 // _STORE_NEW_KEY_TARGET_PITCH:
 //     LDX     <VA_VOICE_PITCH_TARGET_PTR
 //     BSR     VOICE_ADD_POLY_GET_14_BIT_PITCH
 //     STD     0,x
-// 
+//
 // _INCREMENT_KEY_EVENT_POINTER:
 //     LDAB    #2
 //     LDX     <VA_VOICE_STATUS_PTR
 //     ABX
 //     STX     <VA_VOICE_STATUS_PTR
-// 
+//
 // _INCREMENT_VOICE_TARGET_PITCH_POINTER:
 //     LDX     <VA_VOICE_PITCH_TARGET_PTR
 //     ABX
@@ -6412,15 +6418,15 @@ const uint8_t table_key_pitch[128] =
 //     DEC     VA_VOICE_INDEX
 //     BNE     _PORTA_FOLLOW_UPDATE_VOICE_LOOP
 //     BRA     _STORE_VOICE_EVENT
-// 
+//
 // ; In the event that there is no portamento, the 'last' note pitch is set
 // ; to the current target pitch. The effect of this is that when the
 // ; portamento, and glissando buffers are set, no pitch transition will occur.
-// 
+//
 // _VOICE_ADD_POLY_NO_PORTAMENTO:
 //     BSR     VOICE_ADD_POLY_GET_14_BIT_PITCH
 //     STD     <VA_VOICE_PITCH_LAST
-// 
+//
 // ; If portamento is currently enabled, the 'current' portamento, and
 // ; glissando pitches for the new note will be set to the target pitch
 // ; of the 'last' note pressed.
@@ -6429,33 +6435,33 @@ const uint8_t table_key_pitch[128] =
 // ; above. The effect of this is that there will be no pitch transition.
 // ; After these buffers have been set, the 'new' current pitch is set, which
 // ; will be loaded to the EGS below.
-// 
+//
 // _SET_PORTA_GLISS_PITCH:
 //     JSR     VOICE_ADD_POLY_SET_PORTA_PITCH
 //     STD     <VA_VOICE_PITCH_NEW
-// 
+//
 // ; Load the target pitch buffer, add offset, and store the target pitch
 // ; for the current voice.
-// 
+//
 // _STORE_CURRENT_VOICE_TARGET_PITCH:
 //     LDX     <VA_VOICE_PITCH_TARGET_PTR
 //     LDAB    <VA_BUFFER_OFFSET
 //     ABX
 //     LSRB
 //     STAB    <VA_VOICE_CURRENT
-// 
+//
 // ; Store the pitch of this note as the 'last' pitch.
 //     BSR     VOICE_ADD_POLY_GET_14_BIT_PITCH
 //     STD     0,x
 //     STD     <VA_VOICE_PITCH_LAST
-// 
+//
 // ; Load the new pitch to the EGS here.
 // ; It will be loaded again below. However if the portamento pedal is active
 // ; this will be the place the pitch is initially loaded.
 //     JSR     VOICE_ADD_LOAD_PITCH_TO_EGS
 //     BRA     _STORE_VOICE_EVENT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; VOICE_ADD_POLY_GET_14_BIT_PITCH
 // ; ==============================================================================
@@ -6469,7 +6475,7 @@ const uint8_t table_key_pitch[128] =
 // ; * ACCD: The truncated 14-bit pitch
 // ;
 // ; ==============================================================================
-// 
+//
 // VOICE_ADD_POLY_GET_14_BIT_PITCH:
 //     LDD     <M_KEY_PITCH
 //     ANDB    #%11111100
@@ -6490,32 +6496,32 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 // ; the current voice from the pitch of the 'last' note.
 // ;
 // ; ==============================================================================
-// 
+//
 // VOICE_ADD_POLY_SET_PORTA_PITCH:
 //     LDAB    <VA_BUFFER_OFFSET
 //     LDX     #M_VOICE_PITCH_PORTAMENTO
 //     ABX
-// 
+//
 // ; This 'load IX, add B to index, push, repeat, store, pull' routine
 // ; here avoids needing to load ACCD twice.
 //     PSHX
 //     LDX     #M_VOICE_PITCH_GLISSANDO
 //     ABX
 //     LDD     <VA_VOICE_PITCH_LAST
-// 
+//
 // ; Store 14-bit key pitch.
 //     STD     0,x
 //     PULX
 //     STD     0,x
 //     RTS
-// 
-// 
+//
+//
 // ; Store the 'Voice Event' for the current voice.
 // ; This is a 16-bit value in the format: (Key_Number << 8) | Flags.
 // ; The flags field has two bits:
 // ;  * '0b10' indicates this voice is actively playing a note.
 // ;  * '0b1' indicates sustain is active.
-// 
+//
 // _STORE_VOICE_EVENT:
 //     LDX     #M_VOICE_STATUS
 //     LDAB    <VA_BUFFER_OFFSET
@@ -6523,7 +6529,7 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 //     LDAA    <M_NOTE_KEY
 //     LDAB    #VOICE_STATUS_ACTIVE
 //     STD     0,x
-// 
+//
 // ; Reset the current pitch EG level to its initial value.
 // ; In the DX7, the final value, and the initial value are identical. So when
 // ; adding a voice, the initial level is set to the final value.
@@ -6534,7 +6540,7 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 //     CLRB
 //     LSRD
 //     STD     0,x
-// 
+//
 // ; Reset the 'Current Pitch EG Step' for this voice.
 //     LDX     #M_VOICE_PITCH_EG_CURR_STEP
 //     LDAB    <VA_BUFFER_OFFSET
@@ -6543,44 +6549,44 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 //     CLR     0,x
 //     LDAA    M_PATCH_CURRENT_LFO_DELAY
 //     BEQ     _VOICE_ADD_POLY_IS_LFO_SYNC_ON?
-// 
+//
 // _VOICE_ADD_POLY_RESET_LFO:
 //     LDD     #0
 //     STD     <M_LFO_DELAY_COUNTER
 //     CLR     M_LFO_FADE_IN_SCALE_FACTOR
-// 
+//
 // ; If 'LFO Key Sync' is enabled, reset the LFO phase accumulator to its
 // ; maximum positive value to coincide with the 'Key On' event.
-// 
+//
 // _VOICE_ADD_POLY_IS_LFO_SYNC_ON?:
 //     LDAA    M_PATCH_CURRENT_LFO_SYNC
 //     BEQ     _VOICE_ADD_POLY_LOAD_PITCH_TO_EGS
 //     LDD     #$7FFF
 //     STD     <M_LFO_PHASE_ACCUMULATOR
-// 
+//
 // _VOICE_ADD_POLY_LOAD_PITCH_TO_EGS:
 //     LDAA    <VA_BUFFER_OFFSET
 //     LSRA
-// 
+//
 // ; The key pitch is stored again in this subroutine call.
 //     LDX     <M_KEY_PITCH
 //     JSR     VOICE_ADD_LOAD_OPERATOR_DATA_TO_EGS
-// 
+//
 // ; Construct a 'Note On' event for this voice from the buffer offset, same
 // ; as before, and load it to the EGS voice event register.
-// 
+//
 // _SEND_NOTE_ON_EVENT_TO_EGS:
 //     LDAB    <VA_BUFFER_OFFSET
 //     ASLB
 //     INCB
 //     STAB    P_EGS_VOICE_EVENTS
-// 
+//
 // _RE_ENABLE_TIMER_INTERRUPT:
 //     PULA
 //     STAA    <TIMER_CTRL_STATUS
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; INPUT_KEY_UP
 // ; ==============================================================================
@@ -6594,11 +6600,11 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 // ; This function falls-through to the voice remove function.
 // ;
 // ; ==============================================================================
-// 
+//
 // INPUT_KEY_UP:
 //     JSR     MIDI_SEND_NOTE_ON
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; VOICE_REMOVE
 // ; ==============================================================================
@@ -6621,38 +6627,38 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 // ;         key event buffer.
 // ;
 // ; ==============================================================================
-// 
+//
 // VOICE_REMOVE:
 //     LDAA    <M_NOTE_KEY
 //     LDAB    M_MONO_POLY
 //     BEQ     _SYNTH_IS_POLY
 //     JMP     _VOICE_REMOVE_SYNTH_IS_MONO
-// 
+//
 // _SYNTH_IS_POLY:
 //     LDAB    #2
 //     LDX     #M_VOICE_STATUS
 //     STX     <VR_VOICE_STATUS_PTR
 //     LDX     #M_VOICE_PITCH_EG_CURR_STEP
 //     STX     <VR_VOICE_PITCH_EG_CURR_STEP_PTR
-// 
+//
 // _FIND_KEY_EVENT_LOOP:
 //     STAB    <VR_REMOVE_VOICE_CMD
 //     LDX     <VR_VOICE_STATUS_PTR
-// 
+//
 // ; Does the current entry in the 'Voice Key Events' buffer match the note
 // ; being removed?
 //     CMPA    0,x
 //     BNE     _ITERATE_LOOP
-// 
+//
 // ; Check if the matching key event is active.
-// 
+//
 // _IS_KEY_EVENT_ACTIVE?:
 //     LDAB    1,x
 //     BITB    #VOICE_STATUS_ACTIVE
 //     BNE     _POLY_IS_SUSTAIN_PEDAL_ACTIVE?
-// 
+//
 // ; Increment the loop pointers, and voice number, then loop back.
-// 
+//
 // _ITERATE_LOOP:
 //     INX
 //     INX
@@ -6660,55 +6666,55 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 //     LDX     <VR_VOICE_PITCH_EG_CURR_STEP_PTR
 //     INX
 //     STX     <VR_VOICE_PITCH_EG_CURR_STEP_PTR
-// 
+//
 // ; Increase the voice number in the 'Remove Voice Event' command by one.
 // ; This is done by adding 4, since this field uses bytes 7..2.
-// 
+//
 // _SET_REMOVE_VOICE_COMMAND:
 //     LDAB    <VR_REMOVE_VOICE_CMD
 //     ADDB    #4
-// 
+//
 // ; If the voice index exceeds 16, exit.
 //     BITB    #%1000000
 //     BEQ     _FIND_KEY_EVENT_LOOP
-// 
+//
 // _EXIT_MATCHING_VOICE_NOT_FOUND:
 //     RTS
-// 
+//
 // _POLY_IS_SUSTAIN_PEDAL_ACTIVE?:
 //     LDAA    <M_PEDAL_INPUT_STATUS
 //     BITA    #PEDAL_STATUS_SUSTAIN_ACTIVE
 //     BNE     _POLY_SUSTAIN_PEDAL_ACTIVE
-// 
+//
 // ; Mask the appropriate bit of the 'flag byte' of the Key Event buffer entry
 // ; to indicate a 'Key Off' event.
-// 
+//
 // _SET_KEY_OFF_EVENT:
 //     LDAA    1,x
 //     ANDA    #~VOICE_STATUS_ACTIVE
 //     STAA    1,x
-// 
+//
 // ; The following lines set this voice's pitch EG step to 4, to indicate
 // ; that it's in the release phase.
-// 
+//
 // _SET_ENV_STEP:
 //     LDAA    #4
 //     LDX     <VR_VOICE_PITCH_EG_CURR_STEP_PTR
 //     STAA    0,x
-// 
+//
 // _SEND_VOICE_OFF_EVENT_TO_EGS:
 //     LDAB    <VR_REMOVE_VOICE_CMD
 //     STAB    P_EGS_VOICE_EVENTS
 //     RTS
-// 
+//
 // _POLY_SUSTAIN_PEDAL_ACTIVE:
 //     LDAA    #1
 //     ORAA    1,x
 //     ANDA    #%11111101
 //     STAA    1,x
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; VOICE_ADD_MONO
 // ; ==============================================================================
@@ -6720,21 +6726,21 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 // ; and voice target pitch buffers for the currently selected voice.
 // ;
 // ; ==============================================================================
-// 
+//
 // VOICE_ADD_MONO:
 //     CLR     M_MONO_SUSTAIN_PEDAL_ACTIVE
 //     LDX     #M_VOICE_STATUS
-// 
+//
 // _IS_ACTIVE_VOICE_COUNT_16?:
 //     LDAB    <M_MONO_ACTIVE_VOICE_COUNT
 //     CMPB    #16
 //     BEQ     _END_VOICE_ADD_MONO
 //     LDAB    #16
-// 
+//
 // ; In MONO mode, the active key event is CLEARED when removed.
 // ; This occurs in the VOICE_REMOVE subroutine.
 // ; This loop searches for a voice key event with a clear NOTE field.
-// 
+//
 // _FIND_CLEAR_KEY_EVENT_LOOP:
 //     TST     0,x
 //     BEQ     _KEY_NUMBER_IS_CLEAR
@@ -6743,55 +6749,55 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 //     DECB
 //     BNE     _FIND_CLEAR_KEY_EVENT_LOOP          ; If B > 0, loop.
 //     RTS
-// 
+//
 // ; Write ((NOTE_KEY << 8) & 2) to the first entry in the 'Voice Event'
 // ; buffer to indicate that this voice is actively playing this key.
-// 
+//
 // _KEY_NUMBER_IS_CLEAR:
 //     LDAA    <M_NOTE_KEY
 //     LDAB    #VOICE_STATUS_ACTIVE
 //     STD     0,x
-// 
+//
 // _INCREMENT_VOICE_COUNT:
 //     INC     M_MONO_ACTIVE_VOICE_COUNT
 //     LDAA    <M_MONO_ACTIVE_VOICE_COUNT
 //     CMPA    #1
-// 
+//
 // ; If there's more than one active voice at this point, the existing
 // ; portamento needs to be taken into account. This branch falls-through
 // ; to return.
 //     BNE     VOICE_ADD_MONO_MULTIPLE_VOICES
-// 
+//
 // _VOICE_COUNT_IS_1:
 //     TST     M_PATCH_CURRENT_LFO_DELAY
 //     BEQ     _VOICE_ADD_MONO_IS_LFO_SYNC_ON?
-// 
+//
 // _VOICE_ADD_MONO_RESET_LFO:
 //     LDD     #0
 //     STD     <M_LFO_DELAY_COUNTER
 //     CLR     M_LFO_FADE_IN_SCALE_FACTOR
-// 
+//
 // ; If 'LFO Key Sync' is enabled, reset the LFO phase accumulator to its
 // ; maximum positive value to coincide with the 'Key On' event.
-// 
+//
 // _VOICE_ADD_MONO_IS_LFO_SYNC_ON?:
 //     TST     M_PATCH_CURRENT_LFO_SYNC
 //     BEQ     _RESET_EGS_VOICE_EVENT
 //     LDD     #$7FFF
 //     STD     <M_LFO_PHASE_ACCUMULATOR
-// 
+//
 // ; Write 'Key Off' event to EGS.
-// 
+//
 // _RESET_EGS_VOICE_EVENT:
 //     LDAB    #2
 //     STAB    P_EGS_VOICE_EVENTS
-// 
+//
 // ; The voice's target pitch, and 'Previous Key' data is stored here.
 // ; If portamento is not currently active, the target pitch will be set a
 // ; second time, together with the voice pitch buffers specific to
 // ; portamento, and glissando.
 //     BSR     VOICE_ADD_MONO_STORE_KEY_AND_PITCH
-// 
+//
 // _VOICE_ADD_MONO_IS_PORTA_RATE_MAX?:
 //     LDAA    <M_PORTA_RATE_INCREMENT
 //     CMPA    #$FF
@@ -6801,45 +6807,45 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 //     LDAA    <M_PEDAL_INPUT_STATUS
 //     BITA    #PEDAL_STATUS_PORTAMENTO_ACTIVE
 //     BNE     _RESET_PITCH_EG_LEVEL
-// 
+//
 // ; If there's no portamento. The portamento and glissando pitch buffers
 // ; will be set to the same value as the current voice's target pitch.
 // ; The effect of this will be that there is no voice transition computed by
 // ; the 'PORTA_PROCESS' subroutine, which is responsible for updating the
 // ; synth's voice pitch periodically.
-// 
+//
 // _VOICE_ADD_MONO_NO_PORTAMENTO:
 //     BSR     VOICE_ADD_MONO_CLEAR_PORTA_PITCH
-// 
+//
 // ; Reset the current pitch EG level to its initial value.
 // ; In the DX7, the final value, and the initial value are identical.
 // ; So when adding a voice, the initial level is set to the final value.
-// 
+//
 // _RESET_PITCH_EG_LEVEL:
 //     LDAA    M_PATCH_PITCH_EG_VALUES_FINAL_LEVEL
 //     CLRB
 //     LSRD
 //     STD     M_VOICE_PITCH_EG_CURR_LEVEL
-// 
+//
 // ; Reset the 'Current Pitch EG Step' for this voice.
-// 
+//
 // _RESET_PITCH_EG_STEP:
 //     CLR     M_VOICE_PITCH_EG_CURR_STEP
 //     CLRA
-// 
+//
 // ; Send the pitch, and amplitude information to the EGS registers,
 // ; then send a 'KEY ON' event for Voice #0.
-// 
+//
 // _SET_EGS_KEY_EVENT:
 //     LDX     <M_KEY_PITCH
 //     JSR     VOICE_ADD_LOAD_OPERATOR_DATA_TO_EGS
 //     LDAA    #1
 //     STAA    P_EGS_VOICE_EVENTS
-// 
+//
 // _END_VOICE_ADD_MONO:
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; VOICE_ADD_MONO_MULTIPLE_VOICES
 // ; ==============================================================================
@@ -6852,54 +6858,54 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 // ; the voice pitch buffers accordingly.
 // ;
 // ; ==============================================================================
-// 
+//
 // VOICE_ADD_MONO_MULTIPLE_VOICES:
 //     CMPA    #2
 //     BNE     _MORE_THAN_2_VOICES
-// 
+//
 // _GET_PORTAMENTO_DIRECTION:
 //     LDAA    <M_NOTE_KEY
 //     SUBA    <M_NOTE_KEY_LAST
 //     BCC     _NEW_NOTE_HIGHER
 //     CLR     M_LEGATO_DIRECTION
 //     BRA     _STORE_LAST_KEY_EVENT
-// 
+//
 // _NEW_NOTE_HIGHER:
 //     LDAA    #1
 //     STAA    <M_LEGATO_DIRECTION
-// 
+//
 // ; The voice's target pitch, and 'Previous Key' data is stored here.
 // ; If portamento is not currently active, the target pitch will be set a
 // ; second time, together with the voice pitch buffers specific to
 // ; portamento, and glissando.
-// 
+//
 // _STORE_LAST_KEY_EVENT:
 //     BSR     VOICE_ADD_MONO_STORE_KEY_AND_PITCH
-// 
+//
 // _ADD_MONO_MULTIPLE_IS_PORTA_RATE_MAX?:
 //     LDAA    <M_PORTA_RATE_INCREMENT
 //     CMPA    #$FF
-// 
+//
 // ; If portamento rate is at maximum, ignore portamento. The voice's target
 // ; pitch is set here, and then the subroutine returns.
 //     BEQ     VOICE_ADD_MONO_CLEAR_PORTA_PITCH
-// 
+//
 // _IS_PORTA_MODE_FULL?:
 //     TST     M_PORTA_MODE
 //     BEQ     _END_VOICE_ADD_MONO_MULTIPLE_VOICES
-// 
+//
 // _IS_PORTA_PEDAL_ACTIVE?:
 //     LDAA    <M_PEDAL_INPUT_STATUS
 //     BITA    #PEDAL_STATUS_PORTAMENTO_ACTIVE
-// 
+//
 // ; If portamento is not active, clear the portamento and glissando pitch
 // ; buffers here, by setting them to this voice's 'target pitch'.
 //     BEQ     VOICE_ADD_MONO_CLEAR_PORTA_PITCH
-// 
+//
 // _END_VOICE_ADD_MONO_MULTIPLE_VOICES:
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; VOICE_ADD_MONO_CLEAR_PORTA_PITCH
 // ; ==============================================================================
@@ -6912,41 +6918,41 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 // ; pitch transition for this voice.
 // ;
 // ; ==============================================================================
-// 
+//
 // VOICE_ADD_MONO_CLEAR_PORTA_PITCH:
 //     LDD     M_VOICE_PITCH_TARGET
 //     STD     M_VOICE_PITCH_PORTAMENTO
 //     STD     M_VOICE_PITCH_GLISSANDO
 //     RTS
-// 
-// 
+//
+//
 // ; If there's more than two active voices, check the legato direction,
 // ; and then check whether the new note is further in that direction than the
 // ; previous. If so, the legato target note will need to be updated.
-// 
+//
 // _MORE_THAN_2_VOICES:
 //     LDAA    <M_LEGATO_DIRECTION
 //     BEQ     _IS_NEW_NOTE_LOWER?
-// 
+//
 // ; If the current legato direction is upwards, and the new note is HIGHER,
 // ; then update the stored 'Last Key Event'. Otherwise exit.
-// 
+//
 // _IS_NEW_NOTE_HIGHER?:
 //     LDAA    <M_NOTE_KEY
 //     SUBA    <M_NOTE_KEY_LAST
 //     BCS     _END_VOICE_ADD_MONO_MULTIPLE_VOICES
 //     BRA     _STORE_LAST_KEY_EVENT
-// 
+//
 // ; If the current legato direction is downwards, and the new note is LOWER,
 // ; then update the stored 'Last Key Event'. Otherwise exit.
-// 
+//
 // _IS_NEW_NOTE_LOWER?:
 //     LDAA    <M_NOTE_KEY
 //     SUBA    <M_NOTE_KEY_LAST
 //     BCC     _END_VOICE_ADD_MONO_MULTIPLE_VOICES
 //     BRA     _STORE_LAST_KEY_EVENT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; VOICE_ADD_MONO_STORE_KEY_AND_PITCH
 // ; ==============================================================================
@@ -6958,12 +6964,12 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 // ; This falls-through to set the target pitch for the first voice.
 // ;
 // ; ==============================================================================
-// 
+//
 // VOICE_ADD_MONO_STORE_KEY_AND_PITCH:
 //     LDAA    <M_NOTE_KEY
 //     STAA    <M_NOTE_KEY_LAST                    ; Falls-through below.
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; VOICE_STORE_TARGET_PITCH_MONO
 // ; ==============================================================================
@@ -6974,55 +6980,55 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 // ; This is used during voice adding, and removal, when the synth is monophonic.
 // ;
 // ; ==============================================================================
-// 
+//
 // VOICE_ADD_MONO_SET_TARGET_PITCH:
 //     LDD     <M_KEY_PITCH
 //     STD     M_VOICE_PITCH_TARGET
 //     RTS
-// 
-// 
+//
+//
 // ; Search the voice event buffer for an entry with the same key as the one
 // ; being released.
-// 
+//
 // _VOICE_REMOVE_SYNTH_IS_MONO:
 //     JSR     VOICE_REMOVE_FIND_VOICE_WITH_KEY
 //     TSTA
 //     BEQ     _END_VOICE_REMOVE
-// 
+//
 // ; In monophonic mode, the associated entry in the voice event buffer is
 // ; completely cleared.
-// 
+//
 // _CLEAR_VOICE_EVENT:
 //     LDD     #0
 //     STD     0,x
-// 
+//
 // ; Ensure that the number of voices is valid before decrementing it.
 //     TST     M_MONO_ACTIVE_VOICE_COUNT
 //     BEQ     _END_VOICE_REMOVE
-// 
+//
 // _IS_THIS_LAST_ACTIVE_VOICE?:
 //     DEC     M_MONO_ACTIVE_VOICE_COUNT
 //     BNE     _LEGATO_ACTIVE
-// 
+//
 // _IS_SUSTAIN_PEDAL_ACTIVE?:
 //     LDAA    <M_PEDAL_INPUT_STATUS
 //     BITA    #PEDAL_STATUS_SUSTAIN_ACTIVE
 //     BNE     _SUSTAIN_PEDAL_ACTIVE
 //     LDAA    #4
 //     STAA    M_VOICE_PITCH_EG_CURR_STEP
-// 
+//
 // ; Write 'Key Off' event to EGS.
 //     LDAB    #2
 //     STAB    P_EGS_VOICE_EVENTS
-// 
+//
 // _END_VOICE_REMOVE:
 //     RTS
-// 
+//
 // _SUSTAIN_PEDAL_ACTIVE:
 //     LDAA    #1
 //     STAA    <M_MONO_SUSTAIN_PEDAL_ACTIVE
 //     RTS
-// 
+//
 // ; Since there's still another voice active after removing this one, the
 // ; following section deals with finding the pitch of the 'last' active key,
 // ; and depending on the legato direction, finding the lowest, or highest
@@ -7030,54 +7036,54 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 // ; monophonic voice.
 // ; This will cause the synth's legato/portamento to transition towards this
 // ; pitch in the 'PORTA_PROCESS' subroutine.
-// 
+//
 // _LEGATO_ACTIVE:
 //     LDAA    <M_LEGATO_DIRECTION
 //     BNE     _LEGATO_HIGH
-// 
+//
 // _LEGATO_LOW:
 //     JSR     VOICE_REMOVE_FIND_ACTIVE_KEY_EVENT
 //     JSR     VOICE_REMOVE_MONO_FIND_LOWEST_KEY
 //     BRA     _STORE_LEGATO_TARGET_PITCH
-// 
+//
 // _LEGATO_HIGH:
 //     JSR     VOICE_REMOVE_FIND_ACTIVE_KEY_EVENT
 //     JSR     VOICE_REMOVE_MONO_FIND_HIGHEST_KEY
-// 
+//
 // _STORE_LEGATO_TARGET_PITCH:
 //     LDAB    <M_NOTE_KEY_LAST
-// 
+//
 // ; Add the patch transpose value, and subtract 24 to take unsigned transpose
 // ; range into account.
 //     ADDB    M_PATCH_CURRENT_TRANSPOSE
 //     SUBB    #24
-// 
+//
 // ; Now that the legato target key has been found, and the pitch computed,
 // ; set the 'target pitch' of the monophonic voice to this value.
 //     JSR     VOICE_CONVERT_NOTE_TO_PITCH
 //     BSR     VOICE_ADD_MONO_SET_TARGET_PITCH
-// 
+//
 // _VOICE_REMOVE_IS_PORTA_RATE_MAX?:
 //     LDAA    <M_PORTA_RATE_INCREMENT
 //     CMPA    #$FF
 //     BEQ     _MONO_END_PORTA_PEDAL_INACTIVE
-// 
+//
 // _VOICE_REMOVE_IS_PORTA_MODE_FINGERED?:
 //     TST     M_PORTA_MODE
 //     BEQ     _MONO_END_PORTA_PEDAL_ACTIVE
-// 
+//
 // _IS_PORTA_SWITCH_ACTIVE?:
 //     LDAA    <M_PEDAL_INPUT_STATUS
 //     BITA    #PEDAL_STATUS_PORTAMENTO_ACTIVE
 //     BEQ     _MONO_END_PORTA_PEDAL_INACTIVE
-// 
+//
 // _MONO_END_PORTA_PEDAL_ACTIVE:
 //     RTS
-// 
+//
 // _MONO_END_PORTA_PEDAL_INACTIVE:
 //     JMP     VOICE_ADD_MONO_CLEAR_PORTA_PITCH
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; VOICE_REMOVE_FIND_VOICE_WITH_KEY
 // ; ==============================================================================
@@ -7092,11 +7098,11 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 // ; * IX:   A pointer to the location in the voice event buffer.
 // ;
 // ; ==============================================================================
-// 
+//
 // VOICE_REMOVE_FIND_VOICE_WITH_KEY:
 //     LDAB    #16
 //     LDX     #M_VOICE_STATUS
-// 
+//
 // _VOICE_REMOVE_KEY_LOOP:
 //     LDAA    <M_NOTE_KEY
 //     CMPA    0,x
@@ -7105,16 +7111,16 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 //     INX
 //     DECB
 //     BNE     _VOICE_REMOVE_KEY_LOOP              ; If ACCB > 0, loop.
-// 
+//
 // _VOICE_WITH_KEY_NOT_FOUND:
 //     CLRA
 //     RTS
-// 
+//
 // _IF_FOUND:
 //     LDAA    0,x
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; VOICE_REMOVE_FIND_ACTIVE_KEY_EVENT
 // ; ==============================================================================
@@ -7132,11 +7138,11 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 // ; * ACCB: The voice number where the entry was found, or zero if not found.
 // ;
 // ; ==============================================================================
-// 
+//
 // VOICE_REMOVE_FIND_ACTIVE_KEY_EVENT:
 //     LDAB    #16
 //     LDX     #M_VOICE_STATUS
-// 
+//
 // _FIND_LAST_KEY_LOOP:
 //     LDAA    0,x
 //     BNE     _ENTRY_NON_ZERO
@@ -7144,17 +7150,17 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 //     INX
 //     DECB
 //     BNE     _FIND_LAST_KEY_LOOP                 ; If B > 0, loop.
-// 
+//
 // _ACTIVE_KEY_EVENT_NOT_FOUND:
 //     RTS
-// 
+//
 // _ENTRY_NON_ZERO:
 //     BSR     VOICE_REMOVE_MONO_STORE_LEGATO_NOTE
 //     INX
 //     INX
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; VOICE_REMOVE_MONO_FIND_HIGHEST_KEY
 // ; ==============================================================================
@@ -7166,30 +7172,30 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 // ; This is used when removing a voice in monophonic mode.
 // ;
 // ; ==============================================================================
-// 
+//
 // VOICE_REMOVE_MONO_FIND_HIGHEST_KEY:
 //     DECB
 //     BNE     _FIND_HIGHEST_IS_VOICE_EVENT_CLEAR?
 //     RTS
-// 
+//
 // _FIND_HIGHEST_IS_VOICE_EVENT_CLEAR?:
 //     LDAA    0,x
 //     BEQ     _FIND_HIGHEST_KEY_LOOP_INCREMENT
-// 
+//
 // ; If the current entry's key number is higher than the presently stored
 // ; entry, store this key number instead.
-// 
+//
 // _IS_NOTE_HIGHER?:
 //     SUBA    <M_NOTE_KEY_LAST
 //     BMI     _FIND_HIGHEST_KEY_LOOP_INCREMENT
 //     BSR     VOICE_REMOVE_MONO_SET_LEGATO_NOTE
-// 
+//
 // _FIND_HIGHEST_KEY_LOOP_INCREMENT:
 //     INX
 //     INX
 //     BRA     VOICE_REMOVE_MONO_FIND_HIGHEST_KEY
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; VOICE_REMOVE_MONO_FIND_LOWEST_KEY
 // ; ==============================================================================
@@ -7201,32 +7207,32 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 // ; This is used when removing a voice in monophonic mode.
 // ;
 // ; ==============================================================================
-// 
+//
 // VOICE_REMOVE_MONO_FIND_LOWEST_KEY:
 //     DECB
 //     BNE     _FIND_LOWEST_IS_VOICE_EVENT_CLEAR?
-// 
+//
 // _END_VOICE_REMOVE_MONO_FIND_LOWEST_KEY:
 //     RTS
-// 
+//
 // _FIND_LOWEST_IS_VOICE_EVENT_CLEAR?:
 //     LDAA    0,x
 //     BEQ     _FIND_LOWEST_KEY_INCREMENT_INDEX
-// 
+//
 // ; If the current entry's key number is lower than the presently stored
 // ; entry, store this key number instead.
-// 
+//
 // _IS_NOTE_LOWER?:
 //     SUBA    <M_NOTE_KEY_LAST
 //     BPL     _FIND_LOWEST_KEY_INCREMENT_INDEX
 //     BSR     VOICE_REMOVE_MONO_SET_LEGATO_NOTE
-// 
+//
 // _FIND_LOWEST_KEY_INCREMENT_INDEX:
 //     INX
 //     INX
 //     BRA     VOICE_REMOVE_MONO_FIND_LOWEST_KEY
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; VOICE_REMOVE_MONO_SET_LEGATO_NOTE
 // ; ==============================================================================
@@ -7242,11 +7248,11 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 // ; * 0x90:   The legato 'target' entry is stored here.
 // ;
 // ; ==============================================================================
-// 
+//
 // VOICE_REMOVE_MONO_SET_LEGATO_NOTE:
 //     LDAA    0,x                                 ; Falls-through below.
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; VOICE_REMOVE_MONO_STORE_LEGATO_NOTE
 // ; ==============================================================================
@@ -7260,12 +7266,12 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 // ; * 0x90:   The legato 'target' entry is stored here.
 // ;
 // ; ==============================================================================
-// 
+//
 // VOICE_REMOVE_MONO_STORE_LEGATO_NOTE:
 //     STAA    <M_NOTE_KEY_LAST
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; VOICE_ADD_CHECK_KEY_EVENT_COUNT
 // ; ==============================================================================
@@ -7276,13 +7282,13 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 // ; being added.
 // ;
 // ; ==============================================================================
-// 
+//
 // VOICE_ADD_CHECK_KEY_EVENT_COUNT:
 //     LDAA    #16
-// 
+//
 // ; This variable is the index into the key event array.
 //     LDAB    <M_KEY_EVENT_CURRENT
-// 
+//
 // _INACTIVE_VOICE_SEARCH_LOOP:
 //     LDX     #M_KEY_EVENT_BUFFER
 //     ABX
@@ -7293,14 +7299,14 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 //     DECA
 //     BNE     _INACTIVE_VOICE_SEARCH_LOOP         ; If A > 0, loop.
 //     RTS
-// 
+//
 // _SETUP_LOOP_2:
 //     STAB    <M_KEY_EVENT_CURRENT
 //     LDAA    #16
 //     LDAB    <M_KEY_EVENT_CURRENT
-// 
+//
 // ; @TODO: Why does this loop twice?
-// 
+//
 // _INACTIVE_VOICE_SEARCH_LOOP_2:
 //     INCB
 //     ANDB    #%1111                              ; B = B % 16.
@@ -7311,7 +7317,7 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 //     DECA
 //     BNE     _INACTIVE_VOICE_SEARCH_LOOP_2       ; If A > 0, loop.
 //     BRA     *+2
-// 
+//
 // _ADD_KEY_EVENT:
 //     LDX     #M_KEY_EVENT_BUFFER
 //     LDAB    <M_KEY_EVENT_CURRENT
@@ -7319,7 +7325,7 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 //     LDAA    <M_NOTE_KEY
 //     ORAA    #KEY_EVENT_ACTIVE
 //     STAA    0,x
-// 
+//
 // _INCREMENT_CURR_VOICE:
 //     LDAB    <M_KEY_EVENT_CURRENT
 //     INCB
@@ -7327,8 +7333,8 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 //     STAB    <M_KEY_EVENT_CURRENT
 //     JSR     VOICE_ADD
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; VOICE_REMOVE_KEY
 // ; ==============================================================================
@@ -7345,13 +7351,13 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 // ; * 0x81:   The note key to search for.
 // ;
 // ; ==============================================================================
-// 
+//
 // VOICE_REMOVE_KEY:
 //     LDAB    #16
 //     LDAA    <M_NOTE_KEY
 //     ORAA    #KEY_EVENT_ACTIVE
 //     LDX     #M_KEY_EVENT_BUFFER
-// 
+//
 // _ACTIVE_VOICE_SEARCH_LOOP:
 //     CMPA    0,x
 //     BEQ     _ACTIVE_VOICE_FOUND
@@ -7359,15 +7365,15 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 //     DECB
 //     BNE     _ACTIVE_VOICE_SEARCH_LOOP           ; If ACCB > 0, loop.
 //     RTS
-// 
+//
 // ; Mask the active voice flag bit.
-// 
+//
 // _ACTIVE_VOICE_FOUND:
 //     AIM     #~KEY_EVENT_ACTIVE, 0,x
 //     JSR     VOICE_REMOVE
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; VOICE_DEACTIVATE_ALL
 // ; ==============================================================================
@@ -7377,26 +7383,26 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 // ; Deactivates all active key events.
 // ;
 // ; ==============================================================================
-// 
+//
 // VOICE_DEACTIVATE_ALL:
 //     CLRB
-// 
+//
 // _DEACTIVATE_VOICE_LOOP:
 //     STAB    <M_KEY_EVENT_CURRENT
 //     LDX     #M_KEY_EVENT_BUFFER
 //     ABX
-// 
+//
 // _DEACTIVATE_ALL_IS_KEY_EVENT_ACTIVE?:
 //     TIM     #KEY_EVENT_ACTIVE, 0,x
 //     BEQ     _DEACTIVATE_VOICE_LOOP_INCREMENT
 //     LDAB    0,x
-// 
+//
 // ; Load the note from the 'Key Event' buffer, and mask the 'active' bit in
 // ; the entry to leave only the 'note' portion of the entry.
 //     ANDB    #%1111111
 //     STAB    <M_NOTE_KEY
 //     BSR     VOICE_REMOVE_KEY
-// 
+//
 // _DEACTIVATE_VOICE_LOOP_INCREMENT:               ; Restore iterator.
 //     LDAB    <M_KEY_EVENT_CURRENT
 //     INCB
@@ -7404,8 +7410,8 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 //     BNE     _DEACTIVATE_VOICE_LOOP              ; If B < 16, loop.
 //     CLR     M_KEY_EVENT_CURRENT
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; JUMP_TO_RELATIVE_OFFSET
 // ; ==============================================================================
@@ -7426,17 +7432,17 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 // ; * ACCB: The 'number' of the entry to jump to.
 // ;
 // ; ==============================================================================
-// 
+//
 // JUMP_TO_RELATIVE_OFFSET:
 //     PULX                                        ; Restore return addr into IX.
-// 
+//
 // ; If the current jump table entry number is '0', the end of the jump table has
 // ; been reached, so exit.
-// 
+//
 // _IS_END_OF_JUMP_TABLE?:
 //     TST     1,x
 //     BEQ     _END_JUMP_TO_RELATIVE_OFFSET
-// 
+//
 // ; If the value in the entry 'index' is higher than the value in ACCB being
 // ; tested, jump to the relative offset.
 //     CMPB    1,x
@@ -7444,9 +7450,9 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 //     INX
 //     INX
 //     BRA     _IS_END_OF_JUMP_TABLE?
-// 
+//
 // ; Load the relative offset, add it to the pointer in IX, and then jump.
-// 
+//
 // _END_JUMP_TO_RELATIVE_OFFSET:
 //     PSHB
 //     LDAB    0,x
@@ -7457,8 +7463,8 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 //     LDAB    #165
 //     MUL
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PATCH_LOAD_QUANTISE_VALUE
 // ; ==============================================================================
@@ -7479,7 +7485,7 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 // ; * ACCD: The 16-bit quantised value.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_LOAD_QUANTISE_VALUE:
 //     ASLA
 //     LDAB    #165
@@ -7487,8 +7493,11 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 //     ASLB
 //     ROLA
 //     RTS
-// 
-// 
+static uint16_t patch_load_quantise_value(uint8_t in)
+{
+   return in * 660;
+}
+
 // ; ==============================================================================
 // ; CONVERT_INT_TO_STR
 // ; ==============================================================================
@@ -7511,7 +7520,7 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 // ; * 0x217F: The first character of the converted string.
 // ;
 // ; ==============================================================================
-// 
+//
 // CONVERT_INT_TO_STR:
 //     PSHX
 //     STD     <$B4
@@ -7520,17 +7529,17 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 //     LDAB    #4
 //     STAB    $217B                               ; Iterator = 4.
 //     LDD     <$B4
-// 
+//
 // _LOOP_RESET:
 //     CLR     $2180
-// 
+//
 // _CONVERT_INT_TO_STR_LOOP:
 //     LDX     <$B6
 //     SUBD    0,x
 //     BCS     _ITERATE
 //     INC     $2180
 //     BRA     _CONVERT_INT_TO_STR_LOOP
-// 
+//
 // _ITERATE:
 //     LDX     <$B6
 //     ADDD    0,x
@@ -7546,18 +7555,18 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 //     LDD     $2181
 //     DEC     $217B
 //     BNE     _LOOP_RESET                         ; If *(0x217B) > 0, loop.
-// 
+//
 // _END_CONVERT_INT_TO_STR:
 //     PULX
 //     RTS
-// 
+//
 // TABLE_POWERS_OF_TEN:
 //     FDB 1000
 //     FDB 100
 //     FDB 10
 //     FDB 1
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; BATTERY CHECK
 // ; ==============================================================================
@@ -7568,18 +7577,18 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 // ; message if too low.
 // ;
 // ; ==============================================================================
-// 
+//
 // BATTERY_CHECK:
 //     LDAA    #110
 //     SUBA    M_BATTERY_VOLTAGE
 //     BPL     _PRINT_LOW_BTTRY_MSG
 //     RTS
-// 
+//
 // _PRINT_LOW_BTTRY_MSG:
 //     LDX     #aChangeBattery
 //     JMP     LCD_CLR_WRITE_LINE_2_THEN_PRINT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; VOICE_CONVERT_NOTE_TO_PITCH
 // ; ==============================================================================
@@ -7608,7 +7617,7 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 // ; * 0x9D: The two-byte (14-bit) key frequency value is stored here.
 // ;
 // ; ==============================================================================
-// 
+//
 // %% getLogFreq
 // VOICE_CONVERT_NOTE_TO_PITCH:
 //     LDX     #TABLE_KEY_PITCH
@@ -7618,26 +7627,26 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 //     LDAB    #3                                  ; Loop index = 3.
 //     ANDA    #%11
 //     STAA    <M_KEY_PITCH_LOW
-// 
+//
 // _CONVERT_NOTE_TO_PITCH_LOOP_START:
 //     ORAA    <M_KEY_PITCH_LOW
 //     ASLA
 //     ASLA
 //     DECB
 //     BNE     _CONVERT_NOTE_TO_PITCH_LOOP_START   ; If B > 0, loop.
-// 
+//
 // ; Truncate to the final 14-bit value.
 //     ANDA    #%11111100
 //     STAA    <M_KEY_PITCH_LOW
 //     RTS
-// 
+//
 void voice_convert_note_to_pitch(uint8_t note)
 {
    m_key_pitch     = table_key_pitch[note];
    uint8_t ls_bits = m_key_pitch & 0b11;
    m_key_pitch_low = (ls_bits << 6) | (ls_bits << 4) | (ls_bits << 2);
 }
-// 
+//
 // ; ==============================================================================
 // ; CRT_READ_WRITE_ALL
 // ; ==============================================================================
@@ -7658,28 +7667,28 @@ void voice_convert_note_to_pitch(uint8_t note)
 // ;           MSB set on finished READ operation.
 // ;
 // ; ==============================================================================
-// 
+//
 // CRT_READ_WRITE_ALL:
 //     TST     M_CRT_RW_FLAGS
 //     BPL     _IS_CRT_READ_OPERATION?             ; Branch if bit 7 is set.
-// 
+//
 // _CRT_RW_LOOP:
 //     TST     M_CRT_RW_FLAGS
 //     BPL     _IS_CRT_READ_OPERATION?
 //     CLR     M_CRT_FORMAT_PATCH_INDEX
 //     BSR     PATCH_WRITE_TO_CRT
-// 
+//
 // ; If carry bit set, an error has occurred.
 //     BCS     _COPY_PATCH_ERROR
 //     BRA     _FINISHED?
-// 
+//
 // _IS_CRT_READ_OPERATION?:
 //     JSR     CRT_READ_PATCH
-// 
+//
 // _FINISHED?:
 //     INC     M_CRT_RW_FLAGS
 //     LDAA    M_CRT_RW_FLAGS
-// 
+//
 // ; Branch if RW_FLAGS & 32 = 0.
 // ; The RW flags register stores the loop index in the lower 5 bits.
 //     BITA    #%100000
@@ -7688,23 +7697,23 @@ void voice_convert_note_to_pitch(uint8_t note)
 //     BPL     _END_READ_OPERATION
 //     CLRA
 //     BRA     _END_CRT_READ_WRITE_ALL
-// 
+//
 // _END_READ_OPERATION:
 //     LDAA    #128
-// 
+//
 // _END_CRT_READ_WRITE_ALL:
 //     STAA    <M_CRT_SAVE_LOAD_FLAGS
 //     LDX     #aCompleted
 //     JMP     LCD_CLR_WRITE_LINE_2_THEN_PRINT
-// 
+//
 // _COPY_PATCH_ERROR:
 //     LDX     #aWriteError
 //     CLR     M_CRT_SAVE_LOAD_FLAGS
 //     JMP     LCD_CLR_WRITE_LINE_2_THEN_PRINT
-// 
+//
 // aCompleted:          FCC " COMPLETED", 0
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PATCH_WRITE_TO_CRT
 // ; ==============================================================================
@@ -7727,18 +7736,18 @@ void voice_convert_note_to_pitch(uint8_t note)
 // ; * The carry flag is set to indicate an error condition.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_WRITE_TO_CRT:
 //     LDAA    #128
 //     STAA    M_CRT_WRITE_PATCH_COUNTER
-// 
+//
 // CRT_COPY_BYTES_LOOP?:
 //     LDX     <M_COPY_SRC_PTR
 //     LDAA    0,x
-// 
+//
 // ; Every byte stored on the cartridge is maximum 7bits.
 //     ANDA    #%1111111
-// 
+//
 // ; Load write value to ACCA, and increment origin ptr.
 //     INX
 //     STX     <M_COPY_SRC_PTR
@@ -7749,11 +7758,11 @@ void voice_convert_note_to_pitch(uint8_t note)
 //     STX     <M_COPY_DEST_PTR
 //     DEC     M_CRT_WRITE_PATCH_COUNTER
 //     BNE     CRT_COPY_BYTES_LOOP?
-// 
+//
 // CRT_COPY_END:
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; CRT_WRITE_BYTE
 // ; ==============================================================================
@@ -7774,40 +7783,40 @@ void voice_convert_note_to_pitch(uint8_t note)
 // ; * The carry flag is set to indicate an error condition.
 // ;
 // ; ==============================================================================
-// 
+//
 // CRT_WRITE_BYTE:
 //     TST     0,x
 //     TST     0,x
 //     TST     0,x
 //     TST     0,x
 //     TST     0,x
-// 
+//
 // ; Read the byte at this address in the cartridge, if it's already
 // ; equal to the byte to be written, exit.
 //     CMPA    0,x
 //     BEQ     _EXIT_SUCCESS
-// 
+//
 // ; Write the data byte to the cartridge. The data value is then checked
 // ; to see if it is 0xFF. If it is, a delay is introduced, then a
 // ; graceful exit. Otherwise, the written data is tested to ensure it was
 // ; correctly stored.
-// 
+//
 // _WRITE_BYTE_TO_CRT:
 //     STAA    0,x
 //     CMPA    #$FF
 //     BNE     _TEST_WRITTEN_BYTE
 //     JSR     DELAY_450_CYCLES
 //     RTS
-// 
+//
 // _TEST_WRITTEN_BYTE:
 //     LDAB    #100
-// 
+//
 // ; This seems to be a test-read after each byte written.
 // ; It appears to delay for one clock cycle, then attempt to re-read
 // ; the written contents. This is then compared with ACCA.
 // ; If it is equal, exit successfully.
 // ; If not equal after 100 iterations, exit with a fail flag set.
-// 
+//
 // _CRT_WRITE_BYTE_TEST_LOOP:
 //     JSR     DELAY_7_CYCLES
 //     TST     0,x
@@ -7815,32 +7824,32 @@ void voice_convert_note_to_pitch(uint8_t note)
 //     TST     0,x
 //     TST     0,x
 //     TST     0,x
-// 
+//
 // ; Compare this byte at dest addr to ACCA. If equal, go to good exit.
 //     CMPA    0,x
 //     BEQ     _EXIT_SUCCESS
-// 
+//
 // ; Decrement the counter until it reaches zero. Or until the data can
 // ; be successfully read back.
 //     DECB
 //     BEQ     _EXIT_FAILURE
 //     BRA     _CRT_WRITE_BYTE_TEST_LOOP
-// 
+//
 // ; Clear the carry bit to 1 to return a success condition, and exit.
-// 
+//
 // _EXIT_SUCCESS:
 //     CLC
 //     RTS
-// 
+//
 // ; Set the carry bit to 1 to return an error condition, and exit.
-// 
+//
 // _EXIT_FAILURE:
 //     SEC
 //     RTS
-// 
+//
 // aWriteError:         FCC " WRITE ERROR !", 0
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; CRT_READ_PATCH
 // ; ==============================================================================
@@ -7857,12 +7866,12 @@ void voice_convert_note_to_pitch(uint8_t note)
 // ; * 0xFB:   The source address, on the cartridge.
 // ;
 // ; ==============================================================================
-// 
+//
 // CRT_READ_PATCH:
 //     LDAA    #128
-// 
+//
 // ; 0x4000 + (patch_num * 128) should be in 0xFB.
-// 
+//
 // _CRT_READ_PATCH_LOOP:
 //     LDX     <M_COPY_DEST_PTR
 //     TST     0,x
@@ -7874,7 +7883,7 @@ void voice_convert_note_to_pitch(uint8_t note)
 //     ANDB    #%1111111                           ; Remove MSB.
 //     INX
 //     STX     <M_COPY_DEST_PTR
-// 
+//
 // ; Store ACCB at pointer 0xF9, Increment 0xF9 and store.
 //     LDX     <M_COPY_SRC_PTR
 //     STAB    0,x
@@ -7891,7 +7900,7 @@ void crt_read_patch()
       *m_copy_src_ptr++ = (*m_copy_dest_ptr++) & 0b1111111;
    }
 }
- 
+
 // ; ==============================================================================
 // ; DELAY
 // ; ==============================================================================
@@ -7904,14 +7913,14 @@ void crt_read_patch()
 // ; arbitrary delay lengths, set via the ACCB register.
 // ;
 // ; ==============================================================================
-// 
+//
 // DELAY:
 //     PSHA
 //     PSHB
-// 
+//
 // ; This function only delays for a single 'cycle'.
 //     LDAB    #1
-// 
+//
 // DELAY_LOOP_START:
 //     PSHX
 //     PULX
@@ -7935,14 +7944,14 @@ void delay()
 // ; Arbitrary delay subroutine used during the MIDI processing functions.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_PROCESS_DELAY:
 //     PSHA
 //     PSHB
 //     LDAB    #3
 //     BRA     DELAY_LOOP_START
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; DELAY_7_CYCLES
 // ; ==============================================================================
@@ -7950,14 +7959,14 @@ void delay()
 // ; Delays for 7 'cycles'.
 // ;
 // ; ==============================================================================
-// 
+//
 // DELAY_7_CYCLES:
 //     PSHA
 //     PSHB
 //     LDAB    #7
 //     BRA     DELAY_LOOP_START
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; DELAY_90_CYCLES
 // ; ==============================================================================
@@ -7965,30 +7974,30 @@ void delay()
 // ; Delays for 90 'cycles'.
 // ;
 // ; ==============================================================================
-// 
+//
 // DELAY_90_CYCLES:
 //     PSHA
 //     PSHB
-// 
+//
 // ; Set the delay function to loop for 90 cycles.
 //     LDAB    #90
 //     BRA     DELAY_LOOP_START
-// 
-// 
+//
+//
 // ; This appears to be unused code. It was most likely part of a delay
 // ; subroutine that ended up not being used. Although the code appears
 // ; to be valid, it is not referenced in the ROM.
 //     PSHB
 //     LDAB    #5
-// 
+//
 // _DELAY_450_LOOP:
 //     BSR     DELAY_90_CYCLES
 //     DECB
 //     BNE     _DELAY_450_LOOP                     ; If b > 0, loop.
 //     PULB                                        ; Restore ACCB.
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; DELAY_450_CYCLES
 // ; ==============================================================================
@@ -7998,13 +8007,13 @@ void delay()
 // ; of 90.
 // ;
 // ; ==============================================================================
-// 
+//
 // DELAY_450_CYCLES:
 //     PSHB
 //     LDAB    #15
 //     BRA     _DELAY_450_LOOP
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PATCH_COPY_FROM_COMPARE
 // ; ==============================================================================
@@ -8012,7 +8021,7 @@ void delay()
 // ; Copies patch data from the synth's 'Compare Buffer' into the 'Edit Buffer'.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_COPY_FROM_COMPARE:
 //     LDX     #M_PATCH_COMPARE_BUFFER
 //     STX     <M_COPY_SRC_PTR
@@ -8020,8 +8029,8 @@ void delay()
 //     STX     <M_COPY_DEST_PTR
 //     LDAB    #155
 //     JMP     MEMCPY
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MAIN_PROCESS_SUSTAIN_PEDAL
 // ; ==============================================================================
@@ -8034,32 +8043,32 @@ void delay()
 // ; the EGS to indicate it is now ending.
 // ;
 // ; ==============================================================================
-// 
+//
 // MAIN_PROCESS_SUSTAIN_PEDAL:
 //     LDAA    M_PEDAL_INPUT_STATUS
-// 
+//
 // ; Check if the sustain pedal is currently inactive.
 //     BITA    #PEDAL_STATUS_SUSTAIN_ACTIVE
 //     BNE     _END_MAIN_PROCESS_SUSTAIN_PEDAL
-// 
+//
 // _SUSTAIN_PEDAL_OFF:
 //     LDAA    M_MONO_POLY
 //     BNE     _SYNTH_IS_MONO
-// 
+//
 // _SUSTAIN_PDL_SYNTH_IS_POLY:
 //     LDX     #M_VOICE_STATUS
 //     LDAB    #2
-// 
+//
 // ; Tests each voice in the 'Voice Event' buffer, checking whether the sustain
 // ; flag was active. If it was, the sustain flag is cleared.
-// 
+//
 // _TEST_VOICE_LOOP:
 //     LDAA    1,x
-// 
+//
 // ; Test whether sustain is active for the current voice event.
 //     BITA    #1
 //     BEQ     _PROCESS_SUSTAIN_PDL_LOOP_INCREMENT
-// 
+//
 // ; The following subroutine clears bit 1 in this voice event entry to set
 // ; sustain for this key event as being finshed.
 // ; ACCB is then stored in the EGS' 'Voice Event' register.
@@ -8073,7 +8082,7 @@ void delay()
 //     STAB    P_EGS_VOICE_EVENTS
 //     PSHB
 //     PSHX
-// 
+//
 // _SET_PITCH_EG_STEP:
 //     LDX     #M_VOICE_PITCH_EG_CURR_STEP
 //     LSRB
@@ -8083,23 +8092,23 @@ void delay()
 //     STAB    0,x
 //     PULX
 //     PULB
-// 
+//
 // _PROCESS_SUSTAIN_PDL_LOOP_INCREMENT:
 //     INX
 //     INX
-// 
+//
 // ; Increment ACCB by 4 to increment the current voice number.
 //     ADDB    #4
 //     CMPB    #66
 //     BNE     _TEST_VOICE_LOOP
-// 
+//
 // _END_MAIN_PROCESS_SUSTAIN_PEDAL:
 //     RTS
-// 
+//
 // ; Check if the sustain pedal was previously active. If so, then
 // ; clear the appropriate flag, and send a 'KEY OFF' event for Voice#0
 // ; to the EGS voice events register.
-// 
+//
 // _SYNTH_IS_MONO:
 //     LDAA    <M_MONO_SUSTAIN_PEDAL_ACTIVE
 //     BEQ     _END_MAIN_PROCESS_SUSTAIN_PEDAL
@@ -8109,8 +8118,8 @@ void delay()
 //     LDAB    #4
 //     STAB    M_VOICE_PITCH_EG_CURR_STEP
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PATCH_WRITE_TO_INT
 // ; ==============================================================================
@@ -8125,13 +8134,13 @@ void delay()
 // ;
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_WRITE_TO_INT:
 //     LDAB    #128
 //     MUL
 //     ADDD    #M_EXTERNAL_RAM_START               ; Falls-through below.
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PATCH_SERIALISE
 // ; ==============================================================================
@@ -8157,75 +8166,75 @@ void delay()
 // ; * 0xF9:   Origin ptr.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_SERIALISE:
 //     STD     <M_COPY_DEST_PTR
 //     LDX     #M_PATCH_CURRENT_BUFFER
 //     LDAB    #6
 //     STAB    <$AB
 //     STX     <M_COPY_SRC_PTR
-// 
+//
 // ; Copy the first 11 bytes.
-// 
+//
 // _SERIALISE_COPY_OPERATOR_LOOP:
 //     LDAB    #11
 //     JSR     MEMCPY
-// 
+//
 // _COPY_KBD_SCALE_CURVES:
 //     LDX     <M_COPY_SRC_PTR
 //     LDAA    0,x
 //     INX
 //     STAA    <$AD
-// 
+//
 // ; Load the 'Right Curve' value, shift this value left twice, and combine to
 // ; create the serialised format.
 //     LDAA    0,x
 //     ASLA
 //     ASLA
 //     ADDA    <$AD
-// 
+//
 // ; Increment source pointer.
 //     INX
 //     STX     <M_COPY_SRC_PTR
-// 
+//
 // ; Store value and increment destination pointer.
 //     LDX     <M_COPY_DEST_PTR
 //     STAA    0,x
 //     INX
 //     STX     <M_COPY_DEST_PTR
-// 
+//
 // ; Copy 'Keyboard Rate Scale', and 'Oscillator detune'.
-// 
+//
 // _COPY_KBD_RATE_SCALING:
 //     LDX     <M_COPY_SRC_PTR
 //     LDAA    0,x
 //     STAA    <$AD
-// 
+//
 // ; Load the Osc detune value, shift left three times, and combine.
 //     LDAA    7,x
 //     ASLA
 //     ASLA
 //     ASLA
 //     ADDA    <$AD
-// 
+//
 // ; Increment source pointer.
 //     INX
 //     STX     <M_COPY_SRC_PTR
-// 
+//
 // ; Store value and increment destination pointer.
 //     LDX     <M_COPY_DEST_PTR
 //     STAA    0,x
 //     INX
 //     STX     <M_COPY_DEST_PTR
-// 
+//
 // ; Copy 'Amp Mod Sensitivity', and 'Key Velocity Sensitivity'.
-// 
+//
 // _COPY_AMP_MOD_SENS:
 //     LDX     <M_COPY_SRC_PTR
 //     LDAA    0,x
 //     INX
 //     STAA    <$AD
-// 
+//
 // ; Load the 'Key Velocity Sens' value, shift left three times, and combine.
 //     LDAA    0,x
 //     INX
@@ -8233,94 +8242,94 @@ void delay()
 //     ASLA
 //     ADDA    <$AD
 //     STX     <M_COPY_SRC_PTR
-// 
+//
 // ; Store value and increment destination pointer.
 //     LDX     <M_COPY_DEST_PTR
 //     STAA    0,x
 //     INX
 //     STX     <M_COPY_DEST_PTR
-// 
+//
 // ; Copy 'Output Level'.
-// 
+//
 // _COPY_OUTPUT_LEVEL:
 //     LDX     <M_COPY_SRC_PTR
 //     LDAA    0,x
-// 
+//
 // ; Increment source pointer.
 //     INX
 //     STX     <M_COPY_SRC_PTR
-// 
+//
 // ; Store value and increment destination pointer.
 //     LDX     <M_COPY_DEST_PTR
 //     STAA    0,x
 //     INX
 //     STX     <M_COPY_DEST_PTR
-// 
+//
 // ; Copy 'Coarse Frequency', and 'Oscillator Mode'.
-// 
+//
 // _COPY_FREQ_COARSE_OSC_MODE:
 //     LDX     <M_COPY_SRC_PTR
 //     LDAA    0,x
 //     INX
 //     STAA    <$AD
-// 
+//
 // ; Load 'Coarse Frequency', shift left, and combine.
 //     LDAA    0,x
 //     INX
 //     ASLA
 //     ADDA    <$AD
 //     STX     <M_COPY_SRC_PTR
-// 
+//
 // ; Store value and increment destination pointer.
 //     LDX     <M_COPY_DEST_PTR
 //     STAA    0,x
 //     INX
 //     STX     <M_COPY_DEST_PTR
-// 
+//
 // _COPY_FREQ_FINE:
 //     LDX     <M_COPY_SRC_PTR
 //     LDAA    0,x
-// 
+//
 // ; Increment source pointer.
 //     INX
 //     INX
 //     STX     <M_COPY_SRC_PTR
-// 
+//
 // ; Store value and increment destination pointer.
 //     LDX     <M_COPY_DEST_PTR
 //     STAA    0,x
 //     INX
 //     STX     <M_COPY_DEST_PTR
-// 
+//
 // _SERIALISE_DECREMENT_LOOP_INDEX:
 //     DEC     $AB
 //     BEQ     _SERIALISE_COPY_PATCH_VALUES        ; If 0xAB > 0, loop.
 //     JMP     _SERIALISE_COPY_OPERATOR_LOOP
-// 
+//
 // ; Copy the 8 pitch EG values, then copy the algorithm value.
-// 
+//
 // _SERIALISE_COPY_PATCH_VALUES:
 //     LDAB    #8
 //     JSR     MEMCPY
-// 
+//
 // ; Copy 'Feedback', and 'Key Sync'.
 //     LDX     <M_COPY_SRC_PTR
 //     LDAA    0,x
 //     INX
 //     STX     <M_COPY_SRC_PTR
-// 
+//
 // ; Store value and increment destination pointer.
 //     LDX     <M_COPY_DEST_PTR
 //     STAA    0,x
 //     INX
 //     STX     <M_COPY_DEST_PTR
-// 
+//
 // ; Load value.
 //     LDX     <M_COPY_SRC_PTR
 //     LDAA    0,x
 //     INX
 //     STAA    <$AD
-// 
+//
 // ; Load value, increment origin pointer, shift left 3 times, and combine.
 //     LDAA    0,x
 //     INX
@@ -8329,23 +8338,23 @@ void delay()
 //     ASLA
 //     ASLA
 //     ADDA    <$AD
-// 
+//
 // ; Store value and increment destination pointer.
 //     LDX     <M_COPY_DEST_PTR
 //     STAA    0,x
 //     INX
 //     STX     <M_COPY_DEST_PTR
-// 
+//
 // ; Copy the LFO values:
 // ; * LFO Speed.
 // ; * LFO Delay.
 // ; * LFO Pitch Mod Depth.
 // ; * LFO Amp Mod Depth.
-// 
+//
 // _COPY_LFO_VALUES:
 //     LDAB    #4
 //     JSR     MEMCPY
-// 
+//
 // ; Copy, and combine into one byte:
 // ; * LFO Sync.
 // ; * LFO Wave.
@@ -8354,13 +8363,13 @@ void delay()
 //     LDAA    0,x
 //     INX
 //     STAA    <$AD
-// 
+//
 // ; Load value, shift left 1 and store in 0xAE.
 //     LDAA    0,x
 //     INX
 //     ASLA
 //     STAA    <$AE
-// 
+//
 // ; Load value, shift left 4. Combine with 0xAD.
 //     LDAA    0,x
 //     INX
@@ -8368,39 +8377,39 @@ void delay()
 //     ASLA
 //     ASLA
 //     ASLA
-// 
+//
 // ; Combine 0xAD with 0xAE.
 //     ADDA    <$AD
 //     ADDA    <$AE
-// 
+//
 // ; Store incremented origin ptr.
 //     STX     <M_COPY_SRC_PTR
 //     LDX     <M_COPY_DEST_PTR
-// 
+//
 // ; Store value, and increment destination pointer.
 //     STAA    0,x
 //     INX
 //     STX     <M_COPY_DEST_PTR
-// 
+//
 // ; Load value, and increment origin pointer.
 //     LDX     <M_COPY_SRC_PTR
 //     LDAA    0,x
 //     INX
 //     STX     <M_COPY_SRC_PTR
-// 
+//
 // ; Store value, and increment dest ptr.
 //     LDX     <M_COPY_DEST_PTR
 //     STAA    0,x
 //     INX
 //     STX     <M_COPY_DEST_PTR
-// 
+//
 // ; Copy char* PATCH_NAME[10].
-// 
+//
 // _SERIALISE_COPY_PATCH_NAME:
 //     LDAB    #10
 //     JMP     MEMCPY
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PATCH_LOAD_FROM_INT
 // ; ==============================================================================
@@ -8415,17 +8424,17 @@ void delay()
 // ; * ACCA: The patch number to load.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_LOAD_FROM_INT:
 //     LDAB    #128
-// 
+//
 // ; Compute the index into patch memory.
 //     MUL
-// 
+//
 // ; Falls-through to patch deseralise.
 //     ADDD    #M_EXTERNAL_RAM_START
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PATCH_DESERIALISE
 // ; ==============================================================================
@@ -8451,11 +8460,9 @@ void delay()
 // ; * 0xF9:   Origin ptr.
 // ;
 // ; ==============================================================================
-// 
+//
 void patch_deserialise(uint8_t* ptr)
 {
-   // TODO 
-
 // PATCH_DESERIALISE:
 //     STD     <M_COPY_SRC_PTR
 //     JSR     DELAY
@@ -8491,8 +8498,8 @@ void patch_deserialise(uint8_t* ptr)
 //     INX
 //     STX     <M_COPY_DEST_PTR
       uint8_t kbd_lvl_scl = *m_copy_src_ptr++;
-      *m_copy_dest_ptr++ = kbd_lvl_scl & 0b11;
-      *m_copy_dest_ptr++ = (kbd_lvl_scl & 0b1100) >> 2;
+      *m_copy_dest_ptr++ = (kbd_lvl_scl >> 0) & 0b11;
+      *m_copy_dest_ptr++ = (kbd_lvl_scl >> 2) & 0b11;
 
 //     LDX     <M_COPY_SRC_PTR
 //     LDAA    0,x
@@ -8510,8 +8517,9 @@ void patch_deserialise(uint8_t* ptr)
 //     INX
 //     STX     <M_COPY_DEST_PTR
       uint8_t kbd_rate_osc_detune = *m_copy_src_ptr++;
-      *m_copy_dest_ptr++ = kbd_rate_osc_detune & 0b111;
-      *m_copy_dest_ptr++ = kbd_rate_osc_detune >> 3;
+      *m_copy_dest_ptr = kbd_rate_osc_detune & 0b111;
+      m_copy_dest_ptr[7] = kbd_rate_osc_detune >> 3;
+      ++m_copy_dest_ptr;
 
 //     LDX     <M_COPY_SRC_PTR
 //     LDAA    0,x
@@ -8572,7 +8580,7 @@ void patch_deserialise(uint8_t* ptr)
 //     STX     <M_COPY_DEST_PTR
       // osc freq fine
       *m_copy_dest_ptr++ = *m_copy_src_ptr++;
-      m_copy_dest_ptr++;
+      ++m_copy_dest_ptr;
 
 //     DEC     $AB
 //     BEQ     _DESERIALISE_COPY_PATCH_VALUES      ; If 0xAB > 0, loop.
@@ -8642,7 +8650,7 @@ void patch_deserialise(uint8_t* ptr)
 //     STX     <M_COPY_DEST_PTR
    uint8_t lfo_bits = *m_copy_src_ptr++;
    *m_copy_dest_ptr++ = lfo_bits & 0b1;
-   *m_copy_dest_ptr++ = (lfo_bits & 0b111) >> 1;
+   *m_copy_dest_ptr++ = (lfo_bits >> 1) & 0b111;
    *m_copy_dest_ptr++ = lfo_bits >> 4;
 
 //     LDX     <M_COPY_SRC_PTR
@@ -8655,13 +8663,13 @@ void patch_deserialise(uint8_t* ptr)
 //     STX     <M_COPY_DEST_PTR
    // transpose
    *m_copy_dest_ptr++ = *m_copy_src_ptr++;
- 
+
 // _DESERIALISE_COPY_PATCH_NAME:
 //     LDAB    #10
 //     JMP     MEMCPY
    this->memcpy(10);
 }
- 
+
 // ; ==============================================================================
 // ; PATCH_COPY_TO_COMPARE
 // ; ==============================================================================
@@ -8671,15 +8679,15 @@ void patch_deserialise(uint8_t* ptr)
 // ; Copies a patch from the synth's 'Edit Buffer' into the compare buffer.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_COPY_TO_COMPARE:
 //     LDX     #M_PATCH_CURRENT_BUFFER
 //     STX     <M_COPY_SRC_PTR
 //     LDX     #M_PATCH_COMPARE_BUFFER
 //     STX     <M_COPY_DEST_PTR
 //     LDAB    #155                                ; Falls-through below to MEMCPY.
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MEMCPY
 // ; ==============================================================================
@@ -8699,7 +8707,7 @@ void patch_deserialise(uint8_t* ptr)
 // ; * 0xFB:   The destination memory address.
 // ;
 // ; ==============================================================================
-// 
+//
 // MEMCPY:
 //     LDX     <M_COPY_SRC_PTR
 //     LDAA    0,x
@@ -8748,25 +8756,25 @@ void memcpy(uint8_t size)
 // ;  7: 480
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_LOAD_OPERATOR_KBD_VEL_SENS:
 //     JSR     PATCH_GET_PTR_TO_SELECTED_OP
 //     LDAB    #15
 //     ABX
-// 
+//
 // ; Load KEY_VEL_SENS into A.
 // ; Multiply by 32, and push.
 //     LDAA    0,x
 //     LDAB    #32
 //     MUL
 //     PSHB
-// 
+//
 // _PARSE_OP_SENS_HIGH:
 //     LDAA    0,x
 //     ASLA
 //     ORAA    #%11110000
 //     COMA
-// 
+//
 // _STORE_OP_SENS:
 //     LDX     #M_PATCH_OP_SENS
 //     LDAB    M_SELECTED_OPERATOR
@@ -8776,8 +8784,8 @@ void memcpy(uint8_t size)
 //     STAA    0,x
 //     STAB    1,x
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PATCH_LOAD_OPERATOR_DETUNE
 // ; ==============================================================================
@@ -8787,19 +8795,19 @@ void memcpy(uint8_t size)
 // ; Loads operator detune values to the EGS operator detune buffer.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_LOAD_OPERATOR_DETUNE:
 //     JSR     PATCH_GET_PTR_TO_SELECTED_OP
 //     LDAB    #20
 //     ABX
-// 
+//
 // ; Load the current operator's detune value.
 //     LDAB    0,x
-// 
+//
 // ; The following routine reads the bitmask corresponding to this detune
 // ; value from the associated table. Refer to this table for additional
 // ; documentation regarding the format of these values.
-// 
+//
 // _LOAD_BITMASK_FROM_TABLE:
 //     LDX     #TABLE_DETUNE_VALUE
 //     ABX
@@ -8809,8 +8817,8 @@ void memcpy(uint8_t size)
 //     ABX
 //     STAA    0,x                                 ; Store at 0x3030[OP].
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; EGS Operator Detune Value Table.
 // ; These values are the operator detune values loaded to the EGS' operator
@@ -8836,8 +8844,8 @@ void memcpy(uint8_t size)
 //     FCB 5
 //     FCB 6
 //     FCB 7
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PATCH_COPY_OPERATOR
 // ; ==============================================================================
@@ -8852,45 +8860,45 @@ void memcpy(uint8_t size)
 // ; * 0x209F: The currently selected operator, used as the source operator.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_COPY_OPERATOR:
 //     BSR     PATCH_GET_PTR_TO_SELECTED_OP
 //     STX     <M_COPY_SRC_PTR
 //     LDAB    #5
-// 
+//
 // ; Since this subroutine always originates with a button press, this variable
 // ; holds the selected operator.
 //     SUBB    M_LAST_PRESSED_BTN
-// 
+//
 // ; Calculate the memory address of the target operator, and copy the memory
 // ; to this address. Once this is complete, reload the patch data.
-// 
+//
 // _GET_TARGET_OPERATOR_ADDRESS:
 //     LDAA    #21
 //     MUL
 //     LDX     #M_PATCH_CURRENT_BUFFER
 //     ABX
 //     STX     <M_COPY_DEST_PTR
-// 
+//
 // _COPY_OPERATOR:
 //     LDAB    #14
 //     JSR     MEMCPY
 //     JSR     PATCH_LOAD_DATA
-// 
+//
 // _PRINT_TO_OP_STRING:                            ; LCD Buffer Line 2 + 9.
 //     LDX     #$2638
 //     STX     <M_COPY_DEST_PTR
 //     LDX     #aToOp
 //     JSR     LCD_WRITE_STR_TO_BUFFER
 //     LDAA    M_LAST_PRESSED_BTN
-// 
+//
 // ; Add ASCII '1' to the operator number, and write the target operator
 // ; number in the LCD buffer.
 //     ADDA    #'1'
 //     LDX     <M_COPY_DEST_PTR
 //     STAA    0,x
 //     JMP     LCD_PRINT_STR_BUFFER
-// 
+//
 
 // ; ==============================================================================
 // ; PATCH_GET_PTR_TO_SELECTED_OP
@@ -8909,7 +8917,7 @@ void memcpy(uint8_t size)
 // ; * IX: A pointer to the selected operator.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_GET_PTR_TO_SELECTED_OP:
 //     LDX     #$2000
 //     LDAA    #21
@@ -8937,15 +8945,15 @@ uint8_t* patch_get_ptr_to_selected_op()
 // ; list of associated register definitions.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_LOAD_OPERATOR_KBD_SCALING:
 //     JSR     PATCH_GET_PTR_TO_SELECTED_OP
 //     STX     <K_OPERATOR_CURRENT_PTR
-// 
+//
 // _LOAD_BREAKPOINT:
 //     LDAB    8,x
 //     PSHX
-// 
+//
 // ; Add 20 on account of the lowest breakpoint value being A(-1).
 // ; This is the 21st note starting from C(-2).
 // ; Store quantised breakpoint value in 0xAB.
@@ -8957,62 +8965,62 @@ uint8_t* patch_get_ptr_to_selected_op()
 //     LSRA
 //     STAA    <K_BREAKPOINT
 //     PULX
-// 
+//
 // ; Store the most-significant byte of the quantised results.
-// 
+//
 // _LOAD_DEPTH_LEFT:
 //     LDAA    9,x
 //     JSR     PATCH_LOAD_QUANTISE_VALUE
 //     STAA    <K_DEPTH_LEFT
-// 
+//
 // _LOAD_DEPTH_RIGHT:
 //     LDAA    10,x
 //     JSR     PATCH_LOAD_QUANTISE_VALUE
 //     STAA    <K_DEPTH_RIGHT
-// 
+//
 // ; Load the left curve value into A, and parse.
 // ; The result, returned in CCR[z], will be 0 if the curve is negative.
-// 
+//
 // _LOAD_CURVE_LEFT:
 //     LDAA    11,x
 //     JSR     PATCH_PARSE_CURVE_LEFT
-// 
+//
 // _IS_CURVE_NEGATIVE?:
 //     BEQ     _LEFT_CURVE_IS_NEGATIVE
-// 
+//
 // ; The keyboard scaling polarity value for both left, and right curves is
 // ; stored in this variable. Bit 6 indicates the polarity of the left curve,
 // ; with 1 indicating it's positive. Bit 7 indicates the polarity of the
 // ; right curve.
-// 
+//
 // _LEFT_CURVE_NON_NEGATIVE:
 //     LDAB    #%1000000
 //     BRA     _LOAD_CURVE_RIGHT
-// 
+//
 // _LEFT_CURVE_IS_NEGATIVE:
 //     CLRB
-// 
+//
 // _LOAD_CURVE_RIGHT:
 //     STAB    <K_KBD_SCALING_POLARITY
 //     LDAA    12,x
 //     JSR     PATCH_PARSE_CURVE_RIGHT
 //     BEQ     _PARSE_OPERATOR_OUTPUT_LEVEL
-// 
+//
 // ; Set bit 7 in the keyboard scaling polarity register if the right curve
 // ; is non-negative.
-// 
+//
 // _CURVE_NON_NEGATIVE:
 //     LDAB    #%10000000
 //     ADDB    <K_KBD_SCALING_POLARITY
 //     STAB    <K_KBD_SCALING_POLARITY
-// 
+//
 // _PARSE_OPERATOR_OUTPUT_LEVEL:
 //     LDAB    16,x
 //     LDX     #TABLE_LOG
 //     ABX
 //     LDAA    0,x
 //     STAA    <K_OPERATOR_OUTPUT_LVL
-// 
+//
 // _GET_POINTER_TO_END_OF_CURVE:
 //     LDAA    #43
 //     STAA    M_KBD_SCALE_CURVE_INDEX
@@ -9021,92 +9029,92 @@ uint8_t* patch_get_ptr_to_selected_op()
 //     LDAA    #43
 //     MUL
 //     ABX
-// 
+//
 // ; The following loop computes the 43 byte keyboard scaling curve for the
 // ; currently selected operator.
 // ; It checks whether each index is above, or below the breakpoint, loading
 // ; the scaling curve accordingly. It then multiplies the scaling curve value
 // ; by the appropriate depth value to compute the final keyboard scaling
 // ; value. This value is then stored in the 43 byte keyboard scaling curve.
-// 
+//
 // _COMPUTE_SCALING_CURVE_LOOP_START:
 //     STX     <K_OPERATOR_CURRENT_PTR
 //     LDAB    M_KBD_SCALE_CURVE_INDEX
 //     SUBB    <K_BREAKPOINT
-// 
+//
 // ; Is this index into the parsed curve data above the breakpoint?
 // ; If ACCB > K_BREAKPOINT, branch.
-// 
+//
 // _IS_ABOVE_BREAKPOINT?:
 //     BHI     _SET_KEYBOARD_SCALE_CURVE_RIGHT
-// 
+//
 // _SET_KEYBOARD_SCALE_CURVE_LEFT:
 //     LDX     <K_CURVE_TABLE_LEFT_PTR
-// 
+//
 // ; Get two's compliment negation of ACCB to invert the index into the
 // ; curve data. Inverting the curve.
 //     NEGB
 //     ABX
 //     LDAB    0,x
 //     LDAA    <K_DEPTH_LEFT
-// 
+//
 // ; Get product of curve * depth.
 //     MUL
-// 
+//
 // ; Branch if product is non-negative.
 //     TSTA
 //     BPL     _GET_LEFT_CURVE_POLARITY
 //     LDAA    #127
-// 
+//
 // _GET_LEFT_CURVE_POLARITY:
 //     LDAB    <K_KBD_SCALING_POLARITY
 //     ASLB
 //     BRA     _IS_CURVE_POSITIVE?
-// 
+//
 // _SET_KEYBOARD_SCALE_CURVE_RIGHT:
 //     LDX     <K_CURVE_TABLE_RIGHT_PTR
 //     ABX
 //     LDAB    0,x                                 ; Load ACCB from CURVE[ACCB].
 //     LDAA    <K_DEPTH_RIGHT
-// 
+//
 // ; Get product of curve * depth.
 //     MUL
 //     TSTA
-// 
+//
 // ; If the MSB of the result is less than 127, clamp.
 //     BPL     _GET_RIGHT_CURVE_POLARITY
 //     LDAA    #127
-// 
+//
 // _GET_RIGHT_CURVE_POLARITY:
 //     LDAB    <K_KBD_SCALING_POLARITY
-// 
+//
 // _IS_CURVE_POSITIVE?:
 //     BPL     _CURVE_IS_NEGATIVE
-// 
+//
 // _CURVE_IS_POSITIVE:
 //     NEGA
 //     ADDA    <K_OPERATOR_OUTPUT_LVL
 //     BPL     _STORE_CURVE_DATA
 //     CLRA
 //     BRA     _STORE_CURVE_DATA
-// 
+//
 // _CURVE_IS_NEGATIVE:
 //     ADDA    <K_OPERATOR_OUTPUT_LVL
 //     BPL     _STORE_CURVE_DATA
 //     LDAA    #127
-// 
+//
 // _STORE_CURVE_DATA:
 //     ASLA
 //     LDX     <K_OPERATOR_CURRENT_PTR
 //     DEX
-// 
+//
 // ; Store the computed scaling value at *(0xF9 + *(0x2313)).
 //     STAA    0,x
 //     DEC     M_KBD_SCALE_CURVE_INDEX
 //     BNE     _COMPUTE_SCALING_CURVE_LOOP_START
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PATCH_PARSE_CURVE_LEFT
 // ; ==============================================================================
@@ -9123,30 +9131,30 @@ uint8_t* patch_get_ptr_to_selected_op()
 // ; * CCR[z]: The zero flag will be set if this curve is negative.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_PARSE_CURVE_LEFT:
 //     STX     <$F9
 //     TSTA
-// 
+//
 // ; If the curve value is 0, or 3 this indicates that the EG curve is linear.
 //     BEQ     _CURVE_IS_LINEAR
 //     CMPA    #3
 //     BEQ     _CURVE_IS_LINEAR
 //     LDX     #TABLE_KBD_SCALING_CURVE_EXP
 //     BRA     _STORE_LEFT_CURVE_POINTER
-// 
+//
 // _CURVE_IS_LINEAR:
 //     LDX     #TABLE_KBD_SCALING_CURVE_LIN
-// 
+//
 // _STORE_LEFT_CURVE_POINTER:
 //     STX     <K_CURVE_TABLE_LEFT_PTR
 //     LDX     <$F9                                ; Restore saved IX.
-// 
+//
 // ; Tests whether this is a positive, or negative curve.
 //     BITA    #2
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PATCH_PARSE_CURVE_RIGHT
 // ; ==============================================================================
@@ -9163,30 +9171,30 @@ uint8_t* patch_get_ptr_to_selected_op()
 // ; * CCR[z]: The zero flag will be set if this curve is negative.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_PARSE_CURVE_RIGHT:
 //     STX     <$F9
 //     TSTA
-// 
+//
 // ; If the curve value is 0, or 3 this indicates that the EG curve is linear.
 //     BEQ     _RIGHT_CURVE_IS_LINEAR
 //     CMPA    #3
 //     BEQ     _RIGHT_CURVE_IS_LINEAR
 //     LDX     #TABLE_KBD_SCALING_CURVE_EXP
 //     BRA     _STORE_RIGHT_CURVE_POINTER
-// 
+//
 // _RIGHT_CURVE_IS_LINEAR:
 //     LDX     #TABLE_KBD_SCALING_CURVE_LIN
-// 
+//
 // _STORE_RIGHT_CURVE_POINTER:
 //     STX     <K_CURVE_TABLE_RIGHT_PTR
 //     LDX     <$F9                                ; Restore saved IX.
-// 
+//
 // ; Tests whether this is a positive, or negative curve.
 //     BITA    #2
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; Exponential Keyboard Scaling Curve Table.
 // ; Used when parsing the operator keyboard scaling.
@@ -9208,7 +9216,7 @@ const uint8_t table_kbd_scaling_curve_exp[36] =
    0x86, 0xA0, 0xBE, 0xE0, 0xFF, 0xFF, 0xFF, 0xFF,
    0xFF, 0xFF, 0xFF, 0xFF
 };
-// 
+//
 // ; ==============================================================================
 // ; Linear Keyboard Scaling Curve Table.
 // ; Used when parsing the operator keyboard scaling.
@@ -9231,7 +9239,7 @@ const uint8_t table_kbd_scaling_curve_lin[36] =
    0xC0, 0xC8, 0xD0, 0xD8, 0xE0, 0xE8, 0xF0, 0xF8,
    0xFF, 0xFF, 0xFF, 0xFF
 };
-// 
+//
 // ; ==============================================================================
 // ; Logarithmic Curve Table.
 // ; Used in parsing various operator values.
@@ -9274,8 +9282,8 @@ const uint8_t table_log[100] =
    0x0B, 0x0A, 0x09, 0x08, 0x07, 0x06, 0x05, 0x04,
    0x03, 0x02, 0x01, 0x00
 };
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; EGS_RESET_VOICES
 // ; ==============================================================================
@@ -9286,21 +9294,21 @@ const uint8_t table_log[100] =
 // ; and then 'KEY ON' event for all 16 voices.
 // ;
 // ; ==============================================================================
-// 
+//
 // EGS_RESET_VOICES:
 //     LDAB    #96                                 ; 6 operators * 16 voices.
 //     LDAA    #$FF
 //     LDX     #P_EGS_OP_LEVELS
-// 
+//
 // _RESET_OP_LEVELS_LOOP:
 //     JSR     DELAY
-// 
+//
 // ; Store 0xFF in the Operator Level register to effectively disable output.
 //     STAA    0,x
 //     INX
 //     DECB
 //     BNE     _RESET_OP_LEVELS_LOOP               ; If ACCB > 0, loop.
-// 
+//
 // ; The following sequence starts by writing 0x2 to the voice events buffer
 // ; to signal a 'KEY OFF' event for voice 0.
 // ; The value is decremented, and written again to signal a 'KEY ON' event
@@ -9309,7 +9317,7 @@ const uint8_t table_log[100] =
 // ; is incremented by 4 to increment the voice number.
 //     LDAB    #16
 //     LDAA    #2
-// 
+//
 // _RESET_VOICE_EVENT_LOOP:
 //     JSR     DELAY
 //     STAA    P_EGS_VOICE_EVENTS
@@ -9323,8 +9331,8 @@ const uint8_t table_log[100] =
 //     DECB
 //     BNE     _RESET_VOICE_EVENT_LOOP             ; If ACCB > 0, loop
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; VOICE_ADD_LOAD_OPERATOR_DATA_TO_EGS
 // ; ==============================================================================
@@ -9341,21 +9349,21 @@ const uint8_t table_log[100] =
 // ; * IX:   The note pitch, as calculated in the 'VOICE_ADD' function.
 // ;
 // ; ==============================================================================
-// 
+//
 // VOICE_ADD_LOAD_OPERATOR_DATA_TO_EGS:
 //     STX     <VA_VOICE_PITCH_NEW
 //     STAA    <VA_VOICE_CURRENT
-// 
+//
 // _LOAD_OP_DATA_SETUP_POINTERS:
 //     LDX     #M_PATCH_OP_SENS
 //     STX     <VA_OP_SENS_PTR
 //     LDX     #M_OP_VOLUME
 //     STX     <VA_OP_VOLUME_PTR
-// 
+//
 // ; Load the 'Operator Volume Velocity Scale Factor' value into ACCB.
 // ; This value is used to scale the operator volume according to the
 // ; velocity of the last note.
-// 
+//
 // _GET_OPERATOR_VELOCITY_SCALE:
 //     LDAB    <M_NOTE_VEL
 //     LSRB
@@ -9363,93 +9371,93 @@ const uint8_t table_log[100] =
 //     LDX     #TABLE_OP_VOLUME_VELOCITY_SCALE
 //     ABX
 //     LDAB    0,x
-// 
+//
 // ; Use this scaling factor to scale the output volume of each of the
 // ; synth's six operators.
-// 
+//
 // _LOAD_OP_DATA_SET_LOOP_INDEX:
 //     LDAA    #6
 //     STAA    <VA_LOOP_INDEX
-// 
+//
 // _GET_OP_VOLUME_LOOP:
 //     LDX     <VA_OP_SENS_PTR
 //     PSHB
-// 
+//
 // ; Multiply the lower byte of the 'Op Key Sens' value with the log table value
 // ; in B, and then add the higher byte of the 'Op Key Sens' back to this value.
 //     LDAA    1,x
 //     MUL
 //     ADDA    0,x
-// 
+//
 // ; If this value overflows, clamp at 0xFF.
 //     BCC     _INCREMENT_OP_SENS_PTR
 //     LDAA    #$FF
-// 
+//
 // _INCREMENT_OP_SENS_PTR:
 //     INX
 //     INX
 //     STX     <VA_OP_SENS_PTR
-// 
+//
 // _STORE_OP_VOLUME:
 //     LDX     <VA_OP_VOLUME_PTR
 //     STAA    0,x
 //     INX
 //     STX     <VA_OP_VOLUME_PTR
-// 
+//
 // _DECREMENT_INDEX:
 //     PULB
 //     DEC     VA_LOOP_INDEX
 //     BNE     _GET_OP_VOLUME_LOOP                 ; If *(0xAF) > 0, loop.
-// 
+//
 // _LOAD_OPERATOR_LEVELS:
 //     CLR     VA_LOOP_INDEX
 //     LDAA    M_PATCH_CURRENT_OPS_ON_OFF
 //     STAA    <VA_OPERATOR_ON_OFF
-// 
+//
 // ; Logically shift the 'Operator On/Off' register value right with each
 // ; iteration. This loads the previous bit 0 into the carry flag, which is
 // ; then checked to determined whether the operator is enabled, or disabled.
-// 
+//
 // _CHECK_OP_ENABLED_LOOP:
 //     LSR     VA_OPERATOR_ON_OFF
 //     BCS     _APPLY_KEYBOARD_SCALING
 //     JSR     DELAY
 //     BRA     _CLEAR_OP_VOLUME
-// 
+//
 // _APPLY_KEYBOARD_SCALING:
 //     LDAB    <VA_LOOP_INDEX
 //     LDAA    #43
 //     MUL
 //     LDX     #M_OPERATOR_KEYBOARD_SCALING
 //     ABX
-// 
+//
 // ; Use the MSB of the note pitch as an index into the keyboard scaling curve.
-// 
+//
 // _GET_OPERATOR_SCALING:
 //     LDAB    <VA_VOICE_PITCH_NEW
 //     LSRB
 //     LSRB
 //     ABX
 //     LDAA    0,x
-// 
+//
 // ; Add the operator scaling value to the logarithmic operator volume value.
 // ; Clamp the resulting value at 0xFF.
-// 
+//
 // _ADD_TO_BASE_OP_VOLUME:
 //     LDX     #M_OP_VOLUME
 //     LDAB    <VA_LOOP_INDEX
 //     ABX
 //     ADDA    0,x
 //     BCC     _GET_EGS_OPERATOR_VOL_REGISTER_INDEX
-// 
+//
 // _CLEAR_OP_VOLUME:
 //     LDAA    #$FF
-// 
+//
 // ; Calculate the index into the EGS' 'Operator Levels' register.
 // ; This register is 96 bytes long, arranged in the format of:
 // ;   Operator[number][voice].
 // ; The index is calculated by: (Current Operator * 16 + Current Voice).
-// 
+//
 // _GET_EGS_OPERATOR_VOL_REGISTER_INDEX:
 //     PSHA
 //     LDAA    #16
@@ -9459,53 +9467,53 @@ const uint8_t table_log[100] =
 //     LDX     #P_EGS_OP_LEVELS
 //     ABX
 //     PULA
-// 
+//
 // ; If the resulting amplitude value is less than 4, clamp at 4.
-// 
+//
 // _CLAMP_MINIMUM_TO_4:
 //     CMPA    #3
 //     BHI     _STORE_OP_DATA_TO_EGS
 //     LDAA    #4
-// 
+//
 // _STORE_OP_DATA_TO_EGS:
 //     STAA    0,x
-// 
+//
 // _LOAD_OP_DATA_INCREMENT_INDEX:
 //     INC     VA_LOOP_INDEX
 //     LDAA    <VA_LOOP_INDEX
 //     CMPA    #6
 //     BNE     _CHECK_OP_ENABLED_LOOP              ; If *(0xAF) < 6, loop.
-// 
+//
 // ; If the portamento rate is instantaneous, then write the pitch value to
 // ; the EGS, and exit.
-// 
+//
 // _LOAD_OP_DATA_IS_PORTA_RATE_MAX?:
 //     LDAA    M_PORTA_RATE_INCREMENT
 //     CMPA    #$FE
 //     BHI     VOICE_ADD_LOAD_PITCH_TO_EGS
-// 
+//
 // ; Check if the synth is in monophonic mode. If it is, then perform an
 // ; additional check to determine the portamento mode.
 // ; If the synth is monophonic, and in fingered portamento mode, load the
 // ; pitch value for the current voice immediately.
-// 
+//
 // _LOAD_OP_DATA_IS_SYNTH_MONO?:
 //     LDAA    M_MONO_POLY
 //     BEQ     _LOAD_OP_DATA_IS_PORTA_PDL_ACTIVE?
-// 
+//
 // _IS_PORTA_MODE_FINGERED?:
 //     LDAA    M_PORTA_MODE
 //     BEQ     VOICE_ADD_LOAD_PITCH_TO_EGS
-// 
+//
 // _LOAD_OP_DATA_IS_PORTA_PDL_ACTIVE?:
 //     LDAA    M_PEDAL_INPUT_STATUS
 //     BITA    #PEDAL_STATUS_PORTAMENTO_ACTIVE
-// 
+//
 // ; If the portamento pedal is active, exit.
 // ; Otherwise this falls-through below to 'load pitch'.
 //     BNE     VOICE_ADD_LOAD_CURR_VOICE_PITCH_END
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; VOICE_ADD_LOAD_PITCH_TO_EGS
 // ; ==============================================================================
@@ -9522,30 +9530,30 @@ const uint8_t table_log[100] =
 // ; * 0xB0:   This scratch register is used for temporary storage.
 // ;
 // ; ==============================================================================
-// 
+//
 // VOICE_ADD_LOAD_PITCH_TO_EGS:
 //     LDAB    <VA_VOICE_CURRENT
 //     ASLB
-// 
+//
 // _LOAD_PITCH_EG_LEVEL_TO_EGS:
 //     LDX     #M_VOICE_PITCH_EG_CURR_LEVEL
 //     ABX
 //     LDD     0,x
-// 
+//
 // _ADD_KEY_PITCH:
 //     ADDD    <VA_VOICE_PITCH_NEW
 //     SUBD    #$1BA8
-// 
+//
 // ; Clamp the pitch value to a minimum of zero.
 // ; If it is below this minumum value, set to zero.
 // ; If the current vaue of D > 0x1BA8, branch.
 //     BCC     _ADD_MASTER_TUNE
 //     LDD     #0
-// 
+//
 // _ADD_MASTER_TUNE:
 //     ADDD    M_MASTER_TUNE
 //     STAB    <$B0                                ; Store the LSB temporarily.
-// 
+//
 // _WRITE_PITCH_TO_EGS:
 //     LDX     #P_EGS_VOICE_PITCH
 //     LDAB    <VA_VOICE_CURRENT
@@ -9554,11 +9562,11 @@ const uint8_t table_log[100] =
 //     STAA    0,x
 //     LDAB    <$B0
 //     STAB    1,x                                 ; Store previously saved LSB.
-// 
+//
 // VOICE_ADD_LOAD_CURR_VOICE_PITCH_END:
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; Velocity to operator volume mapping table.
 // ; Used when scaling an operator's amplitude value according to its volume.
@@ -9596,8 +9604,8 @@ const uint8_t table_log[100] =
 //     FCB $83
 //     FCB $84
 //     FCB $85
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PATCH_LOAD_OPERATOR_EG_LEVELS
 // ; ==============================================================================
@@ -9608,7 +9616,7 @@ const uint8_t table_log[100] =
 // ; values to the EGS' internal registers.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_LOAD_OPERATOR_EG_LEVELS:
 //     JSR     PATCH_GET_PTR_TO_SELECTED_OP
 //     LDAB    #7
@@ -9616,44 +9624,44 @@ const uint8_t table_log[100] =
 //     STX     <$AF
 //     LDAA    #4
 //     STAA    <$B1
-// 
+//
 // ; This loop retrieves the logarithmic values of the operator EG levels.
 // ; Variables used in the loop:
 // ;  * 0xAF: Pointer to curve values.
 // ;  * 0xB1: Loop index = 4.
 // ;  * 0xAB..0xAE: Used as storage for the 4 parsed EG level values.
-// 
+//
 // _QUANTISE_OPERATOR_EG_LEVELS_LOOP:
 //     LDX     <$AF
-// 
+//
 // ; Load the EG level value into ACCB, and decrement the pointer to the
 // ; operator EG level values in patch memory.
-// 
+//
 // _LOAD_PATCH_EG_LEVEL:
 //     LDAB    0,x
 //     DEX
 //     STX     <$AF
-// 
+//
 // ; Use the loaded operator EG level value as an index into the logarithmic
 // ; table to get the full operator EG volume level.
-// 
+//
 // _LOOKUP_LOG_EG_LEVEL:
 //     LDX     #TABLE_LOG
 //     ABX
 //     LDAA    0,x
 //     LSRA
-// 
+//
 // ; Use the loop index in 0xB1(0 .. 3) as an offset from 0xAB, to decide where
 // ; to store the parsed EG level value.
 // ; Afterwards decrement the loop index.
-// 
+//
 // _STORE_PARSED_EG_LEVEL_TO_EGS:
 //     LDAB    <$B1
 //     LDX     #$AB
 //     DECB
 //     ABX
 //     STAA    0,x
-// 
+//
 // _LOAD_OP_EG_DECREMENT_LOOP_INDEX:
 //     DEC     $B1
 //     BNE     _QUANTISE_OPERATOR_EG_LEVELS_LOOP
@@ -9663,39 +9671,39 @@ const uint8_t table_log[100] =
 //     STAB    <$AF
 //     LDAB    #4
 //     CLR     $B1
-// 
+//
 // ; Loads the Operator EG level values into the EGS envelope levels register.
 // ; Variables used in the loop:
 // ;  * 0xAF: Selected operator * 4.
 // ;  * 0xB1: 0.
 // ;  * 0xAB: 4 Log values.
 // ;  * ACCB: Loop index = 4.
-// 
+//
 // _STORE_OPERATOR_EG_LEVELS_LOOP:
 //     PSHB
 //     JSR     DELAY
-// 
+//
 // _LOAD_PARSED_EG_LEVEL:
 //     LDX     #$AB
 //     LDAB    <$B1
 //     ABX
 //     LDAA    0,x
-// 
+//
 // _STORE_IN_EGS_REGISTER:
 //     LDX     #P_EGS_OP_EG_LEVELS
 //     LDAB    <$AF
 //     ABX
 //     STAA    0,x
 //     INC     $AF
-// 
+//
 // _INCREMENT_LOOP_INDEX:
 //     INC     $B1
 //     PULB
 //     DECB
 //     BNE     _STORE_OPERATOR_EG_LEVELS_LOOP      ; If b > 0, loop.
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PATCH_LOAD_OPERATOR_EG_RATES
 // ; ==============================================================================
@@ -9711,7 +9719,7 @@ const uint8_t table_log[100] =
 // ; * 0xAD:   Loop index = 4.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_LOAD_OPERATOR_EG_RATES:
 //     JSR     PATCH_GET_PTR_TO_SELECTED_OP
 //     STX     <$AB
@@ -9721,36 +9729,36 @@ const uint8_t table_log[100] =
 //     STAB    <$AE
 //     LDAA    #4
 //     STAA    <$AD
-// 
+//
 // _LOAD_OPERATOR_EG_RATE_LOOP:
 //     JSR     DELAY
 //     LDX     <$AB
 //     LDAB    0,x
 //     INX
-// 
+//
 // ; The EG rate value (stored in range 0 - 99) is multiplied by 164, and then
 // ; (effectively) shifted >> 8. This quantises it to a value between 0-64.
 //     LDAA    #164
 //     MUL
-// 
+//
 // ; Increment source ptr.
 //     STX     <$AB
 //     LDX     #P_EGS_OP_EG_RATES
 //     LDAB    <$AE
-// 
+//
 // ; Current operator * 4 is the index into this EGS register.
 //     ABX
 //     STAA    0,x
-// 
+//
 // ; Increment operator number.
 //     INC     $AE
-// 
+//
 // ; Decrement index.
 //     DEC     $AD
 //     BNE     _LOAD_OPERATOR_EG_RATE_LOOP
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PATCH_LOAD_CALL_FUNC_PTR
 // ; ==============================================================================
@@ -9767,15 +9775,15 @@ const uint8_t table_log[100] =
 // ; * 0x2183: A pointer to the function to call.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_LOAD_CALL_FUNC_PTR:
 //     PSHX
-// 
+//
 // ; Save memory at 0x209F.
 //     LDAA    M_SELECTED_OPERATOR
 //     PSHA
 //     CLRB
-// 
+//
 // _CALL_FP_START:
 //     STAB    M_SELECTED_OPERATOR
 //     LDX     M_PATCH_LOAD_FUNC_PTR
@@ -9787,14 +9795,14 @@ const uint8_t table_log[100] =
 //     INCB
 //     CMPB    #6
 //     BNE     _CALL_FP_START                      ; If ACCB < 6, loop.
-// 
+//
 // ; Restore contents of the memory at 0x209F.
 //     PULA
 //     STAA    M_SELECTED_OPERATOR
 //     PULX
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PORTA_COMPUTE_RATE_VALUE
 // ; ==============================================================================
@@ -9805,11 +9813,11 @@ const uint8_t table_log[100] =
 // ; function parameter value.
 // ;
 // ; ==============================================================================
-// 
+//
 // PORTA_COMPUTE_RATE_VALUE:
 //     LDAB    #99
 //     SUBB    M_PORTA_TIME
-// 
+//
 // ; The 'Portamento Time' value (0-99) is subtracted from a value of 99
 // ; to yield the rate value.
 // ; i.e. A time of '0' is rate '0xFF', an instant switch to the next note.
@@ -9818,7 +9826,7 @@ const uint8_t table_log[100] =
 //     LDAB    0,x
 //     STAB    M_PORTA_RATE_INCREMENT
 //     RTS
-// 
+//
 // ; ==============================================================================
 // ; This is used to quantise the patch pitch EG rate values from
 // ; their native 0-99 range, to the 0-255 range of values required by the EGS.
@@ -9843,8 +9851,8 @@ const uint8_t table_log[100] =
 //     FCB $93, $99, $9F, $A5, $AB
 //     FCB $B2, $B9, $C1, $CA, $D3
 //     FCB $E8, $F3, $FE, $FF
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PATCH_LOAD_OPERATOR_KBD_RATE_SCALING
 // ; ==============================================================================
@@ -9856,32 +9864,32 @@ const uint8_t table_log[100] =
 // ; expected by the EGS' internal registers.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_LOAD_OPERATOR_KBD_RATE_SCALING:
 //     JSR     PATCH_GET_PTR_TO_SELECTED_OP
 //     LDAB    #13
 //     ABX
 //     LDAB    0,x                                 ; Load KBD_RATE_SCALING into B.
 //     LDAA    1,x                                 ; Load AMP_MOD_SENS into A.
-// 
+//
 // ; Combine the values into the format expected by the EGS.
-// 
+//
 // _COMBINE_VALUES:
 //     ASLA
 //     ASLA
 //     ASLA
 //     ABA
 //     LDAB    M_SELECTED_OPERATOR
-// 
+//
 // ; Store the combined value in the appropriate EGS register: 0x30E0[OP].
-// 
+//
 // _WRITE_RATE_SCALING_TO_EGS:
 //     LDX     #P_EGS_OP_SENS_SCALING
 //     ABX
 //     STAA    0,x
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PATCH_LOAD_OPERATOR_PITCH
 // ; ==============================================================================
@@ -9897,17 +9905,17 @@ const uint8_t table_log[100] =
 // ; * AF: Operator Fine Freq.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_LOAD_OPERATOR_PITCH:
 //     JSR     PATCH_GET_PTR_TO_SELECTED_OP
 //     STX     <$AB
 //     LDAB    17,x                                ; Load 'Osc Mode' into B.
 //     BNE     _OSC_MODE_FIXED
-// 
+//
 // ; Use the serialised 'Op Freq Coarse' value (0-31) as an index into the
 // ; coarse frequency lookup table.
 // ; Store the resulting coarse freq value in 0xAD.
-// 
+//
 // _OSC_MODE_RATIO:
 //     LDAB    18,x
 //     ASLB
@@ -9915,13 +9923,13 @@ const uint8_t table_log[100] =
 //     ABX
 //     LDD     0,x
 //     STD     <$AD
-// 
+//
 // _PARSE_RATIO_FREQ_FINE:
 //     LDX     <$AB
 //     LDAB    19,x
 //     LDAA    #2
 //     MUL
-// 
+//
 // ; Store 'Op Freq Fine' (0-99) * 2 in 0xAF.
 // ; This value will be used as an index into the fine frequency lookup table.
 // ; The resulting value will be added to the coarse frequency to produce
@@ -9932,24 +9940,24 @@ const uint8_t table_log[100] =
 //     STD     <$AB
 //     LDX     <$AB
 //     LDD     0,x
-// 
+//
 // ; The final ratio frequency value is:
 // ; Ratio_Frequency = 0x232C + FREQ_COARSE + FREQ_FINE.
-// 
+//
 // _CALCULATE_FINAL_RATIO_FREQ:
 //     ADDD    <$AD
 //     ADDD    #$232C
-// 
+//
 // ; The final frequency value is a 14-bit integer, shifted left two bits.
 // ; Bit 0 holds the flag indicating whether this is a fixed frequency value.
 // ; Clear this bit to indicate this operator uses a ratio frequency.
 //     ANDB    #%11111110
 //     JMP     _LOAD_OP_PITCH_TO_EGS
-// 
+//
 // ; Use the serialised 'Op Freq Coarse' value (0-31) % 3, as an index
 // ; into the fixed frequency lookup table.
 // ; Store the resulting frequency value in 0xAD.
-// 
+//
 // _OSC_MODE_FIXED:
 //     LDX     <$AB
 //     LDAB    18,x
@@ -9959,28 +9967,28 @@ const uint8_t table_log[100] =
 //     ABX
 //     LDD     0,x
 //     STD     <$AD
-// 
+//
 // ; Quantise the fine fixed frequency by multipying by 136.
-// 
+//
 // _PARSE_FIXED_FREQ_FINE:
 //     LDX     <$AB
 //     LDAA    19,x
 //     LDAB    #136
 //     MUL
-// 
+//
 // ; The final fixed frequency value is:
 // ; Fixed_Frequency = 0x16AC + FREQ_FIXED + FREQ_FINE.
-// 
+//
 // _CALCULATE_FINAL_FIXED_FREQ:
 //     ADDD    #$16AC
 //     ADDD    <$AD
-// 
+//
 // ; The final frequency value is a 14-bit integer, shifted left two bits.
 // ; Bit 0 holds the flag indicating whether this is a fixed frequency value.
 // ; Set this bit to indicate this operator uses a fixed frequency.
 //     ORAB    #1
 //     JMP     _LOAD_OP_PITCH_TO_EGS
-// 
+//
 // ; ==============================================================================
 // ; Coarse Frequency Lookup Table.
 // ; ==============================================================================
@@ -10017,7 +10025,7 @@ const uint8_t table_log[100] =
 //     FDB $4DBA
 //     FDB $4E84
 //     FDB $4F44
-// 
+//
 // ; ==============================================================================
 // ; Fixed Frequency Lookup Table.
 // ; ==============================================================================
@@ -10026,7 +10034,7 @@ const uint8_t table_log[100] =
 //     FDB $3526
 //     FDB $6A4C
 //     FDB $9F74
-// 
+//
 // ; ==============================================================================
 // ; Fine Frequency Lookup Table.
 // ; ==============================================================================
@@ -10132,21 +10140,21 @@ const uint8_t table_log[100] =
 //     FDB $FC4
 //     FDB $FE2
 //     FDB $1000
-// 
+//
 // _LOAD_OP_PITCH_TO_EGS:
 //     PSHB
 //     LDAB    M_SELECTED_OPERATOR
 //     ASLB
 //     LDX     #P_EGS_OP_PITCH
 //     ABX
-// 
+//
 // ; Store the 16-bit pitch, and fixed-frequency flag value at 0x3020[OP * 2].
 //     STAA    0,x
 //     PULB
 //     STAB    1,x
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PATCH_LOAD_PITCH_EG_VALUES
 // ; ==============================================================================
@@ -10161,33 +10169,33 @@ const uint8_t table_log[100] =
 // ; * 0xAB:   A pointer to the parsed pitch EG values location in memory.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_LOAD_PITCH_EG_VALUES:
 //     LDX     #M_PATCH_PITCH_EG_VALUES
 //     STX     <$AB
-// 
+//
 // ; A is used as the loop index for both loops.
 //     CLRA
-// 
+//
 // ; The address 0x207E is a pointer to the current patch's pitch EG data.
-// 
+//
 // _PARSE_PITCH_EG_RATE_VALUES:
 //     LDX     #$207E
-// 
+//
 // ; Use ACCB as an index into the current patch's Pitch EG rate values.
 //     TAB
 //     ABX
 //     LDAB    0,x
 //     INCA
-// 
+//
 // ; Use this value as an index into the pitch EG rate table, and load the
 // ; corresponding value.
 //     LDX     #TABLE_PITCH_EG_RATE
 //     ABX
 //     LDAB    0,x
-// 
+//
 // ; Store the parsed EG rate value at 0x2160[a].
-// 
+//
 // _STORE_PARSED_EG_RATE:
 //     LDX     <$AB
 //     STAB    0,x
@@ -10195,24 +10203,24 @@ const uint8_t table_log[100] =
 //     STX     <$AB
 //     CMPA    #4
 //     BNE     _PARSE_PITCH_EG_RATE_VALUES
-// 
+//
 // _PARSE_PITCH_EG_LVL_VALUES:
 //     LDX     #$207E
-// 
+//
 // ; Use ACCB as an index into the current patch's Pitch EG level values.
 //     TAB
 //     ABX
 //     LDAB    0,x
 //     INCA
-// 
+//
 // ; Use this value as an index into the pitch EG level table, and load the
 // ; corresponding value.
 //     LDX     #TABLE_PITCH_EG_LEVEL
 //     ABX
 //     LDAB    0,x
-// 
+//
 // ; Store the parsed EG level value at 0x2160[a].
-// 
+//
 // _STORE_PARSED_EG_LEVEL:
 //     LDX     <$AB
 //     STAB    0,x
@@ -10221,7 +10229,7 @@ const uint8_t table_log[100] =
 //     CMPA    #8
 //     BNE     _PARSE_PITCH_EG_LVL_VALUES
 //     RTS
-// 
+//
 // ; ==============================================================================
 // ; This table is used to quantise the patch pitch EG level values from their
 // ; 0-99 range,to the 0-255 range of values required for the final
@@ -10248,8 +10256,8 @@ const uint8_t table_log[100] =
 //     FCB $A3, $A6, $A8, $AB, $AE
 //     FCB $B1, $B5, $BA, $C1, $C9
 //     FCB $D2, $DC, $E7, $F3, $FF
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PATCH_LOAD_ALG_MODE
 // ; ==============================================================================
@@ -10261,10 +10269,10 @@ const uint8_t table_log[100] =
 // ; registers.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_LOAD_ALG_MODE:
 //     LDAA    $2087                               ; Feedback level.
-// 
+//
 // ; Load the 'Algorithm' value, shift left 3 bits, and combine with the
 // ; 'Feedback' value to create the final bitmask.
 //     LDAB    M_PATCH_CURRENT_ALG
@@ -10272,23 +10280,23 @@ const uint8_t table_log[100] =
 //     ASLB
 //     ASLB
 //     ABA
-// 
+//
 // ; Test the patch's 'Oscillator Sync' value, and create the final value
 // ; accordingly.
 //     TST     $2088
 //     BEQ     _SYNC_DISABLED
 //     LDAB    #48
 //     BRA     _WRITE_TO_OPS_REGISTERS
-// 
+//
 // _SYNC_DISABLED:
 //     LDAB    #80
-// 
+//
 // _WRITE_TO_OPS_REGISTERS:
 //     STAB    P_OPS_MODE
 //     STAA    P_OPS_ALG_FDBK
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PATCH_LOAD_LFO
 // ; ==============================================================================
@@ -10299,32 +10307,32 @@ const uint8_t table_log[100] =
 // ; The parsed values are stored in the appropriate internal registers.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_LOAD_LFO:
-//     LDX     #$2089
+//     LDX     #M_PATCH_CURRENT_LFO_SPEED
 //     JSR     PATCH_LOAD_QUANTISE_LFO_SPEED
 //     STD     M_LFO_PHASE_INCREMENT
-// 
+//
 // _PARSE_LFO_DELAY:
 //     LDX     #M_PATCH_CURRENT_LFO_DELAY
 //     JSR     PATCH_LOAD_QUANTIZE_LFO_DELAY
 //     STD     M_LFO_DELAY_INCREMENT
-// 
+//
 // _PARSE_LFO_PITCH_MOD_DEPTH:
-//     LDX     #$208B
+//     LDX     #M_PATCH_CURRENT_LFO_PITCH_MOD_DEPCTH
 //     LDAA    0,x
 //     JSR     PATCH_LOAD_QUANTISE_VALUE
 //     STAA    M_LFO_PITCH_MOD_DEPTH
-// 
+//
 // _PARSE_LFO_AMP_MOD_DEPTH:
 //     LDAA    1,x
 //     JSR     PATCH_LOAD_QUANTISE_VALUE
 //     STAA    M_LFO_AMP_MOD_DEPTH
-// 
+//
 // _PARSE_LFO_WAVEFORM:
 //     LDAA    3,x
 //     STAA    M_LFO_WAVEFORM
-// 
+//
 // _PARSE_LFO_PITCH_MOD_SENS:
 //     LDAB    4,x
 //     LDX     #TABLE_PITCH_MOD_SENS
@@ -10334,14 +10342,14 @@ const uint8_t table_log[100] =
 //     RTS
 void patch_load_lfo()
 {
-    m_lfo_phase_increment = 0;
-    m_lfo_delay_increment = 0;
-    m_lfo_pitch_mod_depth = 0;
-    m_lfo_amp_mod_depth   = 0;
-    m_lfo_waveform        = 0;
-    m_lfo_pitch_mod_sens  = 0;
+    m_lfo_phase_increment = patch_load_quantise_lfo_speed(m_patch_current_lfo_speed);
+    m_lfo_delay_increment = patch_load_quantise_lfo_delay(m_patch_current_lfo_delay);
+    m_lfo_pitch_mod_depth = patch_load_quantise_value(m_patch_current_lfo_pitch_mod_depth);
+    m_lfo_amp_mod_depth   = patch_load_quantise_value(m_patch_current_lfo_amp_mod_depth);
+    m_lfo_waveform        = m_patch_current_lfo_waveform;
+    m_lfo_pitch_mod_sens  = table_pitch_mod_sens[m_patch_current_pitch_mod_sens];
 }
- 
+
 // ; ==============================================================================
 // ; Pitch Mod Sensitivity Table.
 // ; ==============================================================================
@@ -10354,8 +10362,11 @@ void patch_load_lfo()
 //     FCB 92
 //     FCB 153
 //     FCB 255
-// 
-// 
+const uint8_t table_pitch_mod_sens[8] =
+{
+   0, 10, 20, 33, 55, 92, 153, 255
+};
+
 // ; ==============================================================================
 // ; MOD_PROCESS_INPUT_SOURCES
 // ; ==============================================================================
@@ -10370,14 +10381,14 @@ void patch_load_lfo()
 // ; will be sent to the EGS, and the total 'EG Bias'.
 // ;
 // ; ==============================================================================
-// 
+//
 // MOD_PROCESS_INPUT_SOURCES:
 //     CLR     M_EG_BIAS_TOTAL_RANGE
-// 
+//
 // ; This subroutine is where the modulation-source analog input values are scaled
 // ; according to their range parameters, and stored.
 // ; Load the first of the 'Modulation Source'-related parameters.
-// 
+//
 // _CALCULATE_MOD_SOURCE_SCALED_INPUTS:
 //     LDX     #M_MOD_WHEEL_ASSIGN_FLAGS
 //     LDD     M_MOD_WHEEL_RANGE
@@ -10389,17 +10400,17 @@ void patch_load_lfo()
 //     LDD     M_AFTERTOUCH_RANGE
 //     BSR     MOD_CALCULATE_SOURCE_SCALED_INPUT
 //     COM     M_EG_BIAS_TOTAL_RANGE
-// 
+//
 // _CALCULATE_AMP_MOD:
 //     LDAA    #4
 //     CLRB
 //     LDX     #M_MOD_WHEEL_ASSIGN_FLAGS
-// 
+//
 // ; Loop over the four modulation sources.
 // ; If 'Amplitude Modulation' is enabled for this source, then add this
 // ; modulation-source's scaled input value to the total amplitude
 // ; modulation factor.
-// 
+//
 // _CALCULATE_AMP_MOD_LOOP:
 //     PSHA
 //     BSR     MOD_AMP_SUM_MOD_SOURCE
@@ -10409,23 +10420,23 @@ void patch_load_lfo()
 //     DECA
 //     BNE     _CALCULATE_AMP_MOD_LOOP             ; If A > 0, loop.
 //     BRA     _STORE_AMP_MOD_FACTOR
-// 
+//
 // _CALCULATE_AMP_MOD_OVERFLOW:
 //     PULA
-// 
+//
 // _STORE_AMP_MOD_FACTOR:
 //     STAB    <M_MOD_AMP_FACTOR
-// 
+//
 // ; Loop over each of the four modulation-sources, testing the flags for each
 // ; one to determine whether 'EG Bias' is enabled. If so, the 'scaled input'
 // ; for each is added to a sum total. The 'EG Bias Range' total is added to
 // ; this amount. If it overflows, it's clamped at 0xFF.
-// 
+//
 // _CALCULATE_EG_BIAS:
 //     LDAA    #4
 //     CLRB
 //     LDX     #M_MOD_WHEEL_ASSIGN_FLAGS
-// 
+//
 // _CALCULATE_EG_BIAS_LOOP:
 //     PSHA
 //     BSR     MOD_SUM_MOD_SOURCE_EG_BIAS
@@ -10435,23 +10446,23 @@ void patch_load_lfo()
 //     DECA
 //     BNE     _CALCULATE_EG_BIAS_LOOP
 //     BRA     _ADD_EG_BIAS
-// 
+//
 // ; In case of overflow, clear the pushed value on the stack.
-// 
+//
 // _CALCULATE_EG_BIAS_OVERFLOW:
 //     PULA
-// 
+//
 // _ADD_EG_BIAS:
 //     ADDB    <M_EG_BIAS_TOTAL_RANGE
 //     BCC     _END_MOD_PROCESS_INPUT_SOURCES
 //     LDAB    #$FF
-// 
+//
 // _END_MOD_PROCESS_INPUT_SOURCES:
 //     COMB
 //     STAB    <M_MOD_AMP_EG_BIAS_TOTAL
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MOD_CALCULATE_SOURCE_SCALED_INPUT
 // ; ==============================================================================
@@ -10481,32 +10492,32 @@ void patch_load_lfo()
 // ; * 0xBA:   The total EG Bias value.
 // ;
 // ; ==============================================================================
-// 
+//
 // MOD_CALCULATE_SOURCE_SCALED_INPUT:
 //     PSHB
 //     JSR     PATCH_LOAD_QUANTISE_VALUE
 //     PSHA
 //     LDAB    0,x
-// 
+//
 // ; Load the relevant modulation flags into B.
 // ; Check the bitmask corresponding to EG Bias.
 //     BITB    #%100
 //     BEQ     _STORE_SCALED_INPUT
-// 
+//
 // ; If EG Bias is enabled for this modulation-source, then add the
 // ; quantised range value to the EG Bias register.
 // ; Set to 0xFF in the case of overflow.
 //     ADDA    <M_EG_BIAS_TOTAL_RANGE
 //     BCC     _STORE_EG_BIAS
 //     LDAA    #$FF
-// 
+//
 // _STORE_EG_BIAS:
 //     STAA    <M_EG_BIAS_TOTAL_RANGE
-// 
+//
 // _STORE_SCALED_INPUT:
 //     PULA
 //     PULB
-// 
+//
 // ; Multiply the MSB of the quantised RANGE value together with the raw input
 // ; value, and increment the pointer to store the MSB of the result in the
 // ; adjacent register.
@@ -10515,8 +10526,8 @@ void patch_load_lfo()
 //     STAA    0,x
 //     INX
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MOD_AMP_SUM_MOD_SOURCE
 // ; ==============================================================================
@@ -10538,31 +10549,31 @@ void patch_load_lfo()
 // ; * ACCB: The total amplitude modulation amount.
 // ;
 // ; ==============================================================================
-// 
+//
 // MOD_AMP_SUM_MOD_SOURCE:
 //     LDAA    0,x
-// 
+//
 // ; Increment so IX points to the modulation value register.
 //     INX
-// 
+//
 // ; Load the 'Modulation-Source' flags into A, and check if the flag
 // ; corresponding to 'Amp Modulation' is set.
 //     BITA    #%10
 //     BEQ     _END_MOD_AMP_SUM_MOD_SOURCE
-// 
+//
 // ; If the flag corresponding to enabling amplitude modulation is set,
 // ; then add the modulation-source value to ACCB, which is used to set
 // ; the amplitude modulation amount register.
 //     ADDB    0,x
-// 
+//
 // ; If the value overflows, set to 0xFF.
 //     BCC     _END_MOD_AMP_SUM_MOD_SOURCE
 //     LDAB    #$FF
-// 
+//
 // _END_MOD_AMP_SUM_MOD_SOURCE:
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MOD_SUM_MOD_SOURCE_EG_BIAS
 // ; ==============================================================================
@@ -10584,7 +10595,7 @@ void patch_load_lfo()
 // ; * ACCB: The total EG Bias amount.
 // ;
 // ; ==============================================================================
-// 
+//
 // MOD_SUM_MOD_SOURCE_EG_BIAS:
 //     LDAA    0,x
 //     INX
@@ -10593,11 +10604,11 @@ void patch_load_lfo()
 //     ADDB    0,x
 //     BCC     _END_MOD_SUM_MOD_SOURCE_EG_BIAS
 //     LDAB    #$FF
-// 
+//
 // _END_MOD_SUM_MOD_SOURCE_EG_BIAS:
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PATCH_LOAD_QUANTISE_LFO_SPEED
 // ; ==============================================================================
@@ -10615,20 +10626,20 @@ void patch_load_lfo()
 // ; * ACCD: The parsed LFO speed value.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_LOAD_QUANTISE_LFO_SPEED:
 //     LDAA    0,x
-// 
+//
 // ; If the LFO speed is set to zero, clamp it to a minimum of '1'. This is
 // ; done so that the LFO software arithmetic works.
 //     BNE     _LFO_SPEED_NON_ZERO
 //     INCA
 //     BRA     _SET_TO_MINIMUM
-// 
+//
 // _LFO_SPEED_NON_ZERO:
 //     JSR     PATCH_LOAD_QUANTISE_VALUE
 //     CMPA    #160
-// 
+//
 // ; If the result is less than 160, branch.
 //     BCS     _SET_TO_MINIMUM
 //     TAB
@@ -10637,15 +10648,33 @@ void patch_load_lfo()
 //     LSRB
 //     ADDB    #11
 //     BRA     _END_PATCH_LOAD_QUANTISE_LFO_SPEED
-// 
+//
 // _SET_TO_MINIMUM:
 //     LDAB    #11
-// 
+//
 // _END_PATCH_LOAD_QUANTISE_LFO_SPEED:
 //     MUL
 //     RTS
-// 
-// 
+uint16_t patch_load_quantise_lfo_speed(uint8_t in)
+{
+   if (in == 0)
+   {
+      // LFO speed 0 => 11
+      return 11;
+   }
+
+   // Scale 0..99 to full scale 8-bit e.g. 0..255
+   uint8_t scaled_speed = (in * 660) >> 8;
+   if (scaled_speed < 160)
+   {
+      // LFO speed 1..62 => 22..1749
+      return 11 * scaled_speed;
+   }
+
+   // LFO speed 63..99 => 1782..8670
+   return (11 + ((scaled_speed - 160) / 4)) * scaled_speed;
+}
+
 // ; ==============================================================================
 // ; PATCH_LOAD_QUANTIZE_LFO_DELAY
 // ; ==============================================================================
@@ -10666,7 +10695,7 @@ void patch_load_lfo()
 // ; * ACCD: The parsed LFO delay value.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_LOAD_QUANTIZE_LFO_DELAY:
 //     LDAA    #99
 //     SUBA    0,x
@@ -10683,17 +10712,27 @@ void patch_load_lfo()
 //     ORAA    #16
 //     ASLA
 //     CLRB
-// 
+//
 // ; Performs a rotate right of ACCA, and ACCB.
-// 
+//
 // _ROTATE_LOOP:
 //     LSRA
 //     RORB
 //     DEC     $AC
 //     BNE     _ROTATE_LOOP
 //     RTS
-// 
-// 
+uint16_t patch_load_quantise_lfo_delay(uint8_t in)
+{
+   // Invert 0..99 => 99..0
+   uint8_t value = 99 - in;
+
+   // Treat as a 7-bit floating point value _EEEMMMM
+   uint8_t  exp     = 7 - (value >> 4);
+   uint16_t mantisa =  (0b10000 | (value & 0b1111)) << 9;
+
+   return mantisa >> exp;
+}
+
 // ; ==============================================================================
 // ; PITCH_BEND_PARSE
 // ; ==============================================================================
@@ -10706,17 +10745,17 @@ void patch_load_lfo()
 // ; register.
 // ;
 // ; ==============================================================================
-// 
+//
 // PITCH_BEND_PARSE:
 //     LDAB    M_PITCH_BEND_INPUT
-// 
+//
 // ; Shift right to quantise the incoming pitch-bend value to 0-127.
 // ; Use this as an index into the pitch-bend table.
 //     LSRB
 //     LDX     #TABLE_PITCH_BEND
 //     ABX
 //     LDAA    0,x
-// 
+//
 // ; Shift left, and invert the sign bit (bit 7).
 // ; This has the effect of 'correcting' the signedness of the pitch shift
 // ; value. Since (after shifting) 0-127 represent a negative shift, and
@@ -10725,77 +10764,77 @@ void patch_load_lfo()
 //     ASLA
 //     EORA    #%10000000
 //     STAA    <M_PITCH_BEND_INPUT_SIGNED
-// 
+//
 // _IS_PITCH_BEND_STEP_ZERO?:
 //     LDAB    M_PITCH_BND_STEP
 //     BNE     _BEND_STEP_NOT_0
-// 
+//
 // _IS_BEND_RANGE_12?:
 //     LDAB    M_PITCH_BND_RANGE
 //     CMPB    #12
 //     BEQ     _BEND_RANGE_12
-// 
+//
 // _LOAD_BEND_CENTS:
 //     LDX     #TABLE_PITCH_BEND_CENTS
 //     ABX
 //     LDAB    0,x
-// 
+//
 // _IS_BEND_NEGATIVE?:
 //     TSTA
 //     BMI     _BEND_IS_NEGATIVE
 //     ASLA
 //     MUL
 //     BRA     _QUANTISE_PITCH_BEND
-// 
+//
 // _BEND_IS_NEGATIVE:
 //     COMA
 //     ASLA
 //     MUL
 //     COMB
-// 
+//
 // _RESET_NEGATIVE_BEND_VALUE:
 //     COMA
-// 
+//
 // _QUANTISE_PITCH_BEND:
 //     LSRD
 //     LSRD
-// 
+//
 // _IS_PITCH_BEND_NEGATIVE?:
 //     TST     M_PITCH_BEND_INPUT_SIGNED
 //     BPL     _STORE_PITCH_BEND_VALUE
 //     ORAA    #%11000000
 //     BRA     _STORE_PITCH_BEND_VALUE
-// 
+//
 // _BEND_RANGE_12:
 //     CLRB
 //     TSTA
 //     BMI     _RANGE_12_BEND_IS_NEGATIVE
-// 
+//
 // ; I'm not sure what the purpose of this clamping here is.
 // ; If the quantised pitch bend value is 126, the final pitch bend value
 // ; effectively becomes 0x3FFF.
 //     CMPA    #126
 //     BNE     _SCALE_VALUE
 //     LDD     #$7FFF
-// 
+//
 // _SCALE_VALUE:
 //     LSLD
 //     BRA     _QUANTISE_PITCH_BEND
-// 
+//
 // _RANGE_12_BEND_IS_NEGATIVE:
 //     COMA
 //     SEC
 //     ROLA
 //     BRA     _RESET_NEGATIVE_BEND_VALUE
-// 
+//
 // _BEND_STEP_NOT_0:                               ; B = B % 16.
 //     ANDB    #%1111
-// 
+//
 // _IS_BEND_POSITIVE?:
 //     TSTA
 //     BPL     _BEND_IS_POSITIVE
 //     COMA
-// 
+//
 // _BEND_IS_POSITIVE:
 //     LDX     #TABLE_PITCH_BEND_STEP
 //     STAB    <M_PITCH_BEND_STEP_VALUE
@@ -10809,28 +10848,28 @@ void patch_load_lfo()
 //     BNE     _STORE_PITCH_BEND_STEP
 //     LDD     #0
 //     BRA     _STORE_PITCH_BEND_VALUE
-// 
+//
 // _STORE_PITCH_BEND_STEP:
 //     STAA    <M_PITCH_BEND_STEP_VALUE
 //     LDD     0,x
-// 
+//
 // _SETUP_PITCH_BEND_STEP_LOOP:
 //     DEC     M_PITCH_BEND_STEP_VALUE
 //     BEQ     _IS_PITCH_BEND_POSITIVE?
 //     ADDD    0,x
 //     BRA     _SETUP_PITCH_BEND_STEP_LOOP
-// 
+//
 // _IS_PITCH_BEND_POSITIVE?:
 //     TST     M_PITCH_BEND_INPUT_SIGNED
 //     BPL     _STORE_PITCH_BEND_VALUE
 //     COMA
 //     COMB
-// 
+//
 // _STORE_PITCH_BEND_VALUE:
 //     STD     M_PITCH_BEND_VALUE
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; Length: 48.
 // ; ==============================================================================
@@ -10859,7 +10898,7 @@ void patch_load_lfo()
 //     FDB 0
 //     FDB 0
 //     FDB 0
-// 
+//
 // ; ==============================================================================
 // ; Length: 13.
 // ; ==============================================================================
@@ -10877,7 +10916,7 @@ void patch_load_lfo()
 //     FCB $D7
 //     FCB $EC
 //     FCB $FF
-// 
+//
 // ; ==============================================================================
 // ; Length: 128.
 // ; ==============================================================================
@@ -10908,8 +10947,8 @@ void patch_load_lfo()
 //     FCB $76, $77, $78, $79, $7A
 //     FCB $7B, $7C, $7D, $7E
 //     FCB $7F
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PATCH_LOAD_DATA
 // ; ==============================================================================
@@ -10921,40 +10960,40 @@ void patch_load_lfo()
 // ; as operator keyboard scaling, and the LFO.
 // ;
 // ; ==============================================================================
-// 
+//
 // PATCH_LOAD_DATA:
 //     JSR     EGS_RESET_VOICES
-// 
+//
 // _LOAD_EG_RATES:
 //     LDD     #PATCH_LOAD_OPERATOR_EG_RATES
 //     STD     M_PATCH_LOAD_FUNC_PTR
 //     JSR     PATCH_LOAD_CALL_FUNC_PTR
-// 
+//
 // _LOAD_EG_LEVELS:
 //     LDD     #PATCH_LOAD_OPERATOR_EG_LEVELS
 //     STD     M_PATCH_LOAD_FUNC_PTR
 //     JSR     PATCH_LOAD_CALL_FUNC_PTR
-// 
+//
 // _LOAD_KEYBOARD_SCALING:
 //     LDD     #PATCH_LOAD_OPERATOR_KBD_SCALING
 //     STD     M_PATCH_LOAD_FUNC_PTR
 //     JSR     PATCH_LOAD_CALL_FUNC_PTR
-// 
+//
 // _LOAD_KEYBOARD_VEL_SENS:
 //     LDD     #PATCH_LOAD_OPERATOR_KBD_VEL_SENS
 //     STD     M_PATCH_LOAD_FUNC_PTR
 //     JSR     PATCH_LOAD_CALL_FUNC_PTR
-// 
+//
 // _LOAD_OPERATOR_PITCH:
 //     LDD     #PATCH_LOAD_OPERATOR_PITCH
 //     STD     M_PATCH_LOAD_FUNC_PTR
 //     JSR     PATCH_LOAD_CALL_FUNC_PTR
-// 
+//
 // _LOAD_RATE_SCALING:
 //     LDD     #PATCH_LOAD_OPERATOR_KBD_RATE_SCALING
 //     STD     M_PATCH_LOAD_FUNC_PTR
 //     JSR     PATCH_LOAD_CALL_FUNC_PTR
-// 
+//
 // _LOAD_DETUNE:
 //     LDD     #PATCH_LOAD_OPERATOR_DETUNE
 //     STD     M_PATCH_LOAD_FUNC_PTR
@@ -10963,8 +11002,8 @@ void patch_load_lfo()
 //     JSR     PATCH_LOAD_ALG_MODE
 //     JSR     PATCH_LOAD_LFO
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; HANDLER_OCF
 // ; ==============================================================================
@@ -10975,18 +11014,18 @@ void patch_load_lfo()
 // ; This is where all of the synth's periodicly repeated functions are called.
 // ;
 // ; ==============================================================================
-// 
+//
 // HANDLER_OCF:
 
 void handler_ocf()
 {
 //     CLR     TIMER_CTRL_STATUS
 //     LDAA    <TIMER_CTRL_STATUS                  ; Clear OCF IRQ.
-// 
+//
 // _RESET_FRC:
 //     LDX     #0
 //     STX     <FREE_RUNNING_COUNTER
-// 
+//
 // _RESET_OCF:
 //     LDX     #3140
 //     STX     <OUTPUT_COMPARE
@@ -11001,10 +11040,10 @@ void handler_ocf()
 // _PROCESS_RX_ACTV_SENSING:
 //     LDAA    <M_MIDI_SUBSTATUS
 //     CMPA    #MIDI_SUBSTATUS_BULK
-// 
+//
 // ; If the synth is processing a bulk SYSEX dump, ignore active sensing.
 //     BEQ     _PROCESS_MODULATION
-// 
+//
 // ; Increment the active sensing counter.
 // ; If an active sensing message has not been received in 250 'checks',
 // ; then proceed to stopping all voices.
@@ -11017,7 +11056,7 @@ void handler_ocf()
 //     STAA    P_DAC
 //     CLR     M_MIDI_PROCESSED_DATA_COUNT
 //     CLR     M_MIDI_ACTV_SENS_RX_ENABLE
-// 
+//
 // ; The variable at 0x232C is 'toggled' On/Off with each interrupt.
 // ; This flag is used to determine whether pitch modulation should be
 // ; updated in this interrupt. The effect is that pitch-mod is processed once
@@ -11070,7 +11109,7 @@ void handler_ocf()
        m_midi_actv_sens_tx_cntr    = 0;
        m_midi_actv_sens_tx_trigger = 1;
    }
-// 
+//
 // _HANDLER_OCF_LOAD_PITCH_MOD_TO_EGS:
 //     JSR     MOD_PITCH_LOAD_TO_EGS
    mod_pitch_load_to_egs();
@@ -11082,7 +11121,7 @@ void handler_ocf()
 // XXX ignore for now
 }
 
- 
+
 // ; ==============================================================================
 // ; MAIN_COMPARE_PATCH_LED_BLINK
 // ; ==============================================================================
@@ -11096,10 +11135,10 @@ void handler_ocf()
 // ; contents will be cleared.
 // ;
 // ; ==============================================================================
-// 
+//
 // MAIN_COMPARE_PATCH_LED_BLINK:
 //     LDAA    M_PATCH_CURRENT_MODIFIED_FLAG
-// 
+//
 // ; If we're not in 'Patch Compare' mode, exit.
 //     CMPA    #EDITED_PATCH_IN_COMPARE
 //     BNE     _END_MAIN_COMPARE_PATCH_LED_BLINK
@@ -11108,23 +11147,23 @@ void handler_ocf()
 //     ANDA    #%11111
 //     BNE     _END_MAIN_COMPARE_PATCH_LED_BLINK   ; If A % 32 != 0, exit.
 //     LDAA    M_COMPARE_PATCH_LED_BLINK_COUNTER
-// 
+//
 // ; If Bit 6 is set, show the number.
 //     BITA    #%100000
 //     BNE     _PRINT_PATCH_NUMBER_AND_EXIT
-// 
+//
 // _CLEAR_LED:
 //     LDAA    #$FF
 //     STAA    P_LED2
 //     STAA    P_LED1
-// 
+//
 // _END_MAIN_COMPARE_PATCH_LED_BLINK:
 //     RTS
-// 
+//
 // _PRINT_PATCH_NUMBER_AND_EXIT:
 //     JMP     LED_PRINT_PATCH_NUMBER
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_ACTIVE_SENSING_STOP
 // ; ==============================================================================
@@ -11136,7 +11175,7 @@ void handler_ocf()
 // ; It deactivates all active voices.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_ACTIVE_SENSING_STOP:
 //     LDAA    <IO_PORT_2_DATA
 //     PSHA
@@ -11145,8 +11184,8 @@ void handler_ocf()
 //     PULA
 //     STAA    <IO_PORT_2_DATA
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PORTA_PROCESS
 // ; ==============================================================================
@@ -11157,13 +11196,13 @@ void handler_ocf()
 // ; comments below regarding the switch variable that controls this.
 // ;
 // ; ==============================================================================
-// 
+//
 // PORTA_PROCESS:
 //     LDAA    <IO_PORT_2_DATA
 //     PSHA
 //     CLR     IO_PORT_2_DATA                      ; Disable IRQ.
 //     JSR     DELAY
-// 
+//
 // ; This flag acts as a 'toggle' switch to control which voices are processed.
 // ; If this flag is set, then process voices 8-15, then clear the flag.
 // ; If this flag is not set, process voices 0-7, then set the flag.
@@ -11174,92 +11213,92 @@ void handler_ocf()
 //     COM     M_PORTA_UPDATE_VOICE_SWITCH
 //     CLRB
 //     BRA     _PORTA_PROCESS_SETUP_POINTERS
-// 
+//
 // _PROCESS_VOICE_8_TO_15:
 //     CLR     M_PORTA_UPDATE_VOICE_SWITCH
 //     LDAB    #16
-// 
+//
 // ; Initialiase the pointers used within the function.
-// 
+//
 // _PORTA_PROCESS_SETUP_POINTERS:
 //     LDX     #M_VOICE_PITCH_EG_CURR_LEVEL
 //     ABX
 //     STX     <M_VOICE_PITCH_EG_CURR_LVL_PTR
-// 
+//
 // _SETUP_POINTERS_PORTA:
 //     LDX     #M_VOICE_PITCH_PORTAMENTO
 //     ABX
 //     STX     <M_VOICE_PITCH_PORTA_PTR
-// 
+//
 // _SETUP_POINTERS_GLISS:
 //     LDX     #M_VOICE_PITCH_GLISSANDO
 //     ABX
 //     STX     <M_VOICE_PITCH_GLISS_PTR
-// 
+//
 // _SETUP_POINTERS_EGS:
 //     LDX     #P_EGS_VOICE_PITCH
 //     ABX
 //     STX     <M_EGS_PITCH_PTR
-// 
+//
 // _SETUP_POINTERS_TARGET:
 //     LDX     #M_VOICE_PITCH_TARGET
 //     ABX
 //     STX     <M_VOICE_PITCH_TARGET_PTR
-// 
+//
 // _PORTA_PROCESS_SET_LOOP_INDEX:
 //     LDAA    #8
 //     STAA    <M_PORTA_PROCESS_LOOP_IDX
-// 
+//
 // _PORTA_PROCESS_VOICE_LOOP_START:
 //     LDD     0,x
 //     STD     <M_VOICE_PORTA_PITCH_FINAL
 //     LDX     <M_VOICE_PITCH_PORTA_PTR
 //     LDD     0,x
-// 
+//
 // ; Check whether this voice's current portamento pitch is above or below
 // ; the voice's target pitch.
 // ; If *(0xVOICE_PITCH_PORTA[B]) - *(VOICE_PITCH_TARGET[B]) < 0, branch.
-// 
+//
 // _IS_PITCH_ABOVE_OR_BELOW_TARGET?:
 //     SUBD    <M_VOICE_PORTA_PITCH_FINAL
 //     BMI     _PITCH_BELOW_TARGET
-// 
+//
 // ; If the current glissando pitch is above the target pitch, calculate
 // ; the portamento pitch decrement, and subtract it from the current pitch.
-// 
+//
 // _PITCH_ABOVE_TARGET:
 //     LDAB    <M_PORTA_RATE_INCREMENT
-// 
+//
 // _CALCULATE_PITCH_DECREMENT:
 //     TST     M_PORTA_GLISS_ENABLED
 //     BEQ     _GLISSANDO_OFF
 //     LDAA    #3
 //     BRA     _STORE_PITCH_DECREMENT
-// 
+//
 // _GLISSANDO_OFF:
 //     LSRA
 //     LSRA
 //     INCA
-// 
+//
 // _STORE_PITCH_DECREMENT:
 //     MUL
 //     STD     <M_PORTA_PITCH_INCREMENT
-// 
+//
 // _SUBTRACT_DECREMENT:
 //     LDX     <M_VOICE_PITCH_PORTA_PTR
 //     LDD     0,x
 //     SUBD    <M_PORTA_PITCH_INCREMENT
-// 
+//
 // ; If subtracting the decrement causes the resulting pitch to be below the
 // ; target pitch value, clamp at the target pitch.
-// 
+//
 // _IS_BELOW_TARGET?:
 //     XGDX
 //     CPX     <M_VOICE_PORTA_PITCH_FINAL
 //     XGDX
 //     BCC     _STORE_PORTA_PITCH
 //     LDD     <M_VOICE_PORTA_PITCH_FINAL
-// 
+//
 // _STORE_PORTA_PITCH:
 //     LDX     <M_VOICE_PITCH_PORTA_PTR
 //     STD     0,x
@@ -11267,68 +11306,68 @@ void handler_ocf()
 //     INX
 //     INX
 //     STX     <M_VOICE_PITCH_PORTA_PTR
-// 
+//
 // _IS_GLISSANDO_ENABLED?:
 //     TST     M_PORTA_GLISS_ENABLED
 //     BNE     _GLISSANDO_ON
 //     JMP     _ADD_PITCH_EG_LEVEL
-// 
+//
 // _GLISSANDO_ON:
 //     LDX     <M_VOICE_PITCH_GLISS_PTR
 //     LDD     0,x
-// 
+//
 // _IS_GLISS_ABOVE_OR_BELOW?:
 //     STD     <M_VOICE_PITCH_GLISS_CURRENT
 //     SUBD    <M_VOICE_PORTA_PITCH_FINAL
 //     BMI     _GLISS_PITCH_BELOW
-// 
+//
 // _GLISS_PITCH_ABOVE:
 //     SUBD    #$154
 //     BPL     _MORE_THAN_HALF_STEP
 //     JMP     _LOAD_GLISS_PITCH
-// 
+//
 // ; Reload current gliss pitch.
-// 
+//
 // _MORE_THAN_HALF_STEP:
 //     LDD     0,x
 //     SUBD    #$154
 //     BRA     _SET_GLISSANDO_INCREMENT
-// 
+//
 // ; If the current glissando pitch is below the target pitch, calculate
 // ; the portamento pitch increment, and add it to the current pitch.
-// 
+//
 // _PITCH_BELOW_TARGET:
 //     LDAB    <M_PORTA_RATE_INCREMENT
-// 
+//
 // _CALCULATE_PITCH_INCREMENT:
 //     TST     M_PORTA_GLISS_ENABLED
 //     BEQ     _NEG_GLISSANDO_OFF
 //     LDAA    #3
 //     BRA     _GET_PITCH_INCREMENT
-// 
+//
 // _NEG_GLISSANDO_OFF:
 //     NEGA
 //     LSRA
 //     LSRA
 //     INCA
-// 
+//
 // _GET_PITCH_INCREMENT:
 //     MUL
-// 
+//
 // _ADD_INCREMENT:
 //     LDX     <M_VOICE_PITCH_PORTA_PTR
 //     ADDD    0,x
-// 
+//
 // ; If adding the increment causes the resulting pitch to be above the
 // ; target pitch value, clamp at the target pitch.
-// 
+//
 // _IS_ABOVE_TARGET?:
 //     XGDX
 //     CPX     <M_VOICE_PORTA_PITCH_FINAL
 //     XGDX
 //     BCS     _STORE_PORTA_PITCH_2
 //     LDD     <M_VOICE_PORTA_PITCH_FINAL
-// 
+//
 // _STORE_PORTA_PITCH_2:
 //     LDX     <M_VOICE_PITCH_PORTA_PTR
 //     STD     0,x
@@ -11336,11 +11375,11 @@ void handler_ocf()
 //     INX
 //     INX
 //     STX     <M_VOICE_PITCH_PORTA_PTR
-// 
+//
 // _IS_GLISSANDO_ENABLED_2?:
 //     TST     M_PORTA_GLISS_ENABLED
 //     BEQ     _ADD_PITCH_EG_LEVEL
-// 
+//
 // _GLISS_PITCH_BELOW:
 //     LDX     <M_VOICE_PITCH_GLISS_PTR
 //     LDD     0,x
@@ -11351,7 +11390,7 @@ void handler_ocf()
 //     BMI     _LOAD_GLISS_PITCH
 //     LDD     0,x
 //     ADDD    #$155
-// 
+//
 // _SET_GLISSANDO_INCREMENT:
 //     STAA    <M_PORTA_PITCH_INCREMENT
 //     INCA
@@ -11360,13 +11399,13 @@ void handler_ocf()
 //     LDAA    <M_PORTA_PITCH_INCREMENT
 //     INCA
 //     STAA    <M_PORTA_PITCH_INCREMENT
-// 
+//
 // _GET_GLISSANDO_PITCH:
 //     LDAA    <M_PORTA_PITCH_INCREMENT
 //     LDAB    #3
 //     ANDA    #3
 //     STAA    <M_GLISSANDO_PITCH_LSB
-// 
+//
 // _GET_GLISSANDO_PITCH_LSB:
 //     ORAA    <M_GLISSANDO_PITCH_LSB
 //     ASLA
@@ -11377,34 +11416,34 @@ void handler_ocf()
 //     LDD     <M_PORTA_PITCH_INCREMENT
 //     STD     0,x
 //     BRA     _INCREMENT_PTR
-// 
+//
 // _LOAD_GLISS_PITCH:
 //     LDD     <M_VOICE_PITCH_GLISS_CURRENT
-// 
+//
 // _INCREMENT_PTR:
 //     LDX     <M_VOICE_PITCH_GLISS_PTR
 //     INX
 //     INX
 //     STX     <M_VOICE_PITCH_GLISS_PTR
-// 
+//
 // _ADD_PITCH_EG_LEVEL:
 //     LDX     <M_VOICE_PITCH_EG_CURR_LVL_PTR
 //     ADDD    0,x
 //     SUBD    #$1BA8
-// 
+//
 // ; If the result after this subtraction would be negative, clamp at 0.
 //     BCC     _INCREMENT_PITCH_EG_LVL_PTR
 //     LDD     #0
-// 
+//
 // _INCREMENT_PITCH_EG_LVL_PTR:
 //     INX
 //     INX
 //     STX     <M_VOICE_PITCH_EG_CURR_LVL_PTR
-// 
+//
 // ; Add the master tune offset, and then store this final pitch value to
 // ; the EGS pitch buffer.
 //     ADDD    M_MASTER_TUNE
-// 
+//
 // _PORTA_PROCESS_WRITE_PITCH_TO_EGS:
 //     LDX     <M_EGS_PITCH_PTR
 //     STAA    0,x
@@ -11412,24 +11451,24 @@ void handler_ocf()
 //     STAB    0,x
 //     INX
 //     STX     <M_EGS_PITCH_PTR
-// 
+//
 // _INCRMENT_VOICE_PTR:
 //     LDX     <M_VOICE_PITCH_TARGET_PTR
 //     INX
 //     INX
 //     STX     <M_VOICE_PITCH_TARGET_PTR
-// 
+//
 // _PORTA_PROCESS_DECREMENT_LOOP_INDEX:
 //     DEC     M_PORTA_PROCESS_LOOP_IDX
 //     BEQ     _END_PORTA_PROCESS                  ; If *(0xBD) > 0, loop.
 //     JMP     _PORTA_PROCESS_VOICE_LOOP_START
-// 
+//
 // _END_PORTA_PROCESS:
 //     PULA
 //     STAA    <IO_PORT_2_DATA                     ; Re-enable IRQ.
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PITCH_EG_PROCESS
 // ; ==============================================================================
@@ -11443,7 +11482,7 @@ void handler_ocf()
 // ; accordingly.
 // ;
 // ; ==============================================================================
-// 
+//
 // PITCH_EG_PROCESS:
 void pitch_eg_process()
 {
@@ -11453,38 +11492,38 @@ void pitch_eg_process()
 //     STX     <M_PITCH_EG_VOICE_STEP_PTR
 //     LDAB    #16
 //     STAB    <M_PITCH_EG_VOICE_INDEX
-// 
+//
 // ; Check whether the current pitch EG step is '3'. This indicates that the
 // ; pitch EG for this voice is has reached its 'sustain' value.
 // ; When a voice is removed, the pitch EG step for that voice is set to '4',
 // ; which places the voice's pitch EG into its 'release' phase.
 // ; This check ensures that a voice that's in its 'note on' phase does not
 // ; process the pitch EG past the sustain phase.
-// 
+//
 // _VOICE_PROCESS_EG_LOOP:
 //     LDAA    0,x
 //     CMPA    #3
 //     BNE     _IS_ENV_STEP_5?
 //     JMP     _INCREMENT_POINTERS
-// 
+//
 // ; As noted above, when a voice is removed its pitch EG step is set to '4'.
 // ; This places the voice in its 'release' phase.
 // ; This check ensures that if the voice has reached step '5' (the end), it
 // ; will not be processed further.
-// 
+//
 // _IS_ENV_STEP_5?:
 //     CMPA    #5
 //     BNE     _PROCESS_EG_STAGE
 //     JMP     _INCREMENT_POINTERS
-// 
+//
 // ; Load the pitch EG values, clamping the index at 3.
-// 
+//
 // _PROCESS_EG_STAGE:
 //     LDX     #M_PATCH_PITCH_EG_VALUES
 //     CMPA    #3
 //     BCS     _LOAD_PITCH_EG_RATE
 //     LDAA    #3
-// 
+//
 // ; The following section loads the current patch's parsed pitch EG rate,
 // ; using ACCB as an index into the 4 entry array.
 // ; This value is used to compute the 'Pitch EG increment' value, which is
@@ -11492,73 +11531,73 @@ void pitch_eg_process()
 // ; It then loads the current patch's parsed pitch EG level, using ACCB as an
 // ; index into this array, and uses this to compute the 'next' EG level, which
 // ; the current level is compared against.
-// 
+//
 // _LOAD_PITCH_EG_RATE:
 //     TAB
 //     ABX
 //     LDAB    0,x                                 ; Load PITCH_EG_RATE[B].
 //     CLRA
 //     STD     <M_PITCH_EG_INCREMENT
-// 
+//
 // _LOAD_PITCH_EG_LEVEL:                           ; Load PITCH_EG_LEVEL[B].
 //     LDAA    4,x
 //     CLRB
 //     LSRD
 //     STD     <M_PITCH_EG_NEXT_LVL
-// 
+//
 // ; Compare the current pitch EG level against the 'next' level.
 // ; If it is equal, the incrementing/decrementing step is skipped.
-// 
+//
 // _COMPARE_TO_CURRENT:
 //     LDX     <M_PITCH_EG_VOICE_LEVELS_PTR
 //     LDX     0,x
 //     CPX     <M_PITCH_EG_NEXT_LVL
 //     BEQ     _EG_STEP_FINISHED
-// 
+//
 // ; Test whether the current level is above or below the final, target level.
-// 
+//
 // _IS_LEVEL_HIGHER?:
 //     BCS     _PITCH_EG_LEVEL_HIGHER
-// 
-// 
+//
+//
 // ; Subtract the increment value from the current level. If the value goes
 // ; below 0, this means that the current step is finished.
-// 
+//
 // _PITCH_EG_LEVEL_LOWER:
 //     LDX     <M_PITCH_EG_VOICE_LEVELS_PTR
 //     LDD     0,x
 //     SUBD    <M_PITCH_EG_INCREMENT
 //     BMI     _EG_STEP_FINISHED
-// 
+//
 // _IS_PITCH_EG_LEVEL_LOWER_FINISHED?:
 //     CMPA    <M_PITCH_EG_NEXT_LVL
 //     BHI     _EG_STEP_NOT_FINISHED
 //     BRA     _EG_STEP_FINISHED
-// 
+//
 // ; If the target pitch EG level is higher than the current level, add the
 // ; pitch EG increment to the current level, and compare.
-// 
+//
 // _PITCH_EG_LEVEL_HIGHER:
 //     LDX     <M_PITCH_EG_VOICE_LEVELS_PTR
 //     LDD     0,x
 //     ADDD    <M_PITCH_EG_INCREMENT
 //     CMPA    <M_PITCH_EG_NEXT_LVL
-// 
+//
 // ; If the value is still higher than the target, branch.
 // ; Otherwise we know we're at the final level for this step.
 //     BCS     _EG_STEP_NOT_FINISHED
-// 
+//
 // ; If this EG step has finished, store the 'next' pitch EG level in the
 // ; 'current' level. This has the purpose of allowing the value to overflow,
 // ; or underflow during the increment stage without causing any ill-effects.
-// 
+//
 // _EG_STEP_FINISHED:
 //     LDD     <M_PITCH_EG_NEXT_LVL
 //     LDX     <M_PITCH_EG_VOICE_LEVELS_PTR
 //     STD     0,x
-// 
+//
 // ; Increment the EG step. If the step is 6 after incrementing, set to 0.
-// 
+//
 // _INCREMENT_EG_STEP:
 //     LDX     <M_PITCH_EG_VOICE_STEP_PTR
 //     LDAA    0,x
@@ -11566,35 +11605,35 @@ void pitch_eg_process()
 //     CMPA    #6
 //     BNE     _STORE_ENV_STEP
 //     CLRA
-// 
+//
 // _STORE_ENV_STEP:
 //     STAA    0,x
 //     BRA     _INCREMENT_POINTERS
-// 
+//
 // ; If the current step is not finished, save the current level.
-// 
+//
 // _EG_STEP_NOT_FINISHED:
 //     LDX     <M_PITCH_EG_VOICE_LEVELS_PTR
 //     STD     0,x
-// 
+//
 // ; Increment the pointers to point to the next voice.
-// 
+//
 // _INCREMENT_POINTERS:
 //     LDX     <M_PITCH_EG_VOICE_LEVELS_PTR
 //     INX
 //     INX
 //     STX     <M_PITCH_EG_VOICE_LEVELS_PTR
-// 
+//
 // _INCREMENT_EG_STEP_PTR:
 //     LDX     <M_PITCH_EG_VOICE_STEP_PTR
 //     INX
 //     STX     <M_PITCH_EG_VOICE_STEP_PTR
-// 
+//
 // _DECREMENT_EG_VOICE_LOOP_COUNTER:
 //     DEC     M_PITCH_EG_VOICE_INDEX
 //     BEQ     _END_PITCH_EG_PROCESS               ; If CC > 0, loop.
 //     JMP     _VOICE_PROCESS_EG_LOOP
-// 
+//
 // _END_PITCH_EG_PROCESS:
 //     RTS
 // TODO
@@ -11610,51 +11649,51 @@ void pitch_eg_process()
 // ; it to the appropriate register in the EGS.
 // ;
 // ; ==============================================================================
-// 
+//
 // MOD_AMP_LOAD_TO_EGS:
 void mod_amp_load_to_egs()
 {
 //     LDAB    <M_LFO_FADE_IN_SCALE_FACTOR
 //     LDAA    M_LFO_AMP_MOD_DEPTH
-// 
+//
 // ; Calculate the LFO 'Fade-In factor'. Add the amplitude modulation factor to
 // ; this value. If it overflows, clamp at 0xFF.
 //     MUL
 //     ADDA    <M_MOD_AMP_FACTOR
 //     BCC     _CLAMP_EG_BIAS
 //     LDAA    #$FF
-// 
+//
 // ; Add the 'EG Bias' value to test whether this value overflows.
 // ; If it does, clamp at 0xFF. Afterwards, in all cases, subtract the EG
 // ; Bias value.
-// 
+//
 // _CLAMP_EG_BIAS:
 //     ADDA    <M_MOD_AMP_EG_BIAS_TOTAL
 //     BCC     _CALCULATE_AM_MOD_TOTAL
 //     LDAA    #$FF
-// 
+//
 // _CALCULATE_AM_MOD_TOTAL:
 //     SUBA    <M_MOD_AMP_EG_BIAS_TOTAL
 //     LDAB    <M_LFO_CURR_AMPLITUDE
-// 
+//
 // ; Perform the two's complement of the LFO amplitude, and clear the sign bit
 // ; to convert this to a value suitable for multiplication, then multiply
 // ; this value with the total amplitude modulation factor.
 //     COMB
 //     EORB    #128
 //     MUL
-// 
+//
 // ; Add the 'EG Bias' value. If it overflows, clamp at 0xFF.
-// 
+//
 // _MOD_AMP_LOAD_ADD_EG_BIAS:
 //     ADDA    <M_MOD_AMP_EG_BIAS_TOTAL
 //     BCC     _LOAD_AMP_MOD_TO_EGS
 //     LDAA    #$FF
-// 
+//
 // ; Perform two's complement negation to get the correct index into the
 // ; amp modulation table. Load this value, an then transmit it to the EGS'
 // ; amp modulation register.
-// 
+//
 // _LOAD_AMP_MOD_TO_EGS:
 //     COMA
 //     LDX     #TABLE_AMP_MOD
@@ -11665,7 +11704,7 @@ void mod_amp_load_to_egs()
 //     RTS
 // TODO
 }
- 
+
 // ; ==============================================================================
 // ; Amplitude Modulation Value Lookup Table.
 // ; This is used to get the final amplitude modulation value to load to the EGS.
@@ -11720,8 +11759,8 @@ void mod_amp_load_to_egs()
 //     FCB 3, 3, 2, 2, 2, 2, 2
 //     FCB 2, 1, 1, 1, 1, 1, 0
 //     FCB 0, 0, 0, 0, 0
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MOD_PITCH_LOAD_TO_EGS
 // ; ==============================================================================
@@ -11740,23 +11779,23 @@ void mod_amp_load_to_egs()
 // ; loaded to the EGS.
 // ;
 // ; ==============================================================================
-// 
+//
 // MOD_PITCH_LOAD_TO_EGS:
 void mod_pitch_load_to_egs()
 {
 //     LDAA    #4
 //     CLRB
-// 
+//
 // ; Load the first of the sequential modulation sources into IX.
 // ; The loop below iterates through each of these, checking whether each
 // ; of these modulation sources is assigned to modulate pitch. If so,
 // ; the modulation factor for this source is added to the total.
 //     LDX     #M_MOD_WHEEL_ASSIGN_FLAGS
-// 
+//
 // _LOAD_MOD_SOURCE_LOOP:
 //     PSHA
 //     BSR     MOD_PITCH_SUM_MOD_SOURCE
-// 
+//
 // ; If the previous operation overflowed, exit.
 //     BCS     _VALUE_OVERFLOWED
 //     INX
@@ -11764,15 +11803,15 @@ void mod_pitch_load_to_egs()
 //     DECA
 //     BNE     _LOAD_MOD_SOURCE_LOOP               ; If A > 0, loop.
 //     BRA     _GET_LFO_FADE_IN_FACTOR
-// 
+//
 // ; Clear the ACCA value pushed onto the stack.
-// 
+//
 // _VALUE_OVERFLOWED:
 //     PULA
-// 
+//
 // ; Calculate the LFO 'Fade in' factor, and add this value to the total
 // ; pitch modulation factor computed from the modulation sources above.
-// 
+//
 // _GET_LFO_FADE_IN_FACTOR:
 //     PSHB
 //     LDAB    <M_LFO_FADE_IN_SCALE_FACTOR
@@ -11780,57 +11819,57 @@ void mod_pitch_load_to_egs()
 //     MUL
 //     PULB
 //     ABA
-// 
+//
 // ; If this addition overflows, clamp at 0xFF.
 //     BCC     _GET_LFO_PITCH_MOD_AMOUNT
 //     LDAA    #$FF
-// 
+//
 // ; Calculate the total amount of the LFO's pitch modulation.
 // ; This is the product of the LFO 'Pitch Mod Sensitivity' factor multiplied
 // ; by the LFO's current amplitude.
-// 
+//
 // _GET_LFO_PITCH_MOD_AMOUNT:
 //     PSHA
 //     LDAB    M_LFO_PITCH_MOD_SENS
 //     LDAA    <M_LFO_CURR_AMPLITUDE
-// 
+//
 // ; If the wave is currently in its negative phase, invert before and after
 // ; the multiplication operation.
-// 
+//
 // _IS_LFO_WAVE_NEGATIVE?:
 //     BMI     _LFO_WAVE_NEGATIVE
-// 
+//
 // _LFO_WAVE_POSITIVE:
 //     MUL
 //     BRA     _IS_FINAL_LFO_AMP_NEGATIVE?
-// 
+//
 // _LFO_WAVE_NEGATIVE:
 //     NEGA
 //     MUL
 //     NEGA
-// 
+//
 // ; Pull the total modulation factor computed earlier, and multiply this by
 // ; the quantised LFO amplitude.
-// 
+//
 // _IS_FINAL_LFO_AMP_NEGATIVE?:
 //     PULB
 //     TSTA
 //     BMI     _LFO_MOD_NEGATIVE
-// 
+//
 // _LFO_MOD_POSITIVE:
 //     MUL
 //     BRA     _LOAD_PITCH_MOD_TO_EGS
-// 
+//
 // _LFO_MOD_NEGATIVE:
 //     NEGA
 //     MUL
 //     COMA
 //     COMB
 //     ADDD    #1
-// 
+//
 // ; Compute the final pitch modulation value, and write this value to the
 // ; EGS' two 8-bit pitch modulation registers.
-// 
+//
 // _LOAD_PITCH_MOD_TO_EGS:
 //     ASRA
 //     RORB
@@ -11859,31 +11898,31 @@ void mod_pitch_load_to_egs()
 // ; * ACCB: The TOTAL modulation source.
 // ;
 // ; ==============================================================================
-// 
+//
 // MOD_PITCH_SUM_MOD_SOURCE:
 //     LDAA    0,x
 //     INX
 //     BITA    #1
-// 
+//
 // ; Load the 'Assign Flags' for this modulation source.
 // ; If the flag for 'Pitch' is not set, return.
 //     BEQ     _END_MOD_PITCH_SUM_MOD_SOURCE
-// 
+//
 // ; If the flag corresponding to enabling pitch modulation is set,
 // ; then add the modulation-source value to ACCB, which is used to set
 // ; the enabling modulation amount register.
-// 
+//
 // _ADD_TO_PITCH_MOD_AMOUNT:
 //     ADDB    0,x
-// 
+//
 // ; If this overflows, set to 0xFF.
 //     BCC     _END_MOD_PITCH_SUM_MOD_SOURCE
 //     LDAB    #$FF
-// 
+//
 // _END_MOD_PITCH_SUM_MOD_SOURCE:
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; LFO_GET_AMPLITUDE
 // ; ==============================================================================
@@ -11894,7 +11933,7 @@ void mod_pitch_load_to_egs()
 // ; phase, depending on the LFO delay, and LFO type.
 // ;
 // ; ==============================================================================
-// 
+//
 // LFO_GET_AMPLITUDE:
 void lfo_get_amplitude()
 {
@@ -11911,7 +11950,7 @@ void lfo_get_amplitude()
 // ; The LFO delay counter is clamped at 0xFFFF. This means that once this
 // ; value overflows 16-bits once it is effectively locked at 0xFFFF until
 // ; reset by the voice add trigger.
-// 
+//
 // ; Use the MSB of the delay increment to increment the LFO Fade In
 // ; counter. If the LSB is '0', it is set to '1'.
 //     LDAB    M_LFO_DELAY_INCREMENT
@@ -11921,7 +11960,7 @@ void lfo_get_amplitude()
 //     ADDB    <M_LFO_FADE_IN_SCALE_FACTOR
 //     BCC     _STORE_FADE_IN_COUNTER
 //     LDAB    #$FF
-// 
+//
 // _STORE_FADE_IN_COUNTER:
 //     STAB    <M_LFO_FADE_IN_SCALE_FACTOR
 //     LDD     #$FFFF
@@ -11932,6 +11971,10 @@ void lfo_get_amplitude()
    {
       uint16_t lfo_fade_in = m_lfo_fade_in_scale_factor;
       lfo_fade_in += m_lfo_delay_increment < 0x100 ? 1 : (m_lfo_delay_increment >> 8);
+      if (lfo_fade_in > 0xFF)
+      {
+         lfo_fade_in = 0xFF;
+      }
       m_lfo_fade_in_scale_factor = uint8_t(lfo_fade_in);
 
       delay = 0xFFFF;
@@ -11944,13 +11987,13 @@ void lfo_get_amplitude()
 // ; This flag is used to determine whether a new value needs to be 'sampled'
 // ; for a Sample+Hold LFO.
 //     BVC     _CLEAR_SH_FLAG
-// 
+//
 // ; To set the MSB of this flag the carry-bit is set, and then 'rotated' into
 // ; the highest bit of the flag variable.
 //     SEC
 //     ROR     M_LFO_SAMPLE_HOLD_RESET_FLAG
 //     BRA     _IS_LFO_WAVE_0?
-// 
+//
 // _CLEAR_SH_FLAG:
 //     CLR     M_LFO_SAMPLE_HOLD_RESET_FLAG
 // _IS_LFO_WAVE_0?:
@@ -11969,16 +12012,16 @@ void lfo_get_amplitude()
 
 //     LDAA    M_LFO_WAVEFORM
 //     BNE     _IS_LFO_WAVE_4?
-// 
+//
 // ; For the Triangle LFO The two-byte LFO phase accumulator is shifted to the
 // ; left. If the MSB is set, then the one's complement of the accumulator's MSB
 // ; is taken to invert the wave vertically.
 // ; 128 is then added to centre the wave around 0.
-// 
+//
 // _LFO_TRIANGLE:
 //     LDD     <M_LFO_PHASE_ACCUMULATOR
 //     STAA    <M_LFO_TRI_ACCUMULATOR
-// 
+//
 // ; These two instructions essentially form one rotation left of D,
 // ; shifting the bit 7 from B into bit 0 of A.
 //     ASLB
@@ -12014,7 +12057,7 @@ void lfo_get_amplitude()
 // ; table. If bit 7 of the accumulator's MSB is set, indicating that the
 // ; accumulator was in the second-half of its phase, then the one's complement
 // ; of the amplitude is computed to invert the amplitude.
-// 
+//
 // _LFO_SINE:
 //     LDAA    <M_LFO_PHASE_ACCUMULATOR
 //     TAB
@@ -12022,33 +12065,43 @@ void lfo_get_amplitude()
 //     BITA    #64
 //     BEQ     _LFO_SINE_LOOKUP_TABLE
 //     EORB    #63
-// 
+//
 // _LFO_SINE_LOOKUP_TABLE:
 //     LDX     #TABLE_LFO_SIN
 //     ABX
 //     LDAB    0,x
 //     TSTA
-// 
+//
 // ; If bit 7 of the accumulator MSB is set, indicating the LFO is in the
 // ; second-half of its phase, then invert the wave amplitude.
 //     BPL     _LFO_SINE_STORE
 //     COMB
-// 
+//
 // _LFO_SINE_STORE:
 //     TBA
 //     BRA     _STORE_AND_EXIT
-// 
+//
 // _IS_LFO_WAVE_1?:
 //     CMPA    #LFO_WAVE_SAW_DOWN
 //     BNE     _IS_LFO_WAVE_2?
    else if (m_lfo_waveform == 4)
    {
-      m_lfo_curr_amplitude = 0;
+      uint8_t index = (m_lfo_phase_accumulator >> 8) % 64;
+      if (m_lfo_phase_accumulator & 0x4000)
+      {
+         index ^= 63;
+      }
+      uint8_t output = table_lfo_sin[index];
+      if (m_lfo_phase_accumulator & 0x8000)
+      {
+         output = ~output;
+      }
+      m_lfo_curr_amplitude = output;
    }
-// 
+//
 // ; If the LFO wave is 'Saw Down' invert the phase counter register to achieve
 // ; a decreasing saw wave.
-// 
+//
 // _LFO_SAW_DOWN:
 //     LDD     <M_LFO_PHASE_ACCUMULATOR
 //     COMA
@@ -12061,10 +12114,10 @@ void lfo_get_amplitude()
 // _IS_LFO_WAVE_2?:
 //     CMPA    #LFO_WAVE_SAW_UP
 //     BNE     _IS_LFO_WAVE_3?
-// 
+//
 // ; If the LFO wave is 'Saw Up' the most-significant byte of the LFO phase
 // ; accumulator register can be used as an increasing saw wave value.
-// 
+//
 // _LFO_SAW_UP:
 //     LDAA    <M_LFO_PHASE_ACCUMULATOR
 //     BRA     _STORE_AND_EXIT
@@ -12072,21 +12125,21 @@ void lfo_get_amplitude()
    {
       m_lfo_curr_amplitude = m_lfo_phase_accumulator >> 8;
    }
- 
+
 // _IS_LFO_WAVE_3?:
 //     CMPA    #LFO_WAVE_SQUARE
 //     BNE     _LFO_S_H
-// 
+//
 // ; If the MSB of the phase counter is not set, then an amplitude value
 // ; representing a negative pulse is returned (-128). Otherwise the maximum
 // ; 8-bit positive value is returned to indicate a positive pulse (127).
-// 
+//
 // _LFO_SQUARE:
 //     LDAA    <M_LFO_PHASE_ACCUMULATOR
 //     BPL     _SQUARE_POSITIVE
 //     LDAA    #$80
 //     BRA     _STORE_AND_EXIT
-// 
+//
 // _SQUARE_POSITIVE:
 //     LDAA    #$7F
 //     BRA     _STORE_AND_EXIT
@@ -12100,7 +12153,7 @@ void lfo_get_amplitude()
 // ; If the MSB is set, then the 'Sample+Hold Accumulator' register is multiplied
 // ; by a prime number (179), and the lower-byte has another prime (11) added to
 // ; it. The effect is a cheap pseudo-random value.
-// 
+//
 // _LFO_S_H:
 //     TST     M_LFO_SAMPLE_HOLD_RESET_FLAG
 //     BPL     _END_LFO_GET_AMPLITUDE
@@ -12118,13 +12171,13 @@ void lfo_get_amplitude()
          m_lfo_curr_amplitude          = m_lfo_sample_hold_accumulator;
       }
    }
- 
+
 // _STORE_AND_EXIT:
 //     STAA    <M_LFO_CURR_AMPLITUDE
 // _END_LFO_GET_AMPLITUDE:
 //     RTS
 }
- 
+
 // ; ==============================================================================
 // ; LFO Sine Table.
 // ; Length: 64.
@@ -12143,8 +12196,19 @@ void lfo_get_amplitude()
 //     FCB $79, $7A, $7B, $7C, $7C
 //     FCB $7D, $7D, $7E, $7E, $7F
 //     FCB $7F, $7F, $7F
-// 
-// 
+const uint8_t table_lfo_sin[64] =
+{
+   0x02, 0x05, 0x08, 0x0B, 0x0E, 0x11, 0x14, 0x17,
+   0x1A, 0x1D, 0x20, 0x23, 0x26, 0x29, 0x2C, 0x2F,
+   0x32, 0x35, 0x38, 0x3A, 0x3D, 0x40, 0x43, 0x45,
+   0x48, 0x4A, 0x4D, 0x4F, 0x52, 0x54, 0x56, 0x59,
+   0x5B, 0x5D, 0x5F, 0x61, 0x63, 0x65, 0x67, 0x69,
+   0x6A, 0x6C, 0x6E, 0x6F, 0x71, 0x72, 0x73, 0x75,
+   0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7C,
+   0x7D, 0x7D, 0x7E, 0x7E, 0x7F, 0x7F, 0x7F, 0x7F
+};
+
+
 // ; ==============================================================================
 // ; MIDI_INIT
 // ; ==============================================================================
@@ -12159,15 +12223,15 @@ void lfo_get_amplitude()
 // ; Transfer rate set to E/16.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_INIT:
 //     LDAA    #%1100
 //     STAA    <RATE_MODE_CTRL
 //     LDAA    #SCI_RIE_RE_TE
 //     STAA    <SCI_CTRL_STATUS
-// 
+//
 // ; Reading STATUS, then reading RECEIVE will clear Status[RDRF].
-// 
+//
 // MIDI_RESET_BUFFERS:
 //     LDAA    <SCI_CTRL_STATUS
 //     LDAA    <SCI_RECEIVE
@@ -12176,8 +12240,8 @@ void lfo_get_amplitude()
 //     STX     <M_MIDI_TX_BFR_READ_PTR
 //     JSR     MIDI_RESET_RX_BUFFER
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; HANDLER_SCI
 // ; ==============================================================================
@@ -12189,41 +12253,41 @@ void lfo_get_amplitude()
 // ; messages.
 // ;
 // ; ==============================================================================
-// 
+//
 // HANDLER_SCI:
 //     LDAA    <SCI_CTRL_STATUS
-// 
+//
 // ; If Status[RDRF] is set, it means there is data in the receive
 // ; register. If so, branch.
 //     ASLA
 //     BCS     _STORE_MIDI_DATA
 //     ASLA
-// 
+//
 // ; Branch if Status[ORFE] is set.
 //     BCS     _SET_MIDI_DATA_ERROR
-// 
+//
 // ; Checks if Status[TDRE] is clear.
 //     BMI     _MIDI_TDR_NOT_EMPTY
 //     RTI
-// 
+//
 // _STORE_MIDI_DATA:
 //     LDAA    #1
 //     STAA    <M_MIDI_RX_BUFFER_PENDING
-// 
+//
 // ; Store received data into RX buffer, and increment pointer.
 //     LDX     <M_MIDI_RX_BFR_WRITE_PTR
 //     LDAA    <SCI_RECEIVE
 //     STAA    0,x
 //     INX
-// 
+//
 // ; Reset the RX data ring buffer if it has reached the end.
 //     CPX     #M_MIDI_TX_DATA_PRESENT
 //     BNE     _HAS_BUFFER_OVERFLOWED?
 //     LDX     #M_MIDI_RX_BUFFER
-// 
+//
 // ; If the TX write pointer wraps around to the read pointer this indicates
 // ; a MIDI buffer overflow.
-// 
+//
 // _HAS_BUFFER_OVERFLOWED?:
 //     CPX     <M_MIDI_RX_BFR_READ_PTR
 //     BNE     _SAVE_WRITE_PTR_AND_EXIT
@@ -12232,13 +12296,13 @@ void lfo_get_amplitude()
 //     BSR     MIDI_RESET_BUFFERS
 //     JSR     VOICE_DEACTIVATE_ALL
 //     RTI
-// 
+//
 // ; Save incremented MIDI TX buffer write ptr.
-// 
+//
 // _SAVE_WRITE_PTR_AND_EXIT:
 //     STX     <M_MIDI_RX_BFR_WRITE_PTR
 //     RTI
-// 
+//
 // _MIDI_TDR_NOT_EMPTY:
 //     LDX     <M_MIDI_TX_BFR_READ_PTR
 //     CPX     <M_MIDI_TX_BFR_WRITE_PTR
@@ -12246,31 +12310,31 @@ void lfo_get_amplitude()
 //     LDAA    0,x
 //     STAA    <SCI_TRANSMIT
 //     INX
-// 
+//
 // ; Check whether the read pointer has reached the end of the MIDI RX buffer,
 // ; if so, the read pointer is reset to the start.
 //     CPX     #M_MIDI_RX_BUFFER
 //     BNE     _END_HANDLER_SCI
 //     LDX     #M_MIDI_TX_BUFFER
-// 
+//
 // _END_HANDLER_SCI:
 //     STX     <M_MIDI_TX_BFR_READ_PTR
 //     RTI
-// 
+//
 // _TX_BUFFER_EMPTY:
 //     LDAA    #SCI_RIE_RE_TE
 //     STAA    <SCI_CTRL_STATUS
 //     CLR     M_MIDI_TX_DATA_PRESENT
 //     RTI
-// 
+//
 // _SET_MIDI_DATA_ERROR:
 //     LDAA    #MIDI_STATUS_ERROR
 //     STAA    <M_MIDI_BUFFER_ERROR_CODE
 //     BSR     MIDI_RESET_RX_BUFFER
 //     LDAA    <SCI_RECEIVE
 //     RTI
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_RESET_RX_BUFFER
 // ; ==============================================================================
@@ -12283,7 +12347,7 @@ void lfo_get_amplitude()
 // ; an error while receiving MIDI.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_RESET_RX_BUFFER:
 //     LDAA    #$F7
 //     STAA    <M_MIDI_STATUS_BYTE
@@ -12291,8 +12355,8 @@ void lfo_get_amplitude()
 //     STX     <M_MIDI_RX_BFR_WRITE_PTR
 //     STX     <M_MIDI_RX_BFR_READ_PTR
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_NOTE_ON
 // ; ==============================================================================
@@ -12309,7 +12373,7 @@ void lfo_get_amplitude()
 // ; * 0x82:  The note velocity to send.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_SEND_NOTE_ON:
 //     LDAA    #MIDI_STATUS_NOTE_ON
 //     ADDA    M_MIDI_TX_CH
@@ -12318,7 +12382,7 @@ void lfo_get_amplitude()
 //     CLRA
 //     LDAB    <M_NOTE_VEL
 //     BEQ     _END_MIDI_SEND_NOTE_ON
-// 
+//
 // ; Quantize the raw velocity value.
 // ; This looks up the corresponding entry in the velocity table, and uses
 // ; this value.
@@ -12327,11 +12391,11 @@ void lfo_get_amplitude()
 //     LSRB
 //     ABX
 //     LDAA    0,x
-// 
+//
 // _END_MIDI_SEND_NOTE_ON:
 //     BRA     MIDI_TX_PUSH
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_TX_PUSH_TWO_BYTES
 // ; ==============================================================================
@@ -12347,14 +12411,14 @@ void lfo_get_amplitude()
 // ; * ACCB: The second byte to transfer.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_TX_PUSH_TWO_BYTES:
 //     BSR     MIDI_TX_PUSH
-// 
+//
 // ; Falls-through to push again, and return.
 //     TBA
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_TX_PUSH
 // ; ==============================================================================
@@ -12369,36 +12433,36 @@ void lfo_get_amplitude()
 // ; * ACCA: The byte to add to the MIDI Transmit Buffer.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_TX_PUSH:
 //     LDX     <M_MIDI_TX_BFR_WRITE_PTR
 //     STAA    0,x
-// 
+//
 // ; 0x23F3 is the last address within the TX buffer.
 // ; If the loop hasn't reached the last address, branch.
 //     CPX     #$23F3
 //     BNE     _INCREMENT_TX_PTR
-// 
+//
 // ; 0x233F is the byte BEFORE the TX buffer.
 //     LDX     #$233F
-// 
+//
 // _INCREMENT_TX_PTR:
 //     INX
-// 
+//
 // ; Check for a MIDI buffer overflow.
 //     CPX     <M_MIDI_TX_BFR_READ_PTR
 //     BEQ     MIDI_TX_PUSH
 //     STX     <M_MIDI_TX_BFR_WRITE_PTR
 //     LDAA    #1
 //     STAA    M_MIDI_TX_DATA_PRESENT
-// 
+//
 // ; Enable TX, and RX.
 // ; Enable TX interrupts, and RX interrupts.
 //     LDAA    #SCI_RIE_RE_TIE_TE
 //     STAA    <SCI_CTRL_STATUS
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; Device To MIDI Velocity Table.
 // ; Used when converting between the synth's internal velocity representation
@@ -12437,8 +12501,8 @@ void lfo_get_amplitude()
 //     FCB $12
 //     FCB $11
 //     FCB $10
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_SYSEX_DUMP_CURRENT_VOICE
 // ; ==============================================================================
@@ -12455,10 +12519,10 @@ void lfo_get_amplitude()
 // ; * 0xE6:  Checksum
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_SYSEX_DUMP_CURRENT_VOICE:
 //     TST     M_MIDI_PROCESSED_DATA_COUNT
-// 
+//
 // ; If the device is currently processing a request, return.
 //     BNE     _END_MIDI_SYSEX_DUMP_CURRENT_VOICE
 //     LDAA    <IO_PORT_2_DATA
@@ -12474,12 +12538,12 @@ void lfo_get_amplitude()
 //     LDAA    M_MIDI_TX_CH
 //     CLRB
 //     JSR     MIDI_TX_PUSH_TWO_BYTES
-// 
+//
 // ; Send the two 'Byte Count' data bytes.
 //     LDAA    #1
 //     LDAB    #$1B
 //     JSR     MIDI_TX_PUSH_TWO_BYTES
-// 
+//
 // _PUSH_BYTE_LOOP:
 //     LDX     <$E3
 //     LDAA    0,x
@@ -12493,25 +12557,25 @@ void lfo_get_amplitude()
 //     JSR     MIDI_TX_PUSH
 //     DEC     $E5
 //     BNE     _PUSH_BYTE_LOOP                     ; If E5 > 0, loop.
-// 
+//
 // MIDI_SYSEX_SETUP_CHKSUM:
 //     LDAA    <$E6
 //     NEGA
 //     ANDA    #%1111111
 //     JSR     MIDI_TX_PUSH
-// 
+//
 // MIDI_SYSEX_SEND_END:
 //     LDAA    #MIDI_STATUS_SYSEX_END
 //     JSR     MIDI_TX_PUSH
-// 
+//
 // RE_ENABLE_INTERRUPTS:
 //     PULA
 //     STAA    <IO_PORT_2_DATA
-// 
+//
 // _END_MIDI_SYSEX_DUMP_CURRENT_VOICE:
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_SYSEX_SEND_HEADER
 // ; ==============================================================================
@@ -12523,13 +12587,13 @@ void lfo_get_amplitude()
 // ; from the synth to construct the header for the full SYSEX message.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_SYSEX_SEND_HEADER:
 //     LDAA    #MIDI_STATUS_SYSEX_START
 //     LDAB    #MIDI_SYSEX_MANUFACTURER_ID
 //     JMP     MIDI_TX_PUSH_TWO_BYTES
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_SYSEX_DUMP_BULK
 // ; ==============================================================================
@@ -12544,7 +12608,7 @@ void lfo_get_amplitude()
 // ; * 0xE6:   The SYSEX checksum.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_SYSEX_DUMP_BULK:
 //     LDAA    <IO_PORT_2_DATA
 //     PSHA
@@ -12562,43 +12626,43 @@ void lfo_get_amplitude()
 //     LDAA    #32
 //     CLRB
 //     JSR     MIDI_TX_PUSH_TWO_BYTES
-// 
+//
 // ; Load the value to transmit, and increment the source pointer.
 // ; This value is then masked to remove the MSB, if it exists incorrectly.
-// 
+//
 // _SYSEX_TRANSMIT_LOOP:
 //     LDX     <$E3
 //     LDAA    0,x
 //     INX
 //     STX     <$E3
 //     ANDA    #%1111111
-// 
+//
 // ; Add the sent value to the total checksum.
 //     PSHA
 //     ADDA    <$E6
 //     STAA    <$E6
 //     PULA
-// 
+//
 // ; Push the byte to the MIDI transmit buffer.
 //     JSR     MIDI_TX_PUSH
-// 
+//
 // _DECREMENT_BULK_SYSEX_LOOP_COUNTER:
 //     LDD     $2291
 //     SUBD    #1
 //     STD     $2291
 //     BNE     _SYSEX_TRANSMIT_LOOP
 //     JMP     MIDI_SYSEX_SETUP_CHKSUM
-// 
-// 
+//
+//
 // ; Test whether the sending of SYSEX parameters is enabled globally.
-// 
+//
 // IS_SYSINFO_AVAILABLE?:
 //     TST     M_MIDI_SYS_INFO_AVAIL
 //     BNE     _SEND_SYSEX
-// 
+//
 // ENABLE_INTERRUPTS_AND_EXIT:
 //     JMP     RE_ENABLE_INTERRUPTS
-// 
+//
 // _SEND_SYSEX:
 //     PSHB
 //     XGDX
@@ -12612,13 +12676,13 @@ void lfo_get_amplitude()
 //     PULA
 //     PULB
 //     ANDB    #%1111111
-// 
+//
 // ; Send the function parameter data.
 // ; Pushing the SYSEX end bytes falls-through to enable IRQ, and return.
 //     JSR     MIDI_TX_PUSH_TWO_BYTES
 //     JMP     MIDI_SYSEX_SEND_END
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_SYSEX_SEND_FN_PARAM
 // ; ==============================================================================
@@ -12633,25 +12697,25 @@ void lfo_get_amplitude()
 // ; * ACCB: The parameter number.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_SYSEX_SEND_FN_PARAM:
 //     LDAA    <IO_PORT_2_DATA
 //     PSHA
 //     CLR     IO_PORT_2_DATA                      ; Disable IRQ.
 //     JSR     DELAY
-// 
+//
 // ; If the synth is currently processing MIDI input, exit.
 //     TST     M_MIDI_PROCESSED_DATA_COUNT
 //     BNE     ENABLE_INTERRUPTS_AND_EXIT
-// 
+//
 // ; If this originated from a slider input event, exit.
 //     TST     M_SLIDER_INPUT_EVENT
 //     BNE     ENABLE_INTERRUPTS_AND_EXIT
-// 
+//
 // ; Load the param value to A, and push to the stack.
 //     LDAA    0,x
 //     PSHA
-// 
+//
 // ; Construct the first param byte.
 // ; Add 0x40 to B, to construct the param number.
 //     LDAA    #8
@@ -12659,8 +12723,8 @@ void lfo_get_amplitude()
 //     XGDX
 //     PULB
 //     BRA     IS_SYSINFO_AVAILABLE?
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_SYSEX_SEND_PARAM_CHG
 // ; ==============================================================================
@@ -12675,28 +12739,28 @@ void lfo_get_amplitude()
 // ;         regarding how the parameter number is constructed from this value.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_SYSEX_SEND_PARAM_CHG:
 //     LDAA    <IO_PORT_2_DATA
 //     PSHA
 //     CLR     IO_PORT_2_DATA                      ; Disable IRQ.
 //     JSR     DELAY
-// 
+//
 // ; If the synth is currently processing MIDI input, exit.
 //     TST     M_MIDI_PROCESSED_DATA_COUNT
 //     BNE     ENABLE_INTERRUPTS_AND_EXIT
-// 
+//
 // ; If this originated from a slider input event, exit.
 //     TST     M_SLIDER_INPUT_EVENT
 //     BNE     ENABLE_INTERRUPTS_AND_EXIT
-// 
+//
 // ; If the synth is currently in 'Patch Compare' mode, do nothing.
-// 
+//
 // _SYSEX_PARAM_CHG_IS_IN_COMPARE_MODE?:
 //     LDAA    M_PATCH_CURRENT_MODIFIED_FLAG
 //     CMPA    #EDITED_PATCH_IN_COMPARE
 //     BEQ     ENABLE_INTERRUPTS_AND_EXIT
-// 
+//
 // ; The following code uses the pointer passed to the function in the IX
 // ; register to determine the 'Parameter Number' to send.
 // ; The parameter number is determined by the address in IX's offset from the
@@ -12707,7 +12771,7 @@ void lfo_get_amplitude()
 // ; stack.
 // ; This format of the SYSEX, and parameter numbers can be seen here:
 // ; https://homepages.abdn.ac.uk/d.j.benson/pages/dx7/sysex-format.txt
-// 
+//
 //     LDAB    0,x
 //     PSHB
 //     XGDX
@@ -12718,8 +12782,8 @@ void lfo_get_amplitude()
 //     XGDX
 //     PULB
 //     BRA     IS_SYSINFO_AVAILABLE?
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_SEND_ACTIVE_SENSING
 // ; ==============================================================================
@@ -12729,7 +12793,7 @@ void lfo_get_amplitude()
 // ; Sends an 'Active Sensing' message to the MIDI output channel.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_SEND_ACTIVE_SENSING:
 //     LDAA    <IO_PORT_2_DATA
 //     PSHA
@@ -12740,8 +12804,8 @@ void lfo_get_amplitude()
 //     PULA
 //     STAA    <IO_PORT_2_DATA                     ; Re-enable IRQ.
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_SEND_CC_1_FROM_ANALOG_INPUT
 // ; ==============================================================================
@@ -12752,12 +12816,12 @@ void lfo_get_amplitude()
 // ; input data.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_SEND_CC_1_FROM_ANALOG_INPUT:
 //     LDAB    #1
 //     BRA     MIDI_SEND_ANALOG_DATA_EVENT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_SEND_CC_2_FROM_ANALOG_INPUT
 // ; ==============================================================================
@@ -12768,12 +12832,12 @@ void lfo_get_amplitude()
 // ; input data.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_SEND_CC_2_FROM_ANALOG_INPUT:
 //     LDAB    #2
 //     BRA     MIDI_SEND_ANALOG_DATA_EVENT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_SEND_CC_4_FROM_ANALOG_INPUT
 // ; ==============================================================================
@@ -12784,12 +12848,12 @@ void lfo_get_amplitude()
 // ; input data.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_SEND_CC_4_FROM_ANALOG_INPUT:
 //     LDAB    #4
 //     BRA     MIDI_SEND_ANALOG_DATA_EVENT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_SEND_SLIDER_EVENT
 // ; ==============================================================================
@@ -12800,12 +12864,12 @@ void lfo_get_amplitude()
 // ; front-panel slider.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_SEND_SLIDER_EVENT:
 //     LDAB    #6
 //     BRA     MIDI_SEND_ANALOG_DATA_EVENT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_SEND_CC_65
 // ; ==============================================================================
@@ -12817,20 +12881,20 @@ void lfo_get_amplitude()
 // ; and sustain handler detects a change in the pedal input state.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_SEND_CC_65:
 //     LDAA    <IO_PORT_2_DATA
 //     PSHA
 //     CLR     IO_PORT_2_DATA
 //     JSR     DELAY
 //     TBA
-// 
+//
 // ; Load '65' into ACCB to set the MIDI CC parameter to the correct value
 // ; to send a portamento event.
 //     LDAB    #65
 //     BRA     MIDI_SEND_MSG_AND_EXIT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_SEND_CC_65
 // ; ==============================================================================
@@ -12842,23 +12906,23 @@ void lfo_get_amplitude()
 // ; and sustain handler detects a change in the pedal input state.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_SEND_CC_64:
 //     LDAA    <IO_PORT_2_DATA
 //     PSHA
 //     CLR     IO_PORT_2_DATA
 //     JSR     DELAY
 //     TBA
-// 
+//
 // ; Load '64' into ACCB to set the MIDI CC parameter to the correct value
 // ; to send a sustain event.
 //     LDAB    #64
-// 
+//
 // MIDI_SEND_MSG_AND_EXIT:
 //     JSR     MIDI_SEND_MODE_CHG
 //     JMP     RE_ENABLE_INTERRUPTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_SEND_YES_NO
 // ; ==============================================================================
@@ -12869,7 +12933,7 @@ void lfo_get_amplitude()
 // ; or 0x61 for 'Yes'.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_SEND_YES_NO:
 //     LDAA    <IO_PORT_2_DATA
 //     PSHA
@@ -12878,18 +12942,18 @@ void lfo_get_amplitude()
 //     LDAA    M_LAST_PRESSED_BTN
 //     SUBA    #40
 //     BNE     _BUTTON_WAS_NO
-// 
+//
 // _BUTTON_WAS_YES:
 //     LDAB    #$61                                ; 'a'
 //     BRA     _END_MIDI_SEND_YES_NO
-// 
+//
 // _BUTTON_WAS_NO:
 //     LDAB    #$60                                ; '`'
-// 
+//
 // _END_MIDI_SEND_YES_NO:
 //     LDAA    #$7F
 //     BRA     MIDI_SEND_MSG_AND_EXIT
-// 
+//
 // ; ==============================================================================
 // ; MIDI_SEND_ANALOG_DATA_EVENT
 // ; ==============================================================================
@@ -12904,14 +12968,14 @@ void lfo_get_amplitude()
 // ; * ACCB: The MIDI CC parameter to send this data with.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_SEND_ANALOG_DATA_EVENT:
 //     LDAA    <M_ANALOG_DATA
-// 
+//
 // ; Falls-through below to send MIDI mode change event.
 //     LSRA
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_SEND_MODE_CHG
 // ; ==============================================================================
@@ -12927,7 +12991,7 @@ void lfo_get_amplitude()
 // ; * ACCB: The parameter to send the value for.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_SEND_MODE_CHG:
 //     PSHA
 //     PSHB
@@ -12938,8 +13002,8 @@ void lfo_get_amplitude()
 //     PULA
 //     JSR     MIDI_TX_PUSH
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_SEND_PITCH_BEND
 // ; ==============================================================================
@@ -12951,10 +13015,10 @@ void lfo_get_amplitude()
 // ; to the pitch bend wheel's input.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_SEND_PITCH_BEND:
 //     LDAA    #MIDI_STATUS_PITCH_BEND
-// 
+//
 // ; Construct the MIDI status byte, and send this.
 //     ADDA    M_MIDI_TX_CH
 //     JSR     MIDI_TX_PUSH
@@ -12963,18 +13027,18 @@ void lfo_get_amplitude()
 //     CMPB    #64
 //     BHI     _PITCH_BEND_POSITIVE
 //     CLRA
-// 
+//
 // _SEND_MIDI_EVENT:
 //     JSR     MIDI_TX_PUSH_TWO_BYTES
 //     RTS
-// 
+//
 // _PITCH_BEND_POSITIVE:
 //     TBA
 //     SUBA    #64
 //     ASLA
 //     BRA     _SEND_MIDI_EVENT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_SEND_PROG_CHG
 // ; ==============================================================================
@@ -12986,47 +13050,47 @@ void lfo_get_amplitude()
 // ; in 'Play Mode.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_SEND_PROG_CHG:
 //     TST     M_MIDI_SYS_INFO_AVAIL
-// 
+//
 // ; If 'SYS INFO AVAIL' not enabled, exit.
 //     BNE     _END_SYS_INFO_UNAVAIL
-// 
+//
 // _DISABLE_IRQ:
 //     LDAA    <IO_PORT_2_DATA
 //     PSHA
 //     CLR     IO_PORT_2_DATA
-// 
+//
 // _SEND_MIDI_PROG_CHG:
 //     JSR     DELAY
 //     LDAA    #MIDI_STATUS_PROG_CHANGE
 //     ADDA    M_MIDI_TX_CH
-// 
+//
 // ; If the synth is currently set to load patches from the cartridge, add 32
 // ; to the last-pressed button number, and then use this value as the patch
 // ; index when sending the message.
-// 
+//
 // _IS_PATCH_IN_INT_MEMORY?:
 //     TST     M_MEM_SELECT_UI_MODE
 //     BEQ     _INT_MEM_SELECTED
-// 
+//
 // _CRT_MEM_SELECTED:
 //     LDAB    #32
 //     BRA     _SEND_MIDI_DATA
-// 
+//
 // _INT_MEM_SELECTED:
 //     CLRB
-// 
+//
 // _SEND_MIDI_DATA:
 //     ADDB    M_LAST_PRESSED_BTN
 //     JSR     MIDI_TX_PUSH_TWO_BYTES
 //     JMP     RE_ENABLE_INTERRUPTS
-// 
+//
 // _END_SYS_INFO_UNAVAIL:
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_SEND_AFTERTOUCH
 // ; ==============================================================================
@@ -13040,15 +13104,15 @@ void lfo_get_amplitude()
 // ; * 0x84:   The analog aftertouch data to transfer.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_SEND_AFTERTOUCH:
 //     LDAB    <M_ANALOG_DATA
 //     LSRB
 //     LDAA    #MIDI_STATUS_AFTERTOUCH
 //     ADDA    M_MIDI_TX_CH
 //     JMP     MIDI_TX_PUSH_TWO_BYTES
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_PROCESS_RECEIVED_DATA
 // ; ==============================================================================
@@ -13061,175 +13125,175 @@ void lfo_get_amplitude()
 // ; SYSEX messages.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_PROCESS_RECEIVED_DATA:
 //     LDX     <M_MIDI_RX_BFR_READ_PTR
 //     CPX     <M_MIDI_RX_BFR_WRITE_PTR
-// 
+//
 // ; If the MIDI RX read buffer ptr, and write buffer ptr are not equal, this
 // ; indicates that there is data to be processed in the MIDI RX buffer.
 //     BNE     _READ_RX_BUFFER
-// 
+//
 // _NO_RECEIVED_DATA:
 //     CLR     M_MIDI_RX_BUFFER_PENDING
 //     RTS
-// 
+//
 // _READ_RX_BUFFER:
 //     LDD     #0
-// 
+//
 // ; Reset the incoming active sensing counter.
 //     STD     <M_MIDI_ACTV_SENS_RX_CTR
 //     LDAA    0,x
-// 
+//
 // ; 0x256F is the last byte in the MIDI RX buffer.
 //     CPX     #$256F
 //     BNE     _READ_RX_BUFFER_ITERATE
-// 
+//
 // ; 0x23F3 is the last byte before the MIDI RX buffer.
 //     LDX     #$23F3
-// 
+//
 // _READ_RX_BUFFER_ITERATE:
 //     INX
 //     STX     <M_MIDI_RX_BFR_READ_PTR
-// 
+//
 // ; Check if the incoming MIDI byte represents a status message
 // ; or a data message.
-// 
+//
 // _IS_STATUS_MSG?:
 //     TSTA
 //     BPL     _PROCESS_DATA_BYTE
-// 
+//
 // ; Is this status the start of an 'Active Sensing' message?
-// 
+//
 // _PROCESS_STATUS_BYTE:
 //     CMPA    #MIDI_STATUS_ACTIVE_SENSING
 //     BEQ     _ACTIVE_SENSING
-// 
+//
 // ; Is this status the end of a SYSEX MIDI message?
-// 
+//
 // _IS_SYSEX_END?:
 //     CMPA    #MIDI_STATUS_SYSEX_END
 //     BHI     _PROCEED_TO_NEXT_MESSAGE            ; If A > 0xF7, branch.
-// 
+//
 // ; If a non-sysex end, non-active sensing status byte has been received,
 // ; store it and proceed to processing the next byte.
-// 
+//
 // _STORE_STATUS_MSG:
 //     STAA    <M_MIDI_STATUS_BYTE
 //     CLR     M_MIDI_PROCESSED_DATA_COUNT
-// 
+//
 // _PROCEED_TO_NEXT_MESSAGE:
 //     BRA     MIDI_PROCESS_RECEIVED_DATA
-// 
+//
 // ; Does this status byte represent the end of a SYSEX message?
 // ; If so, reset, and continue processing the received MIDI data.
-// 
+//
 // _PROCESS_DATA_BYTE:
 //     LDAB    <M_MIDI_STATUS_BYTE
 //     CMPB    #MIDI_STATUS_SYSEX_END
 //     BEQ     _PROCEED_TO_NEXT_MESSAGE
-// 
+//
 // ; Is this the start of a SYSEX message?
-// 
+//
 // _IS_SYSEX_DATA?:
 //     CMPB    #MIDI_STATUS_SYSEX_START
 //     BNE     _IS_DATA_CORRECT_RX_CH?
 //     JMP     _SYSEX_DATA_COUNT_CHECK
-// 
+//
 // ; Check if this MIDI message is on the same channel as the DX7.
 // ; Use XOR to check whether this byte matches the current MIDI RX channel.
 // ; If the result is zero, the channel matches. If not, this message is
 // ; intended for another device, and can be ignored.
-// 
+//
 // _IS_DATA_CORRECT_RX_CH?:
 //     LDAB    M_MIDI_RX_CH
 //     EORB    <M_MIDI_STATUS_BYTE
 //     ANDB    #%1111
 //     BNE     _PROCEED_TO_NEXT_MESSAGE
-// 
+//
 // ; Is this data part of a 'Note Off' MIDI message?
 // ; Remove the bytes signifying the MIDI channel, and compare only
 // ; the status type.
-// 
+//
 // _IS_NOTE_OFF?:
 //     LDAB    <M_MIDI_STATUS_BYTE
 //     ANDB    #%11110000
 //     CMPB    #MIDI_STATUS_NOTE_OFF
 //     BNE     _IS_NOTE_ON?
-// 
+//
 // ; Check if another data byte for this message has previously been parsed.
 // ; The device is expecting a status, and two data bytes.
 // ; The pending byte count refers to the number of processed bytes PRIOR to
 // ; this incoming data byte.
 // ; If the two data bytes have not been received, return, and wait for the
 // ; next data byte.
-// 
+//
 // _NOTE_OFF_DATA_CHECK:
 //     LDAB    <M_MIDI_PROCESSED_DATA_COUNT
 //     BNE     _NOTE_OFF
 //     INC     M_MIDI_PROCESSED_DATA_COUNT
 //     STAA    <M_MIDI_INCOMING_DATA
 //     RTS
-// 
+//
 // ; Process a 'Note Off' MIDI message.
-// 
+//
 // _NOTE_OFF:
 //     LDAB    <IO_PORT_2_DATA
 //     PSHB
 //     CLR     IO_PORT_2_DATA                      ; Disable IRQ.
 //     JSR     MIDI_PROCESS_DELAY                  ; Falls-through below.
-// 
+//
 // _PROCESS_NOTE_OFF_3:
 //     LDAA    <M_MIDI_INCOMING_DATA
 //     STAA    <M_NOTE_KEY
 //     JSR     VOICE_REMOVE_KEY
 //     BRA     _CLEAR_AND_REPEAT
-// 
+//
 // ; If this status byte is the start of an 'Active Sensing' message
 // ; reset the active sensing counter, and enable the active sensing check.
-// 
+//
 // _ACTIVE_SENSING:
 //     LDAA    #1
 //     STAA    M_MIDI_ACTV_SENS_RX_ENABLE
 //     LDD     #0
 //     STD     <M_MIDI_ACTV_SENS_RX_CTR
 //     RTS
-// 
+//
 // ; Is this data part of a 'Note On' MIDI message?
-// 
+//
 // _IS_NOTE_ON?:
 //     CMPB    #MIDI_STATUS_NOTE_ON
 //     BNE     _IS_MODE_CHG?
-// 
+//
 // ; Check whether we have both the status and the two data bytes that make
 // ; up a  MIDI 'Note On' message.
 // ; If not, return and process the next message when it arrives.
-// 
+//
 // _NOTE_ON_DATA_CHECK:
 //     LDAB    <M_MIDI_PROCESSED_DATA_COUNT
 //     BNE     _NOTE_ON
 //     INC     M_MIDI_PROCESSED_DATA_COUNT
 //     STAA    <M_MIDI_INCOMING_DATA
 //     RTS
-// 
+//
 // ; Process a 'Note on' MIDI message.
-// 
+//
 // _NOTE_ON:
 //     LDAB    <IO_PORT_2_DATA
 //     PSHB
 //     CLR     IO_PORT_2_DATA                      ; Disable IRQ.
 //     CLR     M_MIDI_PROCESSED_DATA_COUNT
 //     JSR     MIDI_PROCESS_DELAY
-// 
+//
 // ; The third byte of a 'Note On' MIDI message indicates the note's velocity.
 // ; If this is zero, consider this to be a 'Note Off' message.
 //     TSTA
 //     BEQ     _PROCESS_NOTE_OFF_3
-// 
+//
 // ; Transfer the data byte denoting the MIDI note velocity to B.
 // ; Shift it right twice to quantise the 0-127 velocity value to an index
 // ; into the 32 entry MIDI velocity array.
-// 
+//
 // _PROCESS_NOTE_ON_4:
 //     TAB
 //     LSRB
@@ -13241,30 +13305,30 @@ void lfo_get_amplitude()
 //     LDAA    <M_MIDI_INCOMING_DATA
 //     STAA    <M_NOTE_KEY
 //     JSR     VOICE_ADD_CHECK_KEY_EVENT_COUNT
-// 
+//
 // _CLEAR_AND_REPEAT:
 //     CLR     M_MIDI_PROCESSED_DATA_COUNT
 //     PULB
 //     STAB    <IO_PORT_2_DATA                     ; Restore IRQ.
 //     JMP     MIDI_PROCESS_RECEIVED_DATA
-// 
+//
 // ; Is this data part of a 'Mode Change' MIDI message?
-// 
+//
 // _IS_MODE_CHG?:
 //     CMPB    #MIDI_STATUS_MODE_CHANGE
 //     BEQ     _MODE_CHG
 //     JMP     _IS_PROG_CHG?
-// 
+//
 // ; Check whether we have both the status and the two data bytes that make up
 // ; the message. If not, return and process the next byte.
-// 
+//
 // _MODE_CHG:
 //     LDAB    <M_MIDI_PROCESSED_DATA_COUNT
 //     BNE     _MODE_CHG_2
 //     INC     M_MIDI_PROCESSED_DATA_COUNT
 //     STAA    <M_MIDI_INCOMING_DATA
 //     RTS
-// 
+//
 // ; ==============================================================================
 // ; MIDI Velocity Table.
 // ; This table is used to translate between the incoming MIDI velocity value
@@ -13277,7 +13341,7 @@ void lfo_get_amplitude()
 //     FCB $1E, $1C, $1A, $18, $16
 //     FCB $14, $12, $10, $E, $C
 //     FCB $A, 8, 6, 4, 2, 1, 0
-// 
+//
 // _MODE_CHG_2:
 //     LDAB    <IO_PORT_2_DATA
 //     PSHB
@@ -13287,7 +13351,7 @@ void lfo_get_amplitude()
 //     LDAB    <M_MIDI_INCOMING_DATA
 //     DECB
 //     JSR     JUMP_TO_RELATIVE_OFFSET
-// 
+//
 // ; ==============================================================================
 // ; The following is a table of relative-addressed pointers to the functions
 // ; which handle the various MIDI CC events. The first byte is the relative byte
@@ -13295,7 +13359,7 @@ void lfo_get_amplitude()
 // ; e.g. If the event number was 3, the offet from 0xEC70 to the handler
 // ; function is 0x20.
 // ; ==============================================================================
-// 
+//
 // TABLE_MIDI_CC_HANDLER_OFFSETS:
 //     FCB $26
 //     FCB 1                                       ; Jumps to 0xEC92.
@@ -13333,11 +13397,11 @@ void lfo_get_amplitude()
 //     FCB 126                                     ; Jumps to 0xECC6.
 //     FCB $4E
 //     FCB 127                                     ; Jumps to 0xECDC.
-// 
+//
 // MIDI_RESET_AND_PROCESS_INCOMING:
 //     BRA     _CLEAR_AND_REPEAT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_CC_1
 // ; ==============================================================================
@@ -13347,16 +13411,16 @@ void lfo_get_amplitude()
 // ; Handles a MIDI control code message with a type of '1'.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_CC_1:
 //     STAA    M_MOD_WHEEL_ANALOG_INPUT
-// 
-// 
+//
+//
 // MIDI_UPDATE_PITCH_MOD:
 //     JSR     MOD_PROCESS_INPUT_SOURCES
 //     BRA     MIDI_RESET_AND_PROCESS_INCOMING
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_CC_2
 // ; ==============================================================================
@@ -13366,12 +13430,12 @@ void lfo_get_amplitude()
 // ; Handles a MIDI control code message with a type of '2'.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_CC_2:
 //     STAA    M_BRTH_CTRL_ANALOG_INPUT
 //     BRA     MIDI_UPDATE_PITCH_MOD
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_CC_4
 // ; ==============================================================================
@@ -13381,12 +13445,12 @@ void lfo_get_amplitude()
 // ; Handles a MIDI control code message with a type of '4'.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_CC_4:
 //     STAA    M_FOOT_CTRL_ANALOG_INPUT
 //     BRA     MIDI_UPDATE_PITCH_MOD
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_CC_64
 // ; ==============================================================================
@@ -13397,29 +13461,29 @@ void lfo_get_amplitude()
 // ; This is the command to affect the sustain pedal.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_CC_64:
 //     TSTA
 //     BEQ     _SIGNAL_OFF
 //     LDAB    #1
-// 
+//
 // MIDI_SET_PORTA_SUS_PDL_STATUS:
 //     ORAB    M_PEDAL_INPUT_STATUS
-// 
+//
 // MIDI_STORE_PORTA_SUS_PDL_STATUS:
 //     STAB    M_PEDAL_INPUT_STATUS
 //     JSR     MAIN_PROCESS_SUSTAIN_PEDAL
 //     BRA     MIDI_RESET_AND_PROCESS_INCOMING
-// 
+//
 // _SIGNAL_OFF:
 //     LDAB    #%10
-// 
-// 
+//
+//
 // _SET_PORTA_STATUS:
 //     ANDB    M_PEDAL_INPUT_STATUS
 //     BRA     MIDI_STORE_PORTA_SUS_PDL_STATUS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_CC_65
 // ; ==============================================================================
@@ -13430,18 +13494,18 @@ void lfo_get_amplitude()
 // ; This is the command to affect the portamento pedal.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_CC_65:
 //     TSTA
 //     BEQ     _PORTA_OFF
 //     LDAB    #2
 //     BRA     MIDI_SET_PORTA_SUS_PDL_STATUS
-// 
+//
 // _PORTA_OFF:
 //     LDAB    #1
 //     BRA     _SET_PORTA_STATUS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_CC_126
 // ; ==============================================================================
@@ -13452,7 +13516,7 @@ void lfo_get_amplitude()
 // ; This is the command to set the synth to monophonic mode.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_CC_126:
 //     TST     M_MONO_POLY
 //     BNE     MIDI_CC_RESET
@@ -13460,16 +13524,16 @@ void lfo_get_amplitude()
 //     BNE     MIDI_CC_RESET
 //     LDAA    #1
 //     STAA    M_MONO_POLY
-// 
-// 
+//
+//
 // _MIDI_CC_127_RESET_VOICES:
 //     JSR     VOICE_DEACTIVATE_ALL
 //     JSR     VOICE_RESET
-// 
+//
 // MIDI_CC_RESET:
 //     BRA     MIDI_RESET_AND_PROCESS_INCOMING
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_CC_127
 // ; ==============================================================================
@@ -13480,14 +13544,14 @@ void lfo_get_amplitude()
 // ; This sets the synth to polyphonic mode.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_CC_127:
 //     TST     M_MONO_POLY
 //     BEQ     MIDI_CC_123
 //     CLR     M_MONO_POLY
 //     BRA     _MIDI_CC_127_RESET_VOICES
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_CC_5
 // ; ==============================================================================
@@ -13498,15 +13562,15 @@ void lfo_get_amplitude()
 // ; This sets the synth's portamento time.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_CC_5:
 //     LDAB    #100
 //     MUL
 //     STAA    M_PORTA_TIME
 //     JSR     PORTA_COMPUTE_RATE_VALUE
 //     BRA     MIDI_RESET_AND_PROCESS_INCOMING
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_CC_7
 // ; ==============================================================================
@@ -13518,11 +13582,11 @@ void lfo_get_amplitude()
 // ;
 // ; ==============================================================================
 // ; Attributes: thunk
-// 
+//
 // MIDI_CC_7:
 //     BRA     MIDI_LOAD_VOLUME
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_CC_6
 // ; ==============================================================================
@@ -13534,7 +13598,7 @@ void lfo_get_amplitude()
 // ; currently selected 'Function parameter'.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_CC_6:
 //     LDAB    M_INPUT_MODE
 //     CMPB    #INPUT_MODE_FN
@@ -13543,12 +13607,12 @@ void lfo_get_amplitude()
 //     BNE     MIDI_CC_END
 //     TAB
 //     JSR     MASTER_TUNE_SET
-// 
-// 
+//
+//
 // MIDI_CC_END:
 //     BRA     MIDI_RESET_AND_PROCESS_INCOMING
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_CC_96
 // ; ==============================================================================
@@ -13558,11 +13622,11 @@ void lfo_get_amplitude()
 // ; MIDI CC numbers 96, and 97 are used for parameter increment, and decrement.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_CC_96:
 //     LDAA    #41
 //     BRA     _MIDI_INC_DEC
-// 
+//
 // ; ==============================================================================
 // ; MIDI_CC_97
 // ; ==============================================================================
@@ -13574,16 +13638,16 @@ void lfo_get_amplitude()
 // ; I'm not sure why the double sequential loading of ACCA occurs.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_CC_97:
 //     LDAA    M_INPUT_MODE
 //     LDAA    #40
-// 
+//
 // _MIDI_INC_DEC:
 //     STAA    M_LAST_PRESSED_BTN
 //     JSR     BTN_YES_NO
 //     BRA     MIDI_CC_END
-// 
+//
 // ; ==============================================================================
 // ; MIDI_CC_123
 // ; ==============================================================================
@@ -13594,7 +13658,7 @@ void lfo_get_amplitude()
 // ; This subroutine stops all active notes.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_CC_123:
 //     LDAA    <TIMER_CTRL_STATUS
 //     PSHA
@@ -13603,8 +13667,8 @@ void lfo_get_amplitude()
 //     PULA
 //     STAA    <TIMER_CTRL_STATUS
 //     BRA     MIDI_CC_END
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_LOAD_VOLUME
 // ; ==============================================================================
@@ -13617,14 +13681,14 @@ void lfo_get_amplitude()
 // ; https://ajxs.me/blog/Yamaha_DX7_Technical_Analysis.html
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_LOAD_VOLUME:
 //     ROLA
 //     ROLA
 //     ROLA
 //     ROLA
 //     TAB
-// 
+//
 // ; Rotate the received MIDI data byte 4 bits to the left, and use it as an
 // ; index into the MIDI Volume Table.
 //     ANDB    #7
@@ -13633,8 +13697,8 @@ void lfo_get_amplitude()
 //     LDAA    0,x
 //     STAA    P_DAC
 //     BRA     MIDI_CC_END
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI DAC Volume Table.
 // ; This table contains the values used to translate between a MIDI volume
@@ -13644,22 +13708,22 @@ void lfo_get_amplitude()
 // TABLE_MIDI_VOLUME:
 //     FCB 0, 4, 2, 6, 1, 5, 3
 //     FCB 7
-// 
+//
 // ; Is this byte part of a 'Program Change' message?
-// 
+//
 // _IS_PROG_CHG?:
 //     CMPB    #MIDI_STATUS_PROG_CHANGE
 //     BNE     _IS_PITCH_BEND?
-// 
+//
 // ; Check whether the DX7 can accept 'Program Change' messages.
-// 
+//
 // _PROG_CHG:
 //     TST     M_INPUT_MODE
-// 
+//
 // ; If the synth is in play mode, fall-through to the subroutine below.
 //     BNE     MIDI_HANDLE_PROG_CHG_EXIT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_PROG_CHG
 // ; ==============================================================================
@@ -13677,60 +13741,60 @@ void lfo_get_amplitude()
 // ; * ACCA: The patch number to change the program to.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_PROG_CHG:
 //     ANDA    #%111111
 //     BITA    #%100000
 //     BEQ     _SELECT_INT_MEMORY                  ; Is patch no >= 32?
-// 
+//
 // _MIDI_PROG_CHG_IS_CRT_INSERTED?:
 //     LDAB    P_CRT_PEDALS_LCD
 //     BITB    #CRT_FLAG_INSERTED
 //     BNE     _SELECT_INT_MEMORY
-// 
+//
 // _SELECT_CRT_MEMORY:
 //     LDAB    #UI_MODE_CRT_INSERTED
 //     STAB    M_MEM_SELECT_UI_MODE
 //     BRA     _SET_PATCH_NUMBER
-// 
+//
 // _SELECT_INT_MEMORY:
 //     CLR     M_MEM_SELECT_UI_MODE
-// 
+//
 // _SET_PATCH_NUMBER:                              ; ACCA % 32.
 //     ANDA    #%11111
 //     STAA    M_LAST_INPUT_EVENT
 //     STAA    M_LAST_PRESSED_BTN
 //     JSR     PATCH_READ_WRITE
-// 
+//
 // MIDI_HANDLE_PROG_CHG_EXIT:
 //     RTS
-// 
+//
 // ; Is this part of a 'Pitch Bend' MIDI message?
-// 
+//
 // _IS_PITCH_BEND?:
 //     CMPB    #MIDI_STATUS_PITCH_BEND
 //     BNE     _IS_AFTERTOUCH?
 // ; Process a 'Pitch Bend' MIDI message.
-// 
+//
 // _PITCH_BEND:
 //     TST     M_MIDI_PROCESSED_DATA_COUNT
 //     BEQ     _INCREMENT_DATA_COUNT
 //     LDAB    <IO_PORT_2_DATA
 //     PSHB
 //     CLR     IO_PORT_2_DATA                      ; Disable IRQ.
-// 
+//
 // _PITCH_BEND_PARSE:
 //     ASLA
 //     STAA    M_PITCH_BEND_INPUT
 //     JSR     PITCH_BEND_PARSE
 //     JMP     MIDI_CC_END
 // ; Is this part of an 'Aftertouch' MIDI message?
-// 
+//
 // _IS_AFTERTOUCH?:
 //     CMPB    #MIDI_STATUS_AFTERTOUCH
 //     BNE     _UNKNOWN_MIDI_STATUS
 // ; Process an 'Aftertouch' MIDI message.
-// 
+//
 // _AFTERTOUCH:
 //     LDAB    <IO_PORT_2_DATA
 //     PSHB
@@ -13738,51 +13802,51 @@ void lfo_get_amplitude()
 //     ASLA
 //     STAA    M_AFTERTOUCH_ANALOG_INPUT
 //     JMP     MIDI_UPDATE_PITCH_MOD
-// 
+//
 // ; At this point, we can't handle whatever this MIDI message is, so return.
-// 
+//
 // _UNKNOWN_MIDI_STATUS:
 //     RTS
-// 
+//
 // ; Check how many bytes of SYSEX data have been received so far.
 // ; This is used to store the various header data components.
-// 
+//
 // _SYSEX_DATA_COUNT_CHECK:
 //     TST     M_MIDI_PROCESSED_DATA_COUNT
 //     BNE     _IS_MSG_COUNT_1
-// 
+//
 // ; If we've received a MIDI SYSEX header, and the next byte is not the correct
 // ; identifier for the DX7, exit.
-// 
+//
 // _SYSEX_CHECK_IDENTIFIER:
 //     CMPA    #MIDI_SYSEX_MANUFACTURER_ID
 //     BNE     _SYSEX_FORCE_END
-// 
+//
 // ; Since this is the start of a valid SYSEX message, clear the SYSEX
 // ; message 'substatus' field.
 //     CLR     M_MIDI_SUBSTATUS
-// 
+//
 // ; Increment the pending data count, and wait for the next data byte.
-// 
+//
 // _INCREMENT_DATA_COUNT:
 //     INC     M_MIDI_PROCESSED_DATA_COUNT
 //     RTS
-// 
+//
 // ; In the event of some erroneous conditions, such as receiving SYSEX
 // ; intended for another device, this forces the end of parsing the current
 // ; SYSEX message.
-// 
+//
 // _SYSEX_FORCE_END:
 //     LDAA    #MIDI_STATUS_SYSEX_END
 //     STAA    <M_MIDI_STATUS_BYTE
 //     RTS
 // ; Is there one data byte already processed?
-// 
+//
 // _IS_MSG_COUNT_1:
 //     LDAB    <M_MIDI_PROCESSED_DATA_COUNT
 //     CMPB    #1
 //     BNE     _IS_MSG_COUNT_2
-// 
+//
 // _IS_STATUS_CORRECT_RX_CH?:
 //     PSHA
 // ; Use XOR to determine whether this byte matches the current RX MIDI channel.
@@ -13792,71 +13856,71 @@ void lfo_get_amplitude()
 //     BEQ     _CHECK_SUBSTATUS
 //     PULA
 //     BRA     _SYSEX_FORCE_END
-// 
+//
 // ; Check the substatus byte.
-// 
+//
 // _CHECK_SUBSTATUS:
 //     PULA
 //     ANDA    #%11110000
 //     BEQ     _SET_SUBSTATUS_AND_EXIT
-// 
+//
 // ; Check if this is a parameter change SYSEX message.
 // ; Any other type is considered invalid.
 //     CMPA    #%10000
 //     BEQ     _SET_SUBSTATUS_AND_EXIT
 //     BRA     _SYSEX_FORCE_END
-// 
+//
 // ; Store the SYSEX 'Substatus', and exit.
 // ; Note that the substatus is incremented.
-// 
+//
 // _SET_SUBSTATUS_AND_EXIT:
 //     INCA
 //     STAA    <M_MIDI_SUBSTATUS
 //     INC     M_MIDI_PROCESSED_DATA_COUNT
 //     RTS
-// 
+//
 // ; Are there two data byte already processed?
-// 
+//
 // _IS_MSG_COUNT_2:
 //     CMPB    #2
 //     BNE     _IS_MSG_COUNT_3
-// 
+//
 // ; Check the SYSEX 'Substatus' to determine whether this is a parameter
 // ; change message, or a voice data transfer.
-// 
+//
 // _IS_SYSEX_BULK_DATA?:
 //     LDAB    <M_MIDI_SUBSTATUS
 //     CMPB    #MIDI_SUBSTATUS_BULK
 //     BEQ     _SYSEX_BULK_DATA
-// 
+//
 // ; Check if the substatus indicates that this is data related to a
 // ; SYSEX parameter change.
-// 
+//
 // _IS_SYSEX_PARAM_DATA?:
 //     CMPB    #MIDI_SUBSTATUS_PARAM
 //     BNE     _RESET_AND_EXIT_2
-// 
+//
 // ; Parse, and store the SYSEX parameter group data.
 // ; Internally: Voice = 1, Function = 2.
-// 
+//
 // _SYSEX_PARAM_DATA:
 //     STAA    <M_MIDI_INCOMING_DATA
 //     LSRA
 //     LSRA
 //     BEQ     _IS_SYSEX_PARAM_VOICE?
-// 
+//
 // _IS_SYSEX_PARAM_FUNCTION?:
 //     CMPA    #2
 //     BNE     _RESET_AND_EXIT_2
-// 
+//
 // _SYSEX_PARAM_STORE:
 //     STAA    <M_MIDI_SYSEX_PARAM_GRP
 //     INC     M_MIDI_PROCESSED_DATA_COUNT
 //     RTS                                         ; Return, and await next data.
-// 
+//
 // ; If we're about to receive SYSEX data disable active sensing testing.
 // ; This is where the SYSEX 'format' flag is stored.
-// 
+//
 // _SYSEX_BULK_DATA:
 //     CLR     M_MIDI_ACTV_SENS_RX_ENABLE
 //     TSTA
@@ -13865,30 +13929,30 @@ void lfo_get_amplitude()
 //     BEQ     _SET_SYSEX_FORMAT
 //     CMPA    #MIDI_SYSEX_FMT_BULK
 //     BNE     _RESET_AND_EXIT_2
-// 
+//
 // _SET_SYSEX_FORMAT:
 //     STAA    M_MIDI_SYSEX_FORMAT
 //     CLR     M_MIDI_SYSEX_PARAM_GRP
 //     INC     M_MIDI_PROCESSED_DATA_COUNT
 //     RTS
-// 
+//
 // _RESET_AND_EXIT_2:
 //     CLR     M_MIDI_SUBSTATUS
 //     CLR     M_MIDI_PROCESSED_DATA_COUNT
 //     BRA     _SYSEX_FORCE_END
-// 
+//
 // _IS_SYSEX_PARAM_VOICE?:
 //     INCA
 //     BRA     _SYSEX_PARAM_STORE
-// 
+//
 // ; Are there three data byte already processed?
-// 
+//
 // _IS_MSG_COUNT_3:
 //     CMPB    #3
 //     BNE     _IS_MSG_COUNT_4
-// 
+//
 // ; Check whether this is a SYSEX parameter message.
-// 
+//
 // _IS_PARAM_MSG?:
 //     LDAB    <M_MIDI_SYSEX_PARAM_GRP
 //     BEQ     _NON_PARAM_MSG
@@ -13897,20 +13961,20 @@ void lfo_get_amplitude()
 //     CMPB    #MIDI_SYSEX_PARAM_GRP_FUNCTION
 //     BEQ     _NON_PARAM_MSG
 //     BRA     _RESET_AND_EXIT_2
-// 
+//
 // _NON_PARAM_MSG:
 //     STAA    <M_MIDI_INCOMING_DATA
-// 
+//
 // _INCREMENT_AND_EXIT:
 //     INC     M_MIDI_PROCESSED_DATA_COUNT
 //     RTS
-// 
+//
 // ; This loads the previous byte containing the parameter group and  upper
 // ; two bits of the parameter number into A.
 // ; This then masks the param group values, and shifts the values into B,
 // ; so that the full 8-bit value can be stored in the incoming data register
 // ; to be read on the next iteration.
-// 
+//
 // _GET_UPPER_SYSEX_PARAM_NUM:
 //     TAB
 //     ASLB
@@ -13919,15 +13983,15 @@ void lfo_get_amplitude()
 //     LSRD
 //     STAB    <M_MIDI_INCOMING_DATA
 //     BRA     _INCREMENT_AND_EXIT
-// 
+//
 // ; Are there four data byte already processed?
-// 
+//
 // _IS_MSG_COUNT_4:
 //     CMPB    #4
 //     BNE     _IS_MSG_COUNT_5
-// 
+//
 // ; Check if this is a SYSEX parameter message, or part of a data transfer.
-// 
+//
 // _IS_SYSEX_PARAM?:
 //     LDAB    <M_MIDI_SYSEX_PARAM_GRP
 //     BEQ     _IS_SYSEX_FMT_PATCH?
@@ -13936,24 +14000,24 @@ void lfo_get_amplitude()
 //     CMPB    #MIDI_SYSEX_PARAM_GRP_FUNCTION
 //     BEQ     _IS_SYSEX_DIAG_FUNCTION?
 //     BRA     _RESET_AND_EXIT
-// 
+//
 // _IS_SYSEX_FMT_PATCH?:
 //     LDAB    M_MIDI_SYSEX_FORMAT
 //     BEQ     _IS_INT_MEM_PROTECTED?
-// 
+//
 // _IS_SYSEX_FMT_PERF?:
 //     CMPB    #MIDI_SYSEX_FMT_PERF
 //     BEQ     _SYSEX_RX_START
-// 
+//
 // ; Check for INT memory protection prior to receiving single/bulk voice dump.
-// 
+//
 // _IS_INT_MEM_PROTECTED?:
 //     TIM     #MEM_PROTECT_INT, M_MEM_PROTECT_FLAGS
 //     BNE     _INT_MEM_PROTECTED
 //     TST     M_MIDI_SYS_INFO_AVAIL
 //     BEQ     _SYSEX_FORCE_END_PRE
 //     CLR     TIMER_CTRL_STATUS
-// 
+//
 // _SYSEX_RX_START:
 //     CLR     IO_PORT_2_DATA
 //     INC     M_MIDI_PROCESSED_DATA_COUNT
@@ -13961,50 +14025,50 @@ void lfo_get_amplitude()
 //     LDD     #0
 //     STD     <M_MIDI_SYSEX_RX_COUNT
 //     RTS
-// 
+//
 // ; If the function group is set to 2 (Function Parameter), and the parameter
 // ; is less-than or equal to 42, this means that a switch event is being
 // ; transmitted.
-// 
+//
 // _IS_SYSEX_DIAG_FUNCTION?:
 //     LDAB    <M_MIDI_INCOMING_DATA
 //     CMPB    #42
 //     BCS     _IS_PANEL_CTRL_MSG?                 ; If B <= 42, branch.
 //     BRA     _SYSEX_FUNCTION_DATA
-// 
+//
 // ; In the event that the internal memory is protected, this prints the
 // ; appropriate error message, then proceeds to force SYSEX message end.
-// 
+//
 // _INT_MEM_PROTECTED:
 //     JSR     PRINT_MSG_MEMORY_PROTECTED
-// 
+//
 // _SYSEX_FORCE_END_PRE:
 //     JMP     _SYSEX_FORCE_END
-// 
+//
 // ; Are there five data byte already processed?
-// 
+//
 // _IS_MSG_COUNT_5:
 //     CMPB    #5
 //     BNE     _RESET_AND_EXIT
-// 
+//
 // ; If there are 5 data bytes already processed, then check whether this is a
 // ; bulk voice data transfer, or a transfer of performance data.
 //     LDAB    M_MIDI_SYSEX_FORMAT
 //     CMPB    #MIDI_SYSEX_FMT_PERF
 //     BNE     _IS_SYSEX_BULK?
 //     JMP     _SYSEX_PERF_RECEIVE
-// 
+//
 // _RESET_AND_EXIT:
 //     CLR     M_MIDI_PROCESSED_DATA_COUNT
 //     CLR     M_MIDI_SUBSTATUS
 //     RTS
-// 
+//
 // _SYSEX_VOICE_DATA:
 //     TST     M_MIDI_SYS_INFO_AVAIL
 //     BEQ     _END_MIDI_PROCESS_RECEIVED_DATA
-// 
+//
 // ; If we're currently in 'compare' mode, do nothing.
-// 
+//
 // _MIDI_PROCESS_DATA_IS_IN_COMPARE_MODE?:
 //     LDAB    M_PATCH_CURRENT_MODIFIED_FLAG
 //     CMPB    #EDITED_PATCH_IN_COMPARE
@@ -14019,42 +14083,42 @@ void lfo_get_amplitude()
 //     STAA    M_PATCH_CURRENT_MODIFIED_FLAG
 //     JSR     UI_PRINT_MAIN
 //     JSR     LED_PRINT_PATCH_NUMBER
-// 
+//
 // _ENABLE_IRQ_AND_EXIT:
 //     LDAA    #1
 //     STAA    <IO_PORT_2_DATA                     ; Re-enable IRQ.
-// 
+//
 // _END_MIDI_PROCESS_RECEIVED_DATA:
 //     CLR     M_MIDI_PROCESSED_DATA_COUNT
 //     CLR     M_MIDI_SUBSTATUS
 //     RTS
-// 
+//
 // ; Any value under 42 indicates the transfer of a panel control event.
 // ; At this point, ACCA still contains the incoming MIDI byte, 0xE1 contains
 // ; the PREVIOUS byte.
 // ; 0xE1 = Key number.
 // ; ACCA = Key state: 00 for RELEASE, 0x7F for DOWN.
-// 
+//
 // _IS_PANEL_CTRL_MSG?:                            ; Disable IRQ.
 //     CLR     IO_PORT_2_DATA
 //     TSTA
 //     BEQ     _SWITCH_UP
-// 
+//
 // _SWITCH_DOWN:
 //     LDAA    <M_MIDI_INCOMING_DATA
 //     JSR     INPUT_BTN_PRESSED
 //     BRA     _ENABLE_IRQ_AND_EXIT
-// 
+//
 // _SWITCH_UP:
 //     LDAA    <M_MIDI_INCOMING_DATA
 //     JSR     INPUT_BTN_RELEASED
 //     BRA     _ENABLE_IRQ_AND_EXIT
-// 
+//
 // ; Parse the SYSEX function data.
 // ; The parameter number is stored in the incoming data byte register.
 // ; Refer to this site for the function parameter number reference:
 // ; https://homepages.abdn.ac.uk/d.j.benson/pages/dx7/sysex-format.txt
-// 
+//
 // _SYSEX_FUNCTION_DATA:
 //     TST     M_MIDI_SYS_INFO_AVAIL
 //     BEQ     _SYSEX_ENABLE_IRQ_AND_EXIT
@@ -14070,16 +14134,16 @@ void lfo_get_amplitude()
 //     JSR     PORTA_COMPUTE_RATE_VALUE
 //     JSR     MOD_PROCESS_INPUT_SOURCES
 //     JSR     UI_PRINT_MAIN
-// 
+//
 // _SYSEX_ENABLE_IRQ_AND_EXIT:
 //     BRA     _ENABLE_IRQ_AND_EXIT
-// 
+//
 // ; Check whether this SYSEX message is a bulk voice data transfer.
-// 
+//
 // _IS_SYSEX_BULK?:
 //     TST     M_MIDI_SYSEX_FORMAT
 //     BNE     _SYSEX_BULK_RECEIVE
-// 
+//
 // ; If this is a transfer of a 155 byte single voice, then check how many
 // ; bytes we've already received.
 //     LDAB    <M_MIDI_SYSEX_RX_DATA_COUNT
@@ -14092,21 +14156,21 @@ void lfo_get_amplitude()
 //     STAA    <M_MIDI_SYSEX_CHECKSUM              ; Add to checksum.
 //     INC     M_MIDI_SYSEX_RX_DATA_COUNT
 //     RTS
-// 
+//
 // ; Validate the data transfer.
-// 
+//
 // _SYSEX_PATCH_VALIDATE_CHECKSUM:
 //     BSR     MIDI_SYSEX_VALIDATE_CHECKSUM
 //     BEQ     _SYSEX_PATCH_SUCCESS
-// 
+//
 // _SYSEX_PATCH_CHECKSUM_FAILURE:
 //     BSR     MIDI_PRINT_MSG_CHECKSUM_ERR
 //     BRA     _SYSEX_EXIT
-// 
+//
 // ; Now that all of the patch data has been received, set the synth's 'Patch
 // ; Edited' flag to indicate that the current patch has been modified, and
 // ; proceed to parse the newly loaded data.
-// 
+//
 // _SYSEX_PATCH_SUCCESS:
 //     CLR     M_INPUT_MODE
 //     CLR     M_MEM_SELECT_UI_MODE
@@ -14114,7 +14178,7 @@ void lfo_get_amplitude()
 //     STAA    M_PATCH_CURRENT_MODIFIED_FLAG
 //     LDAB    <IO_PORT_2_DATA
 //     PSHB
-// 
+//
 // _SYSEX_PATCH_LOAD_DATA:
 //     CLR     IO_PORT_2_DATA
 //     JSR     PATCH_LOAD_DATA
@@ -14123,30 +14187,30 @@ void lfo_get_amplitude()
 //     JSR     LED_PRINT_PATCH_NUMBER
 //     LDAA    #%111111
 //     STAA    M_PATCH_CURRENT_OPS_ON_OFF
-// 
+//
 // _RESTORE_IRQ_STATUS:
 //     PULB
 //     STAB    <IO_PORT_2_DATA
-// 
+//
 // _SYSEX_EXIT:
 //     LDAB    #%1000
 //     STAB    <TIMER_CTRL_STATUS                  ; Re-enable timer IRQ.
 //     BRA     _SYSEX_ENABLE_IRQ_AND_EXIT
-// 
-// 
+//
+//
 // MIDI_PRINT_MSG_CHECKSUM_ERR:
 //     LDX     #aCheckSumError
 //     JMP     LCD_CLR_WRITE_LINE_2_THEN_PRINT
-// 
+//
 // aCheckSumError:      FCC "CHECK SUM ERROR!", 0
-// 
+//
 // ; If this is a bulk voice data transfer, check whether we've received all of
 // ; the incoming data.
-// 
+//
 // _SYSEX_BULK_RECEIVE:
 //     LDX     <M_MIDI_SYSEX_RX_COUNT
 //     CPX     #$1000
-// 
+//
 // ; If all 4096 bytes have been received, branch.
 //     BEQ     _SYSEX_BULK_VALIDATE_CHECKSUM
 //     PSHA
@@ -14154,7 +14218,7 @@ void lfo_get_amplitude()
 //     ADDD    #M_EXTERNAL_RAM_START
 //     XGDX
 //     PULA
-// 
+//
 // ; Store the received byte at 0x1000[0xF4].
 //     STAA    0,x
 //     ADDA    <M_MIDI_SYSEX_CHECKSUM
@@ -14163,24 +14227,24 @@ void lfo_get_amplitude()
 //     INX
 //     STX     <M_MIDI_SYSEX_RX_COUNT              ; Increment received count.
 //     RTS
-// 
+//
 // ; Use the accumulated 'checksum' value to validate the data transfer.
-// 
+//
 // _SYSEX_BULK_VALIDATE_CHECKSUM:
 //     BSR     MIDI_SYSEX_VALIDATE_CHECKSUM
 //     BEQ     _SYSEX_BULK_SUCCESS
-// 
+//
 // _SYSEX_BULK_CHECKSUM_FAILURE:
 //     BSR     MIDI_PRINT_MSG_CHECKSUM_ERR
 //     BRA     _SYSEX_EXIT
-// 
+//
 // _SYSEX_BULK_SUCCESS:
 //     JSR     LCD_CLEAR_STR_BUFFER_LINE_2
 //     LDX     #aMidiReceived
 //     JSR     LCD_CLR_WRITE_LINE_2_THEN_PRINT
 //     BRA     _SYSEX_EXIT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_SYSEX_VALIDATE_CHECKSUM
 // ; ==============================================================================
@@ -14199,7 +14263,7 @@ void lfo_get_amplitude()
 // ; * CCR[z]: This flag will be zero in the case that the SYSEX data is valid.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_SYSEX_VALIDATE_CHECKSUM:
 //     LDAB    <M_MIDI_SYSEX_CHECKSUM
 //     NEGB
@@ -14207,14 +14271,14 @@ void lfo_get_amplitude()
 //     STAB    <M_MIDI_SYSEX_CHECKSUM
 //     CMPA    <M_MIDI_SYSEX_CHECKSUM
 //     RTS
-// 
-// 
+//
+//
 // ; If the format indicates that this SYSEX message is transferring
 // ; performance data, download the 94 bytes to the synth.
 // ; The synth uses the voice buffer memory location as a temporary storage
 // ; for the performance data dump, as it will not be in use during the
 // ; transfer process.
-// 
+//
 // _SYSEX_PERF_RECEIVE:
 //     LDAB    <M_MIDI_SYSEX_RX_DATA_COUNT
 //     CMPB    #94
@@ -14226,27 +14290,27 @@ void lfo_get_amplitude()
 //     STAA    <M_MIDI_SYSEX_CHECKSUM
 //     INC     M_MIDI_SYSEX_RX_DATA_COUNT
 //     RTS
-// 
+//
 // ; Validate the checksum for the received bulk performance data dump.
-// 
+//
 // _SYSEX_PERF_VALIDATE_CHECKSUM:
 //     BSR     MIDI_SYSEX_VALIDATE_CHECKSUM
 //     BEQ     _SYSEX_PERF_SUCCESS
-// 
+//
 // _SYSEX_PERF_CHECKSUM_FAILURE:
 //     BSR     MIDI_PRINT_MSG_CHECKSUM_ERR
 //     BRA     _SYSEX_PERF_EXIT
-// 
+//
 // _SYSEX_PERF_SUCCESS:
 //     JSR     MIDI_PROCESS_SYSEX_PERF_BULK_DATA
 //     JSR     PORTA_COMPUTE_RATE_VALUE
 //     JSR     MOD_PROCESS_INPUT_SOURCES
 //     JSR     VOICE_RESET_EVENT_AND_PITCH_BUFFERS
-// 
+//
 // _SYSEX_PERF_EXIT:
 //     JMP     _ENABLE_IRQ_AND_EXIT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_PROCESS_SYSEX_PERF_BULK_DATA
 // ; ==============================================================================
@@ -14257,78 +14321,78 @@ void lfo_get_amplitude()
 // ; The various performance data fields are parsed and stored.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_PROCESS_SYSEX_PERF_BULK_DATA:
 //     CLRB
 //     LDX     #M_MIDI_PERF_DATA_BUFFER
-// 
+//
 // _LOAD_POLYPHONY:
 //     LDAA    2,x
 //     BSR     MIDI_STORE_SYSEX_PERF_DATA
-// 
+//
 // _LOAD_PITCH_BEND_RANGE:
 //     LDAA    3,x
 //     BSR     MIDI_STORE_SYSEX_PERF_DATA
-// 
+//
 // _LOAD_PITCH_BEND_STEP:
 //     LDAA    4,x
 //     BSR     MIDI_STORE_SYSEX_PERF_DATA
-// 
+//
 // _LOAD_PORTA_MODE:
 //     LDAA    7,x
 //     BSR     MIDI_STORE_SYSEX_PERF_DATA
-// 
+//
 // _LOAD_PORTA_GLISS:
 //     LDAA    6,x
 //     BSR     MIDI_STORE_SYSEX_PERF_DATA
-// 
+//
 // _LOAD_PORTA_TIME:
 //     LDAA    5,x
 //     BSR     MIDI_STORE_SYSEX_PERF_DATA
-// 
+//
 // _PARSE_MOD_WHEEL_SENS:
 //     LDAA    9,x
 //     JSR     MIDI_QUANTISE_PERF_DATA
 //     JSR     MIDI_STORE_SYSEX_PERF_DATA
-// 
+//
 // _LOAD_MOD_WHEEL_ASSIGN:
 //     LDAA    10,x
 //     JSR     MIDI_STORE_SYSEX_PERF_DATA
-// 
+//
 // _PARSE_FOOT_CTRL_SENS:
 //     LDAA    11,x
 //     JSR     MIDI_QUANTISE_PERF_DATA
 //     JSR     MIDI_STORE_SYSEX_PERF_DATA
-// 
+//
 // _LOAD_FOOT_CTRL_ASSIGN:
 //     LDAA    12,x
 //     JSR     MIDI_STORE_SYSEX_PERF_DATA
-// 
+//
 // _PARSE_BRTH_CTRL_SENS:
 //     LDAA    15,x
 //     JSR     MIDI_QUANTISE_PERF_DATA
 //     JSR     MIDI_STORE_SYSEX_PERF_DATA
-// 
+//
 // _LOAD_BRTH_CTRL_ASSIGN:
 //     LDAA    16,x
 //     JSR     MIDI_STORE_SYSEX_PERF_DATA
-// 
+//
 // _PARSE_AFTERTOUCH_SENS:
 //     LDAA    13,x
 //     JSR     MIDI_QUANTISE_PERF_DATA
 //     JSR     MIDI_STORE_SYSEX_PERF_DATA
-// 
+//
 // _LOAD_AFTERTOUCH_ASSIGN:
 //     LDAA    14,x
 //     JSR     MIDI_STORE_SYSEX_PERF_DATA
-// 
+//
 // _PROGRAM_CHANGE:
 //     LDAA    0,x
 //     CLR     M_INPUT_MODE
 //     JSR     MIDI_PROG_CHG
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_STORE_SYSEX_PERF_DATA
 // ; ==============================================================================
@@ -14346,7 +14410,7 @@ void lfo_get_amplitude()
 // ; * ACCB: The index to store this parameter at.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_STORE_SYSEX_PERF_DATA:
 //     PSHX
 //     LDX     #TABLE_SYSEX_FN_DATA_POINTERS
@@ -14358,8 +14422,8 @@ void lfo_get_amplitude()
 //     INCB
 //     PULX
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_QUANTISE_PERF_DATA
 // ; ==============================================================================
@@ -14375,7 +14439,7 @@ void lfo_get_amplitude()
 // ; * ACCA: The quantised performance data field.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_QUANTISE_PERF_DATA:
 //     PSHB
 //     LDAB    #212
@@ -14385,8 +14449,8 @@ void lfo_get_amplitude()
 //     LSLD
 //     PULB
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; SYSEX Performance Data Parameter Pointer Table.
 // ; This table is used to instuct the software about where to store incoming
@@ -14408,8 +14472,8 @@ void lfo_get_amplitude()
 //     FDB M_AFTERTOUCH_RANGE
 //     FDB M_AFTERTOUCH_ASSIGN_FLAGS
 // aMidiReceived:       FCC " MIDI RECEIVED", 0
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; UI_PRINT
 // ; ==============================================================================
@@ -14423,10 +14487,10 @@ void lfo_get_amplitude()
 // ;
 // ; ==============================================================================
 // ;
-// 
+//
 // UI_PRINT_MAIN:
 //     LDX     #TABLE_UI_FUNCTIONS
-// 
+//
 // ; This variable contains both the current 'UI Mode', and whether internal,
 // ; or cartridge memory is currently selected.
 // ; This variable controls not only what menu is printed, but how the synth
@@ -14438,8 +14502,8 @@ void lfo_get_amplitude()
 //     ABX
 //     LDX     0,x
 //     JMP     0,x
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; UI Function Pointer Table.
 // ; Contains pointers to the synth's main UI functions.
@@ -14454,8 +14518,8 @@ void lfo_get_amplitude()
 //     FDB UI_PRINT_SAVE_LOAD_MEM_MSG
 //     FDB UI_FUNCTION_MODE
 //     FDB UI_MEM_PROTECT_STATE
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; LCD_WRITE_STR_TO_BUFFER_LINE_2
 // ; ==============================================================================
@@ -14470,7 +14534,7 @@ void lfo_get_amplitude()
 // ; * IX:   A pointer to the null-terminated string to write to the buffer.
 // ;
 // ; ==============================================================================
-// 
+//
 // LCD_WRITE_STR_TO_BUFFER_LINE_2:
 //     PSHX
 //     LDX     #M_LCD_BUFFER_LN_2
@@ -14478,8 +14542,8 @@ void lfo_get_amplitude()
 //     PULX
 //     JSR     LCD_WRITE_STR_TO_BUFFER
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; UI_PRINT_PATCH_INFO
 // ; ==============================================================================
@@ -14491,31 +14555,31 @@ void lfo_get_amplitude()
 // ; 'CRT 8 BASS1    '
 // ;
 // ; ==============================================================================
-// 
+//
 // UI_PRINT_PATCH_INFO:
 //     LDAA    #32
 //     LDAB    #16
-// 
+//
 // ; Fill the first line of string buffer (16 chars) with ASCII spaces.
 //     LDX     #M_LCD_BUFFER_LN_1
-// 
+//
 // _CLEAR_STR_BUFFER_LOOP:
 //     STAA    0,x
 //     INX
 //     DECB
 //     BNE     _CLEAR_STR_BUFFER_LOOP
-// 
+//
 // _PRINT_VOICE_SOURCE:
 //     LDAA    M_MEM_SELECT_UI_MODE
 //     BNE     _CRT_VOICE
-// 
+//
 // _INT_VOICE:
 //     LDX     #aInternalVoice
 //     BRA     _PRINT_LCD_LINE_1
-// 
+//
 // _CRT_VOICE:
 //     LDX     #aCartridgeVoice
-// 
+//
 // _PRINT_LCD_LINE_1:
 //     PSHX
 //     JSR     LCD_CLEAR_STR_BUFFER
@@ -14523,21 +14587,21 @@ void lfo_get_amplitude()
 //     STX     <M_COPY_DEST_PTR
 //     PULX
 //     JSR     LCD_WRITE_STR_TO_BUFFER
-// 
+//
 // ; Depending on whether the patch is in internal, or cartridge memory,
 // ; print either the 'INT', or 'CRT' prefix before the patch number.
-// 
+//
 // _IS_PATCH_IN_INT_OR_CRT?:
 //     LDAA    M_PATCH_CURRENT_CRT_OR_INT
 //     BNE     _PRINT_PATCH_NUM_PREFIX_CRT
-// 
+//
 // _PRINT_PATCH_NUM_PREFIX_INT:
 //     LDX     #aInt
 //     BRA     _SET_LCD_BUFFER_DEST
-// 
+//
 // _PRINT_PATCH_NUM_PREFIX_CRT:
 //     LDX     #aCrt
-// 
+//
 // _SET_LCD_BUFFER_DEST:
 //     PSHX
 //     LDX     #M_LCD_BUFFER_LN_2
@@ -14549,17 +14613,17 @@ void lfo_get_amplitude()
 //     LDX     #$2635                              ; Buffer Line 2 + 6.
 //     JSR     LCD_PRINT_PATCH_NAME_TO_BUFFER
 //     JSR     LCD_PRINT_STR_BUFFER
-// 
+//
 // _HAS_PATCH_BEEN_EDITED?:
 //     LDAA    M_PATCH_CURRENT_MODIFIED_FLAG
 //     CMPA    #EDITED_PATCH_IN_WORKING
 //     BNE     _PATCH_NOT_EDITED
 //     JMP     SHIFT_LCD_CURSOR_6_RIGHT
-// 
+//
 // _PATCH_NOT_EDITED:
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; UI_EDIT_MODE
 // ; ==============================================================================
@@ -14570,71 +14634,71 @@ void lfo_get_amplitude()
 // ; 1-32, while the synth is in 'Edit Mode'.
 // ;
 // ; ==============================================================================
-// 
+//
 // UI_EDIT_MODE:
 //     CLR     M_PATCH_NAME_EDIT_ACTIVE
-// 
+//
 // ; If the last-pressed button was the 'Edit' button, reset the last-pressed
 // ; button to be the previously selected 'Edit Parameter', and call the
 // ; subroutine again.
-// 
+//
 // _IS_LAST_BUTTON_EDIT?:
 //     LDAA    M_LAST_PRESSED_BTN
 //     CMPA    #BUTTON_EDIT_CHAR
 //     BNE     _BTN_NOT_EDIT
 //     JMP     _RESET_EDIT_PARAM
-// 
+//
 // _BTN_NOT_EDIT:
 //     JSR     LCD_CLEAR_STR_BUFFER_LINE_2
 //     LDAA    M_LAST_PRESSED_BTN
 //     CMPA    #6
 //     BCC     _BTN_GT_EQ_6
 //     JMP     _EDIT_BUTTONS_1_TO_6
-// 
+//
 // _BTN_GT_EQ_6:
 //     CMPA    #46
-// 
+//
 // ; @TODO: Under what circumstances does this occur?
 // ; I'm not entirely sure under what circumstances this value will be '46'.
 //     BNE     _IS_BUTTON_17?
-// 
+//
 // _UI_EDIT_RESET_LAST_PRESSED_BUTTON:
 //     LDAA    M_EDIT_PARAM_CURRENT
 //     STAA    M_LAST_PRESSED_BTN
-// 
+//
 // _IS_BUTTON_17?:
 //     CMPA    #BUTTON_17
 //     BNE     _IS_BUTTON_OP_SELECT?
-// 
+//
 // _EDIT_OSC_MODE_SYNC:
 //     LDAA    <M_EDIT_OSC_MODE_SYNC_FLAG
 //     BNE     _EDIT_OSC_SYNC
 //     BRA     _EDIT_OSC_MODE
-// 
+//
 // _EDIT_OSC_SYNC:
 //     LDAA    #29
 //     BRA     _STORE_EDIT_PARAM_STR_INDEX
-// 
+//
 // _EDIT_OSC_MODE:
 //     LDAA    #28
-// 
+//
 // _STORE_EDIT_PARAM_STR_INDEX:
 //     STAA    M_EDIT_PARAM_STR_INDEX
 //     JMP     _PRINT_EDIT_INFO?
-// 
+//
 // ; If the last pressed button was the 'Operator Select' button, send the
 // ; SYSEX message corresponding to enabling/disabling an operator, and reset
 // ; the last-pressed button.
-// 
+//
 // _IS_BUTTON_OP_SELECT?:
 //     CMPA    #BUTTON_OP_SELECT
 //     BNE     _IS_BUTTON_7?
 //     JMP     MIDI_SYSEX_SEND_OP_ON_OFF
-// 
+//
 // _IS_BUTTON_7?:
 //     CMPA    #BUTTON_7
 //     BNE     _IS_BUTTON_18?
-// 
+//
 // _PRINT_ALG_SELECT:
 //     JSR     UI_PRINT_ALG_INFO
 //     LDX     #aAlgorithmSelec
@@ -14642,50 +14706,50 @@ void lfo_get_amplitude()
 //     LDX     #M_PATCH_CURRENT_ALG
 //     JSR     MIDI_SYSEX_SEND_PARAM_CHG
 //     JMP     _END_UI_EDIT_MODE
-// 
+//
 // _IS_BUTTON_18?:
 //     CMPA    #BUTTON_18
 //     BEQ     _EDIT_FREQUENCY
-// 
+//
 // _IS_BUTTON_19?:
 //     CMPA    #BUTTON_19
 //     BEQ     _EDIT_FREQUENCY
 //     JMP     _IS_BUTTON_20?
-// 
+//
 // _EDIT_FREQUENCY:
 //     JSR     UI_PRINT_ALG_INFO
 //     JSR     PATCH_GET_PTR_TO_SELECTED_OP
-// 
+//
 // ; Subtract 17 to determine whether the button pressed was 18, or 19.
 //     LDAA    M_LAST_PRESSED_BTN
 //     SUBA    #17
 //     BNE     _PRINT_MSG_FREQ_FINE
-// 
+//
 // _PRINT_MSG_FREQ_COARSE:
 //     LDAB    #18
 //     JSR     MIDI_SYSEX_SEND_OP_PARAM_RELATIVE
 //     LDX     #aFCoarse
 //     BRA     _PRINT_EDIT_FREQ_MSG
-// 
+//
 // _PRINT_MSG_FREQ_FINE:
 //     LDAB    #19
 //     JSR     MIDI_SYSEX_SEND_OP_PARAM_RELATIVE
 //     LDX     #aFFine
-// 
+//
 // _PRINT_EDIT_FREQ_MSG:
 //     JSR     LCD_WRITE_STR_TO_BUFFER_LINE_2
 //     CLR     M_EDIT_PARAM_MAX_VALUE
 //     JSR     PATCH_GET_PTR_TO_SELECTED_OP
-// 
+//
 // ; Check whether this operator uses a fixed, or ratio frequency.
-// 
+//
 // _IS_FIXED_FREQUENCY?:
 //     TST     17,x
 //     BNE     _EDIT_FREQUENCY_FIXED
-// 
+//
 // ; Load the patch's coarse operator frequency.
 // ; If this value is above 31, set to 1.
-// 
+//
 // _FREQ_MODE_RATIO:
 //     LDAA    18,x
 //     BEQ     _COARSE_FREQ_0
@@ -14693,60 +14757,60 @@ void lfo_get_amplitude()
 //     BLS     _COARSE_FREQ_GT_0
 //     LDAA    #1
 //     STAA    18,x
-// 
+//
 // _COARSE_FREQ_GT_0:
 //     LDAB    #100
 //     MUL
 //     BRA     _STORE_PRINT_VALUE
-// 
+//
 // _COARSE_FREQ_0:
 //     LDAB    #50
 //     CLRA
-// 
+//
 // _STORE_PRINT_VALUE:
 //     STD     M_EDIT_RATIO_FREQ_PRINT_VALUE
 //     LDAB    19,x
-// 
+//
 // ; Load the 'Operator Fine Freq' value.
 // ; If this value is above 99, set to 0.
 //     CMPB    #99
 //     BLS     _PRINT_RATIO_FREQ_COMPUTE_FINE
 //     CLRB
 //     STAB    19,x
-// 
+//
 // ; Load the 'Operator Coarse Freq' value.
 // ; Increment, and shift right if non-zero.
-// 
+//
 // _PRINT_RATIO_FREQ_COMPUTE_FINE:
 //     LDAA    18,x
 //     BNE     _PRINT_RATIO_FREQ_COMPUTE_RATIO
 //     INCA
 //     LSRB
-// 
+//
 // ; For coarse frequencies above 0, the final operator ratio =
 // ;   (100 * FREQ_COARSE) + (FREQ_COARSE * FREQ_FINE)
 // ; For a coarse frequency of 0, the final operator ratio =
 // ;   50 + ((FREQ_COARSE + 1 ) * (FREQ_FINE >> 1))
-// 
+//
 // _PRINT_RATIO_FREQ_COMPUTE_RATIO:
 //     MUL
 //     ADDD    M_EDIT_RATIO_FREQ_PRINT_VALUE
 //     JSR     CONVERT_INT_TO_STR
 //     LDX     <M_COPY_DEST_PTR
 //     LDAA    M_PARSED_INT_THSNDS
-// 
+//
 // ; If the final value is below 1000, print a space in this column.
 //     BEQ     _PRINT_RATIO_FREQ_SPACE
 //     ADDA    #'0'
 //     BRA     _PRINT_RATIO_FREQ
-// 
+//
 // _PRINT_RATIO_FREQ_SPACE:
 //     LDAA    #' '
-// 
+//
 // _PRINT_RATIO_FREQ:
 //     STAA    0,x
 //     LDAA    M_PARSED_INT_HNDRDS
-// 
+//
 // ; Offset from ASCII '0' to convert each value to an ASCII char.
 //     ADDA    #'0'
 //     STAA    1,x
@@ -14759,20 +14823,20 @@ void lfo_get_amplitude()
 //     ADDA    #'0'
 //     STAA    4,x
 //     JMP     _END_UI_EDIT_MODE
-// 
+//
 // _EDIT_FREQUENCY_FIXED:
 //     LDAB    19,x
 //     CMPB    #99
-// 
+//
 // ; Load the patch's fine operator frequency value.
 // ; If this value is greater than 99, clear it.
 //     BLS     _LOAD_FIXED_FREQ_VALUES
 //     CLRB
 //     STAB    19,x
-// 
+//
 // _LOAD_FIXED_FREQ_VALUES:
 //     PSHX
-// 
+//
 // ; Use the patch's fixed frequency value as an index into this table, and
 // ; load the resulting value into ACCD.
 //     LDX     #TABLE_FREQ_FIXED_FINE_VALUES
@@ -14781,17 +14845,17 @@ void lfo_get_amplitude()
 //     LDD     0,x
 //     JSR     CONVERT_INT_TO_STR
 //     PULX
-// 
+//
 // ; Load the patch's coarse operator frequency.
 // ; If this value is above 31, set to 1.
-// 
+//
 // _LOAD_OPERATOR_FREQ_COARSE:
 //     LDAB    18,x
 //     CMPB    #31
 //     BLS     _PRINT_FIXED_FREQ
 //     LDAB    #1
 //     STAB    18,x
-// 
+//
 // ; The 'Operator Coarse Frequency' is clamped at 4, since there are only
 // ; 4 valid values for a fixed frequency.
 // ; This value is used to determine how many digits lie before the decimal
@@ -14799,25 +14863,25 @@ void lfo_get_amplitude()
 // ; e.g 1hz = 0, 10hz = 1, 100hz = 2, 1000hz.
 // ; The first entry in the table is 1023. If the coarse freq is 100hz then
 // ; this will print as: 102.3xx
-// 
+//
 // _PRINT_FIXED_FREQ:
 //     ANDB    #3
-// 
+//
 // ; At this point, the copy destination ptr points to the end of the
 // ; LCD buffer, after the final '=' char of the previously printed string.
 //     LDX     <M_COPY_DEST_PTR
 //     LDAA    M_PARSED_INT_THSNDS
-// 
+//
 // ; Offset the number value with ASCII '0' to convert to an ASCII value.
 //     ADDA    #'0'
 //     STAA    0,x
 //     INX
 //     DECB
-// 
+//
 // ; If value is non-negative after subtracting, branch.
 //     BPL     _PRINT_FIXED_FREQ_HUNDREDS
 //     BSR     UI_EDIT_FREQ_PRINT_PERIOD
-// 
+//
 // _PRINT_FIXED_FREQ_HUNDREDS:
 //     LDAA    M_PARSED_INT_HNDRDS
 //     BSR     UI_EDIT_FREQ_PRINT_DIGIT
@@ -14825,7 +14889,7 @@ void lfo_get_amplitude()
 //     DECB
 //     BPL     _PRINT_FIXED_FREQ_TENS
 //     BSR     UI_EDIT_FREQ_PRINT_PERIOD
-// 
+//
 // _PRINT_FIXED_FREQ_TENS:
 //     LDAA    M_PARSED_INT_TENS
 //     BSR     UI_EDIT_FREQ_PRINT_DIGIT
@@ -14833,7 +14897,7 @@ void lfo_get_amplitude()
 //     DECB
 //     BPL     _PRINT_FIXED_FREQ_DIGITS
 //     BSR     UI_EDIT_FREQ_PRINT_PERIOD
-// 
+//
 // _PRINT_FIXED_FREQ_DIGITS:
 //     LDAA    M_PARSED_INT_DIGITS
 //     BSR     UI_EDIT_FREQ_PRINT_DIGIT
@@ -14841,12 +14905,12 @@ void lfo_get_amplitude()
 //     LDAA    #$20                                ; ' '
 //     STAA    0,x
 //     INX
-// 
+//
 // _PRINT_FIXED_FREQ_HZ:
 //     LDD     #'Hz'
 //     JMP     _PRINT_FINAL_CHARS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; UI_EDIT_FREQ_PRINT_PERIOD
 // ; ==============================================================================
@@ -14863,17 +14927,17 @@ void lfo_get_amplitude()
 // ; * IX:   The memory location to print the ASCII '.' character to.
 // ;
 // ; ==============================================================================
-// 
+//
 // UI_EDIT_FREQ_PRINT_PERIOD:
 //     LDAA    #'.'
-// 
+//
 // ; Offset the numeric value with ASCII '0' to convert to an ASCII
 // ; value, then store.
 //     STAA    0,x
 //     INX
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; UI_EDIT_FREQ_PRINT_DIGIT
 // ; ==============================================================================
@@ -14890,18 +14954,18 @@ void lfo_get_amplitude()
 // ; * IX:   The memory location to print the ASCII character to.
 // ;
 // ; ==============================================================================
-// 
+//
 // UI_EDIT_FREQ_PRINT_DIGIT:
 //     ADDA    #'0'
-// 
+//
 // ; Offset the numeric value with ASCII '0' to convert to an ASCII
 // ; value, then store.
 //     STAA    0,x
 //     INX
 //     TSTB
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; Fine Frequency Values Table.
 // ; ==============================================================================
@@ -15006,46 +15070,46 @@ void lfo_get_amplitude()
 //     FDB $2475
 //     FDB $254E
 //     FDB $262C
-// 
+//
 // _IS_BUTTON_20?:
 //     CMPA    #BUTTON_20
 //     BNE     _IS_BTN_21?
-// 
+//
 // _PRINT_OSC_DETUNE:
 //     JSR     UI_PRINT_ALG_INFO
 //     LDX     #aOscDetune
 //     JSR     LCD_WRITE_STR_TO_BUFFER_LINE_2
-// 
+//
 // _SEND_PARAM_OVER_MIDI:
 //     JSR     PATCH_GET_PTR_TO_SELECTED_OP
 //     LDAB    #20
 //     JSR     MIDI_SYSEX_SEND_OP_PARAM_RELATIVE
 //     LDAB    20,x
-// 
+//
 // ; Load the operator detune value.
 // ; If this value is over 14, reset it to 7.
 //     CMPB    #14
 //     BLS     _PRINT_OSC_DETUNE_VALUE
 //     LDAB    #7
 //     STAB    $14,x
-// 
+//
 // ; Use the operator detune value as an index into this string.
 // ; Copy it to the LCD buffer, then print.
-// 
+//
 // _PRINT_OSC_DETUNE_VALUE:
 //     ASLB
 //     LDX     #a76543210123456
 //     ABX
 //     LDD     0,x
 //     LDX     <M_COPY_DEST_PTR
-// 
+//
 // _PRINT_FINAL_CHARS:
 //     STAA    0,x
 //     STAB    1,x
 //     JMP     _END_UI_EDIT_MODE
 // a76543210123456:     FCC "-7-6-5-4-3-2-1 0+1+2+3+4+5+6+7"
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_SYSEX_SEND_OP_PARAM_RELATIVE
 // ; ==============================================================================
@@ -15061,18 +15125,18 @@ void lfo_get_amplitude()
 // ;         operator memory address in IX.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_SYSEX_SEND_OP_PARAM_RELATIVE:
 //     PSHX
 //     ABX
 //     JSR     MIDI_SYSEX_SEND_PARAM_CHG
 //     PULX
 //     RTS
-// 
-// 
+//
+//
 // ; The following branches check the last button pressed to determine which
 // ; EG parameter is being edited.
-// 
+//
 // _IS_BTN_21?:
 //     CLRB
 //     CMPA    #BUTTON_21
@@ -15086,7 +15150,7 @@ void lfo_get_amplitude()
 //     INCB
 //     CMPA    #BUTTON_30
 //     BNE     _IS_BTN_25?
-// 
+//
 // _ADD_STR_OFFSET_FOR_EG_FUNCTIONS:
 //     LDAA    #4
 //     MUL
@@ -15094,7 +15158,7 @@ void lfo_get_amplitude()
 //     ADDB    #30
 //     STAB    M_EDIT_PARAM_STR_INDEX
 //     JMP     _PRINT_EDIT_INFO?
-// 
+//
 // _IS_BTN_25?:
 //     CLRB
 //     CMPA    #BUTTON_25
@@ -15104,11 +15168,11 @@ void lfo_get_amplitude()
 //     BEQ     _BTN_IS_24_25
 //     STAA    M_EDIT_PARAM_STR_INDEX
 //     JMP     _IS_BUTTON_31?
-// 
+//
 // ; This toggle value is either 0, or 0xFF.
 // ; If bit 0 is set, it is shifted left 1, then added to 46, to create an
 // ; index into the string table of either 46 (OFF), or 48 (ON).
-// 
+//
 // _BTN_IS_24_25:
 //     LDAA    <M_EDIT_KBD_SCALE_TOGGLE
 //     ANDA    #1
@@ -15117,13 +15181,13 @@ void lfo_get_amplitude()
 //     ADDA    #46
 //     STAA    M_EDIT_PARAM_STR_INDEX
 //     JMP     _PRINT_EDIT_INFO?
-// 
+//
 // ; If the synth is in 'Edit Mode', and buttons 1 to 6 are pressed, the
 // ; selected operator is enabled or disabled.
 // ; This is done by using the currently pressed button as an index into an
 // ; array of bitmasks, which are XOR'd against the contents of the current
 // ; operator enabled register.
-// 
+//
 // _EDIT_BUTTONS_1_TO_6:
 //     LDAB    M_LAST_PRESSED_BTN
 //     LDX     #TABLE_OP_NUMBER_BITMASK
@@ -15131,10 +15195,10 @@ void lfo_get_amplitude()
 //     LDAB    0,x
 //     EORB    M_PATCH_CURRENT_OPS_ON_OFF
 //     STAB    M_PATCH_CURRENT_OPS_ON_OFF
-// 
+//
 // ; Falls-through to print patch info, and return.
 //     BRA     MIDI_SYSEX_SEND_OP_ON_OFF
-// 
+//
 // ; ==============================================================================
 // ; Operator Number Bitmask Table.
 // ; Contains bitmasks corresponding to each of the synth's six operators.
@@ -15147,72 +15211,72 @@ void lfo_get_amplitude()
 //     FCB %100
 //     FCB %10
 //     FCB 1
-// 
-// 
+//
+//
 // MIDI_SYSEX_SEND_OP_ON_OFF:
 //     LDX     #M_PATCH_CURRENT_OPS_ON_OFF
 //     JSR     MIDI_SYSEX_SEND_PARAM_CHG
-// 
-// 
+//
+//
 // _RESET_EDIT_PARAM:
 //     JSR     UI_PRINT_ALG_INFO
 //     LDAA    M_EDIT_PARAM_CURRENT
 //     STAA    M_LAST_PRESSED_BTN
 //     JMP     UI_EDIT_MODE
-// 
+//
 // _IS_BUTTON_31?:
 //     CMPA    #BUTTON_31
 //     BNE     _PRINT_EDIT_INFO?
-// 
+//
 // _PRINT_KEY_TRANSPOSE:
 //     JSR     UI_PRINT_ALG_INFO
 //     LDX     #aMiddleC
 //     JSR     LCD_WRITE_STR_TO_BUFFER_LINE_2
 //     LDAB    M_PATCH_CURRENT_TRANSPOSE
 //     CMPB    #48
-// 
+//
 // ; If this value is > 48, set to 24.
 // ; This is because the key transpose is an unsigned value, with a range
 // ; of -24 - 24.
 //     BLS     _PRINT_KEY_TRANSPOSE_VALUE
 //     LDAB    #24
 //     STAB    M_PATCH_CURRENT_TRANSPOSE
-// 
+//
 // _PRINT_KEY_TRANSPOSE_VALUE:
 //     ADDB    #24
 //     JSR     PRINT_MUSICAL_NOTES
-// 
+//
 // ; Send the current value over SYSEX.
 //     LDX     #M_PATCH_CURRENT_TRANSPOSE
 //     JSR     MIDI_SYSEX_SEND_PARAM_CHG
 //     JMP     _END_UI_EDIT_MODE
-// 
+//
 // _PRINT_EDIT_INFO?:
 //     JSR     UI_PRINT_ALG_INFO
 //     LDAB    M_EDIT_PARAM_STR_INDEX
-// 
+//
 // ; Check that this variable is less-than, or equal to 49.
-// 
+//
 // _IS_VALID_ENTRY?:
 //     CMPB    #49
 //     BLS     _PRINT_EDIT_PARAM_INFO
 //     RTS
-// 
+//
 // ; Subtract 6 from the 'Edit Parameter String Index', and use this variable
 // ; as an index into the 'Edit String Pointers Table.
 // ; We subtract 6, on account of buttons 1-7 being handled elsewhere in this
 // ; function.
-// 
+//
 // _PRINT_EDIT_PARAM_INFO:
 //     SUBB    #6
 //     ASLB
 //     CMPB    #44
 //     BNE     _LOAD_EDIT_STRING
 //     JMP     _PRINT_OSC_MODE
-// 
+//
 // ; Load the string for the currently selected edit parameter, and print to
 // ; the second line of the LCD screen.
-// 
+//
 // _LOAD_EDIT_STRING:
 //     PSHB
 //     LDX     #STR_PTRS_EDIT_PARAM
@@ -15228,134 +15292,134 @@ void lfo_get_amplitude()
 //     LDX     <M_COPY_DEST_PTR
 //     ADDA    #49
 //     STAA    0,x
-// 
+//
 // _LOAD_EDIT_PARAM_RANGE:
 //     LDX     #TABLE_EDIT_PARAM_VALUES
 //     ABX
 //     LDD     0,x
-// 
+//
 // ; Test ACCB to determine which parameter is currently being edited.
 // ; The number in ACCB corresponds to the offset of this parameter within
 // ; patch memory. e.g. Offset 134 = Algorithm.
 // ; Test if this parameter corresponds to a breakpoint.
-// 
+//
 // _IS_PARAM_BREAKPOINT?:
 //     CMPB    #8
 //     BEQ     _TEST_BREAKPOINT_VALUE
-// 
+//
 // _IS_PARAM_LEFT_CURVE?:
 //     CMPB    #11
 //     BEQ     _TEST_CURVE_VALUE
-// 
+//
 // _IS_PARAM_RIGHT_CURVE?:
 //     CMPB    #12
 //     BEQ     _TEST_CURVE_VALUE
-// 
+//
 // _IS_PARAM_OSC_SYNC?:
 //     CMPB    #136
 //     BEQ     _PRINT_OSC_SYNC
-// 
+//
 // _IS_PARAM_LFO_SYNC?:
 //     CMPB    #141
 //     BEQ     _PRINT_OSC_SYNC
-// 
+//
 // _IS_PARAM_LFO_WAVEFORM:
 //     CMPB    #142
 //     BEQ     _TEST_LFO_WAVEFORM_VALUE
-// 
+//
 // ; The following section handles printing all other numeric parameters, as
 // ; well as testing them for invalid values.
-// 
+//
 // _PRINT_NUMERIC_PARAM:
 //     STD     M_EDIT_PARAM_MAX_AND_OFFSET
-// 
+//
 // ; Write '=' to LCD Line 2 Buffer + 13, then increment pointer and save.
 //     LDAA    #'='
 //     LDX     #$263C
 //     STAA    0,x
 //     INX
 //     STX     <M_COPY_DEST_PTR
-// 
+//
 // ; Test if the parameter being edited is specific to an operator, or a
 // ; global patch parameter by comparing whether its relative offset is
 // ; above 125.
 // ; If it is an operator parameter, a pointer to the currently
 // ; selected operator will be loaded into IX, otherwise the start of
 // ; the patch 'Edit Buffer' will be loaded into IX.
-// 
+//
 // _IS_OPERATOR_PARAM?:
 //     CMPB    #125
 //     BHI     _GLOBAL_PARAM
-// 
+//
 // _OPERATOR_PARAM:
 //     JSR     PATCH_GET_PTR_TO_SELECTED_OP
 //     BRA     _LOAD_NUMERIC_PARAM
-// 
+//
 // _GLOBAL_PARAM:
 //     LDX     #M_PATCH_CURRENT_BUFFER
-// 
+//
 // ; Load the parameter maximum value, and offset into ACCD.
 // ; The maximum value is in ACCA, the offset in ACCB.
-// 
+//
 // _LOAD_NUMERIC_PARAM:
 //     LDD     M_EDIT_PARAM_MAX_AND_OFFSET
 //     ABX
-// 
+//
 // ; Save registers, send SYSEX message, and restore registers.
 //     PSHX
 //     PSHA
 //     JSR     MIDI_SYSEX_SEND_PARAM_CHG
 //     PULA
 //     PULX
-// 
+//
 // ; Load the actual parameter data byte, and store the maximum value for this
 // ; parameter. Then compare this value against the maximum parameter. If it
 // ; is higher, then reset the value to the maximum, and store it.
 //     LDAB    0,x
 //     STAA    M_EDIT_PARAM_MAX_VALUE
-// 
+//
 // _TEST_NUMERIC_PARAM:
 //     CMPB    M_EDIT_PARAM_MAX_VALUE
 //     BLS     _PRINT_NUMERIC_PARAM_VALUE
 //     LDAB    M_EDIT_PARAM_MAX_VALUE
 //     STAB    0,x
-// 
+//
 // _PRINT_NUMERIC_PARAM_VALUE:
 //     CLRA
 //     JSR     CONVERT_INT_TO_STR
 //     LDX     <M_COPY_DEST_PTR
 //     JSR     LCD_WRITE_NUM_TO_STR_BFR
 //     BRA     _END_UI_EDIT_MODE
-// 
+//
 // ; Check that the breakpoint value is within the range 0-99. If not, the
 // ; value is reset to 0, and stored.
-// 
+//
 // _TEST_BREAKPOINT_VALUE:
 //     JSR     MIDI_SYSEX_SEND_OP_PARAM
 //     CMPB    #99
 //     BLS     _PRINT_BREAKPOINT
 //     CLRB
 //     STAB    0,x
-// 
+//
 // _PRINT_BREAKPOINT:
 //     ADDB    #9
 //     JSR     PRINT_MUSICAL_NOTES
 //     BRA     _END_UI_EDIT_MODE
-// 
+//
 // ; Check that the curve value is within the range 0-3. If not, the
 // ; value is reset to 0, and stored.
-// 
+//
 // _TEST_CURVE_VALUE:
 //     JSR     MIDI_SYSEX_SEND_OP_PARAM
 //     CMPB    #3
 //     BLS     _PRINT_CURVE
 //     CLRB
 //     STAB    0,x
-// 
+//
 // _PRINT_CURVE:
 //     LDX     #TABLE_STR_PTRS_EG_CURVES
 //     BRA     _PRINT_PARAMETER_NAME
-// 
+//
 // _TEST_LFO_WAVEFORM_VALUE:
 //     LDX     #M_PATCH_CURRENT_BUFFER
 //     PSHB
@@ -15363,18 +15427,18 @@ void lfo_get_amplitude()
 //     PULB
 //     ABX
 //     LDAB    0,x
-// 
+//
 // ; Check that the LFO waveform value is within the range 0-99. If not, the
 // ; value is reset to 0, and stored.
 //     CMPB    #5
 //     BLS     _PRINT_LFO_WAVEFORM
 //     CLRB
 //     STAB    0,x
-// 
+//
 // _PRINT_LFO_WAVEFORM:
 //     LDX     #TABLE_STR_PTRS_LFO_WAVES
 //     BRA     _PRINT_PARAMETER_NAME
-// 
+//
 // _PRINT_OSC_SYNC:
 //     LDX     #M_PATCH_CURRENT_BUFFER
 //     PSHB
@@ -15390,28 +15454,28 @@ void lfo_get_amplitude()
 //     LDX     0,x
 //     JSR     LCD_WRITE_STR_TO_BUFFER
 //     BRA     _END_UI_EDIT_MODE
-// 
+//
 // _PRINT_OSC_MODE:
 //     LDAB    #17
 //     JSR     MIDI_SYSEX_SEND_OP_PARAM
-// 
+//
 // ; Ensure this value is either 0, or 1.
 //     ANDB    #1
 //     STAB    0,x
 //     LDX     #M_LCD_BUFFER_LN_2
 //     STX     <M_COPY_DEST_PTR
 //     LDX     #TABLE_STR_PTRS_FREQ_MODE
-// 
+//
 // _PRINT_PARAMETER_NAME:
 //     ASLB
 //     ABX
 //     LDX     0,x
 //     JSR     LCD_WRITE_STR_TO_BUFFER
-// 
+//
 // _END_UI_EDIT_MODE:
 //     JMP     LCD_PRINT_STR_BUFFER
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; MIDI_SYSEX_SEND_OP_PARAM
 // ; ==============================================================================
@@ -15431,7 +15495,7 @@ void lfo_get_amplitude()
 // ; * ACCB: The specified parameter.
 // ;
 // ; ==============================================================================
-// 
+//
 // MIDI_SYSEX_SEND_OP_PARAM:
 //     PSHB
 //     JSR     PATCH_GET_PTR_TO_SELECTED_OP
@@ -15441,8 +15505,8 @@ void lfo_get_amplitude()
 //     JSR     MIDI_SYSEX_SEND_OP_PARAM_RELATIVE
 //     LDAB    0,x
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; PRINT_MUSICAL_NOTES
 // ; ==============================================================================
@@ -15459,34 +15523,34 @@ void lfo_get_amplitude()
 // ; * 0xFB:   The destination string buffer pointer.
 // ;
 // ; ==============================================================================
-// 
+//
 // PRINT_MUSICAL_NOTES:
 //     CLRA
-// 
+//
 // _FIND_OCTAVE_LOOP:
 //     SUBB    #12
 //     BMI     _WRITE_NOTE_NAME                    ; If B < 0, branch.
 //     INCA
 //     BRA     _FIND_OCTAVE_LOOP
-// 
+//
 // ; Add 12 back to B to make this a positive number % 12.
 // ; This will now be used as an index into the note name array.
-// 
+//
 // _WRITE_NOTE_NAME:
 //     ADDB    #12
 //     DECA
 //     PSHA
-// 
+//
 // ; Load the two note name character bytes into D.
-// 
+//
 // _LOAD_NOTE_NAME:
 //     LDX     #TABLE_NOTE_NAMES
 //     ASLB
 //     ABX
 //     LDD     0,x
-// 
+//
 // ; Write these two bytes to the destination string buffer.
-// 
+//
 // _COPY_NOTE_NAME:
 //     LDX     <M_COPY_DEST_PTR
 //     STAA    0,x
@@ -15494,21 +15558,21 @@ void lfo_get_amplitude()
 //     PULA
 //     TSTA
 //     BMI     _PRINT_NEGATIVE_OCTAVE
-// 
+//
 // ; Add ASCII '0' to the octave number to make it a valid ASCII char.
 //     ADDA    #'0'
 //     STAA    2,x
 //     RTS
-// 
+//
 // ; Write '-1' to the destination string buffer.
-// 
+//
 // _PRINT_NEGATIVE_OCTAVE:
 //     LDAA    #'-'
 //     LDAB    #'1'
 //     STAA    2,x
 //     STAB    3,x
 //     RTS
-// 
+//
 // ; ==============================================================================
 // ; String pointers used in the 'Edit Mode' menu, corresponding to the current
 // ; parameter being edited. This is set from the last button pushed.
@@ -15558,7 +15622,7 @@ void lfo_get_amplitude()
 //     FDB aRScaleDepth
 //     FDB aLKeyScale
 //     FDB aRKeyScale
-// 
+//
 // ; ==============================================================================
 // ; Edit Parameter Table.
 // ; This table is referenced by the 'Edit Parameter UI Function'. It holds the
@@ -15657,12 +15721,12 @@ void lfo_get_amplitude()
 //     FCB $B
 //     FCB 3
 //     FCB $C
-// 
+//
 // ; ==============================================================================
 // ; Note Name Table.
 // ; ==============================================================================
 // TABLE_NOTE_NAMES:    FCC "C C#D D#E F F#G G#A A#B "
-// 
+//
 // ; ==============================================================================
 // ; EG Curve Name Table.
 // ; ==============================================================================
@@ -15671,7 +15735,7 @@ void lfo_get_amplitude()
 //     FDB aExp
 //     FDB aExp_0
 //     FDB aLin_0
-// 
+//
 // ; ==============================================================================
 // ; LFO Wave Name Table.
 // ; ==============================================================================
@@ -15682,22 +15746,22 @@ void lfo_get_amplitude()
 //     FDB aSquare
 //     FDB aSine
 //     FDB aSHold
-// 
+//
 // ; ==============================================================================
 // ; On/Off Name Table.
 // ; ==============================================================================
 // TABLE_STR_PTRS_OFF_ON:
 //     FDB aOff
 //     FDB aOn
-// 
+//
 // ; ==============================================================================
 // ; Oscillator Frequency Mode Name Table.
 // ; ==============================================================================
 // TABLE_STR_PTRS_FREQ_MODE:
 //     FDB aFrequencyRatio
 //     FDB aFixedFreqHz
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; UI_EDIT_PATCH_NAME
 // ; ==============================================================================
@@ -15712,7 +15776,7 @@ void lfo_get_amplitude()
 // ; which is called as part of handling user input.
 // ;
 // ; ==============================================================================
-// 
+//
 // UI_EDIT_PATCH_NAME:
 //     JSR     UI_PRINT_ALG_INFO
 //     LDX     #aName
@@ -15724,22 +15788,22 @@ void lfo_get_amplitude()
 //     STX     <M_COPY_SRC_PTR
 //     LDX     #$2655                              ; LCD Buffer Line 2 + 6.
 //     STX     <M_COPY_DEST_PTR                    ; Falls-through below.
-// 
-// 
+//
+//
 // ; The following subroutine shifts the LCD cursor 6 'cells' to the right,
 // ; to align it correctly prior to printing the rest of the patch information.
-// 
+//
 // SHIFT_LCD_CURSOR_6_RIGHT:
 //     LDAB    #6
 //     PSHB
-// 
+//
 // ; Set the LCD cursor to start of line 2.
 //     LDAA    #LCD_INSTR_SET_CURSOR_TO_LINE_2
 //     JSR     LCD_WRITE_INSTRUCTION
 //     LDAA    #LCD_INSTR_SET_BLINK_ON
 //     JSR     LCD_WRITE_INSTRUCTION
 //     PULB
-// 
+//
 // _SHIFT_CURSOR_LOOP:
 //     LDAA    #LCD_INSTR_SHIFT_CURSOR_RIGHT
 //     PSHB
@@ -15748,8 +15812,8 @@ void lfo_get_amplitude()
 //     DECB
 //     BNE     _SHIFT_CURSOR_LOOP
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; UI_PRINT_SAVE_LOAD_MEM_MSG
 // ; ==============================================================================
@@ -15762,30 +15826,30 @@ void lfo_get_amplitude()
 // ; it is in 'Function Mode'.
 // ;
 // ; ==============================================================================
-// 
+//
 // UI_PRINT_SAVE_LOAD_MEM_MSG:
 //     LDAA    M_LAST_PRESSED_BTN
 //     SUBA    #14
-// 
+//
 // ; Check whether the last button was 15 (Load), or button 16 (Save), then
 // ; print the appropriate message to the LCD buffer, and return.
-// 
+//
 // _IS_LOAD_OR_SAVE?:
 //     BEQ     _PRINT_SAVE_MEM_MSG
-// 
+//
 // _PRINT_LOAD_MEM_MSG:
 //     LDAB    #1
 //     LDX     #aLoadMemoryAllO
 //     BRA     _END_UI_PRINT_SAVE_LOAD_MEM_MSG
-// 
+//
 // _PRINT_SAVE_MEM_MSG:
 //     CLRB
 //     LDX     #aSaveMemoryAllO
-// 
+//
 // _END_UI_PRINT_SAVE_LOAD_MEM_MSG:
 //     JMP     LCD_WRITE_LINE_1_THEN_PRINT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; UI_FUNCTION_MODE
 // ; ==============================================================================
@@ -15796,7 +15860,7 @@ void lfo_get_amplitude()
 // ; 1-32, while the synth is in function mode.
 // ;
 // ; ==============================================================================
-// 
+//
 // UI_FUNCTION_MODE:
 //     JSR     LCD_CLEAR_STR_BUFFER
 //     LDX     #M_LCD_BUFFER_LN_1
@@ -15808,77 +15872,77 @@ void lfo_get_amplitude()
 //     CMPB    #BUTTON_2
 //     BNE     _IS_FN_5?
 //     JMP     _FN_2_MONO_POLY
-// 
+//
 // _IS_FN_5?:
 //     CMPB    #BUTTON_5
 //     BNE     _IS_FN_GT_14?
 //     JMP     _FN_5_PORTAMENTO
-// 
+//
 // _IS_FN_GT_14?:
 //     CMPB    #14
 //     BCS     _IS_FN_11?                          ; Branch if B < 14.
 //     JMP     _PRINT_MOD_SRC_FN_PARAM
-// 
+//
 // _IS_FN_11?:
 //     CMPB    #10
 //     BNE     _IS_FN_8?
 //     JMP     _FN_11_CRT_FORMAT
-// 
+//
 // _IS_FN_8?:
 //     CMPB    #7
 //     BNE     _FN_OTHERS_GET_STR
 //     JMP     _FN_8
-// 
+//
 // ; All other function control menu items are printed from this point.
 // ; Get pointer to the parameter's string representation, and print.
-// 
+//
 // _FN_OTHERS_GET_STR:
 //     ASLB
 //     LDX     #TABLE_STR_PTRS_FN_PARAM_NAMES
 //     ABX
 //     LDX     0,x
-// 
+//
 // _FN_OTHERS:
 //     JSR     LCD_WRITE_STR_TO_BUFFER
 //     LDAB    M_FN_PARAM_CURRENT
 //     BEQ     _PRINT_FN_1_TO_LCD_AND_EXIT
-// 
+//
 // _IS_FN_9?:
 //     CMPB    #8
 //     BEQ     _END_2
-// 
+//
 // _IS_FN_10?:
 //     CMPB    #9
 //     BEQ     _END_2
 //     CMPB    #10
 //     BEQ     _END_2
-// 
+//
 // ; Print ASCII '=' to LCD buffer, and increment buffer pointer.
-// 
+//
 // _PRINT_FN_PARAM:
 //     LDX     <M_COPY_DEST_PTR
 //     LDAA    #'='
 //     STAA    0,x
 //     INX
 //     STX     <M_COPY_DEST_PTR
-// 
+//
 // ; Load a pointer to the function parameter table into IX.
 // ; This will be used to load the current function parameter value below.
 //     LDAB    M_LAST_PRESSED_BTN
 //     ASLB
 //     LDX     #TABLE_FN_PARAMS
 //     ABX
-// 
+//
 // _IS_FN_PARAM_0?:
 //     TSTB
 //     BEQ     _LOAD_FN_PARAM_VALUE
-// 
+//
 // ; Load the pointer to the function parameter into IX.
 // ; The following section checks whether SYSEX data should be sent according
 // ; to which parameter is currently being edited.
 //     PSHX
 //     LDX     0,x
-// 
+//
 // _IS_FN_PARAM_13?:
 //     LSRB
 //     CMPB    #13
@@ -15887,27 +15951,27 @@ void lfo_get_amplitude()
 //     CMPB    #6
 //     BEQ     _RESTORE_PARAM_PTR
 //     JSR     MIDI_SYSEX_SEND_FN_PARAM
-// 
+//
 // _RESTORE_PARAM_PTR:
 //     PULX
-// 
+//
 // ; Load the pointer to the function parameter into IX, and then load the
 // ; value into ACCB.
-// 
+//
 // _LOAD_FN_PARAM_VALUE:
 //     LDX     0,x
 //     LDAB    0,x
-// 
+//
 // _IS_LAST_PRESSED_BUTTON_14?:
 //     LDAA    M_LAST_PRESSED_BTN
 //     CMPA    #BUTTON_14
 //     BNE     _IS_LAST_PRESSED_BUTTON_6?
-// 
+//
 // ; Print the synth's battery voltage.
 // ; Multiply the analog value read by the sub-CPU by 50, then effectively
 // ; shift 8 bits to the right to get the quantised voltage value.
 // ; Convert the number to its ASCII value, and print to the synth's LCD.
-// 
+//
 // _FN_14_BATTERY_CHECK:
 //     LDAA    #50
 //     MUL
@@ -15923,52 +15987,52 @@ void lfo_get_amplitude()
 //     LDAA    M_PARSED_INT_DIGITS
 //     ADDA    #'0'
 //     STAA    2,x
-// 
+//
 // _END_2:
 //     BRA     _END_1
-// 
+//
 // _PRINT_FN_1_TO_LCD_AND_EXIT:
 //     JMP     LCD_PRINT_STR_BUFFER
-// 
+//
 // _IS_LAST_PRESSED_BUTTON_6?:
 //     CMPA    #BUTTON_6
 //     BEQ     _FN_6_GLISSANDO
-// 
+//
 // ; Is the last button 'Pitch Bend Range'?
-// 
+//
 // _IS_LAST_PRESSED_BUTTON_3?:
 //     CMPA    #BUTTON_3
 //     BNE     _PRINT_BEND_PARAM
-// 
+//
 // ; If the 'Pitch Bend Step' parameter is set to a non-zero value, the
 // ; 'Pitch Bend Range' value is automatically considered to be '12' for all of
 // ; the synth's internal processes.
-// 
+//
 // _FN_3_PITCH_BEND_RANGE:
 //     TST     M_PITCH_BND_STEP
 //     BEQ     _PRINT_BEND_PARAM
 //     LDAB    #12
-// 
+//
 // ; Clears A, then converts ACCD to its ASCII numeric value, then prints
 // ; the converted parameter to the LCD screen.
-// 
+//
 // _PRINT_BEND_PARAM:
 //     CLRA
 //     JSR     CONVERT_INT_TO_STR
 //     LDX     <M_COPY_DEST_PTR
 //     JSR     LCD_WRITE_NUM_TO_STR_BFR
-// 
+//
 // _END_1:
 //     BRA     _END_UI_FUNCTION_MODE
-// 
+//
 // _FN_6_GLISSANDO:
 //     TBA
 //     BRA     _IS_PARAM_ENABLED?
-// 
+//
 // ; Perform a bitwise AND operation on the param number, then shift right
 // ; to determine the modulation-source this parameter corresponds to. Use
 // ; this as an index into the table of names, then write to the LCD.
-// 
+//
 // _PRINT_MOD_SRC_FN_PARAM:
 //     ANDB    #%1100
 //     LSRB
@@ -15979,7 +16043,7 @@ void lfo_get_amplitude()
 //     LDX     <M_COPY_DEST_PTR
 //     INX
 //     STX     <M_COPY_DEST_PTR
-// 
+//
 // ; Perform a bitwise AND to determine the particular modulation-source
 // ; parameter type that is being edited, use this value to lookup the name
 // ; in the table, then print to the LCD.
@@ -15991,13 +16055,13 @@ void lfo_get_amplitude()
 //     LDX     0,x
 //     JSR     LCD_WRITE_STR_TO_BUFFER
 //     LDX     <M_COPY_DEST_PTR
-// 
+//
 // ; Print the '=' sign to the LCD.
 //     LDAA    #'='
 //     STAA    0,x
 //     INX
 //     STX     <M_COPY_DEST_PTR
-// 
+//
 // ; Lookup, then print the parameter value.
 //     LDX     #TABLE_FUNC_PARAMS_16_32
 //     LDAB    M_LAST_PRESSED_BTN
@@ -16008,30 +16072,30 @@ void lfo_get_amplitude()
 //     PSHX
 //     PSHB
 //     LDX     0,x
-// 
+//
 // ; Test if the current parameter is one of the modulation-source's 'flags'.
 // ; That being the 'Pitch', 'Amplitude', or 'EG Bias' flags associated with
 // ; a modulation source. If not, it is the 'Range' parameter.
-// 
+//
 // _IS_FLAG_PARAM?:
 //     ANDB    #%11
 //     PULB
 //     PSHB
 //     BEQ     _MOD_SOURCE_RANGE_PARAM
-// 
+//
 // _MOD_SOURCE_FLAG_PARAM:
 //     LSRB
 //     ANDB    #%110
 //     ADDB    #7
 //     BRA     _SEND_MOD_SOURCE_PARAM_SYSEX
-// 
+//
 // _MOD_SOURCE_RANGE_PARAM:
 //     LSRB
-// 
+//
 // ; Mask the parameter number, so that the individual flags can be read below.
 //     ANDB    #%110
 //     ADDB    #6
-// 
+//
 // _SEND_MOD_SOURCE_PARAM_SYSEX:
 //     JSR     MIDI_SYSEX_SEND_FN_PARAM
 //     PULB
@@ -16039,40 +16103,40 @@ void lfo_get_amplitude()
 //     ANDB    #%11
 //     BNE     _PRINT_MOD_SRC_FLAG_PARAM
 //     JMP     _LOAD_FN_PARAM_VALUE
-// 
+//
 // ; The following section shifts the value right until bit 0 holds the
 // ; value of the parameter flag currently being edited.
-// 
+//
 // _PRINT_MOD_SRC_FLAG_PARAM:
 //     LDX     0,x
 //     LDAA    0,x
 //     ASLA
-// 
+//
 // _SHIFT_FLAG_PARAMETER_LOOP:
 //     LSRA
 //     DECB
 //     BNE     _SHIFT_FLAG_PARAMETER_LOOP
-// 
+//
 // ; Test bit 0 of the parameter value to determine whether it is enabled,
 // ; or disabled. Lookup the corresponding string accordingly, and print.
-// 
+//
 // _IS_PARAM_ENABLED?:
 //     BITA    #1
 //     BEQ     _FN_PARAMETER_DISABLED
-// 
+//
 // _FN_PARAMETER_ENABLED:
 //     LDX     #aOn
 //     BRA     _WRITE_LCD_AND_EXIT
-// 
+//
 // _FN_PARAMETER_DISABLED:
 //     LDX     #aOff
-// 
+//
 // _WRITE_LCD_AND_EXIT:
 //     JSR     LCD_WRITE_STR_TO_BUFFER
-// 
+//
 // _END_UI_FUNCTION_MODE:
 //     JMP     LCD_PRINT_STR_BUFFER
-// 
+//
 // _FN_8:
 //     LDAA    M_EDIT_BTN_8_SUB_FN
 //     BNE     _IS_FN_8_SUB_2?
@@ -16081,30 +16145,30 @@ void lfo_get_amplitude()
 //     JSR     _FN_OTHERS
 //     DEC     M_MIDI_RX_CH
 //     RTS
-// 
+//
 // _IS_FN_8_SUB_2?:
 //     CMPA    #2
 //     BEQ     _FN_8_SUB_2
-// 
+//
 // _FN_8_SUB_1:
 //     TST     M_MIDI_SYS_INFO_AVAIL
 //     BNE     _SYS_INFO_AVAIL
 //     LDX     #aSysInfoUnavail
-// 
+//
 // _PRINT_SYS_INFO_STR_AND_EXIT:
 //     JMP     LCD_CLR_WRITE_LINE_2_THEN_PRINT
-// 
+//
 // _SYS_INFO_AVAIL:
 //     LDX     #aSysInfoAvail
 //     BRA     _PRINT_SYS_INFO_STR_AND_EXIT
-// 
+//
 // _FN_8_SUB_2:
 //     LDX     #aMidiTransmit
 //     JMP     LCD_CLR_WRITE_LINE_2_THEN_PRINT
 // aSysInfoAvail:       FCC "SYS INFO AVAIL", 0
 // aSysInfoUnavail:     FCC "SYS INFO UNAVAIL", 0
 // aMidiCh:             FCC "MIDI CH", 0
-// 
+//
 // _FN_2_MONO_POLY:
 //     CLRB
 //     LDX     #M_MONO_POLY
@@ -16112,7 +16176,7 @@ void lfo_get_amplitude()
 //     LDAB    M_MONO_POLY
 //     LDX     #TABLE_STR_PTRS_POLY_MONO
 //     BRA     _PRINT_LCD_AND_EXIT
-// 
+//
 // _FN_5_PORTAMENTO:
 //     LDAB    #3
 //     LDX     #M_PORTA_MODE
@@ -16123,20 +16187,20 @@ void lfo_get_amplitude()
 //     ABA
 //     TAB
 //     LDX     #TABLE_STR_PTRS_SUSTAIN_MODE
-// 
+//
 // _PRINT_LCD_AND_EXIT:
 //     ASLB
 //     ABX
-// 
+//
 // ; Use the Mono/Poly value as an index into this string table.
 //     LDX     0,x
 //     JMP     LCD_CLR_WRITE_LINE_2_THEN_PRINT
-// 
+//
 // _FN_11_CRT_FORMAT:
 //     LDX     #aCartridgeForm
 //     JMP     LCD_CLR_WRITE_LINE_2_THEN_PRINT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; Function Parameter Names Table.
 // ; ==============================================================================
@@ -16152,7 +16216,7 @@ void lfo_get_amplitude()
 //     FDB aEditRecall
 //     FDB aVoiceInit
 //     FDB 0
-// 
+//
 // ; ==============================================================================
 // ; MIDI Parameter Names Table.
 // ; ==============================================================================
@@ -16160,7 +16224,7 @@ void lfo_get_amplitude()
 //     FDB aMidiRecvCh
 //     FDB aMidiTrnsCh
 //     FDB aBatteryVolt
-// 
+//
 // ; ==============================================================================
 // ; Function Parameter Pointers Table.
 // ; ==============================================================================
@@ -16179,7 +16243,7 @@ void lfo_get_amplitude()
 //     FDB M_MIDI_RX_CH
 //     FDB M_MIDI_TX_CH
 //     FDB M_BATTERY_VOLTAGE
-// 
+//
 // ; ==============================================================================
 // ; Modulation Source Names Table.
 // ; Contains names for each of the synth's modulation-sources. This table is
@@ -16190,7 +16254,7 @@ void lfo_get_amplitude()
 //     FDB aFoot
 //     FDB aBreath
 //     FDB aAfter
-// 
+//
 // ; ==============================================================================
 // ; Modulation Parameter Names Table.
 // ; Contains names for each of the synth's EG parameters. This table is
@@ -16201,7 +16265,7 @@ void lfo_get_amplitude()
 //     FDB aPitch
 //     FDB aAmp
 //     FDB aEgB
-// 
+//
 // ; ==============================================================================
 // ; Function Parameters 16-32 Pointers Table.
 // ; ==============================================================================
@@ -16222,7 +16286,7 @@ void lfo_get_amplitude()
 //     FDB M_AFTERTOUCH_ASSIGN_FLAGS
 //     FDB M_AFTERTOUCH_ASSIGN_FLAGS
 //     FDB M_AFTERTOUCH_ASSIGN_FLAGS               ; Index 15.
-// 
+//
 // ; ==============================================================================
 // ; Polyphony Names Table.
 // ; Contains names for each of the synth's polyphony modes. This table is
@@ -16231,7 +16295,7 @@ void lfo_get_amplitude()
 // TABLE_STR_PTRS_POLY_MONO:
 //     FDB aPolyMode
 //     FDB aMonoMode
-// 
+//
 // ; ==============================================================================
 // ; Sustain Mode Names Table.
 // ; Contains names for each of the synth's sustain modes. This table is used in
@@ -16242,7 +16306,7 @@ void lfo_get_amplitude()
 //     FDB aSusKeyPFollow
 //     FDB aFingeredPorta
 //     FDB aFullTimePorta
-// 
+//
 // ; ==============================================================================
 // ; MIDI Parameter Strings.
 // ; ==============================================================================
@@ -16251,8 +16315,8 @@ void lfo_get_amplitude()
 // aMidiTrnsCh:         FCC "Midi Trns Ch", 0
 // aMidiChInfo:         FCC "Midi Ch Info:", 0
 // aMidiSyInfo:         FCC "Midi Sy Info:", 0
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; UI_MEM_PROTECT_STATE
 // ; ==============================================================================
@@ -16263,10 +16327,10 @@ void lfo_get_amplitude()
 // ; cartridge memory protection.
 // ;
 // ; ==============================================================================
-// 
+//
 // UI_MEM_PROTECT_STATE:
 //     JSR     LCD_CLEAR_STR_BUFFER
-// 
+//
 // ; Test whether the last button-press corresponded to the button for
 // ; internal, or cartridge memory protection.
 //     LDAB    M_LAST_PRESSED_BTN
@@ -16275,10 +16339,10 @@ void lfo_get_amplitude()
 //     BNE     _CRT_SELECTED
 //     LDX     #aMemoryProtectI
 //     BRA     _WRITE_PROTECT_STATUS_TO_STR_BUFFER
-// 
+//
 // _CRT_SELECTED:
 //     LDX     #aMemoryProtectC
-// 
+//
 // _WRITE_PROTECT_STATUS_TO_STR_BUFFER:
 //     PSHX
 //     LDX     #M_LCD_BUFFER_LN_1
@@ -16289,33 +16353,33 @@ void lfo_get_amplitude()
 //     PULB
 //     TSTB
 //     BNE     _IS_CRT_PROTECTED?
-// 
+//
 // _TEST_INT_PROTECT:
 //     BITA    #MEM_PROTECT_INT
 //     BEQ     _PRINT_MSG_OFF
-// 
+//
 // _PRINT_MSG_ON:
 //     LDX     #aOn
 //     BRA     _PRINT_STATUS_STRING
-// 
+//
 // _IS_CRT_PROTECTED?:
 //     BITA    #MEM_PROTECT_CRT
 //     BEQ     _PRINT_MSG_OFF
 //     BRA     _PRINT_MSG_ON
-// 
+//
 // _PRINT_MSG_OFF:
 //     LDX     #aOff
-// 
+//
 // _PRINT_STATUS_STRING:
 //     PSHX
-// 
+//
 // ; Print to the end of the second line of the string buffer.
 //     LDX     (#M_LCD_BUFFER_LN_2+$D)
 //     STX     <M_COPY_DEST_PTR
 //     PULX
 //     JMP     LCD_WRITE_BFR_AND_PRINT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; UI_PRINT_ALG_INFO
 // ; ==============================================================================
@@ -16327,7 +16391,7 @@ void lfo_get_amplitude()
 // ; Refer to page 28 of the DX7 manual to see an example of this screen printed.
 // ;
 // ; ==============================================================================
-// 
+//
 // UI_PRINT_ALG_INFO:
 //     LDX     #M_LCD_BUFFER_LN_1
 //     STX     <M_COPY_DEST_PTR
@@ -16338,9 +16402,9 @@ void lfo_get_amplitude()
 //     BLS     _PRINT_INFO
 //     CLRB
 //     STAB    M_PATCH_CURRENT_ALG
-// 
+//
 // ; Increment ACCB to index by 1.
-// 
+//
 // _PRINT_INFO:
 //     INCB
 //     CLRA
@@ -16351,27 +16415,27 @@ void lfo_get_amplitude()
 //     STAA    0,x
 //     STAA    7,x
 //     LDAB    #6
-// 
+//
 // ; Load the status of the operators (ON/OFF).
 // ; These are a bitmask. Shift twice so that OP6 is in the carry bit.
 //     LDAA    M_PATCH_CURRENT_OPS_ON_OFF
 //     STAA    M_OP_CURRENT
 //     ASL     M_OP_CURRENT
 //     ASL     M_OP_CURRENT
-// 
+//
 // ; Loop six times, checking each operator.
 // ; Shift the 'enabled operator mask' register to the left. If the carry bit
 // ; is set as a result of the operation, it indicates that the operator is
 // ; enabled.
 // ; Copy an ASCII '1' to the LCD buffer for ON, '0' for OFF.
-// 
+//
 // _TEST_OPERATOR_ENABLED_LOOP:
 //     ASL     M_OP_CURRENT
 //     BCS     _OPERATOR_ENABLED
-// 
+//
 // _OPERATOR_DISABLED:
 //     LDAA    #'0'
-// 
+//
 // _WRITE_OPERATOR_STATUS:
 //     STAA    1,x
 //     INX
@@ -16387,10 +16451,10 @@ void lfo_get_amplitude()
 //     BNE     _PRINT_SELECTED_OP                  ; If B != 16, branch.
 //     LDAA    <M_EDIT_OSC_MODE_SYNC_FLAG
 //     BNE     _FILL_WITH_SPACES
-// 
+//
 // _PRINT_SELECTED_OP:
 //     LDX     <M_COPY_DEST_PTR
-// 
+//
 // ; Print 'OP' string.
 //     LDD     #'OP'
 //     STAA    2,x
@@ -16398,10 +16462,10 @@ void lfo_get_amplitude()
 //     PSHX
 //     LDAB    M_SELECTED_OPERATOR
 //     STAB    M_OP_CURRENT
-// 
+//
 // ; This computes the current operator NUMBER by comparing the operator
 // ; select register to the operator bitmask.
-// 
+//
 // _CALC_ALG_NUM:
 //     LDAB    #5
 //     SUBB    M_SELECTED_OPERATOR
@@ -16411,24 +16475,24 @@ void lfo_get_amplitude()
 //     ANDA    M_PATCH_CURRENT_OPS_ON_OFF
 //     BNE     _PRINT_OP_NUMBER
 //     DEC     M_SELECTED_OPERATOR
-// 
+//
 // ; If this register is now < 0.
 //     BMI     _RESET
 //     BRA     _IS_CURRENT_OPERATOR?
-// 
+//
 // ; If we've reached 0 without a result, reset.
-// 
+//
 // _RESET:
 //     LDAB    #5
 //     STAB    M_SELECTED_OPERATOR
-// 
+//
 // _IS_CURRENT_OPERATOR?:
 //     LDAB    M_SELECTED_OPERATOR
 //     CMPB    M_OP_CURRENT
 //     BEQ     _PRINT_OP_NUMBER
 //     BRA     _CALC_ALG_NUM
 // ; Print the found operator number.
-// 
+//
 // _PRINT_OP_NUMBER:
 //     PULX
 //     LDAB    #5
@@ -16436,22 +16500,22 @@ void lfo_get_amplitude()
 //     ADDB    #'1'                                ; Add ASCII '1'.
 //     STAB    4,x
 //     BRA     _END_UI_PRINT_ALG_INFO
-// 
+//
 // _FILL_WITH_SPACES:
 //     LDX     <M_COPY_DEST_PTR
 //     LDAA    #' '
 //     STAA    2,x
 //     STAA    3,x
 //     STAA    4,x
-// 
+//
 // _END_UI_PRINT_ALG_INFO:
 //     RTS
-// 
+//
 // _OPERATOR_ENABLED:
 //     LDAA    #'1'
 //     BRA     _WRITE_OPERATOR_STATUS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; LCD_PRINT_PATCH_NUMBER
 // ; ==============================================================================
@@ -16466,11 +16530,11 @@ void lfo_get_amplitude()
 // ;         number to.
 // ;
 // ; ==============================================================================
-// 
+//
 // LCD_PRINT_PATCH_NUMBER:
 //     PSHX
 //     CLRA
-// 
+//
 // ; Load the current patch number and increment so it counts up from 1.
 //     LDAB    M_PATCH_CURRENT_NUMBER
 //     INCB
@@ -16478,8 +16542,8 @@ void lfo_get_amplitude()
 //     PULX
 //     JSR     LCD_WRITE_NUM_TO_STR_BFR
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; LCD_PRINT_PATCH_NAME_TO_BUFFER
 // ; ==============================================================================
@@ -16495,49 +16559,49 @@ void lfo_get_amplitude()
 // ;         patch name to.
 // ;
 // ; ==============================================================================
-// 
+//
 // LCD_PRINT_PATCH_NAME_TO_BUFFER:
 //     STX     <M_COPY_DEST_PTR
 //     LDX     #M_PATCH_CURRENT_NAME
 //     STX     <M_COPY_SRC_PTR
 //     LDAB    #10
-// 
+//
 // _PRINT_NAME_LOOP:
 //     LDX     <M_COPY_SRC_PTR
 //     PSHB
 //     PSHX
-// 
+//
 // ; Test whether this param chg is echoed to SYSEX.
 // ; If the synth is in any other input mode than 'Play' each character of
 // ; the name will be sent via SYSEX.
 //     TST     M_INPUT_MODE
 //     BEQ     _PRINT_NAME_CHAR
-// 
+//
 // ; This function call uses the 'IX' register to determine which
 // ; parameter is sent.
 //     JSR     MIDI_SYSEX_SEND_PARAM_CHG
-// 
+//
 // _PRINT_NAME_CHAR:
 //     PULX
 //     PULB
 //     LDAA    0,x
-// 
+//
 // _INCREMENT_SRC_PTR:
 //     INX
 //     STX     <M_COPY_SRC_PTR
-// 
+//
 // _WRITE_NAME_CHAR:
 //     LDX     <M_COPY_DEST_PTR
 //     STAA    0,x
-// 
+//
 // _INCREMENT_DEST_PTR:
 //     INX
 //     STX     <M_COPY_DEST_PTR
 //     DECB
 //     BNE     _PRINT_NAME_LOOP
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; LCD_WRITE_NUM_TO_STR_BFR
 // ; ==============================================================================
@@ -16554,38 +16618,38 @@ void lfo_get_amplitude()
 // ; * 0x217C: The least-significant digit to print.
 // ;
 // ; ==============================================================================
-// 
+//
 // LCD_WRITE_NUM_TO_STR_BFR:
 //     LDAA    M_PARSED_INT_TENS
-// 
+//
 // ; If the most significant digit of the number is not 0, branch.
 //     BNE     _MOST_SIGNIFICANT_DIGIT_NON_ZERO
-// 
+//
 // ; Print a space to the buffer to take the place of the zero digit.
-// 
+//
 // _MOST_SIGNIFICANT_DIGIT_ZERO:
 //     LDAA    #$20                                ; ' '
 //     STAA    0,x
 //     INX
 //     BRA     _PRINT_SECOND_DIGIT
-// 
+//
 // ; Start counting from ASCII '0', and store.
-// 
+//
 // _MOST_SIGNIFICANT_DIGIT_NON_ZERO:
 //     ADDA    #$30                                ; '0'
 //     STAA    0,x
 //     INX
-// 
+//
 // _PRINT_SECOND_DIGIT:
 //     LDAA    M_PARSED_INT_DIGITS
-// 
+//
 // ; Index the digit from ASCII '0', and store.
 //     ADDA    #$30                                ; '0'
 //     STAA    0,x
 //     INX
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; String Table.
 // ; This is the synth's main string table.
@@ -16675,8 +16739,8 @@ void lfo_get_amplitude()
 // aNotReadyInsert:     FCC "   NOT READY !  INSERT CARTRIDGE", 0
 // aCartridgeForm:      FCC "CARTRIDGE FORM ?", 0
 // aMidiTransmit:       FCC " MIDI TRANSMIT ?", 0
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; LCD_INIT
 // ; ==============================================================================
@@ -16686,10 +16750,10 @@ void lfo_get_amplitude()
 // ; Initialises the LCD screen driver, and prints the synth's welcome message.
 // ;
 // ; ==============================================================================
-// 
+//
 // LCD_INIT:
 //     LDAA    #I8255_CONTROL_WORD_13
-// 
+//
 // ; Send 'Control Word 13' to the 8255 to set port A, and C to input, and
 // ; port B to output.
 //     STAA    P_8255_CTRL
@@ -16716,10 +16780,10 @@ void lfo_get_amplitude()
 //     JSR     LCD_PRINT_STR_BUFFER
 //     LDX     #MSG_WELCOME
 //     JMP     LCD_WRITE_LINE_1_THEN_PRINT
-// 
+//
 // MSG_WELCOME:         FCC "*  YAMAHA DX7  **  SYNTHESIZER *", 0
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; LCD_PRINT_STR_BUFFER
 // ; ==============================================================================
@@ -16740,31 +16804,31 @@ void lfo_get_amplitude()
 // ; * 0xFB:   The copy destination pointer, pointing to the LCD contents buffer.
 // ;
 // ; ==============================================================================
-// 
+//
 // LCD_PRINT_STR_BUFFER:
 //     LDX     #M_LCD_BUFFER_LN_1
 //     STX     <M_COPY_SRC_PTR
-// 
+//
 // ; Load the address of the LCD's content buffer into 0xFB. This buffer
 // ; is used to check whether the current char needs to be written.
 //     LDX     #M_LCD_BUFFER_CONTENTS
 //     STX     <M_COPY_DEST_PTR
-// 
+//
 // ; Load instruction to set LCD cursor position into B.
 // ; This is incremented with each putchar operation, so that the position
 // ; the command sets the cursor to stays correct.
 //     LDAB    #LCD_INSTR_SET_CURSOR_POSITION
-// 
+//
 // _PUT_STRING_LOOP:
 //     PSHB
-// 
+//
 // ; Load ACCA from address pointer in 0xF9.
 // ; Increment the pointer in IX, and store again.
 //     LDX     <M_COPY_SRC_PTR
 //     LDAA    0,x
 //     INX
 //     STX     <M_COPY_SRC_PTR
-// 
+//
 // ; If the next char to be printed matches the one in the same position
 // ; in the LCD's current contents, it can be skipped.
 //     LDX     <M_COPY_DEST_PTR
@@ -16778,33 +16842,33 @@ void lfo_get_amplitude()
 //     JSR     LCD_WRITE_DATA                      ; Write character data.
 //     PULA
 //     STAA    0,x
-// 
+//
 // _PUT_STRING_LOOP_INCREMENT:
 //     PULB
-// 
+//
 // ; Increment the buffer end pointer, and store it back at 0xFB.
 //     INX
 //     STX     <M_COPY_DEST_PTR
-// 
+//
 // ; Increment cursor position in ACCB, exit if we're at the end of the
 // ; 2nd line (0xD0 = 0xC0 + 16).
 //     INCB
 //     CMPB    #$D0
 //     BEQ     PUTSTRING_EXIT
-// 
+//
 // ; If we're on the first line, and not at the end, loop.
 // ; Otherwise, set cursor to the start of the 2nd line.
 //     CMPB    #$90
 //     BNE     _PUT_STRING_LOOP
-// 
+//
 // ; This instruction sets the LCD cursor to start of the second line.
 //     LDAB    #LCD_INSTR_SET_CURSOR_TO_LINE_2
 //     BRA     _PUT_STRING_LOOP
-// 
+//
 // PUTSTRING_EXIT:
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; LCD_WRITE_STR_TO_BUFFER
 // ; ==============================================================================
@@ -16821,29 +16885,29 @@ void lfo_get_amplitude()
 // ; * 0xFB:   A pointer to the memory address for the string to be written to.
 // ;
 // ; ==============================================================================
-// 
+//
 // LCD_WRITE_STR_TO_BUFFER:
 //     LDAB    0,x                                 ; Load char into ACCB.
-// 
+//
 // ; Exit if the loaded byte is non-ASCII (Outside the 0-127 range).
 //     BMI     _EXIT_NON_ASCII
-// 
+//
 // ; Exit if an unprintable character is encountered.
 //     CMPB    #$20                                ; ' '
-// 
+//
 // ; Branch if *(IX) is above 0x20 (ASCII space).
 //     BCC     _WRITE_CHAR_TO_BUFFER
 //     RTS
-// 
+//
 // _WRITE_CHAR_TO_BUFFER:
 //     BSR     LCD_WRITE_CHAR_TO_BUFFER
 //     INX
 //     BRA     LCD_WRITE_STR_TO_BUFFER
-// 
+//
 // _EXIT_NON_ASCII:
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; LCD_WRITE_CHAR_TO_BUFFER
 // ; ==============================================================================
@@ -16861,7 +16925,7 @@ void lfo_get_amplitude()
 // ; * 0xFB:   A pointer to the destination string buffer.
 // ;
 // ; ==============================================================================
-// 
+//
 // LCD_WRITE_CHAR_TO_BUFFER:
 //     PSHX
 //     LDX     <M_COPY_DEST_PTR
@@ -16870,8 +16934,8 @@ void lfo_get_amplitude()
 //     STX     <M_COPY_DEST_PTR
 //     PULX
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; LCD_WRITE_LINE_1_THEN_PRINT
 // ; ==============================================================================
@@ -16886,21 +16950,21 @@ void lfo_get_amplitude()
 // ; * IX:   The string to print to the 2nd line of the LCD.
 // ;
 // ; ==============================================================================
-// 
+//
 // LCD_WRITE_LINE_1_THEN_PRINT:
 //     PSHX
 //     LDX     #M_LCD_BUFFER_LN_1
-// 
+//
 // ; Store string buffer to dest register.
 //     STX     <M_COPY_DEST_PTR
 //     PULX                                        ; Continues below.
-// 
-// 
+//
+//
 // LCD_WRITE_BFR_AND_PRINT:
 //     BSR     LCD_WRITE_STR_TO_BUFFER
 //     JMP     LCD_PRINT_STR_BUFFER
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; LCD_WRITE_LINE_2_THEN_PRINT
 // ; ==============================================================================
@@ -16915,15 +16979,15 @@ void lfo_get_amplitude()
 // ; * IX:   The string to print to the 2nd line of the LCD.
 // ;
 // ; ==============================================================================
-// 
+//
 // LCD_WRITE_LINE_2_THEN_PRINT:
 //     PSHX
 //     LDX     #M_LCD_BUFFER_LN_2
 //     STX     <M_COPY_DEST_PTR
 //     PULX
 //     BRA     LCD_WRITE_BFR_AND_PRINT
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; LCD_CLEAR_STR_BUFFER
 // ; ==============================================================================
@@ -16933,22 +16997,22 @@ void lfo_get_amplitude()
 // ; This clears both lines of the synth's LCD string buffer.
 // ;
 // ; ==============================================================================
-// 
+//
 // LCD_CLEAR_STR_BUFFER:
 //     LDX     #M_LCD_BUFFER_LN_1
-// 
+//
 // ; Load ASCII Space to ACCA.
 //     LDAA    #' '
 //     LDAB    #32
-// 
+//
 // _CLEAR_LCD_BUFFER_LOOP:
 //     STAA    0,x
 //     INX
 //     DECB
 //     BNE     _CLEAR_LCD_BUFFER_LOOP              ; if b > 0, loop.
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; LCD_WRITE_INSTRUCTION
 // ; ==============================================================================
@@ -16963,34 +17027,34 @@ void lfo_get_amplitude()
 // ; * ACCA: The byte to be written.
 // ;
 // ; ==============================================================================
-// 
+//
 // LCD_WRITE_INSTRUCTION:
 //     LDAB    #I8255_CONTROL_WORD_5
-// 
+//
 // ; Send 'Control Word 5' to the 8255. This sets Port A, and B to outputs.
 // ; This allows the sending of data to the LCD controller.
 //     STAB    P_8255_CTRL
-// 
+//
 // ; Write the LCD instruction.
 // ; RS=Low, RW=Low := Instruction Write.
 //     CLR     P_LCD_CTRL
 //     LDAB    #LCD_CTRL_E
 //     STAB    P_LCD_CTRL
 //     STAA    P_LCD_DATA
-// 
+//
 // ; Disable write, put in read mode.
 //     CLR     P_LCD_CTRL
 //     LDAB    #LCD_CTRL_RW
 //     STAB    P_LCD_CTRL
-// 
+//
 // ; Send 'Control Word 13' to the 8255. This sets Port A, and C to inputs.
 // ; This allows the reading of the LCD controller status.
 //     LDAB    #I8255_CONTROL_WORD_13
 //     STAB    P_8255_CTRL
 //     BRA     LCD_WAIT_FOR_READY
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; LCD_WRITE_DATA
 // ; ==============================================================================
@@ -17006,10 +17070,10 @@ void lfo_get_amplitude()
 // ; * ACCA: The data to write.
 // ;
 // ; ==============================================================================
-// 
+//
 // LCD_WRITE_DATA:
 //     LDAB    #I8255_CONTROL_WORD_5
-// 
+//
 // ; Send 'Control Word 5' to the 8255. This sets Port A, and B to outputs.
 // ; This allows the sending of data to the LCD controller.
 //     STAB    P_8255_CTRL
@@ -17017,36 +17081,36 @@ void lfo_get_amplitude()
 //     STAB    P_LCD_CTRL
 //     LDAB    #LCD_CTRL_E_RS
 //     STAB    P_LCD_CTRL
-// 
+//
 // ; Write the contents of ACCA to the LCD Data register.
 //     STAA    P_LCD_DATA
 //     LDAB    #LCD_CTRL_RS
 //     STAB    P_LCD_CTRL
 //     LDAB    #LCD_CTRL_RW_RS
 //     STAB    P_LCD_CTRL
-// 
+//
 // ; Send 'Control Word 13' to the 8255. This sets Port A, and C to inputs.
 // ; This allows the reading of the LCD controller status.
 //     LDAB    #I8255_CONTROL_WORD_13
 //     STAB    P_8255_CTRL
-// 
+//
 // ; Wait until the LCD Busy flag clears.
-// 
+//
 // LCD_WAIT_FOR_READY:
 //     LDAB    #LCD_CTRL_E_RW
 //     STAB    P_LCD_CTRL
-// 
+//
 // ; PC7 is multiplexed with PA7, allowing reading of the ready flag.
 //     LDAA    P_CRT_PEDALS_LCD
 //     LDAB    #LCD_CTRL_RW
 //     STAB    P_LCD_CTRL
 //     ANDA    #LCD_BUSY_FLAG
-// 
+//
 // ; If Busy flag bit is set in port C, loop.
 //     BNE     LCD_WAIT_FOR_READY
 //     RTS
-// 
-// 
+//
+//
 // ; ==============================================================================
 // ; HANDLER_TRAP
 // ; ==============================================================================
@@ -17058,11 +17122,11 @@ void lfo_get_amplitude()
 // ; MIDI messages, etc.
 // ;
 // ; ==============================================================================
-// 
+//
 // HANDLER_TRAP:
 //     LDAB    #142
 //     LDX     #M_MOD_WHEEL_ASSIGN_FLAGS
-// 
+//
 // _CLEAR_BYTES_LOOP:
 //     CLR     0,x
 //     INX
@@ -17071,7 +17135,7 @@ void lfo_get_amplitude()
 //     LDAB    #150
 //     STAB    M_BATTERY_VOLTAGE
 //     JMP     HANDLER_RESET
-// 
+//
 // ; Empty data section, not directly cross-referenced anywhere else in the code.
 //     FCB $FF, $FF, $FF, $FF, $FF
 //     FCB $FF, $FF, $FF, $FF, $FF
@@ -17112,7 +17176,7 @@ void lfo_get_amplitude()
 //     FCB $FF, $FF, $FF, $FF, $FF
 //     FCB $FF, $FF, $FF, $FF, $FF
 //     FCB $FF, $FF, $FF
-// 
+//
 // ; ==============================================================================
 // ; Hardware Vector Table
 // ; Contains the various interupt vectors used by the HD6303 processor.
@@ -17127,8 +17191,8 @@ void lfo_get_amplitude()
 // VECTOR_NMI:          FDB HANDLER_NMI
 // VECTOR_RESET:        FDB HANDLER_RESET
 // ; end of 'ROM'
-// 
-// 
+//
+//
 //     END
 
 };
