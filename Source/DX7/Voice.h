@@ -64,8 +64,12 @@ public:
    //! Start a new note
    void gateOn() override
    {
+      signed note = getNote() + sysex.transpose - 24;
+           if (note <   0) note = 0;
+      else if (note > 127) note = 127;
+
       // Compute note value (1-octave is 1024)
-      unsigned n14 = (getNote() * 1024 / 12) + tune;
+      unsigned n14 = (note * 1024 / 12) + tune;
 
       for(unsigned i = 0; i < 6; ++i)
       {
