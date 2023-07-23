@@ -261,7 +261,8 @@ static void fmtf(const char* fix, const char* format = "", ...)
 
    va_list ap;
    va_start(ap, format);
-   vfprintf(stdout, format, ap);
+   vprintf(format, ap);
+   va_end(ap);
 }
 
 void Op::print(unsigned n) const
