@@ -44,7 +44,7 @@ public:
          voice->print(number + 1);
       }
 
-      lfo.prog(voice->lfo);
+      lfo.prog(sysex);
 
       pitch_env.prog(voice->eg_pitch, 99);
 

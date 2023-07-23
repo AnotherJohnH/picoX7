@@ -24,27 +24,27 @@
 
 #include "SysEx.h"
 
-//! DX7 LFO
+//! DX7 LFO simulation
 class Lfo
 {
 public:
    Lfo() = default;
 
    //! Configure from SysEx program
-   void prog(const SysEx::Lfo& sysex)
+   void prog(const SysEx::Voice& patch)
    {
       // Compute LFO delay increment from LFO delay
       // Invert 0..99 => 99..0
-      uint8_t  value   = 99 - sysex.delay;
+      uint8_t  value   = 99 - patch.lfo.delay;
 
       // Treat as an 7-bit floating point value _EEEMMMM
       uint8_t  exp     = 7 - (value >> 4);
       uint16_t mantisa = (0b10000 | (value & 0b1111)) << 9;
 
-      delay_increment = mantisa >> exp;
+      delay_inc = mantisa >> exp;
 
       // Compute LFO phase increment from LFO speed
-      if (sysex.speed == 0)
+      if (patch.lfo.speed == 0)
       {
          // LFO speed 0 => 11
          phase_inc = 11;
@@ -52,7 +52,7 @@ public:
       else
       {
          // Scale 0..99 to full scale 8-bit e.g. 0..255
-         uint8_t scaled_speed = (sysex.speed * 660) >> 8;
+         uint8_t scaled_speed = (patch.lfo.speed * 660) >> 8;
 
          if (scaled_speed < 160)
          {
@@ -66,18 +66,31 @@ public:
          }
       }
 
-      sync = sysex.sync;
+      sync = patch.lfo.sync;
 
-      wave = sysex.waveform;
+      wave = patch.lfo.waveform;
 
       // Scale 0..99 to full scale 8-bit e.g. 0..255
-      amp_mod_depth = (sysex.amp_mod_depth * 660) >> 8;
+      amp_mod_depth = (patch.lfo.amp_mod_depth * 660) >> 8;
          
       // Scale 0..99 to full scale 8-bit e.g. 0..255
-      pitch_mod_depth = (sysex.pitch_mod_depth * 660) >> 8;
+      pitch_mod_depth = (patch.lfo.pitch_mod_depth * 660) >> 8;
                                                           
-      //static const uint8_t pitch_mod_sense_table[8] = {0, 10, 20, 33, 55, 92, 153, 255};
-      //pitch_mod_sense = pitch_mod_sense_table[sysex->pitch_mod_sense];
+      // Scale 0..7 to full scale 8-bit e.g. 0..255
+      const uint8_t pitch_mod_sense_table[8] = {0, 10, 20, 33, 55, 92, 153, 255};
+      pitch_mod_sense = pitch_mod_sense_table[patch.pitch_mod_sense];
+   }
+
+   //! Start of note
+   void keyOn()
+   {
+      delay_counter        = 0;
+      fade_in_scale_factor = 0;
+
+      if (sync)
+      {
+         phase_accum = MAX_PHASE;
+      }
    }
 
    //! Step the LFO and return current output (should be called at 375 Hz)
@@ -98,7 +111,7 @@ public:
       if (delay_counter < 0xFFFF)
       {
          // Initial delay
-         delay_counter += delay_increment;
+         delay_counter += delay_inc;
 
          amp_mod   = 0;
          pitch_mod = 0;
@@ -107,7 +120,7 @@ public:
       {
          // Fading the LFO modulation in using LSB of delay increment
 
-         uint8_t fade_in_scale_inc = delay_increment & 0xFF;
+         uint8_t fade_in_scale_inc = delay_inc & 0xFF;
 
          fade_in_scale_factor += (fade_in_scale_inc == 0) ? 1
                                                           : fade_in_scale_inc;
@@ -151,7 +164,7 @@ public:
    
       case SysEx::SINE:
          {
-            uint8_t index = (phase_accum >> 8) & 63;
+            uint8_t index = (phase_accum >> 8) % 64;
             if (phase_accum & 0x4000)
             {
                index ^= 63;
@@ -167,22 +180,10 @@ public:
       case SysEx::SAMPLE_AND_HOLD:
          if ((phase_accum - MIN_PHASE) < phase_inc)
          {
-            rand_state = rand_state * 179 + 17;
+            rand_state = rand_state * 179 + 11;
          }
          output = rand_state;
          break;
-      }
-   }
-
-   //! Start of note
-   void keyOn()
-   {
-      delay_counter        = 0;
-      fade_in_scale_factor = 0;
-
-      if (sync)
-      {
-         phase_accum = MAX_PHASE;
       }
    }
 
@@ -199,12 +200,13 @@ private:
    static const Phase MIN_PHASE = -0x8000;
 
    // Configuration
-   uint16_t        delay_increment {0};
+   uint16_t        delay_inc {0};
    uint16_t        phase_inc {0};
+   uint8_t         pitch_mod_depth {0};
+   uint8_t         amp_mod_depth {0};
    bool            sync {false};
    SysEx::LfoWave  wave {SysEx::TRIANGLE};
-   uint8_t         amp_mod_depth {0};
-   uint8_t         pitch_mod_depth {0};
+   uint8_t         pitch_mod_sense {0};
 
    // State
    uint32_t delay_counter {0};
