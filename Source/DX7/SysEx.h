@@ -313,7 +313,7 @@ void Voice::print(unsigned n) const
    fmtf(" NAME");
    for(unsigned i = 0; i < NAME_LEN; i++)
       putchar(name[i]);
-   fmtf("ALG", "%u", alg + 1);
+   fmtf(" ALG", "%u", alg + 1);
    fmtf(" FBK", "%u", feedback);
    fmtf(" OSY", "%u", osc_sync);
    fmtf(" PMS", "%u", pitch_mod_sense);
