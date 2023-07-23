@@ -64,6 +64,7 @@ add_custom_command(
    )
 
 add_library(DX7 STATIC
+   SysEx.cpp
    Table_dx7_exp_14.cpp
    Table_dx7_exp_22.cpp
    Table_dx7_sine_15.cpp
