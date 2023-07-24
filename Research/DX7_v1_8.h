@@ -363,6 +363,13 @@ uint8_t& m_key_pitch_low = ram[0x9E];
 // M_PITCH_EG_NEXT_LVL:                      equ  $D3
 // M_MOD_AMP_EG_BIAS_TOTAL:                  equ  $D5
 // M_MOD_AMP_FACTOR:                         equ  $D6
+uint8_t m_pitch_eg_voice_index {};
+uint8_t m_pitch_eg_voice_levels_ptr {};
+uint8_t m_pitch_eg_voice_step_ptr {};
+uint8_t m_pitch_eg_increment {};
+uint8_t m_pitch_eg_next_lvl {};
+uint8_t m_mod_amp_eg_bias_total {};
+uint8_t m_mod_amp_factor {};
 
 // ; The phase accumulator for the synth's LFO.
 // ; This is set to its maximum value of 0x7FFF during the handling of a
@@ -7410,8 +7417,11 @@ uint16_t voice_add_poly_get_14_bit_pitch()
 //     BNE     _DEACTIVATE_VOICE_LOOP              ; If B < 16, loop.
 //     CLR     M_KEY_EVENT_CURRENT
 //     RTS
-//
-//
+void voice_deactivate_all()
+{
+}
+
+
 // ; ==============================================================================
 // ; JUMP_TO_RELATIVE_OFFSET
 // ; ==============================================================================
@@ -10383,6 +10393,8 @@ const uint8_t table_pitch_mod_sens[8] =
 // ; ==============================================================================
 //
 // MOD_PROCESS_INPUT_SOURCES:
+void mod_process_input_sources()
+{
 //     CLR     M_EG_BIAS_TOTAL_RANGE
 //
 // ; This subroutine is where the modulation-source analog input values are scaled
@@ -10461,8 +10473,8 @@ const uint8_t table_pitch_mod_sens[8] =
 //     COMB
 //     STAB    <M_MOD_AMP_EG_BIAS_TOTAL
 //     RTS
-//
-//
+}
+
 // ; ==============================================================================
 // ; MOD_CALCULATE_SOURCE_SCALED_INPUT
 // ; ==============================================================================
@@ -10526,8 +10538,10 @@ const uint8_t table_pitch_mod_sens[8] =
 //     STAA    0,x
 //     INX
 //     RTS
-//
-//
+void mod_calculate_source_scaled_input(uint8_t range, uint8_t value)
+{
+}
+
 // ; ==============================================================================
 // ; MOD_AMP_SUM_MOD_SOURCE
 // ; ==============================================================================
@@ -11082,7 +11096,7 @@ void handler_ocf()
    {
 // _COMPUTE_PORTA?:
 //     JSR     PORTA_PROCESS
-// XXX ignore for now
+       porta_process();
 
 //     TST     M_PITCH_UPDATE_TOGGLE
 //     BPL     _PROCESS_TX_ACTV_SENSING
@@ -11184,8 +11198,12 @@ void handler_ocf()
 //     PULA
 //     STAA    <IO_PORT_2_DATA
 //     RTS
-//
-//
+void midi_active_sensing_stop()
+{
+   voice_deactivate_all();
+}
+
+
 // ; ==============================================================================
 // ; PORTA_PROCESS
 // ; ==============================================================================
@@ -11196,7 +11214,9 @@ void handler_ocf()
 // ; comments below regarding the switch variable that controls this.
 // ;
 // ; ==============================================================================
-//
+
+void porta_process()
+{
 // PORTA_PROCESS:
 //     LDAA    <IO_PORT_2_DATA
 //     PSHA
@@ -11467,8 +11487,8 @@ void handler_ocf()
 //     PULA
 //     STAA    <IO_PORT_2_DATA                     ; Re-enable IRQ.
 //     RTS
-//
-//
+}
+
 // ; ==============================================================================
 // ; PITCH_EG_PROCESS
 // ; ==============================================================================
@@ -11683,6 +11703,19 @@ void mod_amp_load_to_egs()
 //     EORB    #128
 //     MUL
 //
+
+       unsigned mod = (m_lfo_fade_in_scale_factor * m_lfo_amp_mod_depth) >> 8;
+
+       mod += m_mod_amp_factor;
+       if (mod > 0xFF) mod = 0xFF;
+
+       mod += m_mod_amp_eg_bias_total;
+       if (mod > 0xFF) mod = 0xFF;
+
+       mod -= m_mod_amp_eg_bias_total;
+
+       mod = mod * -m_lfo_curr_amplitude;
+
 // ; Add the 'EG Bias' value. If it overflows, clamp at 0xFF.
 //
 // _MOD_AMP_LOAD_ADD_EG_BIAS:
@@ -11881,7 +11914,7 @@ void mod_pitch_load_to_egs()
 }
 
 // ; ==============================================================================
-// ; MOD_PITCH_LOAD_MOD_SOURCE
+// ; MOD_PITCH_SUM_MOD_SOURCE
 // ; ==============================================================================
 // ; DESCRIPTION:
 // ; This function parses the 'modulation factor' for a particular modulation

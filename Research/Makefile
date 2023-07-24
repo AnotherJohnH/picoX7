@@ -2,7 +2,7 @@
 CXXFLAGS=-Wall -Wno-gnu-anonymous-struct -Wno-nested-anon-types \
          --std=gnu++14
 
-SOURCE=exp_dx7.cpp Table_dx7_rom_1.cpp
+SOURCE=exp_dx7.cpp Table_dx7_rom_1.cpp ../Source/DX7/SysEx.cpp
 BINARY=exp_dx7
 
 $(BINARY): $(SOURCE) DX7_v1_8.h Table_dx7_rom_1.h
