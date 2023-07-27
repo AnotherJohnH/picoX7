@@ -80,7 +80,10 @@ public:
 // ; The Ops Algorithm/Feedback register.
 // ; Bits 0-2 = Feedback, Bits 3-7 = Algorithm Select.
 // P_OPS_ALG_FDBK:                           equ  $2805
-//
+
+uint8_t p_ops_mode;
+uint8_t p_ops_alg_fdbk;
+
 // ; Used to send the 3-bit analog volume value to the DAC.
 // P_DAC:                                    equ  $280A
 // P_ACEPT:                                  equ  $280C
@@ -110,7 +113,21 @@ public:
 // P_EGS_VOICE_EVENTS:                       equ  $30F1
 // P_EGS_PITCH_MOD_HIGH:                     equ  $30F2
 // P_EGS_PITCH_MOD_LOW:                      equ  $30F3
-//
+
+uint8_t  p_egs_voice_pitch[32];
+uint8_t  p_egs_op_pitch[16];
+uint8_t  p_egs_op_detune[16];
+uint16_t p_egs_op_eg_rates[24];
+uint16_t p_egs_op_eg_levels[24];
+
+uint8_t  p_egs_op_levels[96];
+uint8_t  p_egs_op_sens_scaling[6];
+
+uint8_t  p_egs_amp_mod;
+uint8_t  p_egs_voice_events;
+uint8_t  p_egs_pitch_mod_high;
+uint8_t  p_egs_voice_mod_low;
+
 // ; The cartridge address range, decoded by IC63
 // P_CRT_START:                              equ  $4000
 // P_CRT_START_IC2:                          equ  $4800
@@ -450,6 +467,8 @@ uint8_t* m_copy_dest_ptr;
 // ; This is where the currently loaded patch is stored in memory.
 // M_PATCH_CURRENT_BUFFER:                   equ  $2000
 // M_PATCH_CURRENT_ALG:                      equ  $2086
+// M_PATCH_CURRENT_FBCK:                     equ  $2087
+// M_PATCH_CURRENT_SYNC:                     equ  $2088
 // M_PATCH_CURRENT_LFO_SPEED:                equ  $2089
 // M_PATCH_CURRENT_LFO_DELAY:                equ  $208A
 // M_PATCH_CURRENT_LFO_PITCH_MOD_DEPTH:      equ  $208B
@@ -461,7 +480,11 @@ uint8_t* m_copy_dest_ptr;
 // M_PATCH_CURRENT_NAME_LAST_CHAR:           equ  $209A
 // M_PATCH_CURRENT_OPS_ON_OFF:               equ  $209B
 uint8_t  m_patch_current_buffer[0x9C];
+
+uint8_t* m_patch_current_pitch_eg            = &m_patch_current_buffer[0x7E]; 
 uint8_t& m_patch_current_alg                 = m_patch_current_buffer[0x86];
+uint8_t& m_patch_current_fbck                = m_patch_current_buffer[0x87];
+uint8_t& m_patch_current_sync                = m_patch_current_buffer[0x88];
 uint8_t& m_patch_current_lfo_speed           = m_patch_current_buffer[0x89];
 uint8_t& m_patch_current_lfo_delay           = m_patch_current_buffer[0x8A];
 uint8_t& m_patch_current_lfo_pitch_mod_depth = m_patch_current_buffer[0x8B];
@@ -569,36 +592,43 @@ uint8_t m_selected_operator;
 // ; voices transition from their 'current' pitch towards this pitch.
 // ; This pitch is set by the main 'Voice add' subroutines.
 // M_VOICE_PITCH_TARGET:                     equ  $20D0
-//
+uint16_t m_voice_pitch_target[16];
+
 // ; This buffer holds the 'portamento' pitch of each of the synth's 16 voices.
 // ; During the portamento/glissando processing subroutine, if portamento is
 // ; currently active the individual voices transition from this pitch towards
 // ; their target pitch value. This pitch is set by the main
 // ; 'Voice add' subroutines.
 // M_VOICE_PITCH_PORTAMENTO:                 equ  $20F0
-//
+uint16_t m_voice_pitch_portamento[16];
+
 // ; This buffer holds the 'glissando' pitch of each of the synth's 16 voices.
 // ; During the portamento/glissando processing subroutine, if glissando is
 // ; currently active the individual voices transition from this pitch towards
 // ; their target pitch value. This pitch is set by the main 'Voice add'
 // ; subroutines.
 // M_VOICE_PITCH_GLISSANDO:                  equ  $2110
-//
+uint16_t m_voice_pitch_glissando[16];
+
 // ; The current Pitch EG step for each of the synth's voices.
 // M_VOICE_PITCH_EG_CURR_STEP:               equ  $2130
-//
+uint8_t m_voice_pitch_eg_curr_step[16];
+
 // ; The current Pitch EG level for each of the synth's voices.
 // M_VOICE_PITCH_EG_CURR_LEVEL:              equ  $2140
-//
+uint16_t m_voice_pitch_eg_curr_level[16];
+
 // ; This array contains the quantised pitch EG rate and level values.
 // ; Entries 0-3 contain the RATE values, 4-7 contain the LEVEL values.
 // ; Length: 8.
 // M_PATCH_PITCH_EG_VALUES:                  equ  $2160
-//
+uint8_t m_patch_pitch_eg_values[8];
+
 // ; The final pitch EG level for the current patch.
 // ; This doubles as the INITIAL pitch EG level.
 // M_PATCH_PITCH_EG_VALUES_FINAL_LEVEL:      equ  $2167
-//
+uint8_t& m_patch_pitch_eg_final_level = m_patch_pitch_eg_values[7];
+
 // ; This buffer holds the active 'Key Events'. Each of the 16 entries are a
 // ; single byte storing the note in bits 0..6, with bit 7 holding the key
 // ; state, whether it is active or not.
@@ -624,7 +654,9 @@ uint8_t m_selected_operator;
 // ; hold a function address, which is called once for each of the synth's six
 // ; operators. Refer to the patch loading subroutine for more information.
 // M_PATCH_LOAD_FUNC_PTR:                    equ  $2183
-//
+void (Firmware::*m_patch_load_func_ptr)();
+
+
 // ; The operator keyboard scaling curve data.
 // ; When the keyboard scaling for an operator is parsed from the patch data,
 // ; this curve data is created with the amplitude scaling factor for the full
@@ -649,10 +681,10 @@ uint8_t m_patch_serialised_temp[128];
 // M_MASTER_TUNE_LOW:                        equ  $2312
 // M_KBD_SCALE_CURVE_INDEX:                  equ  $2313
 // M_PATCH_OP_SENS:                          equ  $2314
-uint8_t m_master_tune {0};
-uint8_t m_master_tune_low {0};
-uint8_t m_kbd_scale_curve_index {0};
-uint8_t m_patch_op_sens {0};
+uint8_t  m_master_tune {0};
+uint8_t  m_master_tune_low {0};
+uint8_t  m_kbd_scale_curve_index {0};
+uint16_t m_patch_op_sens[6];
 
 // ; This 16-bit variable is the LFO's phase increment.
 // M_LFO_PHASE_INCREMENT:                    equ  $2320
@@ -8768,6 +8800,8 @@ void memcpy(uint8_t size)
 // ; ==============================================================================
 //
 // PATCH_LOAD_OPERATOR_KBD_VEL_SENS:
+void patch_load_operator_kbd_vel_sens()
+{
 //     JSR     PATCH_GET_PTR_TO_SELECTED_OP
 //     LDAB    #15
 //     ABX
@@ -8794,8 +8828,15 @@ void memcpy(uint8_t size)
 //     STAA    0,x
 //     STAB    1,x
 //     RTS
-//
-//
+   const uint8_t* ptr = patch_get_ptr_to_selected_op() + 15;
+
+   uint8_t key_vel_sens = *ptr;
+
+   uint8_t msb = ~(0b11110000 | (key_vel_sens << 1));
+
+   m_patch_op_sens[m_selected_operator] = msb | (key_vel_sens << 5);
+}
+
 // ; ==============================================================================
 // ; PATCH_LOAD_OPERATOR_DETUNE
 // ; ==============================================================================
@@ -8807,6 +8848,8 @@ void memcpy(uint8_t size)
 // ; ==============================================================================
 //
 // PATCH_LOAD_OPERATOR_DETUNE:
+void patch_load_operator_detune()
+{
 //     JSR     PATCH_GET_PTR_TO_SELECTED_OP
 //     LDAB    #20
 //     ABX
@@ -8827,8 +8870,11 @@ void memcpy(uint8_t size)
 //     ABX
 //     STAA    0,x                                 ; Store at 0x3030[OP].
 //     RTS
-//
-//
+   const uint8_t* ptr = patch_get_ptr_to_selected_op() + 20;
+
+   p_egs_op_detune[m_selected_operator] = table_detune_value[*ptr];
+}
+
 // ; ==============================================================================
 // ; EGS Operator Detune Value Table.
 // ; These values are the operator detune values loaded to the EGS' operator
@@ -8854,8 +8900,14 @@ void memcpy(uint8_t size)
 //     FCB 5
 //     FCB 6
 //     FCB 7
-//
-//
+const uint8_t table_detune_value[15] =
+{
+   0xF, 0xE, 0xD, 0xC, 0xB, 0xA, 0x9,
+   0x0,
+   0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7
+};
+
+
 // ; ==============================================================================
 // ; PATCH_COPY_OPERATOR
 // ; ==============================================================================
@@ -8957,6 +9009,8 @@ uint8_t* patch_get_ptr_to_selected_op()
 // ; ==============================================================================
 //
 // PATCH_LOAD_OPERATOR_KBD_SCALING:
+void patch_load_operator_kbd_scaling()
+{
 //     JSR     PATCH_GET_PTR_TO_SELECTED_OP
 //     STX     <K_OPERATOR_CURRENT_PTR
 //
@@ -9123,8 +9177,9 @@ uint8_t* patch_get_ptr_to_selected_op()
 //     DEC     M_KBD_SCALE_CURVE_INDEX
 //     BNE     _COMPUTE_SCALING_CURVE_LOOP_START
 //     RTS
-//
-//
+}
+
+
 // ; ==============================================================================
 // ; PATCH_PARSE_CURVE_LEFT
 // ; ==============================================================================
@@ -9341,8 +9396,28 @@ const uint8_t table_log[100] =
 //     DECB
 //     BNE     _RESET_VOICE_EVENT_LOOP             ; If ACCB > 0, loop
 //     RTS
-//
-//
+void egs_reset_voices()
+{
+   for(unsigned i = 0; i < 96; ++i)
+   {
+      delay();
+
+      p_egs_op_levels[i] = 0xFF;
+   }
+
+   for(unsigned voice = 0; voice < 16; ++voice)
+   {
+      delay();
+      p_egs_voice_events = (voice << 2) | 0b10;
+
+      delay();
+      p_egs_voice_events = (voice << 2) | 0b01;
+
+      delay();
+      p_egs_voice_events = (voice << 2) | 0b10;
+   }
+}
+
 // ; ==============================================================================
 // ; VOICE_ADD_LOAD_OPERATOR_DATA_TO_EGS
 // ; ==============================================================================
@@ -9628,6 +9703,8 @@ const uint8_t table_log[100] =
 // ; ==============================================================================
 //
 // PATCH_LOAD_OPERATOR_EG_LEVELS:
+void patch_load_operator_eg_levels()
+{
 //     JSR     PATCH_GET_PTR_TO_SELECTED_OP
 //     LDAB    #7
 //     ABX
@@ -9712,8 +9789,16 @@ const uint8_t table_log[100] =
 //     DECB
 //     BNE     _STORE_OPERATOR_EG_LEVELS_LOOP      ; If b > 0, loop.
 //     RTS
-//
-//
+
+   uint8_t* ptr = patch_get_ptr_to_selected_op() + 4;
+
+   for(unsigned i = 0; i < 4; ++i)
+   {
+      p_egs_op_eg_levels[m_selected_operator * 4 + i] = table_log[*ptr++];
+   }
+}
+
+
 // ; ==============================================================================
 // ; PATCH_LOAD_OPERATOR_EG_RATES
 // ; ==============================================================================
@@ -9731,6 +9816,8 @@ const uint8_t table_log[100] =
 // ; ==============================================================================
 //
 // PATCH_LOAD_OPERATOR_EG_RATES:
+void patch_load_operator_eg_rates()
+{
 //     JSR     PATCH_GET_PTR_TO_SELECTED_OP
 //     STX     <$AB
 //     LDAA    M_SELECTED_OPERATOR
@@ -9760,15 +9847,28 @@ const uint8_t table_log[100] =
 //     ABX
 //     STAA    0,x
 //
-// ; Increment operator number.
+// ; Increment operator pointer
 //     INC     $AE
 //
 // ; Decrement index.
 //     DEC     $AD
 //     BNE     _LOAD_OPERATOR_EG_RATE_LOOP
 //     RTS
-//
-//
+
+   uint8_t* ptr = patch_get_ptr_to_selected_op();
+
+   for(unsigned i = 0; i < 4; ++i)
+   {
+      delay();
+
+      uint8_t prog  = *ptr++;
+      uint8_t value = (prog * 164) >> 8;
+
+      p_egs_op_eg_rates[m_selected_operator * 4 + i] = value;
+   }
+}
+
+
 // ; ==============================================================================
 // ; PATCH_LOAD_CALL_FUNC_PTR
 // ; ==============================================================================
@@ -9787,13 +9887,16 @@ const uint8_t table_log[100] =
 // ; ==============================================================================
 //
 // PATCH_LOAD_CALL_FUNC_PTR:
+void patch_load_call_func_ptr()
+{
 //     PSHX
 //
 // ; Save memory at 0x209F.
 //     LDAA    M_SELECTED_OPERATOR
 //     PSHA
 //     CLRB
-//
+   uint8_t save = m_selected_operator;
+
 // _CALL_FP_START:
 //     STAB    M_SELECTED_OPERATOR
 //     LDX     M_PATCH_LOAD_FUNC_PTR
@@ -9805,14 +9908,24 @@ const uint8_t table_log[100] =
 //     INCB
 //     CMPB    #6
 //     BNE     _CALL_FP_START                      ; If ACCB < 6, loop.
+
+   for(unsigned op = 0; op < 6; op++)
+   {
+      m_selected_operator = op;
+
+      (this->*m_patch_load_func_ptr)();
+   }
+
 //
 // ; Restore contents of the memory at 0x209F.
 //     PULA
 //     STAA    M_SELECTED_OPERATOR
 //     PULX
 //     RTS
-//
-//
+   m_selected_operator = save;
+}
+
+
 // ; ==============================================================================
 // ; PORTA_COMPUTE_RATE_VALUE
 // ; ==============================================================================
@@ -9861,8 +9974,21 @@ const uint8_t table_log[100] =
 //     FCB $93, $99, $9F, $A5, $AB
 //     FCB $B2, $B9, $C1, $CA, $D3
 //     FCB $E8, $F3, $FE, $FF
-//
-//
+const uint8_t table_pitch_eg_rate[100] =
+{
+   0x01, 0x02, 0x03, 0x03, 0x04, 0x04, 0x05, 0x05, 0x06, 0x06,
+   0x07, 0x07, 0x08, 0x08, 0x09, 0x09, 0x0A, 0x0A, 0x0B, 0x0B,
+   0x0C, 0x0C, 0x0D, 0x0D, 0x0E, 0x0E, 0x0F, 0x10, 0x10, 0x11,
+   0x12, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A,
+   0x1B, 0x1C, 0x1E, 0x1F, 0x21, 0x22, 0x24, 0x25, 0x26, 0x27,
+   0x29, 0x2A, 0x2C, 0x2E, 0x2F, 0x31, 0x33, 0x35, 0x36, 0x38,
+   0x3A, 0x3C, 0x3E, 0x40, 0x42, 0x44, 0x46, 0x48, 0x4A, 0x4C,
+   0x4F, 0x52, 0x55, 0x58, 0x5B, 0x5E, 0x62, 0x66, 0x6A, 0x6E,
+   0x73, 0x78, 0x7D, 0x82, 0x87, 0x8D, 0x93, 0x99, 0x9F, 0xA5,
+   0xAB, 0xB2, 0xB9, 0xC1, 0xCA, 0xD3, 0xE8, 0xF3, 0xFE, 0xFF
+};
+
+
 // ; ==============================================================================
 // ; PATCH_LOAD_OPERATOR_KBD_RATE_SCALING
 // ; ==============================================================================
@@ -9876,6 +10002,8 @@ const uint8_t table_log[100] =
 // ; ==============================================================================
 //
 // PATCH_LOAD_OPERATOR_KBD_RATE_SCALING:
+void patch_load_operator_kbd_rate_scaling()
+{
 //     JSR     PATCH_GET_PTR_TO_SELECTED_OP
 //     LDAB    #13
 //     ABX
@@ -9898,8 +10026,15 @@ const uint8_t table_log[100] =
 //     ABX
 //     STAA    0,x
 //     RTS
-//
-//
+
+   const uint8_t* ptr = patch_get_ptr_to_selected_op() + 13;
+   uint8_t kbd_rate_scaling = ptr[0];
+   uint8_t amp_mod_sens     = ptr[1];
+
+   p_egs_op_sens_scaling[m_selected_operator] = (amp_mod_sens << 3) | kbd_rate_scaling;
+}
+
+
 // ; ==============================================================================
 // ; PATCH_LOAD_OPERATOR_PITCH
 // ; ==============================================================================
@@ -9917,6 +10052,8 @@ const uint8_t table_log[100] =
 // ; ==============================================================================
 //
 // PATCH_LOAD_OPERATOR_PITCH:
+void patch_load_operator_pitch()
+{
 //     JSR     PATCH_GET_PTR_TO_SELECTED_OP
 //     STX     <$AB
 //     LDAB    17,x                                ; Load 'Osc Mode' into B.
@@ -10163,8 +10300,9 @@ const uint8_t table_log[100] =
 //     PULB
 //     STAB    1,x
 //     RTS
-//
-//
+}
+
+
 // ; ==============================================================================
 // ; PATCH_LOAD_PITCH_EG_VALUES
 // ; ==============================================================================
@@ -10181,6 +10319,8 @@ const uint8_t table_log[100] =
 // ; ==============================================================================
 //
 // PATCH_LOAD_PITCH_EG_VALUES:
+void patch_load_pitch_eg_values()
+{
 //     LDX     #M_PATCH_PITCH_EG_VALUES
 //     STX     <$AB
 //
@@ -10239,7 +10379,18 @@ const uint8_t table_log[100] =
 //     CMPA    #8
 //     BNE     _PARSE_PITCH_EG_LVL_VALUES
 //     RTS
-//
+
+   for(unsigned i = 0; i < 4; ++i)
+   {
+      m_patch_pitch_eg_values[i] = table_pitch_eg_rate[m_patch_current_pitch_eg[i]];
+   }
+
+   for(unsigned i = 0; i < 4; ++i)
+   {
+      m_patch_pitch_eg_values[i + 4] = table_pitch_eg_level[m_patch_current_pitch_eg[i + 4]];
+   }
+}
+
 // ; ==============================================================================
 // ; This table is used to quantise the patch pitch EG level values from their
 // ; 0-99 range,to the 0-255 range of values required for the final
@@ -10266,8 +10417,20 @@ const uint8_t table_log[100] =
 //     FCB $A3, $A6, $A8, $AB, $AE
 //     FCB $B1, $B5, $BA, $C1, $C9
 //     FCB $D2, $DC, $E7, $F3, $FF
-//
-//
+uint8_t table_pitch_eg_level[100] =
+{
+   0x00, 0x0C, 0x18, 0x21, 0x2B, 0x34, 0x3C, 0x43, 0x48, 0x4C,
+   0x4F, 0x52, 0x55, 0x57, 0x59, 0x5B, 0x5D, 0x5F, 0x60, 0x61,
+   0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B,
+   0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75,
+   0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F,
+   0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89,
+   0x8A, 0x8B, 0x8C, 0x8D, 0x8E, 0x8F, 0x90, 0x91, 0x92, 0x93,
+   0x94, 0x95, 0x96, 0x97, 0x98, 0x99, 0x9A, 0x9B, 0x9C, 0x9D,
+   0x9E, 0x9F, 0xA0, 0xA1, 0xA2, 0xA3, 0xA6, 0xA8, 0xAB, 0xAE,
+   0xB1, 0xB5, 0xBA, 0xC1, 0xC9, 0xD2, 0xDC, 0xE7, 0xF3, 0xFF
+};
+
 // ; ==============================================================================
 // ; PATCH_LOAD_ALG_MODE
 // ; ==============================================================================
@@ -10281,7 +10444,9 @@ const uint8_t table_log[100] =
 // ; ==============================================================================
 //
 // PATCH_LOAD_ALG_MODE:
-//     LDAA    $2087                               ; Feedback level.
+void patch_load_alg_mode()
+{
+//     LDAA    M_PATCH_CURRENT_FBCK                ; Feedback level.
 //
 // ; Load the 'Algorithm' value, shift left 3 bits, and combine with the
 // ; 'Feedback' value to create the final bitmask.
@@ -10293,7 +10458,7 @@ const uint8_t table_log[100] =
 //
 // ; Test the patch's 'Oscillator Sync' value, and create the final value
 // ; accordingly.
-//     TST     $2088
+//     TST     M_PATCH_CURRENT_SYNC
 //     BEQ     _SYNC_DISABLED
 //     LDAB    #48
 //     BRA     _WRITE_TO_OPS_REGISTERS
@@ -10304,6 +10469,9 @@ const uint8_t table_log[100] =
 // _WRITE_TO_OPS_REGISTERS:
 //     STAB    P_OPS_MODE
 //     STAA    P_OPS_ALG_FDBK
+   p_ops_mode     = m_patch_current_sync ? 0b0110000 : 0b1010000;
+   p_ops_alg_fdbk = m_patch_current_fbck | (m_patch_current_alg << 3);;
+}
 //     RTS
 //
 //
@@ -10319,45 +10487,46 @@ const uint8_t table_log[100] =
 // ; ==============================================================================
 //
 // PATCH_LOAD_LFO:
+void patch_load_lfo()
+{
 //     LDX     #M_PATCH_CURRENT_LFO_SPEED
 //     JSR     PATCH_LOAD_QUANTISE_LFO_SPEED
 //     STD     M_LFO_PHASE_INCREMENT
-//
+    m_lfo_phase_increment = patch_load_quantise_lfo_speed(m_patch_current_lfo_speed);
+
 // _PARSE_LFO_DELAY:
 //     LDX     #M_PATCH_CURRENT_LFO_DELAY
 //     JSR     PATCH_LOAD_QUANTIZE_LFO_DELAY
 //     STD     M_LFO_DELAY_INCREMENT
-//
+    m_lfo_delay_increment = patch_load_quantise_lfo_delay(m_patch_current_lfo_delay);
+
 // _PARSE_LFO_PITCH_MOD_DEPTH:
 //     LDX     #M_PATCH_CURRENT_LFO_PITCH_MOD_DEPCTH
 //     LDAA    0,x
 //     JSR     PATCH_LOAD_QUANTISE_VALUE
 //     STAA    M_LFO_PITCH_MOD_DEPTH
-//
+    m_lfo_pitch_mod_depth = patch_load_quantise_value(m_patch_current_lfo_pitch_mod_depth);
+
 // _PARSE_LFO_AMP_MOD_DEPTH:
 //     LDAA    1,x
 //     JSR     PATCH_LOAD_QUANTISE_VALUE
 //     STAA    M_LFO_AMP_MOD_DEPTH
-//
+    m_lfo_amp_mod_depth   = patch_load_quantise_value(m_patch_current_lfo_amp_mod_depth);
+
 // _PARSE_LFO_WAVEFORM:
 //     LDAA    3,x
 //     STAA    M_LFO_WAVEFORM
-//
+    m_lfo_waveform        = m_patch_current_lfo_waveform;
+
 // _PARSE_LFO_PITCH_MOD_SENS:
 //     LDAB    4,x
 //     LDX     #TABLE_PITCH_MOD_SENS
 //     ABX
 //     LDAA    0,x
 //     STAA    M_LFO_PITCH_MOD_SENS
-//     RTS
-void patch_load_lfo()
-{
-    m_lfo_phase_increment = patch_load_quantise_lfo_speed(m_patch_current_lfo_speed);
-    m_lfo_delay_increment = patch_load_quantise_lfo_delay(m_patch_current_lfo_delay);
-    m_lfo_pitch_mod_depth = patch_load_quantise_value(m_patch_current_lfo_pitch_mod_depth);
-    m_lfo_amp_mod_depth   = patch_load_quantise_value(m_patch_current_lfo_amp_mod_depth);
-    m_lfo_waveform        = m_patch_current_lfo_waveform;
     m_lfo_pitch_mod_sens  = table_pitch_mod_sens[m_patch_current_pitch_mod_sens];
+
+//     RTS
 }
 
 // ; ==============================================================================
@@ -10976,48 +11145,73 @@ uint16_t patch_load_quantise_lfo_delay(uint8_t in)
 // ; ==============================================================================
 //
 // PATCH_LOAD_DATA:
+void patch_load_data()
+{
 //     JSR     EGS_RESET_VOICES
-//
+   egs_reset_voices();
+
 // _LOAD_EG_RATES:
 //     LDD     #PATCH_LOAD_OPERATOR_EG_RATES
 //     STD     M_PATCH_LOAD_FUNC_PTR
 //     JSR     PATCH_LOAD_CALL_FUNC_PTR
-//
+   m_patch_load_func_ptr = &Firmware::patch_load_operator_eg_rates;
+   patch_load_call_func_ptr();
+
 // _LOAD_EG_LEVELS:
 //     LDD     #PATCH_LOAD_OPERATOR_EG_LEVELS
 //     STD     M_PATCH_LOAD_FUNC_PTR
 //     JSR     PATCH_LOAD_CALL_FUNC_PTR
-//
+   m_patch_load_func_ptr = &Firmware::patch_load_operator_eg_levels;
+   patch_load_call_func_ptr();
+
 // _LOAD_KEYBOARD_SCALING:
 //     LDD     #PATCH_LOAD_OPERATOR_KBD_SCALING
 //     STD     M_PATCH_LOAD_FUNC_PTR
 //     JSR     PATCH_LOAD_CALL_FUNC_PTR
-//
+   m_patch_load_func_ptr = &Firmware::patch_load_operator_kbd_scaling;
+   patch_load_call_func_ptr();
+
 // _LOAD_KEYBOARD_VEL_SENS:
 //     LDD     #PATCH_LOAD_OPERATOR_KBD_VEL_SENS
 //     STD     M_PATCH_LOAD_FUNC_PTR
 //     JSR     PATCH_LOAD_CALL_FUNC_PTR
-//
+   m_patch_load_func_ptr = &Firmware::patch_load_operator_kbd_vel_sens;
+   patch_load_call_func_ptr();
+
 // _LOAD_OPERATOR_PITCH:
 //     LDD     #PATCH_LOAD_OPERATOR_PITCH
 //     STD     M_PATCH_LOAD_FUNC_PTR
 //     JSR     PATCH_LOAD_CALL_FUNC_PTR
-//
+   m_patch_load_func_ptr = &Firmware::patch_load_operator_pitch;
+   patch_load_call_func_ptr();
+
 // _LOAD_RATE_SCALING:
 //     LDD     #PATCH_LOAD_OPERATOR_KBD_RATE_SCALING
 //     STD     M_PATCH_LOAD_FUNC_PTR
 //     JSR     PATCH_LOAD_CALL_FUNC_PTR
-//
+   m_patch_load_func_ptr = &Firmware::patch_load_operator_kbd_rate_scaling;
+   patch_load_call_func_ptr();
+
 // _LOAD_DETUNE:
 //     LDD     #PATCH_LOAD_OPERATOR_DETUNE
 //     STD     M_PATCH_LOAD_FUNC_PTR
 //     JSR     PATCH_LOAD_CALL_FUNC_PTR
+   m_patch_load_func_ptr = &Firmware::patch_load_operator_detune;
+   patch_load_call_func_ptr();
+
 //     JSR     PATCH_LOAD_PITCH_EG_VALUES
+   patch_load_pitch_eg_values();
+
 //     JSR     PATCH_LOAD_ALG_MODE
+   patch_load_alg_mode();
+
 //     JSR     PATCH_LOAD_LFO
+   patch_load_lfo();
+
 //     RTS
-//
-//
+}
+
+
 // ; ==============================================================================
 // ; HANDLER_OCF
 // ; ==============================================================================
@@ -11703,7 +11897,6 @@ void mod_amp_load_to_egs()
 //     EORB    #128
 //     MUL
 //
-
        unsigned mod = (m_lfo_fade_in_scale_factor * m_lfo_amp_mod_depth) >> 8;
 
        mod += m_mod_amp_factor;

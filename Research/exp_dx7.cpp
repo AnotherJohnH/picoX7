@@ -60,40 +60,20 @@ void sample_lfo()
 
 int main()
 {
-   unsigned patch = 1;
+   unsigned patch_number = 1;
 
-   // Load the first patch from the cartridge
-   fw.patch_load_from_crt(patch - 1);
+   // Copy in the first patch from the cartridge
+   fw.patch_load_from_crt(patch_number - 1);
 
    // Decode to console to confirm deserialisation
    SysEx::Voice* voice = (SysEx::Voice*)fw.m_patch_current_buffer;
    printf("\n");
-   voice->print(patch);
+   voice->print(patch_number);
 
-#if 0
-   // Raw data
-   for(unsigned i = 0; i < 0x9C; i++)
-   {
-      if ((i % 8) == 0) printf("\n%02x : ", i);
+   // Load the patch
+   fw.patch_load_data();
 
-      printf(" %02x:%02u",
-             fw.m_patch_current_buffer[i],
-             fw.m_patch_current_buffer[i]);
-   }
-   printf("\n");
-#endif
-
-   // LFO patch config deserialised
-   printf("LFO speed %u\n", fw.m_patch_current_lfo_speed);
-   printf("LFO delay %u\n", fw.m_patch_current_lfo_delay);
-   printf("LFO PMD   %u\n", fw.m_patch_current_lfo_pitch_mod_depth);
-   printf("LFO AMD   %u\n", fw.m_patch_current_lfo_amp_mod_depth);
-   printf("LFO SYNC  %u\n", fw.m_patch_current_lfo_sync);
-   printf("LFO WAVE  %u\n", fw.m_patch_current_lfo_waveform);
-   printf("PMS       %u\n", fw.m_patch_current_pitch_mod_sens);
-
-   fw.patch_load_lfo();
-
+   // Dump LFO parameters derived from the patch
    printf("\n");
    printf("LFO delay inc %04x\n", fw.m_lfo_delay_increment);
    printf("LFO phase inc %04x\n", fw.m_lfo_phase_increment);
