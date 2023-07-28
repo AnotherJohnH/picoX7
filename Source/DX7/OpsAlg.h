@@ -39,7 +39,7 @@ public:
    //! Return next sample for the selected algorithm
    int32_t operator()()
    {
-      return ((*this).*alg_ptr)();
+      return (this->*alg_ptr)();
    }
 
    //! Select the algorithm

@@ -126,12 +126,20 @@ public:
 
    void setLevel(uint8_t value) override
    {
-      // TODO
+      aftertouch.value = value;
    }
 
    void setControl(uint8_t control, uint8_t value) override
    {
-      // TODO
+      switch (control)
+      {
+      case  1: modulation_wheel.value = value; break;
+      case  2: breath_control.value   = value; break;
+      case  4: foot_control.value     = value; break;
+
+      case 64: /* sustain */ break;
+      case 65: /* portamento */ break;
+      }
    }
 
    void setPitch(int16_t value) override
@@ -160,4 +168,22 @@ private:
    Lfo           lfo;
    OpsAlg        egs_ops;
    SysEx::Voice  sysex;
+
+   // Modulation sources
+
+   struct Modulation
+   {
+      Modulation() = default;
+
+      uint8_t value {0};
+      uint8_t range {50};
+      bool    pitch {true};
+      bool    amplitude {false};
+      bool    eg_bias {false};
+   };
+
+   Modulation modulation_wheel {};
+   Modulation foot_control {};
+   Modulation breath_control {};
+   Modulation aftertouch {};
 };
