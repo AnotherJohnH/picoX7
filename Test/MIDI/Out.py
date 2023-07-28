@@ -20,8 +20,8 @@
 # SOFTWARE.
 #------------------------------------------------------------------------------
 
-class MidiOut:
-   """ API for sending MIDI to a MIDI instrument """
+class Out:
+   """ API for sending MIDI messages out to a MIDI instrument """
 
    def __init__(self, device):
       self.out     = open(device, "wb")
@@ -44,37 +44,37 @@ class MidiOut:
    def noteLevel(self, note, level):
       self.send([0xA0 | self.channel, note, level])
 
-   def ctrl(self, number, value):
+   def control(self, number, value):
       self.send([0xB0 | self.channel, number, value])
 
    def allSoundsOff(self):
-      self.ctrl(0x78, 0)
+      self.control(0x78, 0)
 
    def resetAllControllers(self):
-      self.ctrl(0x79, 0)
+      self.control(0x79, 0)
 
    def localControl(self, on):
       if on:
-         self.ctrl(0x7A, 0)
+         self.control(0x7A, 0)
       else:
-         self.ctrl(0x7A, 0x7F)
+         self.control(0x7A, 0x7F)
 
    def allNotesOff(self):
-      self.ctrl(0x7B, 0)
+      self.control(0x7B, 0)
 
    def omniMode(self, on):
       if on:
-         self.ctrl(0x7D, 0)
+         self.control(0x7D, 0)
       else:
-         self.ctrl(0x7C, 0)
+         self.control(0x7C, 0)
 
    def monoMode(self, num_channles = 0):
-      self.ctrl(0x7E, num_channels)
+      self.control(0x7E, num_channels)
 
    def polyMode(self):
-      self.ctrl(0x7F, 0)
+      self.control(0x7F, 0)
 
-   def prog(self, number):
+   def program(self, number):
       self.send([0xC0 | self.channel, number])
 
    def level(self, level):
@@ -82,3 +82,6 @@ class MidiOut:
 
    def pitchBend(self, value):
       self.send([0xE0 | self.channel, value & 0x7F, value >> 7])
+
+   def sysex(self, data):
+      self.send([0xF0] + data + [0xF7])

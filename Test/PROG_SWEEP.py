@@ -21,31 +21,60 @@
 # SOFTWARE.
 #------------------------------------------------------------------------------
 
+import argparse
 import time
-import MidiOut
+import MIDI
+
+#--------------------------------------------------------------------------------
 
 def timeStart():
    global timer
    timer = time.time()
 
-def timePeriod(period):
+def timeJoin(period):
    global timer
    timer += period
    while time.time() < timer:
       pass
 
-midi = MidiOut.MidiOut("/dev/cu.usbmodem102")
+#--------------------------------------------------------------------------------
+
+def parseArgs():
+
+   parser = argparse.ArgumentParser(description='picoX7 test driver')
+
+   parser.add_argument('-o', '--out', dest='midi_out', type=str, default="/dev/cu.usbmodem102",
+                       help='MIDI out device [%(default)s]', metavar='<device>')
+
+   parser.add_argument('-r', '--range', dest='range', type=int, default=128,
+                       help='Sweep range [%(default)s]', metavar='<range>')
+
+   parser.add_argument('-p', '--period', dest='period', type=int, default=1,
+                       help='Period for sweep step (seconds) [%(default)s]', metavar='<period>')
+
+   parser.add_argument('-n', '--note', dest='note', type=int, default=MIDI.NOTE_C4,
+                       help='MIDI note to use [%(default)s]', metavar='<note>')
+
+   return parser.parse_args()
+
+#--------------------------------------------------------------------------------
+
+args = parseArgs()
+
+midi = MIDI.Out(args.midi_out)
 
 timeStart()
 
-for p in range(0, 128):
+for program_number in range(0, args.range):
 
-   timePeriod(1)
-   midi.prog(p)
-   midi.noteOn(note = 0x3C)
+   print(f"Program {program_number}/{args.range}")
+   midi.program(program_number)
 
-   timePeriod(1)
-   midi.noteOff(note = 0x3C)
+   timeJoin(args.period)
+   midi.noteOn(args.note)
 
-timePeriod(1)
+   timeJoin(args.period)
+   midi.noteOff(args.note)
+
+timeJoin(args.period)
 midi.allSoundsOff()
