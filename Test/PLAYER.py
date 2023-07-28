@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 #------------------------------------------------------------------------------
 # Copyright (c) 2023 John D. Haughton
 #
@@ -20,9 +21,35 @@
 # SOFTWARE.
 #------------------------------------------------------------------------------
 
-from MIDI.Out import Out
-from MIDI.File import File
+import argparse
+import Timer
+import MIDI
 
-# Some helpful constants
-NOTE_C4 = 60
-NOTE_A4 = 69
+#--------------------------------------------------------------------------------
+
+def parseArgs():
+
+   parser = argparse.ArgumentParser(description='picoX7 MIDI file player')
+
+   parser.add_argument('-o', '--out', dest='midi_out', type=str, default="/dev/cu.usbmodem102",
+                       help='MIDI out device [%(default)s]', metavar='<device>')
+
+   parser.add_argument('-t', '--track', dest='track', type=int, default=2,
+                       help='Track to play [%(default)s]', metavar='<track>')
+
+   parser.add_argument(dest='file', type=str, default=None,
+                       help='MIDI file', metavar='<midi-file>')
+
+   return parser.parse_args()
+
+#--------------------------------------------------------------------------------
+
+args  = parseArgs()
+file  = MIDI.File(args.file)
+midi  = MIDI.Out(args.midi_out)
+timer = Timer.Timer(0.005)
+
+for delta_t, command in file.getTrack(args.track):
+
+   timer.join(delta_t)
+   midi.send(command)

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 #------------------------------------------------------------------------------
 # Copyright (c) 2023 John D. Haughton
 #
@@ -20,9 +21,18 @@
 # SOFTWARE.
 #------------------------------------------------------------------------------
 
-from MIDI.Out import Out
-from MIDI.File import File
+import time
 
-# Some helpful constants
-NOTE_C4 = 60
-NOTE_A4 = 69
+class Timer:
+   def __init__(self, scale = 1):
+      self.scale = scale
+      self.start()
+
+   def start(self):
+      self.join_time = time.time()
+
+   def join(self, period):
+      if period > 0:
+         self.join_time += period * self.scale
+         while time.time() < self.join_time:
+            pass

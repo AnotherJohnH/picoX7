@@ -22,20 +22,8 @@
 #------------------------------------------------------------------------------
 
 import argparse
-import time
+import Timer
 import MIDI
-
-#--------------------------------------------------------------------------------
-
-def timeStart():
-   global timer
-   timer = time.time()
-
-def timeJoin(period):
-   global timer
-   timer += period
-   while time.time() < timer:
-      pass
 
 #--------------------------------------------------------------------------------
 
@@ -59,22 +47,20 @@ def parseArgs():
 
 #--------------------------------------------------------------------------------
 
-args = parseArgs()
-
-midi = MIDI.Out(args.midi_out)
-
-timeStart()
+args  = parseArgs()
+midi  = MIDI.Out(args.midi_out)
+timer = Timer.Timer()
 
 for program_number in range(0, args.range):
 
    print(f"Program {program_number}/{args.range}")
    midi.program(program_number)
 
-   timeJoin(args.period)
+   timer.join(args.period)
    midi.noteOn(args.note)
 
-   timeJoin(args.period)
+   timer.join(args.period)
    midi.noteOff(args.note)
 
-timeJoin(args.period)
+timer.join(args.period)
 midi.allSoundsOff()
