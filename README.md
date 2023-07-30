@@ -4,7 +4,7 @@
 
 A software simulation of the Yamaha DX7 with a MIDI interface for the Raspberry Pi Pico
 
-Slightly boring [Video](https://www.youtube.com/watch?v=tPLasiQonrg) of the picoX7 playing the Yamaha DX7 ROM cartrdige 1A patches...
+Slightly boring [video](https://www.youtube.com/watch?v=tPLasiQonrg) of the picoX7 playing the Yamaha DX7 ROM cartrdige 1A patches...
 
 [![picoX7 rom1A](http://img.youtube.com/vi/tPLasiQonrg/0.jpg)](http://www.youtube.com/watch?v=tPLasiQonrg "picoX7 rom1A")
 
@@ -31,7 +31,7 @@ to another I2S DAC
 + ~~The Pico is slightly overclocked to 137.48 MHz to avoid jitter when driving the I2S chip
 with a sample frequency of 49100 Hz~~ The Pico is significantly overclocked to 191.08 MHz to
 squeeze in 8 voices and generate a jitter free sample rate of 49096 Hz.
-+ UART-0 used as a debug console (TX) and alternate MIDIish-IN from the host
++ UART-0 used as a debug console (TX) and alternate MIDIish-IN from the host (115200 baud)
 + UART-1 (RX) implements the MIDI-IN interface
 + Two PIO state machines are used to generate I2S and MCLK for the DAC module
 
