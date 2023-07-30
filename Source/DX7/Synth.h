@@ -48,12 +48,10 @@ private:
    {
       if (byte == 0xF0)
       {
-         printf("SYSEX START\n");
          state = 0;
       }
       else if (byte == 0xF7)
       {
-         printf("SYSEX END\n");
       }
       else
       {
@@ -80,13 +78,11 @@ private:
             index = 0;
             if (byte == TYPE_1_VOICE)
             {
-               printf("1 VOICE PROGRAM");
                buffer      = (uint8_t*) &edit_patch;
                buffer_size = sizeof(edit_patch);
             }
             else if (byte == TYPE_32_VOICES)
             {
-               printf("32 VOICE PROGRAMS");
                buffer      = (uint8_t*) &internal_patches;
                buffer_size = sizeof(internal_patches);
             }
@@ -110,12 +106,7 @@ private:
             break;
 
          case 5: // data
-            if ((index % 8) == 0)
-               printf("\n%02X : ", index);
-
-            printf(" %02X", byte);
             buffer[index++] = byte;
-
             if (index == buffer_size)
             {
                state = 6;
