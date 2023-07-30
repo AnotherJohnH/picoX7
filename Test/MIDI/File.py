@@ -153,12 +153,24 @@ class File:
 
    def __init__(self, filename):
       """ Construct from a file """
+
       self.filename   = filename
+      self.tempo      = 120
       self.track_list = []
+
       with open(filename, "rb") as file:
          self.header = Header(file)
          for track in range(0, self.header.ntrks):
             self.track_list.append(Track(file))
+
+      # Scan meta data in the first track
+      for delta_t, command in self.track_list[0]:
+         if command[0] == META_EVENT:
+            event = command[1]
+            data  = command[3:]
+            if event == 0x51:
+               period = (data[0] << 16) | (data[1] << 8 ) | data[2]
+               self.tempo = 60 * 1000000 / period
 
    @property
    def format(self):

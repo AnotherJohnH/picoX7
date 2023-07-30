@@ -106,12 +106,13 @@ print(f'Filename : "{file.filename}"')
 print(f'Format   : {file.format}')
 print(f'Tracks   : {file.num_tracks}')
 print(f'Division : {file.division}')
+print(f'Tempo    : {file.tempo:.0f} bpm')
 print()
 
 if args.program != 0:
    midi.program(args.program - 1)
 
-timer = Timer.Timer(0.5 / file.division)
+timer = Timer.Timer(60 / (file.tempo * file.division))
 
 for delta_t, command in file.track[args.track - 1]:
 
