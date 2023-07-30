@@ -37,6 +37,9 @@ def parseArgs():
    parser.add_argument('-t', '--track', dest='track', type=int, default=2,
                        help='Track to play [%(default)s]', metavar='<track>')
 
+   parser.add_argument('-p', '--prog', dest='program', type=int, default=0,
+                       help='Voice program', metavar='<program>')
+
    parser.add_argument(dest='file', type=str, default=None,
                        help='MIDI file', metavar='<midi-file>')
 
@@ -47,9 +50,15 @@ def parseArgs():
 args  = parseArgs()
 file  = MIDI.File(args.file)
 midi  = MIDI.Out(args.midi_out)
+
+if args.program != 0:
+   midi.program(args.program - 1)
+
 timer = Timer.Timer(0.005)
 
 for delta_t, command in file.getTrack(args.track):
 
    timer.join(delta_t)
-   midi.send(command)
+
+   if args.program == 0 or (command[0] >> 4) != 0xC:
+      midi.send(command)

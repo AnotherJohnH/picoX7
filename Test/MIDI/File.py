@@ -138,7 +138,7 @@ class Track(Chunk):
          command += self.nextBytes(2 - adjust)
 
       elif self.cmd == 0xC:
-         # CONTROL CHANGE
+         # PROGRAM CHANGE
          command += self.nextBytes(1 - adjust)
 
       elif self.cmd == 0xD:
