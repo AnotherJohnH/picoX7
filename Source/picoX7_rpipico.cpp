@@ -38,7 +38,7 @@
 static const unsigned SAMPLE_RATE = 49096;                   // DAC sample rate (Hz)
 static const unsigned TICK_RATE   = 375;                     // 6800 firmware tick (375 Hz)
 static const unsigned BUFFER_SIZE = SAMPLE_RATE / TICK_RATE; // DAC buffer size (samples)
-static const unsigned NUM_VOICES  = 8;                       // Polyphony
+static const unsigned NUM_VOICES  = 6;                       // Polyphony
 
 //! Select a system clock with clean division to 49.1 KHz
 //namespace MTL { Clocks::SysFreq clocks_sys_freq = Clocks::SYS_FREQ_137_48_MHZ; }
@@ -80,8 +80,8 @@ private:
 };
 
 
-static Usage             usage {};
-static Synth<NUM_VOICES> synth {};
+static Usage                            usage {};
+static Synth<NUM_VOICES, /* AMP_N */ 8> synth {};
 
 //! 49.1 KHz I2S DAC, with pinout for Waveshare Pico-Audio
 //  buffer sized to give a 375 Hz tick

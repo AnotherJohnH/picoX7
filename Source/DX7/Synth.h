@@ -32,8 +32,8 @@
 #include "Table_dx7_rom_3.h"
 #include "Table_dx7_rom_4.h"
 
-template <unsigned N>
-class Synth : public SynthBase<N,Voice>
+template <unsigned N, unsigned AMP_N = N>
+class Synth : public SynthBase<N,Voice,AMP_N>
 {
 public:
    Synth()

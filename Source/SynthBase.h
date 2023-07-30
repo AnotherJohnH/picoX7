@@ -27,7 +27,7 @@
 #include "STB/MIDIInstrument.h"
 
 //! Base class for MIDI synth
-template <unsigned N, typename VOICE>
+template <unsigned N, typename VOICE, unsigned AMP_N = N>
 class SynthBase : public MIDI::Instrument
 {
 public:
@@ -50,7 +50,7 @@ public:
             mix += v();
       }
 
-      return mix / N;
+      return mix / AMP_N;
    }
 
    //! Control tick
