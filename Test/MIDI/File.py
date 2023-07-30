@@ -20,6 +20,8 @@
 # SOFTWARE.
 #------------------------------------------------------------------------------
 
+from MIDI.Const import *
+
 class Chunk:
    """ A class representing a MIDI file chunk """
 
@@ -104,6 +106,7 @@ class Track(Chunk):
       return self
 
    def __next__(self):
+
       # Read variable length delta T
       delta_t = 0
       while True:
@@ -116,50 +119,27 @@ class Track(Chunk):
       command = self.nextBytes(1)
 
       if (command[0] & 0b10000000) != 0:
-         self.cmd = command[0] >> 4
+         self.cmd = command[0] & 0xF0
          adjust = 0
       else:
          adjust = 1
 
-      if self.cmd == 0x8:
-         # NOTE OFF
+      if self.cmd in [NOTE_OFF, NOTE_ON, POLY_KEY_PRESSURE, CONTROL_CHANGE, PITCH_BEND]:
          command += self.nextBytes(2 - adjust)
 
-      elif self.cmd == 0x9:
-         # NOTE ON
-         command += self.nextBytes(2 - adjust)
-
-      elif self.cmd == 0xA:
-         # POLY KEY PRESSURE
-         command += self.nextBytes(2 - adjust)
-
-      elif self.cmd == 0xB:
-         # CONTROL CHANGE
-         command += self.nextBytes(2 - adjust)
-
-      elif self.cmd == 0xC:
-         # PROGRAM CHANGE
+      elif self.cmd in [PROGRAM_CHANGE, CHANNEL_PRESSURE]:
          command += self.nextBytes(1 - adjust)
 
-      elif self.cmd == 0xD:
-         # CHANNEL PRESSURE
-         command += self.nextBytes(1 - adjust)
+      elif self.cmd == SYSTEM:
 
-      elif self.cmd == 0xE:
-         # PITCH BEND
-         command += self.nextBytes(2 - adjust)
-
-      elif self.cmd == 0xF:
-         # SYSTEM
-
-         if command[0] == 0xF0:
+         if command[0] == SYSEX_START:
             while True:
                byte = self.nextByte()
                command.append(byte)
-               if byte == 0xF7:
+               if byte == SYSEX_END:
                   break
 
-         elif command[0] == 0xFF:
+         elif command[0] == META_EVENT:
             # Meta event, event size is the next byte after the event type
             command += self.nextBytes(2)
             command += self.nextBytes(command[2])
@@ -173,17 +153,29 @@ class File:
 
    def __init__(self, filename):
       """ Construct from a file """
+      self.filename   = filename
       self.track_list = []
       with open(filename, "rb") as file:
          self.header = Header(file)
          for track in range(0, self.header.ntrks):
             self.track_list.append(Track(file))
 
-   def numTracks(self):
-      """ Return number of tracks """
+   @property
+   def format(self):
+      """ File format 0, 1 or 2 """
+      return self.header.format
+
+   @property
+   def num_tracks(self):
+      """ Number of tracks """
       return self.header.ntrks
 
-   def getTrack(self, track_number):
-      """ Return a track """
-      assert track_number >= 0 and track_number < len(self.track_list)
-      return self.track_list[track_number]
+   @property
+   def division(self):
+      """ Delta-ticks per quarter-note"""
+      return self.header.division
+
+   @property
+   def track(self):
+      """ Return the track list """
+      return self.track_list

@@ -20,6 +20,8 @@
 # SOFTWARE.
 #------------------------------------------------------------------------------
 
+from MIDI.Const import *
+
 class Out:
    """ API for sending MIDI messages out to a MIDI instrument """
 
@@ -36,16 +38,28 @@ class Out:
       self.out.flush()
 
    def noteOff(self, note, level = 0):
-      self.send([0x80 | self.channel, note, level])
+      self.send([NOTE_OFF | self.channel, note, level])
 
    def noteOn(self, note, level = 127):
-      self.send([0x90 | self.channel, note, level])
+      self.send([NOTE_ON | self.channel, note, level])
 
-   def noteLevel(self, note, level):
-      self.send([0xA0 | self.channel, note, level])
+   def notePressure(self, note, level):
+      self.send([POLY_KEY_PRESSURE | self.channel, note, level])
 
    def control(self, number, value):
-      self.send([0xB0 | self.channel, number, value])
+      self.send([CONTROL_CHANGE| self.channel, number, value])
+
+   def program(self, number):
+      self.send([PROGRAM_CHANGE| self.channel, number])
+
+   def pressure(self, level):
+      self.send([CHANNEL_PRESSURE | self.channel, level])
+
+   def pitchBend(self, value):
+      self.send([PITCH_BEND | self.channel, value >> 7, value & 0x7F])
+
+   def sysex(self, data):
+      self.send([SYSEX_START] + data + [SYSEX_END])
 
    def allSoundsOff(self):
       self.control(0x78, 0)
@@ -73,15 +87,3 @@ class Out:
 
    def polyMode(self):
       self.control(0x7F, 0)
-
-   def program(self, number):
-      self.send([0xC0 | self.channel, number])
-
-   def level(self, level):
-      self.send([0xD0 | self.channel, level])
-
-   def pitchBend(self, value):
-      self.send([0xE0 | self.channel, value & 0x7F, value >> 7])
-
-   def sysex(self, data):
-      self.send([0xF0] + data + [0xF7])

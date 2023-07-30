@@ -20,7 +20,20 @@
 # SOFTWARE.
 #------------------------------------------------------------------------------
 
-from MIDI.Out import Out
-from MIDI.File import File
-from MIDI.Const import *
+# Some helpful constants
+NOTE_C4 = 60
+NOTE_A4 = 69
 
+# Basic commands
+NOTE_OFF          = 0x80
+NOTE_ON           = 0x90
+POLY_KEY_PRESSURE = 0xA0
+CONTROL_CHANGE    = 0xB0
+PROGRAM_CHANGE    = 0xC0
+CHANNEL_PRESSURE  = 0xD0
+PITCH_BEND        = 0xE0
+SYSTEM            = 0xF0
+
+SYSEX_START       = 0xF0
+SYSEX_END         = 0xF7
+META_EVENT        = 0xFF

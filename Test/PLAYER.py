@@ -34,7 +34,7 @@ def parseArgs():
    parser.add_argument('-o', '--out', dest='midi_out', type=str, default="/dev/cu.usbmodem102",
                        help='MIDI out device [%(default)s]', metavar='<device>')
 
-   parser.add_argument('-t', '--track', dest='track', type=int, default=2,
+   parser.add_argument('-t', '--track', dest='track', type=int, default=1,
                        help='Track to play [%(default)s]', metavar='<track>')
 
    parser.add_argument('-p', '--prog', dest='program', type=int, default=0,
@@ -47,18 +47,83 @@ def parseArgs():
 
 #--------------------------------------------------------------------------------
 
-args  = parseArgs()
-file  = MIDI.File(args.file)
-midi  = MIDI.Out(args.midi_out)
+def metaEvent(data):
+   """ Handle MIDI file meta events """
+
+   event = data[0]
+   size  = data[1]
+   body  = data[2:]
+
+   if event == 0x00:
+      number = (body[0] << 8 ) | body[1]
+      print(f'SEQ NUMBER {number}')
+
+   elif event >= 0x01 and event <= 0x09:
+      text      = ''.join(chr(_) for _ in body)
+      text_type = ["TEXT", "COPYRIGHT", "TRACK", "INSTRUMENT",
+                   "LYRIC", "MARKER", "CUE", "?0x08" , "DEVICE"]
+      print(f'{text_type[event - 1]:10} "{text}"')
+
+   elif event == 0x20:
+      print(f'CHAN PRFX  {body[0]}')
+
+   elif event == 0x21:
+      print(f'MIDI PORT  {body[0]}')
+
+   elif event == 0x2F:
+      print(f'END OF TRACK')
+
+   elif event == 0x51:
+      period = (body[0] << 16) | (body[1] << 8 ) | body[2]
+      print(f'TEMPO      {period} uS/quarter-note')
+
+   elif event == 0x54:
+      print(f'SMPTE      {body[0]}:{body[1]:02u}:{body[2]:02u} {body[3]}:{body[4]:02u}')
+
+   elif event == 0x58:
+      print(f'TIME SIG   {body[0]}/{body[1]}  {body[2]} clocks/click {body[3]} noted_32nd_notes/beat')
+
+   elif event == 0x59:
+      if body[0] == 0:
+         print(f'KEY SIG    C', end='')
+      elif body[0] < 0:
+         print(f'KEY SIG    {body[0]}b', end='')
+      else:
+         print(f'KEY SIG    {body[0]}#', end='')
+      print(' minor' if body[1] else ' major')
+
+   else:
+      print(f'META {event:02x} {body}')
+
+#--------------------------------------------------------------------------------
+
+args = parseArgs()
+file = MIDI.File(args.file)
+midi = MIDI.Out(args.midi_out)
+
+print()
+print(f'Filename : "{file.filename}"')
+print(f'Format   : {file.format}')
+print(f'Tracks   : {file.num_tracks}')
+print(f'Division : {file.division}')
+print()
 
 if args.program != 0:
    midi.program(args.program - 1)
 
-timer = Timer.Timer(0.005)
+timer = Timer.Timer(0.5 / file.division)
 
-for delta_t, command in file.getTrack(args.track):
+for delta_t, command in file.track[args.track - 1]:
 
    timer.join(delta_t)
 
-   if args.program == 0 or (command[0] >> 4) != 0xC:
-      midi.send(command)
+   if command[0] == MIDI.META_EVENT:
+      metaEvent(command[1:])
+
+   else:
+      cmd = command[0] & 0xF0
+
+      if cmd == MIDI.PROGRAM_CHANGE and args.program != 0:
+         print(f"Ignore CH{command[0] & 0xF} PROGRAM {command[1]}")
+      else:
+         midi.send(command)
