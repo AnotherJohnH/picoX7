@@ -160,30 +160,9 @@ class Track(Chunk):
                   break
 
          elif command[0] == 0xFF:
-
-            meta_event = self.nextByte()
-            command.append(meta_event)
-
-            if meta_event == 0x00:
-               command += self.nextBytes(1)
-            elif meta_event >= 0x01 and meta_event <= 0x07:
-               size = self.nextByte()
-               command.append(size)
-               command += self.nextBytes(size)
-            elif meta_event == 0x20:
-               command += self.nextBytes(2)
-            elif meta_event == 0x21:
-               command += self.nextBytes(2)
-            elif meta_event == 0x2F:
-               command += self.nextBytes(1)
-            elif meta_event == 0x51:
-               command += self.nextBytes(4)
-            elif meta_event == 0x54:
-               command += self.nextBytes(6)
-            elif meta_event == 0x58:
-               command += self.nextBytes(5)
-            elif meta_event == 0x59:
-               command += self.nextBytes(3)
+            # Meta event, event size is the next byte after the event type
+            command += self.nextBytes(2)
+            command += self.nextBytes(command[2])
 
       return (delta_t, command)
 
