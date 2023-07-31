@@ -45,17 +45,46 @@ public:
 
       for(unsigned i = 0; i < SysEx::NUM_OP; i++)
       {
-         loadOperatorPitch(i, patch);
-         loadOperatorDetune(i, patch);
+         const SysEx::Op& op = patch->op[i];
+
+         loadOperatorEgRates(i, op);
+         loadOperatorEgLevels(i, op);
+         loadOperatorPitch(i, op);
+         loadOperatorDetune(i, op);
       }
+
+      loadAlgMode(patch);
    }
 
-private:
-   //! Implement PATCH_LOAD_OPERATOR_PITCH
-   void loadOperatorPitch(unsigned index, const SysEx::Voice* patch)
+   //! Implement PATCH_LOAD_OPERATOR_EG_RATES
+   void loadOperatorEgRates(unsigned index, const SysEx::Op& op)
    {
-      const SysEx::Op& op = patch->op[index];
+      uint8_t rates[4];
 
+      for(unsigned i = 0; i < 4; ++i)
+      {
+         rates[i] = (op.eg_amp.rate[i] * 164) >> 8;
+      }
+
+      hw.setEgsOpEgRates(index, rates);
+   }
+
+   //! Implement PATCH_LOAD_OPERATOR_EG_LEVELS
+   void loadOperatorEgLevels(unsigned index, const SysEx::Op& op)
+   {
+      uint8_t levels[4];
+
+      for(unsigned i = 0; i < 4; ++i)
+      {
+         levels[i] = table_log[op.eg_amp.level[i]];
+      }
+
+      hw.setEgsOpEgLevels(index, levels);
+   }
+
+   //! Implement PATCH_LOAD_OPERATOR_PITCH
+   void loadOperatorPitch(unsigned index, const SysEx::Op& op)
+   {
       if (op.osc_mode == SysEx::RATIO)
       {
          const uint16_t table_op_freq_coarse[32] =
@@ -80,11 +109,11 @@ private:
             0xED0, 0xEEF, 0xF0E, 0xF2D, 0xF4C, 0xF6A, 0xF88, 0xFA6, 0xFC4, 0xFE2
          };
 
-         hw.egs_op_pitch_fixed[index] = false;
+         hw.setEgsOpPitchFixed(index, false);
 
-         hw.egs_op_pitch[index] = table_op_freq_coarse[op.osc_freq_coarse] +
-                                  table_op_freq_fine[op.osc_freq_fine] +
-                                  0x232C;
+         hw.setEgsOpPitch(index, table_op_freq_coarse[op.osc_freq_coarse] +
+                                 table_op_freq_fine[op.osc_freq_fine] +
+                                 0x232C);
       }
       else
       {
@@ -93,21 +122,45 @@ private:
             0x0000, 0x3526, 0x6A4C, 0x9F74
          };
 
-         hw.egs_op_pitch_fixed[index] = true;
+         hw.setEgsOpPitchFixed(index, true);
 
-         hw.egs_op_pitch[index] = table_op_freq_fixed[op.osc_freq_coarse & 0b11] +
-                                  op.osc_freq_fine * 136 +
-                                  0x16AC;
+         hw.setEgsOpPitch(index, table_op_freq_fixed[op.osc_freq_coarse & 0b11] +
+                                 op.osc_freq_fine * 136 +
+                                 0x16AC);
       }
    }
 
    //! Implement PATCH_LOAD_OPERATOR_DETUNE
-   void loadOperatorDetune(unsigned index, const SysEx::Voice* patch)
+   void loadOperatorDetune(unsigned index, const SysEx::Op& op)
    {
-      const SysEx::Op& op = patch->op[index];
-
-      hw.egs_op_detune[index] = op.osc_detune - 7;
+      hw.setEgsOpDetune(index, op.osc_detune);
    }
+
+   //! Implement PATCH_LOAD_ALG_MODE
+   void loadAlgMode(const SysEx::Voice* patch)
+   {
+      hw.setOpsSync(patch->osc_sync);
+      hw.setOpsAlg(patch->alg);
+      hw.setOpsFdbk(patch->feedback);
+   }
+
+private:
+   const uint8_t table_log[100] =
+   {
+      0x7F, 0x7A, 0x76, 0x72, 0x6E, 0x6B, 0x68, 0x66,
+      0x64, 0x62, 0x60, 0x5E, 0x5C, 0x5A, 0x58, 0x56,
+      0x55, 0x54, 0x52, 0x51, 0x4F, 0x4E, 0x4D, 0x4C,
+      0x4B, 0x4A, 0x49, 0x48, 0x47, 0x46, 0x45, 0x44,
+      0x43, 0x42, 0x41, 0x40, 0x3F, 0x3E, 0x3D, 0x3C,
+      0x3B, 0x3A, 0x39, 0x38, 0x37, 0x36, 0x35, 0x34,
+      0x33, 0x32, 0x31, 0x30, 0x2F, 0x2E, 0x2D, 0x2C,
+      0x2B, 0x2A, 0x29, 0x28, 0x27, 0x26, 0x25, 0x24,
+      0x23, 0x22, 0x21, 0x20, 0x1F, 0x1E, 0x1D, 0x1C,
+      0x1B, 0x1A, 0x19, 0x18, 0x17, 0x16, 0x15, 0x14,
+      0x13, 0x12, 0x11, 0x10, 0x0F, 0x0E, 0x0D, 0x0C,
+      0x0B, 0x0A, 0x09, 0x08, 0x07, 0x06, 0x05, 0x04,
+      0x03, 0x02, 0x01, 0x00
+   };
 
    OpsAlg& hw; //! Access to simulated DX7 EGS and OPS hardware
 };

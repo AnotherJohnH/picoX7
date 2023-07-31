@@ -4,7 +4,7 @@
 // available document does not contain a copyright notice or any mention of
 // permissions or restrictions that apply to the use of the data. However,
 // according to law that does not necessarily mean that the data is free from
-// restrictions on its use. At the time of publication, the copyright holder 
+// restrictions on its use. At the time of publication, the copyright holder
 // is probably Yamaha. If the copyright holder wishes to retrospectively declare
 // reasonable and legal restrictions on the data, then either those restrictions
 // must be obeyed or this file shouled be deleted.
@@ -42,12 +42,10 @@ public:
       return (this->*alg_ptr)();
    }
 
-   //! Select the algorithm
-   void prog(const SysEx::Voice* patch)
+   //! Set the algorithm
+   void setOpsAlg(uint8_t algorithm)
    {
-      Ops::prog(patch);
-
-      switch (patch->alg + 1)
+      switch (algorithm + 1)
       {
       case  1: alg_ptr = &OpsAlg::alg1;  break;
       case  2: alg_ptr = &OpsAlg::alg2;  break;

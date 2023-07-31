@@ -35,13 +35,16 @@ class Ops : public Egs<NUM_OP>
 public:
    Ops() = default;
 
-   //! Re-program voice from SysEx
-   void prog(const SysEx::Voice* patch)
+   //! Set the sync mode
+   void setOpsSync(bool sync_)
    {
-      Egs<NUM_OP>::prog(patch);
+      sync = sync_;
+   }
 
-      fbl     = (7 - patch->feedback) + 4;
-      op_sync = patch->osc_sync;
+   //! Set the algorithm feedback level
+   void setOpsFdbk(uint8_t feedback_)
+   {
+      fdbk = (7 - feedback_) + 4;
    }
 
    //! Start of note
@@ -51,7 +54,7 @@ public:
 
       for(unsigned i = 0; i < NUM_OP; ++i)
       {
-         if (op_sync)
+         if (sync)
          {
             phase_accum_32[i] = 0;
          }
@@ -94,12 +97,12 @@ protected:
 
       switch(SEL)
       {
-      case 0: modulation_12 = 0;                                    break;
-      case 1: modulation_12 = output_15 >> 3;                       break;
-      case 2: modulation_12 = sum_15 >> 3;                          break;
-      case 3: modulation_12 = memory_15 >> 3;                       break;
-      case 4: modulation_12 = feedback1_15 >> 3;                    break;
-      case 5: modulation_12 = (feedback1_15 + feedback2_15) >> fbl; break;
+      case 0: modulation_12 = 0;                                     break;
+      case 1: modulation_12 = output_15 >> 3;                        break;
+      case 2: modulation_12 = sum_15 >> 3;                           break;
+      case 3: modulation_12 = memory_15 >> 3;                        break;
+      case 4: modulation_12 = feedback1_15 >> 3;                     break;
+      case 5: modulation_12 = (feedback1_15 + feedback2_15) >> fdbk; break;
       }
 
       if (A)
@@ -119,12 +122,15 @@ protected:
    }
 
 private:
-   uint8_t  fbl {0};
-   bool     op_sync {true};
+   // Externaly configured state
+   bool     sync {true};
+   uint8_t  fdbk {0};
 
+   // Internal operator state
    uint32_t phase_accum_32[NUM_OP] = {0};
    uint32_t phase_inc_32[NUM_OP]   = {0};
 
+   // Internal voice computation state
    int32_t  modulation_12 {0};
    int32_t  feedback1_15 {0};
    int32_t  feedback2_15 {0};
