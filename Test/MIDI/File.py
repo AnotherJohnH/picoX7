@@ -168,7 +168,7 @@ class File:
          if command[0] == META_EVENT:
             event = command[1]
             data  = command[3:]
-            if event == 0x51:
+            if event == META_TEMPO:
                period = (data[0] << 16) | (data[1] << 8 ) | data[2]
                self.tempo = 60 * 1000000 / period
 
@@ -184,7 +184,7 @@ class File:
 
    @property
    def division(self):
-      """ Delta-ticks per quarter-note"""
+      """ Delta-ticks per quarter-note """
       return self.header.division
 
    @property

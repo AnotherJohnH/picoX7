@@ -62,28 +62,28 @@ class Out:
       self.send([SYSEX_START] + data + [SYSEX_END])
 
    def allSoundsOff(self):
-      self.control(0x78, 0)
+      self.control(CONTROL_ALL_SOUNDS_OFF, 0)
 
    def resetAllControllers(self):
-      self.control(0x79, 0)
+      self.control(CONTROL_RESET, 0)
 
    def localControl(self, on):
       if on:
-         self.control(0x7A, 0)
+         self.control(CONTROL_LOCAL_CONTROL, 0)
       else:
-         self.control(0x7A, 0x7F)
+         self.control(CONTROL_LOCAL_CONTROL, 0x7F)
 
    def allNotesOff(self):
-      self.control(0x7B, 0)
+      self.control(CONTROL_ALL_NOTES_OFF, 0)
 
    def omniMode(self, on):
       if on:
-         self.control(0x7D, 0)
+         self.control(CONTROL_OMNI_MODE_ON, 0)
       else:
-         self.control(0x7C, 0)
+         self.control(CONTROL_OMNI_MODE_OFF, 0)
 
    def monoMode(self, num_channles = 0):
-      self.control(0x7E, num_channels)
+      self.control(CONTROL_MONO_MODE, num_channels)
 
    def polyMode(self):
-      self.control(0x7F, 0)
+      self.control(CONTROL_POLY_MODE, 0)

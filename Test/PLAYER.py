@@ -54,36 +54,36 @@ def metaEvent(data):
    size  = data[1]
    body  = data[2:]
 
-   if event == 0x00:
+   if event == MIDI.META_SEQ_NUMBER:
       number = (body[0] << 8 ) | body[1]
       print(f'SEQ NUMBER {number}')
 
-   elif event >= 0x01 and event <= 0x09:
+   elif event >= MIDI.META_TEXT and event <= MIDI.META_DEVICE:
       text      = ''.join(chr(_) for _ in body)
       text_type = ["TEXT", "COPYRIGHT", "TRACK", "INSTRUMENT",
                    "LYRIC", "MARKER", "CUE", "?0x08" , "DEVICE"]
       print(f'{text_type[event - 1]:10} "{text}"')
 
-   elif event == 0x20:
+   elif event == MIDI.META_CHAN_PREFIX:
       print(f'CHAN PRFX  {body[0]}')
 
-   elif event == 0x21:
+   elif event == MIDI.META_MIDI_PORT:
       print(f'MIDI PORT  {body[0]}')
 
-   elif event == 0x2F:
+   elif event == MIDI.META_END_OF_TRACK:
       print(f'END OF TRACK')
 
-   elif event == 0x51:
+   elif event == MIDI.META_TEMPO:
       period = (body[0] << 16) | (body[1] << 8 ) | body[2]
       print(f'TEMPO      {period} uS/quarter-note')
 
-   elif event == 0x54:
-      print(f'SMPTE      {body[0]}:{body[1]:02u}:{body[2]:02u} {body[3]}:{body[4]:02u}')
+   elif event == MIDI.META_SMPTE:
+      print(f'SMPTE      {body[0]}:{body[1]:02}:{body[2]:02} {body[3]}:{body[4]:02}')
 
-   elif event == 0x58:
+   elif event == MIDI.META_TIME_SIG:
       print(f'TIME SIG   {body[0]}/{body[1]}  {body[2]} clocks/click {body[3]} noted_32nd_notes/beat')
 
-   elif event == 0x59:
+   elif event == MIDI.META_KEY_SIG:
       if body[0] == 0:
          print(f'KEY SIG    C', end='')
       elif body[0] < 0:
