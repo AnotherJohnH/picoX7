@@ -2,6 +2,7 @@
 // Explore DX7 firmware translation
 
 #include <cstdio>
+#include <cmath>
 
 #include "DX7_v1_8.h"
 
@@ -58,6 +59,38 @@ void sample_lfo()
    }
 }
 
+// mode 0 => ratio, 1 => fixed
+void sweep_operator_pitch(unsigned mode, unsigned fine)
+{
+   for(uint8_t coarse = 0; coarse < 32; ++coarse)
+   {
+      fw.m_patch_current_buffer[17] = mode;
+      fw.m_patch_current_buffer[18] = coarse;
+      fw.m_patch_current_buffer[19] = fine;
+
+      fw.patch_load_data();
+
+      if (mode == 0)
+      {
+         signed value = fw.p_egs_op_pitch[0] - 0x232c;
+         double ratio = pow(2, value / 4096.0);
+ 
+         printf("mode=0 coarse=%2u fine=%2u P_EGS_OP_PITCH=0x%04X ratio=%.3f\n",
+                coarse, fine, fw.p_egs_op_pitch[0], ratio);
+      }
+      else
+      {
+         signed value = fw.p_egs_op_pitch[0] - 0x16ac;
+         double freq  = pow(2, value / 4096.0);
+
+         printf("mode=1 coarse=%2u fine=%2u P_EGS_OP_PITCH=0x%04X freq=%.3f\n",
+                coarse, fine, fw.p_egs_op_pitch[0], freq);
+
+         if (coarse == 3) break;
+      }
+   }
+}
+
 int main()
 {
    unsigned patch_number = 1;
@@ -82,8 +115,27 @@ int main()
    printf("LFO waveform  %u\n",   fw.m_lfo_waveform);
    printf("LFO PMS       %02x\n", fw.m_lfo_pitch_mod_sens);
 
+   printf("\n");
+   for(unsigned op = 0; op < 6; ++op)
+   {
+      printf("P_EGS_OP_PITCH[%u] = 0x%04x\n", op, fw.p_egs_op_pitch[op]);
+   }
+
+   printf("\n");
+   for(unsigned op = 0; op < 6; ++op)
+   {
+      printf("P_EGS_OP_DETUNE[%u] = 0x%x\n", op, fw.p_egs_op_detune[op]);
+   }
+
    //sweep_note();
    //sweep_lfo_delay();
    //sweep_lfo_speed();
    //sample_lfo();
+   //sweep_operator_pitch(/* mode */ 0, /* fine */ 0);
+   //sweep_operator_pitch(/* mode */ 0, /* fine */ 50);
+   //sweep_operator_pitch(/* mode */ 0, /* fine */ 99);
+
+   sweep_operator_pitch(/* mode */ 1, /* fine */ 0);
+   sweep_operator_pitch(/* mode */ 1, /* fine */ 50);
+   sweep_operator_pitch(/* mode */ 1, /* fine */ 99);
 }

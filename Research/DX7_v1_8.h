@@ -114,19 +114,16 @@ uint8_t p_ops_alg_fdbk;
 // P_EGS_PITCH_MOD_HIGH:                     equ  $30F2
 // P_EGS_PITCH_MOD_LOW:                      equ  $30F3
 
-uint8_t  p_egs_voice_pitch[32];
-uint8_t  p_egs_op_pitch[16];
-uint8_t  p_egs_op_detune[16];
-uint16_t p_egs_op_eg_rates[24];
-uint16_t p_egs_op_eg_levels[24];
-
+uint16_t p_egs_voice_pitch[16];
+uint16_t p_egs_op_pitch[6];
+uint8_t  p_egs_op_detune[6];
+uint8_t  p_egs_op_eg_rates[6][4];
+uint8_t  p_egs_op_eg_levels[6][4];
 uint8_t  p_egs_op_levels[96];
 uint8_t  p_egs_op_sens_scaling[6];
-
 uint8_t  p_egs_amp_mod;
 uint8_t  p_egs_voice_events;
-uint8_t  p_egs_pitch_mod_high;
-uint8_t  p_egs_voice_mod_low;
+uint16_t p_egs_pitch_mod;
 
 // ; The cartridge address range, decoded by IC63
 // P_CRT_START:                              equ  $4000
@@ -9794,7 +9791,7 @@ void patch_load_operator_eg_levels()
 
    for(unsigned i = 0; i < 4; ++i)
    {
-      p_egs_op_eg_levels[m_selected_operator * 4 + i] = table_log[*ptr++];
+      p_egs_op_eg_levels[m_selected_operator][i] = table_log[*ptr++];
    }
 }
 
@@ -9864,7 +9861,7 @@ void patch_load_operator_eg_rates()
       uint8_t prog  = *ptr++;
       uint8_t value = (prog * 164) >> 8;
 
-      p_egs_op_eg_rates[m_selected_operator * 4 + i] = value;
+      p_egs_op_eg_rates[m_selected_operator][i] = value;
    }
 }
 
@@ -10101,7 +10098,7 @@ void patch_load_operator_pitch()
 //     ANDB    #%11111110
 //     JMP     _LOAD_OP_PITCH_TO_EGS
 //
-// ; Use the serialised 'Op Freq Coarse' value (0-31) % 3, as an index
+// ; Use the serialised 'Op Freq Coarse' value (0-31) % 4, as an index
 // ; into the fixed frequency lookup table.
 // ; Store the resulting frequency value in 0xAD.
 //
@@ -10172,7 +10169,14 @@ void patch_load_operator_pitch()
 //     FDB $4DBA
 //     FDB $4E84
 //     FDB $4F44
-//
+const uint16_t table_op_freq_coarse[32] =
+{
+   0xF000, 0x0000, 0x1000, 0x195C, 0x2000, 0x2528, 0x295C, 0x2CEC,
+   0x3000, 0x32B8, 0x3528, 0x375A, 0x395C, 0x3B34, 0x3CEC, 0x3E84,
+   0x4000, 0x4168, 0x42B8, 0x43F8, 0x4528, 0x4648, 0x475A, 0x4860,
+   0x495C, 0x4A4C, 0x4B34, 0x4C14, 0x4CEC, 0x4DBA, 0x4E84, 0x4F44
+};
+
 // ; ==============================================================================
 // ; Fixed Frequency Lookup Table.
 // ; ==============================================================================
@@ -10181,7 +10185,11 @@ void patch_load_operator_pitch()
 //     FDB $3526
 //     FDB $6A4C
 //     FDB $9F74
-//
+const uint16_t table_op_freq_fixed[4] =
+{
+   0x0000, 0x3526, 0x6A4C, 0x9F74
+};
+
 // ; ==============================================================================
 // ; Fine Frequency Lookup Table.
 // ; ==============================================================================
@@ -10287,7 +10295,21 @@ void patch_load_operator_pitch()
 //     FDB $FC4
 //     FDB $FE2
 //     FDB $1000
-//
+const uint16_t table_op_freq_fine[101] =
+{
+   0x000, 0x03A, 0x075, 0x0AE, 0x0E7, 0x120, 0x158, 0x18F, 0x1C6, 0x1FD,
+   0x233, 0x268, 0x29D, 0x2D2, 0x306, 0x339, 0x36D, 0x39F, 0x3D2, 0x403,
+   0x435, 0x466, 0x497, 0x4C7, 0x4F7, 0x526, 0x555, 0x584, 0x5B2, 0x5E0,
+   0x60E, 0x63B, 0x668, 0x695, 0x6C1, 0x6ED, 0x719, 0x744, 0x76F, 0x799,
+   0x7C4, 0x7EE, 0x818, 0x841, 0x86A, 0x893, 0x8BC, 0x8E4, 0x90C, 0x934,
+   0x95C, 0x983, 0x9AA, 0x9D1, 0x9F7, 0xA1D, 0xA43, 0xA69, 0xA8F, 0xAB4,
+   0xAD9, 0xAFE, 0xB22, 0xB47, 0xB6B, 0xB8F, 0xBB2, 0xBD6, 0xBF9, 0xC1C,
+   0xC3F, 0xC62, 0xC84, 0xCA7, 0xCC9, 0xCEA, 0xD0C, 0xD2E, 0xD4F, 0xD70,
+   0xD91, 0xDB2, 0xDD2, 0xDF3, 0xE13, 0xE33, 0xE53, 0xE72, 0xE92, 0xEB1,
+   0xED0, 0xEEF, 0xF0E, 0xF2D, 0xF4C, 0xF6A, 0xF88, 0xFA6, 0xFC4, 0xFE2,
+   0x1000
+};
+
 // _LOAD_OP_PITCH_TO_EGS:
 //     PSHB
 //     LDAB    M_SELECTED_OPERATOR
@@ -10300,6 +10322,34 @@ void patch_load_operator_pitch()
 //     PULB
 //     STAB    1,x
 //     RTS
+
+   const uint8_t* ptr = patch_get_ptr_to_selected_op();
+
+   uint8_t  osc_mode        = ptr[17];
+   uint8_t  osc_freq_coarse = ptr[18];
+   uint8_t  osc_freq_fine   = ptr[19];
+
+   uint16_t freq;
+   if (osc_mode == 0)
+   {
+       // Frequency ratio
+       uint16_t freq_coarse = table_op_freq_coarse[osc_freq_coarse];
+       uint16_t freq_fine   = table_op_freq_fine[osc_freq_fine];
+
+       freq =  0x232C + freq_coarse + freq_fine;
+       freq &= 0xFFFE;
+   }
+   else
+   {
+       // Fixed frequency
+       uint16_t freq_coarse = table_op_freq_fixed[osc_freq_coarse % 4];
+       uint16_t freq_fine   = osc_freq_fine * 136;
+
+       freq =  0x16AC + freq_coarse + freq_fine;
+       freq |= 0x0001;
+   }
+
+   p_egs_op_pitch[m_selected_operator] = freq;
 }
 
 
