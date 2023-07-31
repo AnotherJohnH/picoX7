@@ -22,6 +22,8 @@
 
 #pragma once
 
+#include "VoiceBase.h"
+
 #include "OpsAlg.h"
 #include "Lfo.h"
 #include "SysEx.h"

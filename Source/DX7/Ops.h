@@ -22,68 +22,39 @@
 
 #pragma once
 
-#include "VoiceBase.h"
-
 #include "Table_dx7_sine_15.h"
 #include "Table_dx7_sine_div3_15.h"
 #include "Table_dx7_sine_div5_15.h"
 
-#include "EnvGen.h"
+#include "Egs.h"
 
-//! Model of Yamaha OPS and EGS
+//! Model of Yamaha YM21280 OPS
 template <unsigned NUM_OP>
-class EgsOps
+class Ops : public Egs<NUM_OP>
 {
 public:
-   EgsOps() = default;
-
-   //! Check if all amplitude envelopes are at L4
-   //! NOTE: This is not functionality performed by a real DX
-   bool isComplete() const
-   {
-      for(unsigned i = 0; i < NUM_OP; ++i)
-      {
-         if (not egs[i].isComplete())
-            return false;
-      }
-
-      return true;
-   }
+   Ops() = default;
 
    //! Re-program voice from SysEx
-   void prog(const SysEx::Voice* sysex)
+   void prog(const SysEx::Voice* patch)
    {
-      for(unsigned i = 0; i < NUM_OP; i++)
-      {
-         const SysEx::Op& op = sysex->op[5 - i];
+      Egs<NUM_OP>::prog(patch);
 
-         egs[i].prog(op.eg_amp, op.out_level);
-      }
-
-      fbl     = (7 - sysex->feedback) + 4;
-      op_sync = sysex->osc_sync;
+      fbl     = (7 - patch->feedback) + 4;
+      op_sync = patch->osc_sync;
    }
 
    //! Start of note
    void keyOn()
    {
+      Egs<NUM_OP>::keyOn();
+
       for(unsigned i = 0; i < NUM_OP; ++i)
       {
          if (op_sync)
          {
             phase_accum_32[i] = 0;
          }
-
-         egs[i].gateOn();
-      }
-   }
-
-   //! Release of note
-   void keyOff()
-   {
-      for(unsigned i = 0; i < NUM_OP; ++i)
-      {
-         egs[i].gateOff();
       }
    }
 
@@ -100,7 +71,7 @@ protected:
    {
       const unsigned i = OP - 1;
 
-      int32_t amp_14 = egs[i]();
+      int32_t amp_14 = this->getEgsAmp(i);
 
       phase_accum_32[i] += phase_inc_32[i];
 
@@ -148,7 +119,6 @@ protected:
    }
 
 private:
-   // OPS state
    uint8_t  fbl {0};
    bool     op_sync {true};
 
@@ -159,7 +129,4 @@ private:
    int32_t  feedback1_15 {0};
    int32_t  feedback2_15 {0};
    int32_t  memory_15 {0};
-
-   // EGS state
-   EnvGen   egs[NUM_OP];
 };

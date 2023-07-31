@@ -28,10 +28,10 @@
 
 #pragma once
 
-#include "EgsOps.h"
+#include "Ops.h"
 
-//! Implement the 32 DX7 OP algorithms
-class OpsAlg : public EgsOps</* NUM_OP */ 6>
+//! Implement the 32 DX7 OP algorithms in the YM21280 OPS
+class OpsAlg : public Ops</* NUM_OP */ 6>
 {
 public:
    OpsAlg() = default;
@@ -43,11 +43,11 @@ public:
    }
 
    //! Select the algorithm
-   void prog(const SysEx::Voice* sysex)
+   void prog(const SysEx::Voice* patch)
    {
-      EgsOps::prog(sysex);
+      Ops::prog(patch);
 
-      switch (sysex->alg + 1)
+      switch (patch->alg + 1)
       {
       case  1: alg_ptr = &OpsAlg::alg1;  break;
       case  2: alg_ptr = &OpsAlg::alg2;  break;
