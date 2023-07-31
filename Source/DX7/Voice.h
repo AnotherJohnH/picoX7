@@ -24,8 +24,8 @@
 
 #include "VoiceBase.h"
 
-#include "OpsAlg.h"
 #include "Lfo.h"
+#include "Firmware.h"
 #include "SysEx.h"
 
 #include "Table_dx7_exp_22.h"
@@ -39,23 +39,23 @@ public:
 
    void loadProgram(uint8_t number, const SysEx::Voice* voice)
    {
-      sysex = *voice;
+      patch = *voice;
 
       if (debug)
       {
          voice->print(number + 1);
       }
 
-      lfo.prog(sysex);
+      lfo.prog(patch);
 
       pitch_env.prog(voice->eg_pitch, 99);
 
-      egs_ops.prog(voice);
+      fw.loadData(&patch);
    }
 
    void tick()
    {
-      if (egs_ops.isComplete())
+      if (hw.isComplete())
       {
          mute();
       }
@@ -66,7 +66,7 @@ public:
    //! Start a new note
    void gateOn() override
    {
-      signed note = getNote() + sysex.transpose - 24;
+      signed note = getNote() + patch.transpose - 24;
            if (note <   0) note = 0;
       else if (note > 127) note = 127;
 
@@ -75,7 +75,7 @@ public:
 
       for(unsigned i = 0; i < 6; ++i)
       {
-         SysEx::Op& op = sysex.op[5 - i];
+         SysEx::Op& op = patch.op[5 - i];
 
          if (op.osc_mode == SysEx::FIXED)
          {
@@ -93,7 +93,7 @@ public:
             //     the fine scaling is not linear
             static const unsigned SAMPLE_RATE = 49096;
             f8 += f8 * op.osc_freq_fine * 9 / 100;
-            egs_ops.setFreq(i, ((f8 << 14) / SAMPLE_RATE) << 10);
+            hw.setFreq(i, ((f8 << 14) / SAMPLE_RATE) << 10);
          }
          else
          {
@@ -112,18 +112,18 @@ public:
 
             init_phase_inc_32[i] += (op.osc_detune - 7) << 14;
 
-            egs_ops.setFreq(i, init_phase_inc_32[i] + pitch_bend);
+            hw.setFreq(i, init_phase_inc_32[i] + pitch_bend);
          }
       }
 
-      egs_ops.keyOn();
+      hw.keyOn();
       lfo.keyOn();
    }
 
    //! Release a new note
    void gateOff() override
    {
-      egs_ops.keyOff();
+      hw.keyOff();
    }
 
    void setLevel(uint8_t value) override
@@ -151,14 +151,14 @@ public:
 
       for(unsigned i = 0; i < 6; ++i)
       {
-         egs_ops.setFreq(i, init_phase_inc_32[i] + pitch_bend);
+         hw.setFreq(i, init_phase_inc_32[i] + pitch_bend);
       }
    }
 
    //! Return next sample for this voice
    int32_t operator()()
    {
-      return egs_ops();
+      return hw();
    } 
 
 private:
@@ -168,8 +168,9 @@ private:
    uint32_t      init_phase_inc_32[6] = {0};
    EnvGen        pitch_env;
    Lfo           lfo;
-   OpsAlg        egs_ops;
-   SysEx::Voice  sysex;
+   OpsAlg        hw;
+   Firmware      fw{hw};
+   SysEx::Voice  patch;
 
    // Modulation sources
 
