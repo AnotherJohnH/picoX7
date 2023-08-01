@@ -209,6 +209,12 @@ struct Voice
 {
    Voice() = default;
 
+   //! Construct from a patch in a packed table
+   Voice(const uint8_t* packed_patch_table, unsigned index = 0)
+   {
+      *this = (const SysEx::Packed&)packed_patch_table[index * sizeof(SysEx::Packed)];
+   }
+
    void print(unsigned ) const;
 
    //! Copy in a packed SysEx voice

@@ -82,6 +82,7 @@ public:
       for(unsigned i = 0; i < NUM_OP; ++i)
       {
          egs[i].gateOn();
+         op_eg[i].keyOn();
       }
    }
 
@@ -91,6 +92,7 @@ public:
       for(unsigned i = 0; i < NUM_OP; ++i)
       {
          egs[i].gateOff();
+         op_eg[i].keyOff();
       }
    }
 
@@ -107,7 +109,6 @@ public:
       return true;
    }
 
-protected:
    int32_t getEgsAmp(unsigned index)
    {
       return egs[index]();

@@ -69,14 +69,14 @@ public:
    bool isComplete() const { return phase == COMPLETE; }
 
    //! Start a note
-   void gateOn()
+   void keyOn()
    {
       ampl = L[P4];
       setPhase(P1);
    }
 
    //! Release a note
-   void gateOff()
+   void keyOff()
    {
       setPhase(RELEASE);
    }
