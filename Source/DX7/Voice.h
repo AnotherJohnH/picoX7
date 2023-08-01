@@ -24,7 +24,6 @@
 
 #include "VoiceBase.h"
 
-#include "Lfo.h"
 #include "Firmware.h"
 #include "SysEx.h"
 
@@ -46,8 +45,6 @@ public:
          voice->print(number + 1);
       }
 
-      // pitch_env.prog(voice->eg_pitch, 99);
-
       fw.loadData(voice);
    }
 
@@ -64,56 +61,6 @@ public:
    //! Start a new note
    void gateOn() override
    {
-      signed note = getNote() + patch.transpose - 24;
-           if (note <   0) note = 0;
-      else if (note > 127) note = 127;
-
-      // Compute note value (1-octave is 1024)
-      unsigned n14 = (note * 1024 / 12) + tune;
-
-      for(unsigned op_index = 0; op_index < 6; ++op_index)
-      {
-         SysEx::Op& op = patch.op[op_index];
-
-         if (op.osc_mode == SysEx::FIXED)
-         {
-            unsigned f8;
-
-            switch(op.osc_freq_coarse & 0b11)
-            {
-            case 0b00: f8 =    1 << 8; break;
-            case 0b01: f8 =   10 << 8; break;
-            case 0b10: f8 =  100 << 8; break;
-            case 0b11: f8 = 1000 << 8; break;
-            }
-
-            // XXX The following is a kludged and wrong as the
-            //     the fine scaling is not linear
-            static const unsigned SAMPLE_RATE = 49096;
-            f8 += f8 * op.osc_freq_fine * 9 / 100;
-            hw.setFreq(op_index, ((f8 << 14) / SAMPLE_RATE) << 10);
-         }
-         else
-         {
-            unsigned scale;
-
-            if (op.osc_freq_coarse == 0)
-            {
-               scale = (100 + op.osc_freq_fine) * 128 / 100;
-            }
-            else
-            {
-               scale = op.osc_freq_coarse * (100 + op.osc_freq_fine) * 256 / 100;
-            }
-
-            init_phase_inc_32[op_index] = (table_dx7_exp_22[n14] * scale) << (13 - 8);
-
-            init_phase_inc_32[op_index] += (op.osc_detune - 7) << 14;
-
-            hw.setFreq(op_index, init_phase_inc_32[op_index] + pitch_bend);
-         }
-      }
-
       fw.voiceAdd(getNote(), aftertouch.value);
    }
 
@@ -143,13 +90,6 @@ public:
 
    void setPitch(int16_t value) override
    {
-      // XXX needs to be added to the note value this is too late
-      pitch_bend = (value << 8);
-
-      for(unsigned op_index = 0; op_index < 6; ++op_index)
-      {
-         hw.setFreq(op_index, init_phase_inc_32[op_index] + pitch_bend);
-      }
    }
 
    //! Return next sample for this voice
@@ -160,10 +100,6 @@ public:
 
 private:
    bool          debug{false};
-   unsigned      tune {460};             // A4 is close 440 Hz TODO re-check
-   int16_t       pitch_bend {0};
-   uint32_t      init_phase_inc_32[6] = {0};
-   EnvGen        pitch_env;
    OpsAlg        hw;
    Firmware      fw{hw};
    SysEx::Voice  patch;

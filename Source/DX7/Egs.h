@@ -118,6 +118,14 @@ public:
       return op_eg[op_index_]();
    }
 
+   //! get frequency value from the EGS for the OPS
+   uint32_t getEgsFreq(unsigned op_index_)
+   {
+      uint16_t pitch = op_pitch_fixed[op_index_] ? 0 : voice_pitch;
+
+      return pitch + (op_pitch[op_index_] >> 2) + op_detune[op_index_] + pitch_mod;
+   }
+
 private:
    // EGS program state
    EnvGen     egs[NUM_OP];
@@ -133,6 +141,6 @@ private:
    // EGS dynamic voice state
    uint8_t  op_levels[NUM_OP] {0};
    uint16_t amp_mod {0};
-   uint16_t pitch_mod {0};
+   int16_t  pitch_mod {0x0};
    uint16_t voice_pitch {0};
 };

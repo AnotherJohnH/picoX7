@@ -22,6 +22,8 @@
 
 #pragma once
 
+#include "Table_dx7_exp_14.h"
+#include "Table_dx7_exp_22.h"
 #include "Table_dx7_sine_15.h"
 #include "Table_dx7_sine_div3_15.h"
 #include "Table_dx7_sine_div5_15.h"
@@ -35,7 +37,7 @@ class Ops : public Egs<NUM_OP>
 public:
    Ops() = default;
 
-   //! Set the sync mode
+   //! Set the oscillator sync mode
    void setOpsSync(bool sync_)
    {
       sync = sync_;
@@ -45,6 +47,12 @@ public:
    void setOpsFdbk(uint8_t feedback_)
    {
       fdbk = (7 - feedback_) + 4;
+   }
+
+   //! Set operator frequency
+   void setOpsFreq(unsigned op_index, uint32_t f14)
+   {
+      phase_inc_32[op_index] = table_dx7_exp_22[f14] << 9;
    }
 
    //! Start of note
@@ -61,12 +69,6 @@ public:
       }
    }
 
-   //! Set operator frequency
-   void setFreq(unsigned op_index, uint32_t f14)
-   {
-      phase_inc_32[op_index] = f14;
-   }
-
 protected:
    //! Simulate a single operator (and associated envelope generator)
    template <unsigned OP_NUMBER, unsigned SEL, bool A, bool C, bool D, unsigned COM>
@@ -75,7 +77,7 @@ protected:
       // Documented operator number 1-6 map to internal operator index 5-0
       // the internal index follows the order of operator computation
       // and the order of operator parameter encoding in the SysEx patch
-      // format
+      // encoding
       const unsigned op_index = 6 - OP_NUMBER;
 
       int32_t amp_14 = this->getEgsAmp(op_index);

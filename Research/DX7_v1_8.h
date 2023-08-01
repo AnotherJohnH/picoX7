@@ -251,10 +251,12 @@ const uint8_t* p_crt_end;
 //
 // ; The last key pressed on the synth's keyboard.
 // M_NOTE_KEY:                               equ  $81
-//
+uint8_t m_note_key;
+
 // ; The velocity of the last keyboard keypress.
 // M_NOTE_VEL:                               equ  $82
-//
+uint8_t m_note_vel;
+
 // ; The status of the portamento, and sustain modulation pedals.
 // ; Bit 0 = Sustain, Bit 1 = Portamento.
 // M_PEDAL_INPUT_STATUS:                     equ  $83
@@ -366,8 +368,7 @@ uint8_t m_midi_actv_sens_rx_ctr {0};
 // M_GLISSANDO_PITCH_LSB:                    equ  $C7
 // M_EGS_PITCH_PTR:                          equ  $C8
 // M_VOICE_PITCH_GLISS_PTR:                  equ  $CA
-uint8_t& m_key_pitch     = ram[0x9D];
-uint8_t& m_key_pitch_low = ram[0x9E];
+uint16_t m_key_pitch;
 
 // ; This variable is used as a loop counter when processing the pitch EG.
 // M_PITCH_EG_VOICE_INDEX:                   equ  $CC
@@ -6229,7 +6230,15 @@ void patch_load_from_crt(uint8_t number)
 //
 // _VOICE_ADD_SYNTH_IS_MONO:
 //     JMP     VOICE_ADD_MONO
-//
+void voice_add()
+{
+   uint8_t note = m_note_key + m_patch_current_transpose - 24;
+   if (note > 127)
+      note = 127;
+
+   voice_convert_note_to_pitch(note);
+}
+
 //
 // ; ==============================================================================
 // ; KEY_TRANSPOSE_SET
@@ -6519,7 +6528,7 @@ const uint8_t table_key_pitch[128] =
 
 uint16_t voice_add_poly_get_14_bit_pitch()
 {
-   return (m_key_pitch << 8) | (m_key_pitch_low & 0b11111100);
+   return m_key_pitch & 0b11111100;
 }
 
 // ; ==============================================================================
@@ -7681,11 +7690,11 @@ static uint16_t patch_load_quantise_value(uint8_t in)
 //
 void voice_convert_note_to_pitch(uint8_t note)
 {
-   m_key_pitch     = table_key_pitch[note];
-   uint8_t ls_bits = m_key_pitch & 0b11;
-   m_key_pitch_low = (ls_bits << 6) | (ls_bits << 4) | (ls_bits << 2);
+   uint8_t value   = table_key_pitch[note];
+   uint8_t ls_bits = value & 0b11;
+   m_key_pitch     = (value << 6) | (ls_bits << 4) | (ls_bits << 2);
 }
-//
+
 // ; ==============================================================================
 // ; CRT_READ_WRITE_ALL
 // ; ==============================================================================

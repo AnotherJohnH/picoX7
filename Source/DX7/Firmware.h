@@ -222,6 +222,12 @@ private:
    //! Implement VOICE_ADDLOAD_OPERATOR_DATA_TO_EGS
    void voiceAddLoadOperatorDataToEgs(uint16_t pitch, uint8_t note_vel)
    {
+      hw.setEgsVoicePitch(pitch + master_tune);
+
+      for(unsigned op_index = 0; op_index < SysEx::NUM_OP; ++op_index)
+      {
+         hw.setOpsFreq(op_index, hw.getEgsFreq(op_index));
+      }
    }
 
    const uint8_t table_log[100] =
@@ -262,7 +268,8 @@ private:
    };
 
    SysEx::Voice  patch;
-   OpsAlg&       hw;           //! Access to simulated DX7 EGS and OPS hardware
+   OpsAlg&       hw;                   //! Access to simulated DX7 EGS and OPS hardware
+   uint16_t      master_tune {0x959};  //  XXX too high should default to 0x100
    uint16_t      key_pitch;
-   Lfo           lfo;          //! Firmware LFO
+   Lfo           lfo;                  //! Firmware LFO
 };

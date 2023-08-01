@@ -38,7 +38,8 @@ void sweep_note()
    for(unsigned note = 0; note < 128; note++)
    {
       fw.voice_convert_note_to_pitch(note);
-      printf("%3d: 0x%02x%02x\n", note, fw.m_key_pitch, fw.m_key_pitch_low);
+
+      printf("%3d: 0x%04x\n", note, fw.m_key_pitch);
    }
 }
 
