@@ -20,14 +20,9 @@
 #  SOFTWARE.
 #-------------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 3.19.1)
+if(${PLT_TARGET} STREQUAL native)
+   add_executable(exp_dx7 exp_dx7.cpp)
 
-project(picoX7
-        LANGUAGES CXX ASM
-        VERSION 0.1.4)
+   target_link_libraries(exp_dx7 PRIVATE DX7 PLT STB)
+endif()
 
-add_subdirectory(Platform)
-
-add_subdirectory(Source)
-
-add_subdirectory(Research)

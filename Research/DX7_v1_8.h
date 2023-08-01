@@ -9,10 +9,10 @@
 
 #include <cstdint>
 
-class Firmware
+class AsmFirmware
 {
 public:
-   Firmware(const uint8_t* cart_)
+   AsmFirmware(const uint8_t* cart_)
       : p_crt_start(cart_)
       , p_crt_start_ic2(cart_ + 0x800)
       , p_crt_end(cart_ + 0x1000)
@@ -651,7 +651,7 @@ uint8_t& m_patch_pitch_eg_final_level = m_patch_pitch_eg_values[7];
 // ; hold a function address, which is called once for each of the synth's six
 // ; operators. Refer to the patch loading subroutine for more information.
 // M_PATCH_LOAD_FUNC_PTR:                    equ  $2183
-void (Firmware::*m_patch_load_func_ptr)();
+void (AsmFirmware::*m_patch_load_func_ptr)();
 
 
 // ; The operator keyboard scaling curve data.
@@ -11204,49 +11204,49 @@ void patch_load_data()
 //     LDD     #PATCH_LOAD_OPERATOR_EG_RATES
 //     STD     M_PATCH_LOAD_FUNC_PTR
 //     JSR     PATCH_LOAD_CALL_FUNC_PTR
-   m_patch_load_func_ptr = &Firmware::patch_load_operator_eg_rates;
+   m_patch_load_func_ptr = &AsmFirmware::patch_load_operator_eg_rates;
    patch_load_call_func_ptr();
 
 // _LOAD_EG_LEVELS:
 //     LDD     #PATCH_LOAD_OPERATOR_EG_LEVELS
 //     STD     M_PATCH_LOAD_FUNC_PTR
 //     JSR     PATCH_LOAD_CALL_FUNC_PTR
-   m_patch_load_func_ptr = &Firmware::patch_load_operator_eg_levels;
+   m_patch_load_func_ptr = &AsmFirmware::patch_load_operator_eg_levels;
    patch_load_call_func_ptr();
 
 // _LOAD_KEYBOARD_SCALING:
 //     LDD     #PATCH_LOAD_OPERATOR_KBD_SCALING
 //     STD     M_PATCH_LOAD_FUNC_PTR
 //     JSR     PATCH_LOAD_CALL_FUNC_PTR
-   m_patch_load_func_ptr = &Firmware::patch_load_operator_kbd_scaling;
+   m_patch_load_func_ptr = &AsmFirmware::patch_load_operator_kbd_scaling;
    patch_load_call_func_ptr();
 
 // _LOAD_KEYBOARD_VEL_SENS:
 //     LDD     #PATCH_LOAD_OPERATOR_KBD_VEL_SENS
 //     STD     M_PATCH_LOAD_FUNC_PTR
 //     JSR     PATCH_LOAD_CALL_FUNC_PTR
-   m_patch_load_func_ptr = &Firmware::patch_load_operator_kbd_vel_sens;
+   m_patch_load_func_ptr = &AsmFirmware::patch_load_operator_kbd_vel_sens;
    patch_load_call_func_ptr();
 
 // _LOAD_OPERATOR_PITCH:
 //     LDD     #PATCH_LOAD_OPERATOR_PITCH
 //     STD     M_PATCH_LOAD_FUNC_PTR
 //     JSR     PATCH_LOAD_CALL_FUNC_PTR
-   m_patch_load_func_ptr = &Firmware::patch_load_operator_pitch;
+   m_patch_load_func_ptr = &AsmFirmware::patch_load_operator_pitch;
    patch_load_call_func_ptr();
 
 // _LOAD_RATE_SCALING:
 //     LDD     #PATCH_LOAD_OPERATOR_KBD_RATE_SCALING
 //     STD     M_PATCH_LOAD_FUNC_PTR
 //     JSR     PATCH_LOAD_CALL_FUNC_PTR
-   m_patch_load_func_ptr = &Firmware::patch_load_operator_kbd_rate_scaling;
+   m_patch_load_func_ptr = &AsmFirmware::patch_load_operator_kbd_rate_scaling;
    patch_load_call_func_ptr();
 
 // _LOAD_DETUNE:
 //     LDD     #PATCH_LOAD_OPERATOR_DETUNE
 //     STD     M_PATCH_LOAD_FUNC_PTR
 //     JSR     PATCH_LOAD_CALL_FUNC_PTR
-   m_patch_load_func_ptr = &Firmware::patch_load_operator_detune;
+   m_patch_load_func_ptr = &AsmFirmware::patch_load_operator_detune;
    patch_load_call_func_ptr();
 
 //     JSR     PATCH_LOAD_PITCH_EG_VALUES

@@ -9,7 +9,7 @@
 #include "Table_dx7_rom_1.h"
 #include "../Source/DX7/SysEx.h"
 
-static Firmware fw{table_dx7_rom_1};
+static AsmFirmware fw{table_dx7_rom_1};
 
 void sweep_lfo_speed()
 {
