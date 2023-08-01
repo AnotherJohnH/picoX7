@@ -28,7 +28,7 @@
 
 #include "Egs.h"
 
-//! Model of Yamaha YM21280 OPS
+//! Model of Yamaha OPS (like the YM21280)
 template <unsigned NUM_OP>
 class Ops : public Egs<NUM_OP>
 {
@@ -52,33 +52,37 @@ public:
    {
       Egs<NUM_OP>::keyOn();
 
-      for(unsigned i = 0; i < NUM_OP; ++i)
+      for(unsigned op_index = 0; op_index < NUM_OP; ++op_index)
       {
          if (sync)
          {
-            phase_accum_32[i] = 0;
+            phase_accum_32[op_index] = 0;
          }
       }
    }
 
    //! Set operator frequency
-   void setFreq(unsigned i, uint32_t f14)
+   void setFreq(unsigned op_index, uint32_t f14)
    {
-      phase_inc_32[i] = f14;
+      phase_inc_32[op_index] = f14;
    }
 
 protected:
    //! Simulate a single operator (and associated envelope generator)
-   template <unsigned OP, unsigned SEL, bool A, bool C, bool D, unsigned COM>
+   template <unsigned OP_NUMBER, unsigned SEL, bool A, bool C, bool D, unsigned COM>
    int32_t ops()
    {
-      const unsigned i = OP - 1;
+      // Documented operator number 1-6 map to internal operator index 5-0
+      // the internal index follows the order of operator computation
+      // and the order of operator parameter encoding in the SysEx patch
+      // format
+      const unsigned op_index = 6 - OP_NUMBER;
 
-      int32_t amp_14 = this->getEgsAmp(i);
+      int32_t amp_14 = this->getEgsAmp(op_index);
 
-      phase_accum_32[i] += phase_inc_32[i];
+      phase_accum_32[op_index] += phase_inc_32[op_index];
 
-      uint32_t phase_12 = (phase_accum_32[i] + (modulation_12 << 22)) >> 20;
+      uint32_t phase_12 = (phase_accum_32[op_index] + (modulation_12 << 22)) >> 20;
 
       int32_t output_15;
       switch (COM)

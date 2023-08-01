@@ -47,8 +47,8 @@ public:
          R[p] = rates_[i];
       }
 
-      R[SUSTAIN]  = 0x7F;
-      R[COMPLETE] = 0x7F;
+      R[SUSTAIN]  = 0;
+      R[COMPLETE] = 0;
    }
 
    //! Program the target levels
@@ -58,15 +58,12 @@ public:
       {
          Phase p = i == 3 ? P4 : Phase(i);
 
-         L[p] = levels_[i];
+         L[p] = levels_[i] << 8;
       }
 
       L[SUSTAIN]  = L[P3];
       L[COMPLETE] = L[P4];
    }
-
-   //! Check if amplitude has reached L4
-   bool isComplete() const { return phase == COMPLETE; }
 
    //! Start a note
    void keyOn()
@@ -80,6 +77,9 @@ public:
    {
       setPhase(RELEASE);
    }
+
+   //! Check if amplitude has reached L4
+   bool isComplete() const { return phase == COMPLETE; }
 
    //! Get amplitude sample
    uint32_t operator()()

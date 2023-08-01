@@ -40,9 +40,6 @@ class EnvGen
 public:
    EnvGen() = default;
 
-   //! Check if amplitude has reached L4
-   bool isComplete() const { return phase == COMPLETE; }
-
    //! Program the level and rate
    void prog(const SysEx::EnvGen& env, uint8_t out_level)
    {
@@ -62,17 +59,20 @@ public:
    }
 
    //! Start a note
-   void gateOn()
+   void keyOn()
    {
       ampl = L[P4];
       setPhase(P1);
    }
 
    //! Release a note
-   void gateOff()
+   void keyOff()
    {
       setPhase(RELEASE);
    }
+
+   //! Check if amplitude has reached L4
+   bool isComplete() const { return phase == COMPLETE; }
 
    //! Get amplitude sample
    uint32_t operator()()

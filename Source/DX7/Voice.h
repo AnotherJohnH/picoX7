@@ -48,7 +48,7 @@ public:
 
       lfo.prog(patch);
 
-      pitch_env.prog(voice->eg_pitch, 99);
+      // pitch_env.prog(voice->eg_pitch, 99);
 
       fw.loadData(&patch);
    }
@@ -73,9 +73,9 @@ public:
       // Compute note value (1-octave is 1024)
       unsigned n14 = (note * 1024 / 12) + tune;
 
-      for(unsigned i = 0; i < 6; ++i)
+      for(unsigned op_index = 0; op_index < 6; ++op_index)
       {
-         SysEx::Op& op = patch.op[5 - i];
+         SysEx::Op& op = patch.op[op_index];
 
          if (op.osc_mode == SysEx::FIXED)
          {
@@ -93,7 +93,7 @@ public:
             //     the fine scaling is not linear
             static const unsigned SAMPLE_RATE = 49096;
             f8 += f8 * op.osc_freq_fine * 9 / 100;
-            hw.setFreq(i, ((f8 << 14) / SAMPLE_RATE) << 10);
+            hw.setFreq(op_index, ((f8 << 14) / SAMPLE_RATE) << 10);
          }
          else
          {
@@ -108,11 +108,11 @@ public:
                scale = op.osc_freq_coarse * (100 + op.osc_freq_fine) * 256 / 100;
             }
 
-            init_phase_inc_32[i] = (table_dx7_exp_22[n14] * scale) << (13 - 8);
+            init_phase_inc_32[op_index] = (table_dx7_exp_22[n14] * scale) << (13 - 8);
 
-            init_phase_inc_32[i] += (op.osc_detune - 7) << 14;
+            init_phase_inc_32[op_index] += (op.osc_detune - 7) << 14;
 
-            hw.setFreq(i, init_phase_inc_32[i] + pitch_bend);
+            hw.setFreq(op_index, init_phase_inc_32[op_index] + pitch_bend);
          }
       }
 
@@ -149,9 +149,9 @@ public:
       // XXX needs to be added to the note value this is too late
       pitch_bend = (value << 8);
 
-      for(unsigned i = 0; i < 6; ++i)
+      for(unsigned op_index = 0; op_index < 6; ++op_index)
       {
-         hw.setFreq(i, init_phase_inc_32[i] + pitch_bend);
+         hw.setFreq(op_index, init_phase_inc_32[op_index] + pitch_bend);
       }
    }
 

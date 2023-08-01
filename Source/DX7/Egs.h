@@ -25,19 +25,18 @@
 #include "EnvGen.h"
 #include "Egs_EnvGen.h"
 
-//! Model of Yamaha YM21290 EGS
+//! Model of Yamaha EGS (like the YM21290)
 template <unsigned NUM_OP>
 class Egs
 {
 public:
    Egs() = default;
 
-   //! Re-program voice from SysEx
    void prog(const SysEx::Voice* patch)
    {
       for(unsigned i = 0; i < NUM_OP; i++)
       {
-         const SysEx::Op& op = patch->op[5 - i];
+         const SysEx::Op& op = patch->op[i];
 
          egs[i].prog(op.eg_amp, op.out_level);
       }
@@ -79,20 +78,20 @@ public:
    //! Start of note
    void keyOn()
    {
-      for(unsigned i = 0; i < NUM_OP; ++i)
+      for(unsigned op_index = 0; op_index < NUM_OP; ++op_index)
       {
-         egs[i].gateOn();
-         op_eg[i].keyOn();
+         egs[op_index].keyOn();
+         op_eg[op_index].keyOn();
       }
    }
 
    //! Release of note
    void keyOff()
    {
-      for(unsigned i = 0; i < NUM_OP; ++i)
+      for(unsigned op_index = 0; op_index < NUM_OP; ++op_index)
       {
-         egs[i].gateOff();
-         op_eg[i].keyOff();
+         egs[op_index].keyOff();
+         op_eg[op_index].keyOff();
       }
    }
 
@@ -100,25 +99,28 @@ public:
    //! NOTE: This is not functionality performed by a real DX
    bool isComplete() const
    {
-      for(unsigned i = 0; i < NUM_OP; ++i)
+      for(unsigned op_index = 0; op_index < NUM_OP; ++op_index)
       {
-         if (not egs[i].isComplete())
+         if (not egs[op_index].isComplete())
             return false;
       }
 
       return true;
    }
 
-   int32_t getEgsAmp(unsigned index)
+   int32_t getEgsAmp(unsigned op_index_)
    {
-      return egs[index]();
+      return egs[op_index_]();
+   }
+
+   int32_t getNewEgsAmp(unsigned op_index_)
+   {
+      return op_eg[op_index_]();
    }
 
 private:
    // EGS program state
-protected:
-   EnvGen   egs[NUM_OP];
-private:
+   EnvGen     egs[NUM_OP];
    Egs_EnvGen op_eg[NUM_OP];
    uint8_t    op_eg_rates[NUM_OP][4];
    uint8_t    op_eg_levels[NUM_OP][4];

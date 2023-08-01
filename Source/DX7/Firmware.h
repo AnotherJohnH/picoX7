@@ -41,8 +41,6 @@ public:
    //! Implement PATCH_LOAD_DATA
    void loadData(const SysEx::Voice* patch)
    {
-      hw.prog(patch);
-
       for(unsigned i = 0; i < SysEx::NUM_OP; i++)
       {
          const SysEx::Op& op = patch->op[i];
@@ -54,6 +52,8 @@ public:
       }
 
       loadAlgMode(patch);
+
+      hw.prog(patch);
    }
 
    //! Implement PATCH_LOAD_OPERATOR_EG_RATES
