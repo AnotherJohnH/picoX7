@@ -28,6 +28,7 @@
 #pragma once
 
 #include "OpsAlg.h"
+#include "Lfo.h"
 
 //! Model of Yamaha DX7 firmware
 class Firmware
@@ -39,23 +40,60 @@ public:
    }
 
    //! Implement PATCH_LOAD_DATA
-   void loadData(const SysEx::Voice* patch)
+   void loadData(const SysEx::Voice* patch_)
    {
+      patch = *patch_;
+
       for(unsigned i = 0; i < SysEx::NUM_OP; i++)
       {
-         const SysEx::Op& op = patch->op[i];
+         const SysEx::Op& op = patch.op[i];
 
          loadOperatorEgRates(i, op);
          loadOperatorEgLevels(i, op);
+         loadOperatorKbdScaling(i, op);
+         loadOperatorKbdVelSens(i, op);
          loadOperatorPitch(i, op);
+         loadOperatorKbdRateScaling(i, op);
          loadOperatorDetune(i, op);
       }
 
-      loadAlgMode(patch);
+      loadPitchEgValues();
+      loadAlgMode();
+      loadLfo();
 
-      hw.prog(patch);
+      // TODO remove
+      hw.prog(&patch);
    }
 
+   //! Implement HANDLER_OCF should be called 375 Hz
+   void handlerOcf()
+   {
+      lfo.tick();
+   }
+
+   //! Implement VOICE_ADD called for a note on event
+   void voiceAdd(uint8_t note_, uint8_t velocity_)
+   {
+      uint8_t note = note_ + patch.transpose - 24;
+      if (note > 127)
+         note = 127;
+
+      voiceConvertNoteToPitch(note);
+
+      lfo.keyOn();
+
+      voiceAddLoadOperatorDataToEgs(key_pitch, velocity_);
+
+      hw.keyOn();
+   }
+
+   //! Implement VOICE_REMOVE called for a note off event
+   void voiceRemove()
+   {
+      hw.keyOff();
+   }
+
+private:
    //! Implement PATCH_LOAD_OPERATOR_EG_RATES
    void loadOperatorEgRates(unsigned index, const SysEx::Op& op)
    {
@@ -80,6 +118,18 @@ public:
       }
 
       hw.setEgsOpEgLevels(index, levels);
+   }
+
+   //! Implement PATCH_LOAD_OPERATOR_KBD_SCALING
+   void loadOperatorKbdScaling(unsigned index, const SysEx::Op& op)
+   {
+      // TODO
+   }
+
+   //! Implement PATCH_LOAD_OPERATOR_VEL_SENS
+   void loadOperatorKbdVelSens(unsigned index, const SysEx::Op& op)
+   {
+      // TODO
    }
 
    //! Implement PATCH_LOAD_OPERATOR_PITCH
@@ -130,21 +180,50 @@ public:
       }
    }
 
+   void loadOperatorKbdRateScaling(unsigned index, const SysEx::Op& op)
+   {
+      hw.setEgsOpRateScaling(index, op.kbd_rate_scale);
+      hw.setEgsOpAmpModSens(index, op.amp_mod_sense);
+   }
+
    //! Implement PATCH_LOAD_OPERATOR_DETUNE
    void loadOperatorDetune(unsigned index, const SysEx::Op& op)
    {
       hw.setEgsOpDetune(index, op.osc_detune);
    }
 
-   //! Implement PATCH_LOAD_ALG_MODE
-   void loadAlgMode(const SysEx::Voice* patch)
+   //! Implement PATCH_LOAD_PITCH_EG_VALUES
+   void loadPitchEgValues()
    {
-      hw.setOpsSync(patch->osc_sync);
-      hw.setOpsAlg(patch->alg);
-      hw.setOpsFdbk(patch->feedback);
    }
 
-private:
+   //! Implement PATCH_LOAD_ALG_MODE
+   void loadAlgMode()
+   {
+      hw.setOpsSync(patch.osc_sync);
+      hw.setOpsAlg(patch.alg);
+      hw.setOpsFdbk(patch.feedback);
+   }
+
+   //! Implement PATCH_LOAD_LFO
+   void loadLfo()
+   {
+      lfo.prog(patch);
+   }
+
+   //! Implement VOICE_CONVERT_NOTE_TO_PITCH
+   void voiceConvertNoteToPitch(uint8_t note)
+   {
+      uint8_t value   = table_key_pitch[note];
+      uint8_t ls_bits = value & 0b11;
+      key_pitch       = (value << 6) | (ls_bits << 4) | (ls_bits << 2);
+   }
+
+   //! Implement VOICE_ADDLOAD_OPERATOR_DATA_TO_EGS
+   void voiceAddLoadOperatorDataToEgs(uint16_t pitch, uint8_t note_vel)
+   {
+   }
+
    const uint8_t table_log[100] =
    {
       0x7F, 0x7A, 0x76, 0x72, 0x6E, 0x6B, 0x68, 0x66,
@@ -162,5 +241,28 @@ private:
       0x03, 0x02, 0x01, 0x00
    };
 
-   OpsAlg& hw; //! Access to simulated DX7 EGS and OPS hardware
+   const uint8_t table_key_pitch[128] =
+   {
+      0x00, 0x00, 0x01, 0x02, 0x04, 0x05, 0x06, 0x08,
+      0x09, 0x0A, 0x0C, 0x0D, 0x0E, 0x10, 0x11, 0x12,
+      0x14, 0x15, 0x16, 0x18, 0x19, 0x1A, 0x1C, 0x1D,
+      0x1E, 0x20, 0x21, 0x22, 0x24, 0x25, 0x26, 0x28,
+      0x29, 0x2A, 0x2C, 0x2D, 0x2E, 0x30, 0x31, 0x32,
+      0x34, 0x35, 0x36, 0x38, 0x39, 0x3A, 0x3C, 0x3D,
+      0x3E, 0x40, 0x41, 0x42, 0x44, 0x45, 0x46, 0x48,
+      0x49, 0x4A, 0x4C, 0x4D, 0x4E, 0x50, 0x51, 0x52,
+      0x54, 0x55, 0x56, 0x58, 0x59, 0x5A, 0x5C, 0x5D,
+      0x5E, 0x60, 0x61, 0x62, 0x64, 0x65, 0x66, 0x68,
+      0x69, 0x6A, 0x6C, 0x6D, 0x6E, 0x70, 0x71, 0x72,
+      0x74, 0x75, 0x76, 0x78, 0x79, 0x7A, 0x7C, 0x7D,
+      0x7E, 0x80, 0x81, 0x82, 0x84, 0x85, 0x86, 0x88,
+      0x89, 0x8A, 0x8C, 0x8D, 0x8E, 0x90, 0x91, 0x92,
+      0x94, 0x95, 0x96, 0x98, 0x99, 0x9A, 0x9C, 0x9D,
+      0x9E, 0xA0, 0xA1, 0xA2, 0xA4, 0xA5, 0xA6, 0xA8
+   };
+
+   SysEx::Voice  patch;
+   OpsAlg&       hw;           //! Access to simulated DX7 EGS and OPS hardware
+   uint16_t      key_pitch;
+   Lfo           lfo;          //! Firmware LFO
 };

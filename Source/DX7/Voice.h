@@ -46,11 +46,9 @@ public:
          voice->print(number + 1);
       }
 
-      lfo.prog(patch);
-
       // pitch_env.prog(voice->eg_pitch, 99);
 
-      fw.loadData(&patch);
+      fw.loadData(voice);
    }
 
    void tick()
@@ -60,7 +58,7 @@ public:
          mute();
       }
 
-      lfo.tick();
+      fw.handlerOcf();
    }
 
    //! Start a new note
@@ -116,14 +114,13 @@ public:
          }
       }
 
-      hw.keyOn();
-      lfo.keyOn();
+      fw.voiceAdd(getNote(), aftertouch.value);
    }
 
    //! Release a new note
    void gateOff() override
    {
-      hw.keyOff();
+      fw.voiceRemove();
    }
 
    void setLevel(uint8_t value) override
@@ -167,7 +164,6 @@ private:
    int16_t       pitch_bend {0};
    uint32_t      init_phase_inc_32[6] = {0};
    EnvGen        pitch_env;
-   Lfo           lfo;
    OpsAlg        hw;
    Firmware      fw{hw};
    SysEx::Voice  patch;

@@ -58,7 +58,7 @@ public:
       {
          Phase p = i == 3 ? P4 : Phase(i);
 
-         L[p] = levels_[i] << 8;
+         L[p] = levels_[i] << 7;
       }
 
       L[SUSTAIN]  = L[P3];
@@ -92,7 +92,7 @@ public:
          setPhase(Phase(phase + 1));
       }
 
-      return table_dx7_exp_14[ampl >> (30 - 14)];
+      return table_dx7_exp_14[0x3FFF - ampl];
    }
 
 private:
