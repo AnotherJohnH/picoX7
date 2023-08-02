@@ -128,7 +128,7 @@ public:
 
    void voiceMute(unsigned index_) override
    {
-      voice[index_].noteOff(order++);
+      voice[index_].noteOff(/* velocity */ 0, order++);
       voice[index_].mute();
    }
 
@@ -137,14 +137,14 @@ public:
       voice[index_].noteOn(note_, velocity_, order++);
    }
 
-   void voiceOff(unsigned index_) override
+   void voiceOff(unsigned index_, uint8_t velocity_) override
    {
-      voice[index_].noteOff(order++);
+      voice[index_].noteOff(velocity_, order++);
    }
 
-   void voiceLevel(unsigned index_, uint8_t level_) override
+   void voicePressure(unsigned index_, uint8_t level_) override
    {
-      voice[index_].setLevel(level_);
+      voice[index_].setPressure(level_);
    }
 
    void voiceControl(unsigned index_, uint8_t control_, uint8_t value_) override
@@ -152,9 +152,9 @@ public:
       voice[index_].setControl(control_, value_);
    }
 
-   void voicePitch(unsigned index_, int16_t value_) override
+   void voicePitchBend(unsigned index_, int16_t value_) override
    {
-      voice[index_].setPitch(value_);
+      voice[index_].setPitchBend(value_);
    }
 
 protected:

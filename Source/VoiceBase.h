@@ -36,28 +36,32 @@ public:
    bool isOn()   const { return state == ON; }
    bool isOff()  const { return state == OFF; }
 
-   //! Get current note playing
+   //! Get current note pitch
    uint8_t getNote() const { return note; }
+
+   //! Get current note velocity
+   uint8_t getVelocity() const { return velocity; }
 
    //! Get event order of current state
    unsigned getOrder() const { return order; }
 
    //! MIDI note on event for this voice
-   void noteOn(uint8_t note_, uint8_t level_, unsigned order_)
+   void noteOn(uint8_t note_, uint8_t velocity_, unsigned order_)
    {
-      state = ON;
-      order = order_;
-      note  = note_;
+      state    = ON;
+      order    = order_;
+      note     = note_;
+      velocity = velocity_;
 
-      setLevel(level_);
       gateOn();
    }
 
    //! MIDI note off event for this voice
-   void noteOff(unsigned order_)
+   void noteOff(uint8_t velocity_, unsigned order_)
    {
-      state = OFF;
-      order = order_;
+      state    = OFF;
+      order    = order_;
+      velocity = velocity_;
 
       gateOff();
    }
@@ -67,12 +71,13 @@ public:
    virtual void mute() { state = MUTE; }
    virtual void gateOn() {}
    virtual void gateOff() {}
-   virtual void setLevel(uint8_t value) {}
+   virtual void setPressure(uint8_t value) {}
    virtual void setControl(uint8_t control, uint8_t value) {}
-   virtual void setPitch(int16_t value) {}
+   virtual void setPitchBend(int16_t value) {}
 
 private:
    State    state {MUTE};
    unsigned order {};     //!< Event order on entry into current state
    uint8_t  note {};
+   uint8_t  velocity {};
 };

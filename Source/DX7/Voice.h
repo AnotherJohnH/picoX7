@@ -27,8 +27,6 @@
 #include "Firmware.h"
 #include "SysEx.h"
 
-#include "Table_dx7_exp_22.h"
-
 class Voice : public VoiceBase
 {
 public:
@@ -38,8 +36,6 @@ public:
 
    void loadProgram(uint8_t number, const SysEx::Voice* voice)
    {
-      patch = *voice;
-
       if (debug)
       {
          voice->print(number + 1);
@@ -55,13 +51,13 @@ public:
          mute();
       }
 
-      fw.handlerOcf();
+      fw.tick();
    }
 
    //! Start a new note
    void gateOn() override
    {
-      fw.voiceAdd(getNote(), aftertouch.value);
+      fw.voiceAdd(getNote(), getVelocity());
    }
 
    //! Release a new note
@@ -70,26 +66,27 @@ public:
       fw.voiceRemove();
    }
 
-   void setLevel(uint8_t value) override
+   void setPressure(uint8_t level_) override
    {
-      aftertouch.value = value;
+      fw.setModAfterTouch(level_);
    }
 
    void setControl(uint8_t control, uint8_t value) override
    {
       switch (control)
       {
-      case  1: modulation_wheel.value = value; break;
-      case  2: breath_control.value   = value; break;
-      case  4: foot_control.value     = value; break;
+      case  1: fw.setModWheel(value);         break;
+      case  2: fw.setModBreathControl(value); break;
+      case  4: fw.setModFootControl(value);   break;
 
       case 64: /* sustain */ break;
       case 65: /* portamento */ break;
       }
    }
 
-   void setPitch(int16_t value) override
+   void setPitchBend(int16_t value) override
    {
+      fw.setPitchBend(value);
    }
 
    //! Return next sample for this voice
@@ -99,26 +96,7 @@ public:
    } 
 
 private:
-   bool          debug{false};
-   OpsAlg        hw;
-   Firmware      fw{hw};
-   SysEx::Voice  patch;
-
-   // Modulation sources
-
-   struct Modulation
-   {
-      Modulation() = default;
-
-      uint8_t value {0};
-      uint8_t range {50};
-      bool    pitch {true};
-      bool    amplitude {false};
-      bool    eg_bias {false};
-   };
-
-   Modulation modulation_wheel {};
-   Modulation foot_control {};
-   Modulation breath_control {};
-   Modulation aftertouch {};
+   bool     debug{false};
+   OpsAlg   hw;
+   Firmware fw{hw};
 };

@@ -66,7 +66,7 @@ public:
    }
 
    //! Implement HANDLER_OCF should be called 375 Hz
-   void handlerOcf()
+   void tick()
    {
       lfo.tick();
    }
@@ -92,6 +92,14 @@ public:
    {
       hw.keyOff();
    }
+
+   //! Set raw modulation input
+   void setPitchBend(int16_t raw_) { }
+
+   void setModWheel(        uint8_t raw_) { mod_wheel.setRawInput(raw_); }
+   void setModFootControl(  uint8_t raw_) { mod_foot_control.setRawInput(raw_); }
+   void setModBreathControl(uint8_t raw_) { mod_breath_control.setRawInput(raw_); }
+   void setModAfterTouch(   uint8_t raw_) { mod_after_touch.setRawInput(raw_); }
 
 private:
    //! Implement PATCH_LOAD_OPERATOR_EG_RATES
@@ -267,9 +275,60 @@ private:
       0x9E, 0xA0, 0xA1, 0xA2, 0xA4, 0xA5, 0xA6, 0xA8
    };
 
+   class Modulation
+   {
+   public:
+      Modulation() = default;
+
+      void prog(bool pitch_, bool amplitude_, bool eg_bias_, uint8_t range_)
+      {
+         pitch     = pitch_;
+         amplitude = amplitude_;
+         eg_bias   = eg_bias_;
+         range     = range_;
+      }
+
+      void setRawInput(uint8_t raw_input_)
+      {
+         raw_input = raw_input_;
+      }
+
+      void calculateSourceScaledInput(uint8_t& eg_bias_total_range)
+      {
+         // Quantise
+         uint8_t value = (raw_input * 660) >> 8;
+
+         // Accumulate EG bias
+         if (eg_bias)
+         {
+            unsigned total = eg_bias_total_range + value;
+
+            if (total > 0xFF)
+               total = 0xFF;
+
+            eg_bias_total_range = total;
+         }
+
+         // Scale with range
+         scaled_input = (value * range) >> 8;
+      }
+
+   private:
+      bool    pitch {false};
+      bool    amplitude {false};
+      bool    eg_bias {false};
+      uint8_t raw_input {0};
+      uint8_t scaled_input {0};
+      uint8_t range {50};
+   };
+
    SysEx::Voice  patch;
    OpsAlg&       hw;                   //! Access to simulated DX7 EGS and OPS hardware
    uint16_t      master_tune {0x959};  //  XXX too high should default to 0x100
    uint16_t      key_pitch;
    Lfo           lfo;                  //! Firmware LFO
+   Modulation    mod_wheel;
+   Modulation    mod_foot_control;
+   Modulation    mod_breath_control;
+   Modulation    mod_after_touch;
 };

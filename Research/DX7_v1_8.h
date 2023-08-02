@@ -368,6 +368,7 @@ uint8_t m_midi_actv_sens_rx_ctr {0};
 // M_GLISSANDO_PITCH_LSB:                    equ  $C7
 // M_EGS_PITCH_PTR:                          equ  $C8
 // M_VOICE_PITCH_GLISS_PTR:                  equ  $CA
+uint8_t  m_eg_bias_total_range;
 uint16_t m_key_pitch;
 
 // ; This variable is used as a loop counter when processing the pitch EG.
@@ -722,7 +723,6 @@ bool m_pitch_update_toggle {false};
 // ; Modulation-source control flags variable.
 // ; Bit 0 = Pitch, Bit 1 = Amplitude, Bit 2 = EG Bias.
 // M_MOD_WHEEL_ASSIGN_FLAGS:                 equ  $232E
-//
 // ; These 'scaled input' variables refer to the raw analog input 'scaled' by
 // ; this particular modulation-source's 'range' parameter.
 // M_MOD_WHEEL_SCALED_INPUT:                 equ  $232F
@@ -746,7 +746,20 @@ bool m_pitch_update_toggle {false};
 // M_AFTERTOUCH_RANGE:                       equ  $233C
 // M_AFTERTOUCH_ANALOG_INPUT:                equ  $233D
 // M_PITCH_BEND_VALUE:                       equ  $233E
-//
+
+// XXX point to some where sensible XXX
+uint8_t* m_mod_wheel_assign_flags  {(uint8_t*)0x232E};
+
+uint8_t* m_mod_wheel_range         {(uint8_t*)0x2336};
+uint8_t* m_mod_wheel_analog_input  {(uint8_t*)0x2337};
+uint8_t* m_foot_ctrl_range         {(uint8_t*)0x2338};
+uint8_t* m_foot_ctrl_analog_input  {(uint8_t*)0x2339};
+uint8_t* m_brth_ctrl_range         {(uint8_t*)0x233A};
+uint8_t* m_brth_ctrl_analog_input  {(uint8_t*)0x233B};
+uint8_t* m_aftertouch_range        {(uint8_t*)0x233C};
+uint8_t* m_aftertouch_analog_input {(uint8_t*)0x233D};
+uint8_t* m_pitch_bend_value        {(uint8_t*)0x233E};
+
 // ; The outgoing MIDI transmit ring buffer.
 // M_MIDI_TX_BUFFER:                         equ  $2340
 //
@@ -10640,7 +10653,18 @@ void mod_process_input_sources()
 //     LDD     M_AFTERTOUCH_RANGE
 //     BSR     MOD_CALCULATE_SOURCE_SCALED_INPUT
 //     COM     M_EG_BIAS_TOTAL_RANGE
-//
+
+   m_eg_bias_total_range = 0;
+
+   uint8_t* ptr = m_mod_wheel_assign_flags;
+
+   mod_calculate_source_scaled_input(ptr, *m_mod_wheel_range,  *m_mod_wheel_analog_input);
+   mod_calculate_source_scaled_input(ptr, *m_foot_ctrl_range,  *m_foot_ctrl_analog_input);
+   mod_calculate_source_scaled_input(ptr, *m_brth_ctrl_range,  *m_brth_ctrl_analog_input);
+   mod_calculate_source_scaled_input(ptr, *m_aftertouch_range, *m_aftertouch_analog_input);
+
+   m_eg_bias_total_range = ~m_eg_bias_total_range;
+
 // _CALCULATE_AMP_MOD:
 //     LDAA    #4
 //     CLRB
@@ -10766,8 +10790,21 @@ void mod_process_input_sources()
 //     STAA    0,x
 //     INX
 //     RTS
-void mod_calculate_source_scaled_input(uint8_t range, uint8_t value)
+void mod_calculate_source_scaled_input(uint8_t*& ptr, uint8_t range, uint8_t input)
 {
+   uint8_t value = (input * 660) >> 8;
+
+   if ((*ptr & 0b100) != 0)
+   {
+      unsigned total = m_eg_bias_total_range + value;
+
+      if (total > 0xFF)
+         total = 0xFF;
+
+      m_eg_bias_total_range = total;
+   }
+
+   *ptr++ = (value * range) >> 8;
 }
 
 // ; ==============================================================================
@@ -12093,7 +12130,22 @@ void mod_pitch_load_to_egs()
 //
 // _VALUE_OVERFLOWED:
 //     PULA
-//
+
+   uint8_t* mod_source_ptr = m_mod_wheel_assign_flags;
+
+   unsigned mod = 0;
+
+   for(unsigned i = 0; i < 4; ++i)
+   {
+      mod_pitch_sum_mod_source(mod, mod_source_ptr);
+
+      // XXX not quite accurate but in effect the same
+      if (mod == 0xFF)
+         break;
+
+      ++mod_source_ptr;
+   }
+
 // ; Calculate the LFO 'Fade in' factor, and add this value to the total
 // ; pitch modulation factor computed from the modulation sources above.
 //
@@ -12163,6 +12215,10 @@ void mod_pitch_load_to_egs()
 //     STAB    P_EGS_PITCH_MOD_LOW
 //     RTS
 // TODO
+
+   //uint16_t pitch_mod;
+
+   //p_egs_pitch_mod = (pitch_mod << 1) + m_pitch_bend_value;
 }
 
 // ; ==============================================================================
@@ -12185,6 +12241,8 @@ void mod_pitch_load_to_egs()
 // ; ==============================================================================
 //
 // MOD_PITCH_SUM_MOD_SOURCE:
+void mod_pitch_sum_mod_source(unsigned& mod, uint8_t*& ptr)
+{
 //     LDAA    0,x
 //     INX
 //     BITA    #1
@@ -12206,8 +12264,15 @@ void mod_pitch_load_to_egs()
 //
 // _END_MOD_PITCH_SUM_MOD_SOURCE:
 //     RTS
-//
-//
+    uint8_t assign = *ptr++;
+    if ((assign & 1) == 0) return;
+
+    mod += *ptr;
+    if (mod > 0xFF)
+       mod = 0xFF;
+}
+
+
 // ; ==============================================================================
 // ; LFO_GET_AMPLITUDE
 // ; ==============================================================================
