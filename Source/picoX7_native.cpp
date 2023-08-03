@@ -79,6 +79,10 @@ static Audio audio;
 
 int main()
 {
+   // Clear screen and cursor to home
+   printf("\e[2J");
+   printf("\e[1,1H");
+
    printf("\n");
    printf("Program  : picoX7\n");
    printf("Author   : Copyright (c) 2023 John D. Haughton\n");
