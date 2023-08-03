@@ -4,7 +4,7 @@
 // available project does not contain a copyright notice or any mention of
 // permissions or restrictions that apply to the use of the data. However,
 // according to law that does not necessarily mean that the data is free from
-// restrictions on its use. At the time of publication, the copyright holder 
+// restrictions on its use. At the time of publication, the copyright holder
 // is probably Yamaha. If the copyright holder wishes to retrospectively declare
 // reasonable and legal restrictions on the data, then either those restrictions
 // must be obeyed or this file shouled be deleted.
@@ -93,13 +93,16 @@ public:
       hw.keyOff();
    }
 
-   //! Set raw modulation input
-   void setPitchBend(int16_t raw_) { }
+   //! Implement PITCH_BEND_PARSE
+   void setPitchBend(int16_t raw14_)
+   {
+   }
 
-   void setModWheel(        uint8_t raw_) { mod_wheel.setRawInput(raw_); }
-   void setModFootControl(  uint8_t raw_) { mod_foot_control.setRawInput(raw_); }
-   void setModBreathControl(uint8_t raw_) { mod_breath_control.setRawInput(raw_); }
-   void setModAfterTouch(   uint8_t raw_) { mod_after_touch.setRawInput(raw_); }
+   //! Set raw modulation input
+   void setModWheel(        uint8_t raw_) { mod_wheel      = raw_; }
+   void setModFootControl(  uint8_t raw_) { foot_control   = raw_; }
+   void setModBreathControl(uint8_t raw_) { breath_control = raw_; }
+   void setModAfterTouch(   uint8_t raw_) { after_touch    = raw_; }
 
 private:
    //! Implement PATCH_LOAD_OPERATOR_EG_RATES
@@ -238,6 +241,54 @@ private:
       }
    }
 
+   //! Implement MOD_PROCESS_INPUT_SOURCES
+   void modProcessInputSources()
+   {
+      eg_bias_total_range = 0;
+      for(unsigned i = 0; i < NUM_MOD_SOURCE; ++i)
+      {
+         mod[i].computeScaledInput(eg_bias_total_range);
+      }
+
+      // Calculate amplitude modulation and EG bias
+      amp_mod = 0;
+      eg_bias = 0;
+
+      for(unsigned i = 0; i < NUM_MOD_SOURCE; ++i)
+      {
+         if (mod[i].isAmplitude())
+            amp_mod += mod[i]();
+
+         if (mod[i].isEgBias())
+            eg_bias += mod[i]();
+      }
+
+      if (amp_mod > 0xFF)
+         amp_mod = 0xFF;
+
+      if (eg_bias > 0xFF)
+         eg_bias = 0xFF;
+   }
+
+   //! Implement MOD_PITCH_LOAD_TO_EGS
+   void modPitchLoadToEgs()
+   {
+      unsigned pitch_mod = 0;
+
+      for(unsigned i = 0; i < NUM_MOD_SOURCE; ++i)
+      {
+         if (mod[i].isPitch())
+            pitch_mod += mod[i]();
+      }
+
+      if (pitch_mod > 0xFF)
+         pitch_mod = 0xFF;
+
+      pitch_mod += pitch_bend;
+
+      hw.setEgsPitchMod(pitch_mod);
+   }
+
    const uint8_t table_log[100] =
    {
       0x7F, 0x7A, 0x76, 0x72, 0x6E, 0x6B, 0x68, 0x66,
@@ -280,6 +331,12 @@ private:
    public:
       Modulation() = default;
 
+      bool isPitch() const     { return pitch; }
+      bool isAmplitude() const { return amplitude; }
+      bool isEgBias() const    { return eg_bias; }
+
+      uint8_t operator()() const { return scaled_input; }
+
       void prog(bool pitch_, bool amplitude_, bool eg_bias_, uint8_t range_)
       {
          pitch     = pitch_;
@@ -288,29 +345,30 @@ private:
          range     = range_;
       }
 
-      void setRawInput(uint8_t raw_input_)
+      //! Set the raw input for the modulation source
+      void operator=(uint8_t raw_input_)
       {
          raw_input = raw_input_;
       }
 
-      void calculateSourceScaledInput(uint8_t& eg_bias_total_range)
+      //! Implement MOD_CALCULATE_SOURCE_SCALED_INPUT
+      void computeScaledInput(uint8_t& eg_bias_total_range)
       {
-         // Quantise
-         uint8_t value = (raw_input * 660) >> 8;
+         // Quantise range
+         uint8_t q_range = (range * 660) >> 8;
 
          // Accumulate EG bias
          if (eg_bias)
          {
-            unsigned total = eg_bias_total_range + value;
+            unsigned total_range = eg_bias_total_range + q_range;
 
-            if (total > 0xFF)
-               total = 0xFF;
+            if (total_range > 0xFF)
+               total_range = 0xFF;
 
-            eg_bias_total_range = total;
+            eg_bias_total_range = total_range;
          }
 
-         // Scale with range
-         scaled_input = (value * range) >> 8;
+         scaled_input = (raw_input * q_range) >> 8;
       }
 
    private:
@@ -327,8 +385,19 @@ private:
    uint16_t      master_tune {0x959};  //  XXX too high should default to 0x100
    uint16_t      key_pitch;
    Lfo           lfo;                  //! Firmware LFO
-   Modulation    mod_wheel;
-   Modulation    mod_foot_control;
-   Modulation    mod_breath_control;
-   Modulation    mod_after_touch;
+
+   // Modulation sources
+   static const unsigned NUM_MOD_SOURCE {4};
+
+   Modulation    mod[NUM_MOD_SOURCE];
+   Modulation&   mod_wheel      {mod[0]};
+   Modulation&   foot_control   {mod[1]};
+   Modulation&   breath_control {mod[2]};
+   Modulation&   after_touch    {mod[3]};
+
+   uint8_t       eg_bias_total_range{};
+   uint8_t       amp_mod {};
+   uint8_t       eg_bias{};
+
+   int16_t       pitch_bend;
 };

@@ -10792,19 +10792,20 @@ void mod_process_input_sources()
 //     RTS
 void mod_calculate_source_scaled_input(uint8_t*& ptr, uint8_t range, uint8_t input)
 {
-   uint8_t value = (input * 660) >> 8;
+   // Quantise range
+   uint8_t q_range = (range * 660) >> 8;
 
    if ((*ptr & 0b100) != 0)
    {
-      unsigned total = m_eg_bias_total_range + value;
+      unsigned total_range = m_eg_bias_total_range + q_range;
 
-      if (total > 0xFF)
-         total = 0xFF;
+      if (total_range > 0xFF)
+         total_range = 0xFF;
 
-      m_eg_bias_total_range = total;
+      m_eg_bias_total_range = total_range;
    }
 
-   *ptr++ = (value * range) >> 8;
+   *ptr++ = (input * q_range) >> 8;
 }
 
 // ; ==============================================================================

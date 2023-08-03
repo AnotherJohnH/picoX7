@@ -54,9 +54,9 @@ timer = Timer.Timer()
 for program_number in range(0, args.range):
 
    print(f"Program {program_number}/{args.range}")
-   midi.program(program_number)
 
    timer.join(args.period)
+   midi.program(program_number)
    midi.noteOn(args.note)
 
    timer.join(args.period)
