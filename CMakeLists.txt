@@ -24,7 +24,7 @@ cmake_minimum_required(VERSION 3.19.1)
 
 project(picoX7
         LANGUAGES CXX ASM
-        VERSION 0.1.4)
+        VERSION 0.1.5)
 
 add_subdirectory(Platform)
 
