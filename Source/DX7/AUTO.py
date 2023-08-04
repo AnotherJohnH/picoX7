@@ -49,23 +49,29 @@ def cartridge(filename, name):
 
 #------------------------------------------------------------------------------
 
-# 14-bit [4:10] => 14-bit   2^x table
+# 14-bit (Q4.10) => 14-bit 2^x table
+# NOTE: The more obvious formula is int(math.pow(2.0, i / 1024)/4 + 0.5). The formula used
+#       below more accurately represents the values compressed into the actual ROMs as
+#       discovered and represented by Ken Shirriff
 Table.build('dx7_exp_14',
       bits       = 16,
-      func       = lambda i,x : (int(math.pow(2.0, (i & 0x3FF) / 0x400) * 2048 + 0.5) << (i >> 10)) >> 13,
+      func       = lambda i,x : (int(math.pow(2.0, (i % 1024) / 1024) * 2048 + 0.5) << (i >> 10)) >> 13,
       log2_size  = 14,
       prefix     = '0x',
       fmt        = '04x')
 
-# 14-bit [4:10] => 22-bit   2^x table
+# 14-bit (Q4.10) => 22-bit 2^x table
+# NOTE: The more obvious formula is int(math.pow(2.0, i / 1024) * 64 + 0.5). The formula used
+#       below more accurately represents the values compressed into the actual ROMs as
+#       discovered and represented by Ken Shirriff
 Table.build('dx7_exp_22',
       bits       = 32,
-      func       = lambda i,x : (int(math.pow(2.0, (i & 0x3FF) / 0x400) * 2048 + 0.5) << (i >> 10)) >> 5,
+      func       = lambda i,x : (int(math.pow(2.0, (i % 1024) / 1024 ) * 2048 + 0.5) << (i >> 10)) >> 5,
       log2_size  = 14,
       prefix     = '0x',
       fmt        = '08x')
 
-# 11-bit => 14-bit   half sine table
+# 11-bit => 14-bit  half log-sine table
 Table.build('dx7_log_sine_14',
       bits       = 16,
       func       = lambda i,x : int(-math.log(math.sin((i + 0.5) * math.pi / 2048), 2) * 1024 + 0.5002),
