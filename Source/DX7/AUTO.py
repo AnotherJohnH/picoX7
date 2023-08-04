@@ -65,6 +65,15 @@ Table.build('dx7_exp_22',
       prefix     = '0x',
       fmt        = '08x')
 
+# 11-bit => 14-bit   half sine table
+Table.build('dx7_log_sine_14',
+      bits       = 16,
+      func       = lambda i,x : int(-math.log(math.sin((i + 0.5) * math.pi / 2048), 2) * 1024 + 0.5002),
+      log2_size  = 11,
+      typename   = "uint16_t",
+      prefix     = '0x',
+      fmt        = '04x')
+
 # 12-bit => 14-bit   sine table
 Table.build('dx7_sine_15',
       bits       = 16,
