@@ -24,6 +24,8 @@
 
 #include "Table_dx7_exp_14.h"
 #include "Table_dx7_exp_22.h"
+#include "Table_dx7_log_sine_14.h"
+
 #include "Table_dx7_sine_15.h"
 #include "Table_dx7_sine_div3_15.h"
 #include "Table_dx7_sine_div5_15.h"
@@ -71,7 +73,7 @@ public:
 
 protected:
    //! Simulate a single operator (and associated envelope generator)
-   template <unsigned OP_NUMBER, unsigned SEL, bool A, bool C, bool D, unsigned COM>
+   template <unsigned OP_NUMBER, unsigned SEL, bool A, bool C, bool D, unsigned COM, unsigned LOG2_COM>
    int32_t ops()
    {
       // Documented operator number 1-6 map to internal operator index 5-0

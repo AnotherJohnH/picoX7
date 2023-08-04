@@ -85,322 +85,322 @@ public:
 private:
    int32_t alg1()
    {
-      (void) ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<4, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2>();
-      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2>();
+      (void) ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<4, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
+      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
    }
 
    int32_t alg2()
    {
-      (void) ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<4, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<3, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2>();
-      (void) ops<2, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      return ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2>();
+      (void) ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<4, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<3, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
+      (void) ops<2, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      return ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
    }
 
    int32_t alg3()
    {
-      (void) ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<4, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2>();
-      (void) ops<3, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2>();
+      (void) ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<4, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
+      (void) ops<3, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
    }
 
    int32_t alg4()
    {
-      (void) ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<4, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* COM */ 2>();
-      (void) ops<3, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2>();
+      (void) ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<4, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
+      (void) ops<3, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
    }
 
    int32_t alg5()
    {
-      (void) ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 3>();
-      (void) ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3>();
-      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3>();
+      (void) ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
+      (void) ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
+      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
    }
 
    int32_t alg6()
    {
-      (void) ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* COM */ 3>();
-      (void) ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3>();
-      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3>();
+      (void) ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
+      (void) ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
+      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
    }
 
    int32_t alg7()
    {
-      (void) ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1>();
-      (void) ops<4, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1>();
-      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2>();
-      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2>();
+      (void) ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<4, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
+      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
    }
 
    int32_t alg8()
    {
-      (void) ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1>();
-      (void) ops<4, /* SEL */ 2, /* A */ 1, /* C */ 1, /* D */ 1, /* COM */ 1>();
-      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2>();
-      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      return ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2>();
+      (void) ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<4, /* SEL */ 2, /* A */ 1, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
+      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      return ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
    }
 
    int32_t alg9()
    {
-      (void) ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1>();
-      (void) ops<4, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1>();
-      (void) ops<3, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2>();
-      (void) ops<2, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      return ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2>();
+      (void) ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<4, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<3, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
+      (void) ops<2, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      return ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
    }
 
    int32_t alg10()
    {
-      (void) ops<6, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1>();
-      (void) ops<4, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2>();
-      (void) ops<3, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      return ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2>();
+      (void) ops<6, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<4, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
+      (void) ops<3, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      return ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
    }
 
    int32_t alg11()
    {
-      (void) ops<6, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1>();
-      (void) ops<4, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2>();
-      (void) ops<3, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2>();
+      (void) ops<6, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<4, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
+      (void) ops<3, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
    }
 
    int32_t alg12()
    {
-      (void) ops<6, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1>();
-      (void) ops<4, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1>();
-      (void) ops<3, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2>();
-      (void) ops<2, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      return ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2>();
+      (void) ops<6, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<4, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<3, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
+      (void) ops<2, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      return ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
    }
 
    int32_t alg13()
    {
-      (void) ops<6, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1>();
-      (void) ops<4, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1>();
-      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2>();
-      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2>();
+      (void) ops<6, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<4, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
+      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
    }
 
    int32_t alg14()
    {
-      (void) ops<6, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1>();
-      (void) ops<4, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2>();
-      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2>();
+      (void) ops<6, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<4, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
+      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
    }
 
    int32_t alg15()
    {
-      (void) ops<6, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1>();
-      (void) ops<4, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<3, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2>();
-      (void) ops<2, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      return ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2>();
+      (void) ops<6, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<4, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<3, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
+      (void) ops<2, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      return ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
    }
 
    int32_t alg16()
    {
-      (void) ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1>();
-      (void) ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1>();
-      (void) ops<2, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1>();
-      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1>();
+      (void) ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<2, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
    }
 
    int32_t alg17()
    {
-      (void) ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1>();
-      (void) ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      (void) ops<3, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1>();
-      (void) ops<2, /* SEL */ 2, /* A */ 1, /* C */ 1, /* D */ 1, /* COM */ 1>();
-      return ops<1, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1>();
+      (void) ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<3, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<2, /* SEL */ 2, /* A */ 1, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      return ops<1, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
    }
 
    int32_t alg18()
    {
-      (void) ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<4, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1>();
-      (void) ops<3, /* SEL */ 0, /* A */ 1, /* C */ 1, /* D */ 1, /* COM */ 1>();
-      (void) ops<2, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1>();
-      return ops<1, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1>();
+      (void) ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<4, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<3, /* SEL */ 0, /* A */ 1, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<2, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      return ops<1, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
    }
 
    int32_t alg19()
    {
-      (void) ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 4, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 3>();
-      (void) ops<4, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3>();
-      (void) ops<3, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3>();
+      (void) ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 4, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
+      (void) ops<4, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
+      (void) ops<3, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
    }
 
    int32_t alg20()
    {
-      (void) ops<6, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1>();
-      (void) ops<4, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 3>();
-      (void) ops<3, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      (void) ops<2, /* SEL */ 4, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3>();
-      return ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3>();
+      (void) ops<6, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<4, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
+      (void) ops<3, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<2, /* SEL */ 4, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
+      return ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
    }
 
    int32_t alg21()
    {
-      (void) ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 3, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 4>();
-      (void) ops<4, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4>();
-      (void) ops<3, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      (void) ops<2, /* SEL */ 4, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4>();
-      return ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4>();
+      (void) ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 3, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
+      (void) ops<4, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
+      (void) ops<3, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<2, /* SEL */ 4, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
+      return ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
    }
 
    int32_t alg22()
    {
-      (void) ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 4, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 4>();
-      (void) ops<4, /* SEL */ 4, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4>();
-      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4>();
-      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4>();
+      (void) ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 4, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
+      (void) ops<4, /* SEL */ 4, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
+      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
+      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
    }
 
    int32_t alg23()
    {
-      (void) ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 4, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 4>();
-      (void) ops<4, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4>();
-      (void) ops<3, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      (void) ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4>();
-      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4>();
+      (void) ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 4, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
+      (void) ops<4, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
+      (void) ops<3, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
+      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
    }
 
    int32_t alg24()
    {
-      (void) ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 4, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 5>();
-      (void) ops<4, /* SEL */ 4, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5>();
-      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5>();
-      (void) ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5>();
-      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5>();
+      (void) ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 4, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
+      (void) ops<4, /* SEL */ 4, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
+      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
+      (void) ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
+      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
    }
 
    int32_t alg25()
    {
-      (void) ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 4, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 5>();
-      (void) ops<4, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5>();
-      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5>();
-      (void) ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5>();
-      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5>();
+      (void) ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 4, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
+      (void) ops<4, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
+      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
+      (void) ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
+      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
    }
 
    int32_t alg26()
    {
-      (void) ops<6, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1>();
-      (void) ops<4, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 3>();
-      (void) ops<3, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      (void) ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3>();
-      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3>();
+      (void) ops<6, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<4, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
+      (void) ops<3, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
+      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
    }
 
    int32_t alg27()
    {
-      (void) ops<6, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1>();
-      (void) ops<4, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 3>();
-      (void) ops<3, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      (void) ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3>();
-      return ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3>();
+      (void) ops<6, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<4, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
+      (void) ops<3, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
+      return ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
    }
 
    int32_t alg28()
    {
-      (void) ops<6, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 3>();
-      (void) ops<5, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      (void) ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3>();
-      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      return ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3>();
+      (void) ops<6, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
+      (void) ops<5, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
+      (void) ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      return ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
    }
 
    int32_t alg29()
    {
-      (void) ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 4>();
-      (void) ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4>();
-      (void) ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4>();
-      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4>();
+      (void) ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
+      (void) ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
+      (void) ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
+      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
    }
 
    int32_t alg30()
    {
-      (void) ops<6, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 4>();
-      (void) ops<5, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      (void) ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1>();
-      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4>();
-      (void) ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4>();
-      return ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4>();
+      (void) ops<6, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
+      (void) ops<5, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
+      (void) ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
+      return ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
    }
 
    int32_t alg31()
    {
-      (void) ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1>();
-      (void) ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 5>();
-      (void) ops<4, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5>();
-      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5>();
-      (void) ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5>();
-      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5>();
+      (void) ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
+      (void) ops<4, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
+      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
+      (void) ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
+      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
    }
 
    int32_t alg32()
    {
-      (void) ops<6, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* COM */ 6>();
-      (void) ops<5, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 6>();
-      (void) ops<4, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 6>();
-      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 6>();
-      (void) ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 6>();
-      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 6>();
+      (void) ops<6, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* COM */ 6, /* LOG2_COM */ 0b10101>();
+      (void) ops<5, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 6, /* LOG2_COM */ 0b10101>();
+      (void) ops<4, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 6, /* LOG2_COM */ 0b10101>();
+      (void) ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 6, /* LOG2_COM */ 0b10101>();
+      (void) ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 6, /* LOG2_COM */ 0b10101>();
+      return ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 6, /* LOG2_COM */ 0b10101>();
    }
 
    int32_t (OpsAlg::*alg_ptr)() {&OpsAlg::alg1};
