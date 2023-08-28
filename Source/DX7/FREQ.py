@@ -70,7 +70,7 @@ def enumeratePllClockConfigs(clk_min_mhz, clk_max_mhz):
    return dict(sorted(table.items()))
 
 
-table = enumeratePllClockConfigs(clk_min_mhz = 132, clk_max_mhz = 200)
+table = enumeratePllClockConfigs(clk_min_mhz = 132, clk_max_mhz = 420)
 
 # For found PLL clock configs filter for those that are exact mutliples
 # of frequencies near to the target sample rate of 49096 Hz
