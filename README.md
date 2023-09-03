@@ -33,7 +33,7 @@ to another I2S DAC
 + UART-1 (RX) implements the MIDI-IN interface
 + Two PIO state machines are used to generate I2S and MCLK for the DAC module
 
-See the [schematic](https://github.com/AnotherJohnH/picoX7/blob/main/docs/schematic_v0.02.pdf). Note, the displays on the schematic have no software support at the moment.
+See the [schematic](https://github.com/AnotherJohnH/picoX7/blob/main/docs/schematic_v0.03.pdf). Note, the LCD display on the schematic has no software support at the moment.
 
 |Pin|Peripheral|Allocation|
 |---|---|---|
