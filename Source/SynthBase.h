@@ -26,9 +26,13 @@
 
 #include "STB/MIDIInstrument.h"
 
+#include "SynthIO.h"
+
 //! Base class for MIDI synth
 template <unsigned N, typename VOICE, unsigned AMP_N = N>
-class SynthBase : public MIDI::Instrument
+class SynthBase
+   : public MIDI::Instrument
+   , public SynthIO
 {
 public:
    SynthBase()

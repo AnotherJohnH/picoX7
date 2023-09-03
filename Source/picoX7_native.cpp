@@ -77,6 +77,11 @@ private:
 
 static Audio audio;
 
+void SynthIO::displayProgram(unsigned number)
+{
+   printf("Program #%02u\n", number);
+}
+
 int main()
 {
    // Clear screen and cursor to home

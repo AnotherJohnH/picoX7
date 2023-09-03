@@ -155,6 +155,9 @@ private:
 
    void voiceProgram(unsigned index_, uint8_t number_) override
    {
+      if (index_ == 0)
+         this->displayProgram(number_ + 1);
+
       const SysEx::Packed* memory;
 
       switch(number_ >> 5)

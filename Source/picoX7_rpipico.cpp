@@ -29,6 +29,7 @@
 #include "MTL/MTL.h"
 #include "MTL/Pins.h"
 #include "MTL/PioAudio.h"
+#include "MTL/Led7Seg.h"
 #include "MTL/rp2040/Uart.h"
 #include "MTL/rp2040/Clocks.h"
 
@@ -62,6 +63,7 @@ public:
 
    uint8_t rx() override { return MTL_getch(); }
 };
+
 
 //! Proper MIDI in at 31250 baud
 class MidiIn1 : public MIDI::Interface
@@ -107,6 +109,16 @@ void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
    }
 
    usage.end();
+}
+
+
+static MTL::Led7Seg</* PIN_CLK */  MTL::PIN_5,
+                    /* PIN_DATA */ MTL::PIN_4,
+                    /* NUM_DIGITS */ 2> led_7seg;
+
+void SynthIO::displayProgram(unsigned number)
+{
+   led_7seg.printDec(number, number >= 100 ? 0 : 3);
 }
 
 
