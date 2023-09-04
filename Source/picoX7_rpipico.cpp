@@ -30,6 +30,7 @@
 #include "MTL/Pins.h"
 #include "MTL/PioAudio.h"
 #include "MTL/Led7Seg.h"
+#include "MTL/Lcd.h"
 #include "MTL/rp2040/Uart.h"
 #include "MTL/rp2040/Clocks.h"
 
@@ -81,9 +82,39 @@ private:
    MTL::Uart1 uart{31250, 8, MTL::UART::NONE, 1};
 };
 
+// --- 7-segment LED display ---------------------------------------------------
+
+static MTL::Led7Seg</* PIN_CLK */  MTL::PIN_5,
+                    /* PIN_DATA */ MTL::PIN_4,
+                    /* NUM_DIGITS */ 2> led_7seg;
+
+void SynthIO::displayLED(unsigned number)
+{
+   led_7seg.printDec(number, number >= 100 ? 0 : 3);
+}
+
+
+// --- 16x12 LCD display -------------------------------------------------------
+
+static MTL::Lcd</* PIN_DATA */   MTL::PIN_9,
+                /* PIN_R_S */    MTL::PIN_19,
+                /* PIN_ENABLE */ MTL::PIN_20,
+                /* COLS */       16,
+                /* ROWS */       2,
+                /* DL_8BIT */    true> lcd;
+
+void SynthIO::displayLCD(unsigned row, const char* text)
+{
+   lcd.move(0, row);
+   lcd.print(text);
+}
+
+// -----------------------------------------------------------------------------
 
 static Usage                            usage {};
 static Synth<NUM_VOICES, /* AMP_N */ 8> synth {};
+
+// --- DAC ---------------------------------------------------------------------
 
 //! 49.1 KHz I2S DAC, with pinout for Waveshare Pico-Audio
 //  buffer sized to give a 375 Hz tick
@@ -111,16 +142,7 @@ void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
    usage.end();
 }
 
-
-static MTL::Led7Seg</* PIN_CLK */  MTL::PIN_5,
-                    /* PIN_DATA */ MTL::PIN_4,
-                    /* NUM_DIGITS */ 2> led_7seg;
-
-void SynthIO::displayProgram(unsigned number)
-{
-   led_7seg.printDec(number, number >= 100 ? 0 : 3);
-}
-
+// --- Entry point -------------------------------------------------------------
 
 int MTL_main()
 {

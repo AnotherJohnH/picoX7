@@ -54,7 +54,25 @@ private:
    };
 };
 
+// --- 7-segment LED display ---------------------------------------------------
+
+void SynthIO::displayLED(unsigned number)
+{
+   printf("Program #%02u\n", number);
+}
+
+// --- 16x12 LCD display -------------------------------------------------------
+
+void SynthIO::displayLCD(unsigned row, const char* text)
+{
+   printf("%s\n", text);
+}
+
+// -----------------------------------------------------------------------------
+
 static Synth<NUM_VOICES> synth {};
+
+// --- DAC ---------------------------------------------------------------------
 
 class Audio : public PLT::Audio::Out
 {
@@ -77,10 +95,7 @@ private:
 
 static Audio audio;
 
-void SynthIO::displayProgram(unsigned number)
-{
-   printf("Program #%02u\n", number);
-}
+// --- Entry point -------------------------------------------------------------
 
 int main()
 {

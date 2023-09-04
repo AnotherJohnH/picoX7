@@ -22,6 +22,8 @@
 
 #pragma once
 
+#include <cstring>
+
 #include "SynthBase.h"
 
 #include "SysEx.h"
@@ -40,6 +42,13 @@ public:
    {
       // Load ROM 1 into the internal patch memory
       memcpy(internal_patches, table_dx7_rom_1, sizeof(internal_patches));
+
+      this->displayLED(88);
+      this->displayLCD(0, "*    pico X7   *");
+      this->displayLCD(1, "*  SYNTHESIZER *");
+
+      // XXX ugh hacky
+      for(volatile unsigned i = 0; i < 40000000; ++i);
    }
 
 private:
@@ -155,25 +164,49 @@ private:
 
    void voiceProgram(unsigned index_, uint8_t number_) override
    {
-      if (index_ == 0)
-         this->displayProgram(number_ + 1);
-
       const SysEx::Packed* memory;
 
       switch(number_ >> 5)
       {
-      case 0:  memory = internal_patches;                       break;
-      case 1:  memory = (const SysEx::Packed*) table_dx7_rom_2; break;
+      case 0: memory = internal_patches;                       break;
+      case 1: memory = (const SysEx::Packed*) table_dx7_rom_2; break;
 
       // DX7 did not support selecting programs above 63
-      case 2:  memory = (const SysEx::Packed*) table_dx7_rom_3; break;
-      case 3:  memory = (const SysEx::Packed*) table_dx7_rom_4; break;
+      case 2: memory = (const SysEx::Packed*) table_dx7_rom_3; break;
+      case 3: memory = (const SysEx::Packed*) table_dx7_rom_4; break;
 
       default:
          return;
       }
 
       edit_patch = memory[number_ & 0x1F];
+
+      if (index_ == 0)
+      {
+         this->displayLED(number_ + 1);
+
+         char line1[17];
+
+         if ((number_ >> 5) == 0)
+         {
+            this->displayLCD(0, "INTERNAL VOICE  ");
+            strcpy(line1, "INT");
+         }
+         else
+         {
+            this->displayLCD(0, "CARTRIDGE VOICE ");
+            strcpy(line1, "CRT");
+         }
+
+#if defined(TARGET_NATIVE)
+         sprintf(line1 + 3, "%2u ", (number_ % 32) + 1);
+#else
+         snprintf(line1 + 3, 13, "%2u ", (number_ % 32) + 1);
+#endif
+         strncpy(line1 + 6, (const char*)edit_patch.name, 10);
+
+         this->displayLCD(1, line1);
+      }
 
       this->voice[index_].loadProgram(number_, &edit_patch);
    }
