@@ -23,6 +23,8 @@
 #pragma once
 
 #include <cstring>
+#include <unistd.h>
+#include "MTL/MTL.h"
 
 #include "SynthBase.h"
 
@@ -43,12 +45,12 @@ public:
       // Load ROM 1 into the internal patch memory
       memcpy(internal_patches, table_dx7_rom_1, sizeof(internal_patches));
 
-      this->displayLED(88);
-      this->displayLCD(0, "*    pico X7   *");
+      this->displayLED(188);
+      this->displayLCD(0, "*    picoX7    *");
       this->displayLCD(1, "*  SYNTHESIZER *");
 
-      // XXX ugh hacky
-      for(volatile unsigned i = 0; i < 40000000; ++i);
+      // 2.5s
+      usleep(2500000);
    }
 
 private:

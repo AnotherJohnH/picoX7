@@ -23,6 +23,7 @@
 // \brief DX7 simulation for Raspberry Pi Pico
 
 #include <cstdio>
+#include <unistd.h>
 
 #include "STB/MIDIInterface.h"
 
@@ -177,7 +178,7 @@ int MTL_main()
       printf("RAM: %2u%%   ", usage.getRAMUsage());
       printf("CPU: %2u%%\n", usage.getCPUUsage());
 
-      usage.wait(40000);
+      usleep(500000);
 #endif
    }
 

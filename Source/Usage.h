@@ -74,14 +74,6 @@ public:
       return (&__bss_end__ - &__data_start__) * 100 / RAM_SIZE;
    }
 
-   //! Wait for a number of system ticks to elapse
-   void wait(unsigned ticks)
-   {
-      uint32_t future = (tick + ticks) & 0xFFFFFF;
-
-      while(tick < future);
-   }
-
 private:
    MTL::SysTick      tick {};
    uint32_t          start_t24 {0};
