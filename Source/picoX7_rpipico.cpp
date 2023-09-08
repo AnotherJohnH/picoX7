@@ -34,6 +34,7 @@
 #include "MTL/Lcd.h"
 #include "MTL/rp2040/Uart.h"
 #include "MTL/rp2040/Clocks.h"
+#include "MTL/rp2040/Adc.h"
 
 #include "Usage.h"
 #include "DX7/Synth.h"
@@ -53,21 +54,9 @@ static const unsigned NUM_VOICES  = 6;                       // Polyphony
 namespace MTL { Clocks::SysFreq clocks_sys_freq = Clocks::SYS_FREQ_191_08_MHZ; }
 
 
-//! Slow MIDI in via the console UART
-class MidiIn0 : public MIDI::Interface
-{
-public:
-   MidiIn0(MIDI::Instrument& instrument)
-      : MIDI::Interface(instrument)
-   {}
+// --- MIDI-in -----------------------------------------------------------------
 
-   bool empty() const override { return MTL_getch_empty(); }
-
-   uint8_t rx() override { return MTL_getch(); }
-};
-
-
-//! Proper MIDI in at 31250 baud
+//! MIDI in at 31250 baud
 class MidiIn1 : public MIDI::Interface
 {
 public:
@@ -82,6 +71,23 @@ public:
 private:
    MTL::Uart1 uart{31250, 8, MTL::UART::NONE, 1};
 };
+
+
+// --- debug MIDI-in -----------------------------------------------------------
+
+//! Slow MIDI in via the console UART
+class MidiIn0 : public MIDI::Interface
+{
+public:
+   MidiIn0(MIDI::Instrument& instrument)
+      : MIDI::Interface(instrument)
+   {}
+
+   bool empty() const override { return MTL_getch_empty(); }
+
+   uint8_t rx() override { return MTL_getch(); }
+};
+
 
 // --- 7-segment LED display ---------------------------------------------------
 
@@ -110,6 +116,24 @@ void SynthIO::displayLCD(unsigned row, const char* text)
    lcd.print(text);
 }
 
+
+// --- ADC ---------------------------------------------------------------------
+
+MTL::Adc adc;
+
+unsigned SynthIO::readSliderADC()
+{
+   static bool first_pass{true};
+
+   if (first_pass)
+   {
+      adc.startCont(/* channel */ 0);
+   }
+
+   return adc.scaledResult(100);
+}
+
+
 // -----------------------------------------------------------------------------
 
 static Usage                            usage {};
@@ -120,7 +144,7 @@ static Synth<NUM_VOICES, /* AMP_N */ 8> synth {};
 //! 49.1 KHz I2S DAC, with pinout for Waveshare Pico-Audio
 //  buffer sized to give a 375 Hz tick
 static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {SAMPLE_RATE,
-                                                   MTL::PIN_31,  // MCLK
+                                                   MTL::PIN_27,  // MCLK
                                                    MTL::PIN_29,  // SD
                                                    MTL::PIN_32}; // LRCLK + SCLK
 PIO_AUDIO_ATTACH_IRQ_0(audio);
@@ -142,6 +166,7 @@ void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
 
    usage.end();
 }
+
 
 // --- Entry point -------------------------------------------------------------
 

@@ -68,6 +68,13 @@ void SynthIO::displayLCD(unsigned row, const char* text)
    printf("%s\n", text);
 }
 
+// --- ADC ---------------------------------------------------------------------
+
+unsigned SynthIO::readSliderADC()
+{
+   return 50;
+}
+
 // -----------------------------------------------------------------------------
 
 static Synth<NUM_VOICES> synth {};

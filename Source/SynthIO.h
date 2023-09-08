@@ -35,4 +35,7 @@ public:
 
    //! Display on text on 16x2 LCD
    void displayLCD(unsigned row_, const char* text);
+
+   //! Read data entry slider
+   unsigned readSliderADC();
 };
