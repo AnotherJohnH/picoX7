@@ -30,4 +30,4 @@ add_subdirectory(Platform)
 
 add_subdirectory(Source)
 add_subdirectory(Test)
-add_subdirectory(Research)
+add_subdirectory(docs/Research)
