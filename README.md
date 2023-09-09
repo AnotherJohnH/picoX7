@@ -20,9 +20,9 @@ Both Pico and native targets should build on MacOS or Linux.
 
 ## Hardware information
 
-![prototype](docs/picoX7_breadboard.jpg)
+![prototype](docs/breadboard_v0.04.jpg)
 
-**NOTE:** The circuit shown above turned out to be a bit noisy see [hardware blog: 13th July 2023](https://github.com/AnotherJohnH/picoX7/wiki/Hardware-Blog#13th-july-2023) for the solution.
+**NOTE:** For more information on the circuit above see [hardware blog](https://github.com/AnotherJohnH/picoX7/wiki/Hardware-Blog)
 
 + Currently building for an I2S DAC based around the Cirrus Logic CS4344 from WaveShare
 (see below)
@@ -33,7 +33,7 @@ to another I2S DAC
 + UART-1 (RX) implements the MIDI-IN interface
 + Two PIO state machines are used to generate I2S and MCLK for the DAC module
 
-See the [schematic](https://github.com/AnotherJohnH/picoX7/blob/main/docs/schematic_v0.03.pdf). Note, the LCD display on the schematic has no software support at the moment.
+See the [schematic](https://github.com/AnotherJohnH/picoX7/blob/main/docs/schematic_v0.04.pdf)
 
 |Pin|Peripheral|Allocation|
 |---|---|---|
@@ -43,7 +43,8 @@ See the [schematic](https://github.com/AnotherJohnH/picoX7/blob/main/docs/schema
 |6|UART-1|MIDI IN|
 |28|GND|DAC GND|
 |29|PIO|I2S DATA|
-|31|PIO|MCLK (for I2S DAC chip)|
+|31 => 27|PIO|MCLK (for I2S DAC chip)|
+|31|ADC|Data entry pot|
 |32|PIO|I2S LR CLK|
 |33|GND|DAC GND|
 |34|PIO|I2S DATA CLK|
