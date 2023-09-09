@@ -28,6 +28,7 @@
 #include "STB/MIDIInterface.h"
 
 #include "MTL/MTL.h"
+#include "MTL/Digital.h"
 #include "MTL/Pins.h"
 #include "MTL/PioAudio.h"
 #include "MTL/Led7Seg.h"
@@ -52,6 +53,11 @@ static const unsigned NUM_VOICES  = 6;                       // Polyphony
 
 //! Select a system clock with clean division to 49.096 KHz
 namespace MTL { Clocks::SysFreq clocks_sys_freq = Clocks::SYS_FREQ_191_08_MHZ; }
+
+
+// --- RP2040 module LED --------------------------------------------------------------
+
+MTL::Digital::Out<MTL::PIN_LED1> led;
 
 
 // --- MIDI-in -----------------------------------------------------------------
@@ -172,6 +178,9 @@ void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
 
 int MTL_main()
 {
+   // Starting
+   led = true;
+
    // Clear screen and cursor to home
    printf("\e[2J");
    printf("\e[1,1H");
