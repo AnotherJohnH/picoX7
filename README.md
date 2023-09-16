@@ -132,4 +132,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
  + [AJXS](https://github.com/ajxs) for their annotated [disassembly](https://ajxs.me/blog/Yamaha_DX7_Firmware_ROM_Disassembly.html) of the DX7 firmware ROM
  + The [Dexed](https://asb2m10.github.io/dexed) developers for providing an easily accessible DX7 audio reference
  + The raspberry-pi foundation for the innovative [RP2040](https://www.raspberrypi.com/documentation/microcontrollers/rp2040.html)
- + The engineers at [Yamaha](https://www.yamaha.com/en/ir/publications/pdf/an-2022-point01e.pdf)
+ + The engineers at [Yamaha](https://www.yamaha.com/en/about/design/synapses/id_009)
