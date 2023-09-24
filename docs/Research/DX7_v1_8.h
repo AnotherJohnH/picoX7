@@ -462,6 +462,9 @@ uint8_t* m_copy_dest_ptr;
 // ; The start address of the synth's external RAM chips.
 // M_EXTERNAL_RAM_START:                     equ  $1000
 //
+// ; The address of the 32 internal memory patches
+// M_INTERNAL_PATCH_BUFFERS                  equ  $1000
+//
 // ; The address of the synth's 'Patch Edit Buffer'.
 // ; This is where the currently loaded patch is stored in memory.
 // M_PATCH_CURRENT_BUFFER:                   equ  $2000
@@ -1293,7 +1296,7 @@ uint8_t m_midi_actv_sens_tx_cntr;
 // TEST_STAGE_8_COPY_CRT_TO_RAM:
 //     LDD     #P_CRT_START
 //     STD     <M_COPY_DEST_PTR
-//     LDD     #M_EXTERNAL_RAM_START
+//     LDD     #M_INTERNAL_PATCH_BUFFERS
 //     STD     <M_COPY_SRC_PTR
 //     CLR     M_CRT_RW_FLAGS
 //     JSR     CRT_READ_WRITE_ALL
@@ -1472,7 +1475,7 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     LDX     #M_LCD_BUFFER_LN_1
 //     STX     <M_COPY_DEST_PTR
 //
-// ; This strin pointer points to ' TEST '.
+// ; This string pointer points to ' TEST '.
 //     LDX     #(aInitVoiceTest+$A)
 //     JSR     LCD_WRITE_STR_TO_BUFFER
 //
@@ -5848,7 +5851,7 @@ void patch_load_from_crt(uint8_t number)
 // _MEM_PROTECT_OK:
 //     LDD     #P_CRT_START
 //     STD     <M_COPY_DEST_PTR
-//     LDD     #M_EXTERNAL_RAM_START
+//     LDD     #M_INTERNAL_PATCH_BUFFERS
 //     STD     <M_COPY_SRC_PTR
 //     TST     M_CRT_SAVE_LOAD_FLAGS
 //     BMI     _READ_OPERATION
@@ -8199,7 +8202,7 @@ void delay()
 // PATCH_WRITE_TO_INT:
 //     LDAB    #128
 //     MUL
-//     ADDD    #M_EXTERNAL_RAM_START               ; Falls-through below.
+//     ADDD    #M_INTERNAL_PATCH_BUFFERS           ; Falls-through below.
 //
 //
 // ; ==============================================================================
@@ -8493,7 +8496,7 @@ void delay()
 //     MUL
 //
 // ; Falls-through to patch deseralise.
-//     ADDD    #M_EXTERNAL_RAM_START
+//     ADDD    #M_INTERNAL_PATCH_BUFFERS
 //
 //
 // ; ==============================================================================
@@ -9375,7 +9378,7 @@ const uint8_t table_log[100] =
 // ;
 // ; DESCRIPTION:
 // ; Resets all operator levels to 0xFF for all voices, then triggers a 'KEY OFF',
-// ; and then 'KEY ON' event for all 16 voices.
+// ; and then 'KEY ON' and then 'KEY OFF' event for all 16 voices.
 // ;
 // ; ==============================================================================
 //
@@ -9397,6 +9400,8 @@ const uint8_t table_log[100] =
 // ; to signal a 'KEY OFF' event for voice 0.
 // ; The value is decremented, and written again to signal a 'KEY ON' event
 // ; for voice 0.
+// ; The value is incremented, and written again to signal a 'KEY OFF' event
+// ; for voice 0.
 // ; Since the voice number in this register is stored at bits 2-5, the value
 // ; is incremented by 4 to increment the voice number.
 //     LDAB    #16
@@ -9417,7 +9422,7 @@ const uint8_t table_log[100] =
 //     RTS
 void egs_reset_voices()
 {
-   for(unsigned i = 0; i < 96; ++i)
+   for(unsigned i = 0; i < (16*6); ++i)
    {
       delay();
 
@@ -9426,12 +9431,15 @@ void egs_reset_voices()
 
    for(unsigned voice = 0; voice < 16; ++voice)
    {
+      // Key Off
       delay();
       p_egs_voice_events = (voice << 2) | 0b10;
 
+      // Key On
       delay();
       p_egs_voice_events = (voice << 2) | 0b01;
 
+      // Key Off
       delay();
       p_egs_voice_events = (voice << 2) | 0b10;
    }
@@ -11230,8 +11238,10 @@ uint16_t patch_load_quantise_lfo_delay(uint8_t in)
 //
 //
 // ; ==============================================================================
-// ; PATCH_LOAD_DATA
+// ; PATCH_LOAD_DATA 
 // ; ==============================================================================
+// ; LOCATION: 0xE407
+// ;
 // ; DESCRIPTION:
 // ; This subroutine loads data from the patch 'Edit Buffer', parses it, and loads
 // ; it into the synth memory, and peripheral registers specific to the currently
@@ -11324,6 +11334,7 @@ void patch_load_data()
 
 void handler_ocf()
 {
+//     12 cycle delay
 //     CLR     TIMER_CTRL_STATUS
 //     LDAA    <TIMER_CTRL_STATUS                  ; Clear OCF IRQ.
 //
@@ -12967,7 +12978,7 @@ const uint8_t table_lfo_sin[64] =
 //     JSR     DELAY
 //     LDD     #$1000
 //     STD     $2291
-//     LDD     #M_EXTERNAL_RAM_START
+//     LDD     #M_INTERNAL_PATCH_BUFFERS
 //     STD     <$E3
 //     CLR     $E6
 //     BSR     MIDI_SYSEX_SEND_HEADER
@@ -14566,7 +14577,7 @@ const uint8_t table_lfo_sin[64] =
 //     BEQ     _SYSEX_BULK_VALIDATE_CHECKSUM
 //     PSHA
 //     LDD     <M_MIDI_SYSEX_RX_COUNT
-//     ADDD    #M_EXTERNAL_RAM_START
+//     ADDD    #M_INTERNAL_PATCH_BUFFERS
 //     XGDX
 //     PULA
 //
@@ -14828,7 +14839,7 @@ const uint8_t table_lfo_sin[64] =
 // ; ==============================================================================
 // ; UI_PRINT
 // ; ==============================================================================
-// ; LOCATION: 0xF05D
+// ; LOCATION: 0xF053
 // ;
 // ; DESCRIPTION:
 // ; This subroutine is responsible for printing the synth's main user-interface,
@@ -17246,7 +17257,7 @@ const uint8_t table_lfo_sin[64] =
 // ; Exit if an unprintable character is encountered.
 //     CMPB    #$20                                ; ' '
 //
-// ; Branch if *(IX) is above 0x20 (ASCII space).
+// ; Branch if *(IX) is 0x20 (ASCII space) or above.
 //     BCC     _WRITE_CHAR_TO_BUFFER
 //     RTS
 //
