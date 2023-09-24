@@ -90,6 +90,8 @@ Limitations...
    + not using logs for sine amplitude modulation in the OPS => almost certainly not bit accurate
    + [8 voices](https://github.com/AnotherJohnH/picoX7/wiki/Software-Blog#16th-july-2023) (not 16!) - Running on just one arm core at ~85% CPU usage
 
+See the [software blog](https://github.com/AnotherJohnH/picoX7/wiki/Software-Blog) and [hardware blog](https://github.com/AnotherJohnH/picoX7/wiki/Hardware-Blog)  for more detailed progress updates.
+
 ## How to build
 
 ### Checkout
