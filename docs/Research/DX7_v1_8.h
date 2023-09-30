@@ -412,7 +412,7 @@ uint8_t m_lfo_sample_hold_accumulator {0};
 // M_LFO_DELAY_ACCUMULATOR:                  equ  $DD
 uint8_t  m_lfo_fade_in_scale_factor {0};
 uint8_t  m_lfo_tri_accumulator {0};
-uint16_t m_lfo_delay_counter {0};
+uint16_t m_lfo_delay_accumulator {0};
 //
 // ; This flag variable is used to track whether the 'Sample+Hold' LFO needs to
 // ; be 'resampled'. Each time the LFO counter overflows, the MSB is set/cleared.
@@ -665,7 +665,7 @@ uint8_t& m_patch_pitch_eg_final_level = m_patch_pitch_eg_values[7];
 // ; hold a function address, which is called once for each of the synth's six
 // ; operators. Refer to the patch loading subroutine for more information.
 // M_PATCH_ACTIVATE_OPERATOR_FN_PTR:         equ  $2183
-void (AsmFirmware::*m_patch_active_func_ptr)();
+void (AsmFirmware::*m_patch_activate_func_ptr)();
 //
 // ; The operator keyboard scaling curve data.
 // ; When the keyboard scaling for an operator is parsed from the patch data,
@@ -4497,7 +4497,7 @@ uint8_t m_midi_actv_sens_tx_cntr;
 //     JSR     PATCH_DESERIALISE
 //     RTS
 //
-void patch_active_from_crt(uint8_t number)
+void patch_load_from_crt(uint8_t number)
 {
    m_copy_dest_ptr = (uint8_t*)(p_crt_start + 128 * number);
    m_copy_src_ptr  = m_patch_serialised_temp;
@@ -6573,7 +6573,7 @@ const uint8_t table_key_pitch[128] =
 //
 uint16_t voice_add_poly_get_14_bit_pitch()
 {
-   return m_key_pitch & 0b11111100;
+   return m_key_freq & 0b11111100;
 }
 //
 // ; ==============================================================================
@@ -7593,7 +7593,7 @@ void voice_deactivate_all()
 //     ROLA
 //     RTS
 //
-static uint16_t patch_active_quantise_value(uint8_t in)
+static uint16_t patch_activate_quantise_value(uint8_t in)
 {
    return in * 660;
 }
@@ -7743,7 +7743,7 @@ void voice_convert_note_to_pitch(uint8_t note)
 {
    uint8_t value   = table_key_pitch[note];
    uint8_t ls_bits = value & 0b11;
-   m_key_pitch     = (value << 6) | (ls_bits << 4) | (ls_bits << 2);
+   m_key_freq      = (value << 6) | (ls_bits << 4) | (ls_bits << 2);
 }
 //
 // ; ==============================================================================
@@ -8857,7 +8857,7 @@ void memcpy(uint8_t size)
 // ; ==============================================================================
 //
 // PATCH_ACTIVATE_OPERATOR_KBD_VEL_SENS:
-void patch_active_operator_kbd_vel_sens()
+void patch_activate_operator_kbd_vel_sens()
 {
 //     JSR     PATCH_GET_PTR_TO_SELECTED_OP
 //     LDAB    #15
@@ -8906,7 +8906,7 @@ void patch_active_operator_kbd_vel_sens()
 // ; ==============================================================================
 //
 // PATCH_ACTIVATE_OPERATOR_DETUNE:
-void patch_active_operator_detune()
+void patch_activate_operator_detune()
 {
 //     JSR     PATCH_GET_PTR_TO_SELECTED_OP
 //     LDAB    #20
@@ -9064,7 +9064,7 @@ uint8_t* patch_get_ptr_to_selected_op()
 // ; ==============================================================================
 //
 // PATCH_ACTIVATE_OPERATOR_KBD_SCALING:
-void patch_active_operator_kbd_scaling()
+void patch_activate_operator_kbd_scaling()
 {
 //     JSR     PATCH_GET_PTR_TO_SELECTED_OP
 //     STX     <K_OPERATOR_CURRENT_PTR
@@ -9464,15 +9464,15 @@ void voice_reset_egs()
    {
       // Key Off
       delay();
-      p_egs_voice_events = (voice << 2) | 0b10;
+      p_egs_key_event = (voice << 2) | 0b10;
 
       // Key On
       delay();
-      p_egs_voice_events = (voice << 2) | 0b01;
+      p_egs_key_event = (voice << 2) | 0b01;
 
       // Key Off
       delay();
-      p_egs_voice_events = (voice << 2) | 0b10;
+      p_egs_key_event = (voice << 2) | 0b10;
    }
 }
 //
@@ -9743,7 +9743,7 @@ void voice_reset_egs()
 // ; ==============================================================================
 //
 // PATCH_ACTIVATE_OPERATOR_EG_LEVEL:
-void patch_active_operator_eg_levels()
+void patch_activate_operator_eg_levels()
 {
 //     JSR     PATCH_GET_PTR_TO_SELECTED_OP
 //     LDAB    #7
@@ -9943,7 +9943,7 @@ void patch_activate_call_func_per_operator()
    {
       m_selected_operator = op;
 
-      (this->*m_patch_active_func_ptr)();
+      (this->*m_patch_activate_func_ptr)();
    }
 //
 // ; Restore contents of the memory at 0x209F.
@@ -10322,6 +10322,21 @@ const uint16_t table_op_freq_fixed[4] =
 //     FDB $FC4
 //     FDB $FE2
 //     FDB $1000
+const uint16_t table_op_freq_fine[101] =
+{
+   0x000, 0x03A, 0x075, 0x0AE, 0x0E7, 0x120, 0x158, 0x18F, 0x1C6, 0x1FD,
+   0x233, 0x268, 0x29D, 0x2D2, 0x306, 0x339, 0x36D, 0x39F, 0x3D2, 0x403,
+   0x435, 0x466, 0x497, 0x4C7, 0x4F7, 0x526, 0x555, 0x584, 0x5B2, 0x5E0,
+   0x60E, 0x63B, 0x668, 0x695, 0x6C1, 0x6ED, 0x719, 0x744, 0x76F, 0x799,
+   0x7C4, 0x7EE, 0x818, 0x841, 0x86A, 0x893, 0x8BC, 0x8E4, 0x90C, 0x934,
+   0x95C, 0x983, 0x9AA, 0x9D1, 0x9F7, 0xA1D, 0xA43, 0xA69, 0xA8F, 0xAB4,
+   0xAD9, 0xAFE, 0xB22, 0xB47, 0xB6B, 0xB8F, 0xBB2, 0xBD6, 0xBF9, 0xC1C,
+   0xC3F, 0xC62, 0xC84, 0xCA7, 0xCC9, 0xCEA, 0xD0C, 0xD2E, 0xD4F, 0xD70,
+   0xD91, 0xDB2, 0xDD2, 0xDF3, 0xE13, 0xE33, 0xE53, 0xE72, 0xE92, 0xEB1,
+   0xED0, 0xEEF, 0xF0E, 0xF2D, 0xF4C, 0xF6A, 0xF88, 0xFA6, 0xFC4, 0xFE2,
+   0x1000
+};
+
 //
 // _LOAD_OP_PITCH_TO_EGS:
 //     PSHB
@@ -10362,7 +10377,7 @@ const uint16_t table_op_freq_fixed[4] =
        freq |= 0x0001;
    }
 
-   p_egs_op_pitch[m_selected_operator] = freq;
+   p_egs_op_freq[m_selected_operator] = freq;
 }
 //
 // ; ==============================================================================
@@ -10551,26 +10566,26 @@ void patch_activate_lfo()
 //     LDX     #M_PATCH_BUFFER_EDIT_LFO_SPEED
 //     JSR     PATCH_ACTIVATE_SCALE_LFO_SPEED
 //     STD     M_LFO_PHASE_INCREMENT
-    m_lfo_phase_increment = patch_active_quantise_lfo_speed(m_patch_current_lfo_speed);
+    m_lfo_phase_increment = patch_activate_quantise_lfo_speed(m_patch_current_lfo_speed);
 //
 // ; Parse the LFO delay.
 //     LDX     #M_PATCH_BUFFER_EDIT_LFO_DELAY
 //     JSR     PATCH_ACTIVATE_SCALE_LFO_DELAY
 //     STD     M_LFO_DELAY_INCREMENT
-    m_lfo_delay_increment = patch_active_quantise_lfo_delay(m_patch_current_lfo_delay);
+    m_lfo_delay_increment = patch_activate_quantise_lfo_delay(m_patch_current_lfo_delay);
 //
 // ; Parse the LFO Pitch Mod Depth.
 //     LDX     #M_PATCH_BUFFER_EDIT_LFO_PITCH_MOD_DEPTH
 //     LDAA    0,x
 //     JSR     PATCH_ACTIVATE_SCALE_VALUE
 //     STAA    M_LFO_PITCH_MOD_DEPTH
-    m_lfo_pitch_mod_depth = patch_active_quantise_value(m_patch_current_lfo_pitch_mod_depth);
+    m_lfo_pitch_mod_depth = patch_activate_quantise_value(m_patch_current_lfo_pitch_mod_depth);
 //
 // ; Parse the LFO Amp Mod Depth.
 //     LDAA    1,x
 //     JSR     PATCH_ACTIVATE_SCALE_VALUE
 //     STAA    M_LFO_AMP_MOD_DEPTH
-    m_lfo_amp_mod_depth   = patch_active_quantise_value(m_patch_current_lfo_amp_mod_depth);
+    m_lfo_amp_mod_depth   = patch_activate_quantise_value(m_patch_current_lfo_amp_mod_depth);
 //
 // ; Parse the LFO waveform.
 //     LDAA    3,x
@@ -10709,6 +10724,7 @@ void mod_process_input_sources()
 //     STAB    <M_MOD_AMP_EG_BIAS_TOTAL
 //     RTS
 //
+}
 //
 // ; ==============================================================================
 // ; MOD_CALCULATE_SOURCE_SCALED_INPUT
@@ -10920,7 +10936,7 @@ void mod_calculate_source_scaled_input(uint8_t*& ptr, uint8_t range, uint8_t inp
 //     MUL
 //     RTS
 //
-uint16_t patch_active_quantise_lfo_speed(uint8_t in)
+uint16_t patch_activate_quantise_lfo_speed(uint8_t in)
 {
    if (in == 0)
    {
@@ -10987,7 +11003,7 @@ uint16_t patch_active_quantise_lfo_speed(uint8_t in)
 //     BNE     _ROTATE_LOOP
 //     RTS
 //
-uint16_t patch_active_quantise_lfo_delay(uint8_t in)
+uint16_t patch_activate_quantise_lfo_delay(uint8_t in)
 {
    // Invert 0..99 => 99..0
    uint8_t value = 99 - in;
@@ -11240,59 +11256,59 @@ void patch_activate()
 //     LDD     #PATCH_ACTIVATE_OPERATOR_EG_RATE
 //     STD     M_PATCH_ACTIVATE_OPERATOR_FN_PTR
 //     JSR     PATCH_ACTIVATE_CALL_FUNC_PER_OPERATOR
-   m_patch_active_func_ptr = &AsmFirmware::patch_load_operator_eg_rates;
-   patch_active_call_func_ptr();
+   m_patch_activate_func_ptr = &AsmFirmware::patch_activate_operator_eg_rates;
+   patch_activate_call_func_per_operator();
 //
 // ; Load the operator EG levels.
 //     LDD     #PATCH_ACTIVATE_OPERATOR_EG_LEVEL
 //     STD     M_PATCH_ACTIVATE_OPERATOR_FN_PTR
 //     JSR     PATCH_ACTIVATE_CALL_FUNC_PER_OPERATOR
-   m_patch_active_func_ptr = &AsmFirmware::patch_load_operator_eg_levels;
-   patch_active_call_func_ptr();
+   m_patch_activate_func_ptr = &AsmFirmware::patch_activate_operator_eg_levels;
+   patch_activate_call_func_per_operator();
 //
 // ; Load the operator keyboard scaling.
 //     LDD     #PATCH_ACTIVATE_OPERATOR_KBD_SCALING
 //     STD     M_PATCH_ACTIVATE_OPERATOR_FN_PTR
 //     JSR     PATCH_ACTIVATE_CALL_FUNC_PER_OPERATOR
-   m_patch_active_func_ptr = &AsmFirmware::patch_load_operator_kbd_scaling;
-   patch_active_call_func_ptr();
+   m_patch_activate_func_ptr = &AsmFirmware::patch_activate_operator_kbd_scaling;
+   patch_activate_call_func_per_operator();
 //
 // ; Load the keyboard velocity sensitivity.
 //     LDD     #PATCH_ACTIVATE_OPERATOR_KBD_VEL_SENS
 //     STD     M_PATCH_ACTIVATE_OPERATOR_FN_PTR
 //     JSR     PATCH_ACTIVATE_CALL_FUNC_PER_OPERATOR
-   m_patch_active_func_ptr = &AsmFirmware::patch_load_operator_kbd_vel_sens;
-   patch_active_call_func_ptr();
+   m_patch_activate_func_ptr = &AsmFirmware::patch_activate_operator_kbd_vel_sens;
+   patch_activate_call_func_per_operator();
 //
 // ; Load the operator frequency.
 //     LDD     #PATCH_ACTIVATE_OPERATOR_PITCH
 //     STD     M_PATCH_ACTIVATE_OPERATOR_FN_PTR
 //     JSR     PATCH_ACTIVATE_CALL_FUNC_PER_OPERATOR
-   m_patch_active_func_ptr = &AsmFirmware::patch_load_operator_pitch;
-   patch_active_call_func_ptr();
+   m_patch_activate_func_ptr = &AsmFirmware::patch_activate_operator_pitch;
+   patch_activate_call_func_per_operator();
 //
 // ; Load the operator rate scaling.
 //     LDD     #PATCH_ACTIVATE_OPERATOR_KBD_RATE_SCALING
 //     STD     M_PATCH_ACTIVATE_OPERATOR_FN_PTR
 //     JSR     PATCH_ACTIVATE_CALL_FUNC_PER_OPERATOR
-   m_patch_active_func_ptr = &AsmFirmware::patch_load_operator_kbd_rate_scaling;
-   patch_active_call_func_ptr();
+   m_patch_activate_func_ptr = &AsmFirmware::patch_activate_operator_kbd_rate_scaling;
+   patch_activate_call_func_per_operator();
 //
 // ; Load the operator detune.
 //     LDD     #PATCH_ACTIVATE_OPERATOR_DETUNE
 //     STD     M_PATCH_ACTIVATE_OPERATOR_FN_PTR
 //     JSR     PATCH_ACTIVATE_CALL_FUNC_PER_OPERATOR
-   m_patch_active_func_ptr = &AsmFirmware::patch_load_operator_detune;
-   patch_active_call_func_ptr();
+   m_patch_activate_func_ptr = &AsmFirmware::patch_activate_operator_detune;
+   patch_activate_call_func_per_operator();
 
 //     JSR     PATCH_ACTIVATE_PITCH_EG_VALUES
-   patch_active_pitch_eg_values();
+   patch_activate_pitch_eg_values();
 
 //     JSR     PATCH_ACTIVATE_ALG_MODE
-   patch_active_alg_mode();
+   patch_activate_alg_mode();
 
 //     JSR     PATCH_ACTIVATE_LFO
-   patch_active_lfo();
+   patch_activate_lfo();
 
 //     RTS
 //
@@ -11411,6 +11427,7 @@ void handler_ocf()
 //     LDAA    #%1000
 //     STAA    <TIMER_CTRL_STATUS
 //     RTI
+}
 //
 //
 // ; ==============================================================================
@@ -12371,7 +12388,7 @@ void lfo_get_amplitude()
 
       delay = 0xFFFF;
    }
-   m_lfo_delay_counter = uint16_t(delay);
+   m_lfo_delay_accumulator = uint16_t(delay);
 //     LDD     <M_LFO_PHASE_ACCUMULATOR
 //     ADDD    M_LFO_PHASE_INCREMENT
 //
