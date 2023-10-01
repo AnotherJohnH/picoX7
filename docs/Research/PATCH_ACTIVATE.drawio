@@ -1,10 +1,10 @@
-<mxfile host="Electron" modified="2023-07-31T10:56:18.443Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.5 Chrome/114.0.5735.243 Electron/25.3.1 Safari/537.36" etag="4gZIIwl0lI636f0v9mxO" version="21.6.5" type="device">
+<mxfile host="Electron" modified="2023-10-01T14:14:21.251Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.5 Chrome/114.0.5735.243 Electron/25.3.1 Safari/537.36" etag="g2wGTMrdpsPFpYTnvv-h" version="21.6.5" type="device">
   <diagram name="Page-1" id="undLFyx_fRWjC1I0D35y">
-    <mxGraphModel dx="1113" dy="1144" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="887" dy="674" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="gpTX0k5Hapi8h8UuWfs9-1" value="PATCH_LOAD_DATA" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" parent="1" vertex="1">
+        <mxCell id="gpTX0k5Hapi8h8UuWfs9-1" value="PATCH_ACTIVATE" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" parent="1" vertex="1">
           <mxGeometry x="422" y="39.24" width="120" height="40" as="geometry" />
         </mxCell>
         <mxCell id="gpTX0k5Hapi8h8UuWfs9-2" value="EGS_RESET_VOICES" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" parent="1" vertex="1">
@@ -315,10 +315,10 @@
         <mxCell id="AaG6gOxwxbP_T1DJBGn1-29" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;P_EGS_OP_SENS_SCALING&lt;/font&gt;" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" parent="1" vertex="1">
           <mxGeometry x="607" y="420" width="170" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="FmPOsc9WVM1Rsh5dkwBG-1" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;P_EGS_OP_PITCH&lt;/font&gt;" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" vertex="1" parent="1">
+        <mxCell id="FmPOsc9WVM1Rsh5dkwBG-1" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;P_EGS_OP_PITCH&lt;/font&gt;" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" parent="1" vertex="1">
           <mxGeometry x="542" y="770" width="150" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="FmPOsc9WVM1Rsh5dkwBG-2" value="" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;entryX=0.548;entryY=-0.248;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryPerimeter=0;" edge="1" parent="1" source="1IfVXIK7xY-bAuSIrkzh-14" target="FmPOsc9WVM1Rsh5dkwBG-1">
+        <mxCell id="FmPOsc9WVM1Rsh5dkwBG-2" value="" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;entryX=0.548;entryY=-0.248;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryPerimeter=0;" parent="1" source="1IfVXIK7xY-bAuSIrkzh-14" target="FmPOsc9WVM1Rsh5dkwBG-1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="607" y="610" as="sourcePoint" />
             <mxPoint x="624" y="650" as="targetPoint" />
