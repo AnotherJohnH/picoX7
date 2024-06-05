@@ -75,7 +75,11 @@ public:
    uint8_t rx() override { return uart.rx(); }
 
 private:
+#if defined(HW_PIMORONI_VGA_DEMO)
+   MTL::Uart1_ALT2 uart{31250, 8, MTL::UART::NONE, 1};
+#else
    MTL::Uart1 uart{31250, 8, MTL::UART::NONE, 1};
+#endif
 };
 
 
@@ -125,7 +129,7 @@ void SynthIO::displayLCD(unsigned row, const char* text)
 
 // --- ADC ---------------------------------------------------------------------
 
-#if defined(HW_WAVESHARE_PIGGY_BACK)
+#if defined(HW_WAVESHARE_PIGGY_BACK) || defined(HW_PIMORONI_VGA_DEMO)
 
 // XXX cannot use ADC as the ADC pins overlap with other hardwared
 //     interfaces
@@ -175,6 +179,16 @@ static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {SAMPLE_RATE,
                                                    MTL::PIN_29,  // SD
                                                    MTL::PIN_32,  // LRCLK + SCLK
                                                    MTL::PIN_31}; // MCLK
+
+#elif defined(HW_PIMORONI_VGA_DEMO)
+
+//! 49.1 KHz I2S DAC, with pinout for PiMoroni VGA DEMO
+//  buffer sized to give a 375 Hz tick
+static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {SAMPLE_RATE,
+                                                   MTL::PIN_31,     // SD
+                                                   MTL::PIN_32,     // LRCLK + SCLK
+                                                   MTL::PIN_IGNORE, // No MCLK
+                                                   /* LSB LRCLK / MSB SCLK */ false};
 
 #else
 

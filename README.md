@@ -54,6 +54,7 @@ to another I2S DAC
 Software builds for the following hardware targets...
 + WAVESHARE_BREAD_BOARD - The hardware described above
 + WAVESHARE_PIGGY_BACK - Similar to the hardware described above but with the WaveShare module mounted piggy-back. The ADC0 input is not usable.
++ PIMORONI_VGA_DEMO - Support for the Pimoroni Pico VGA Demo Base (!!!! untested !!!!)
 
 NOTE: The LCD and LED displays are optional and will nto block operation if not fitted
 
@@ -132,6 +133,7 @@ Flashable image will be found under the build sub directory here...
 
     .../Source/picoX7_WAVESHARE_BREAD_BOARD.uf2
     .../Source/picoX7_WAVESHARE_PIGGY_BACK.uf2
+    .../Source/picoX7_PIMORONI_VGA_DEMO.uf2
 
 ## License
 

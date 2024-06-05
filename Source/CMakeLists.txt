@@ -28,7 +28,8 @@ if(${PLT_TARGET} STREQUAL rpipico)
 
    foreach(hardware
            WAVESHARE_BREAD_BOARD
-           WAVESHARE_PIGGY_BACK)
+           WAVESHARE_PIGGY_BACK
+           PIMORONI_VGA_DEMO)
 
       add_executable(            picoX7_${hardware} picoX7.cpp)
       target_compile_definitions(picoX7_${hardware} PRIVATE HW_${hardware})
