@@ -160,21 +160,21 @@ static Synth<NUM_VOICES, /* AMP_N */ 8> synth {};
 
 #if defined(HW_WAVESHARE_BREAD_BOARD)
 
-//! 49.1 KHz I2S DAC, with pinout for Waveshare Pico-Audio adjusted to allow use of ADC0
+//! 49.1 KHz I2S DAC, with pinout for Waveshare Pico-Audio (Rev 2.1) adjusted to allow use of ADC0
 //  buffer sized to give a 375 Hz tick
 static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {SAMPLE_RATE,
-                                                   MTL::PIN_27,  // MCLK
                                                    MTL::PIN_29,  // SD
-                                                   MTL::PIN_32}; // LRCLK + SCLK
+                                                   MTL::PIN_32,  // LRCLK + SCLK
+                                                   MTL::PIN_27}; // MCLK
 
 #elif defined(HW_WAVESHARE_PIGGY_BACK)
 
-//! 49.1 KHz I2S DAC, with pinout for Waveshare Pico-Audio (ADC0 not usable)
+//! 49.1 KHz I2S DAC, with pinout for Waveshare Pico-Audio (Rev 2.1)
 //  buffer sized to give a 375 Hz tick
 static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {SAMPLE_RATE,
-                                                   MTL::PIN_31,  // MCLK
                                                    MTL::PIN_29,  // SD
-                                                   MTL::PIN_32}; // LRCLK + SCLK
+                                                   MTL::PIN_32,  // LRCLK + SCLK
+                                                   MTL::PIN_31}; // MCLK
 
 #else
 
