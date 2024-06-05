@@ -125,6 +125,15 @@ void SynthIO::displayLCD(unsigned row, const char* text)
 
 // --- ADC ---------------------------------------------------------------------
 
+#if defined(HW_WAVESHARE_PIGGY_BACK)
+
+// XXX cannot use ADC as the ADC pins overlap with other hardwared
+//     interfaces
+
+unsigned SynthIO::readSliderADC() { return 0; }
+
+#else
+
 MTL::Adc adc;
 
 unsigned SynthIO::readSliderADC()
@@ -139,6 +148,8 @@ unsigned SynthIO::readSliderADC()
    return adc.scaledResult(100);
 }
 
+#endif
+
 
 // -----------------------------------------------------------------------------
 
@@ -147,12 +158,30 @@ static Synth<NUM_VOICES, /* AMP_N */ 8> synth {};
 
 // --- DAC ---------------------------------------------------------------------
 
-//! 49.1 KHz I2S DAC, with pinout for Waveshare Pico-Audio
+#if defined(HW_WAVESHARE_BREAD_BOARD)
+
+//! 49.1 KHz I2S DAC, with pinout for Waveshare Pico-Audio adjusted to allow use of ADC0
 //  buffer sized to give a 375 Hz tick
 static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {SAMPLE_RATE,
                                                    MTL::PIN_27,  // MCLK
                                                    MTL::PIN_29,  // SD
                                                    MTL::PIN_32}; // LRCLK + SCLK
+
+#elif defined(HW_WAVESHARE_PIGGY_BACK)
+
+//! 49.1 KHz I2S DAC, with pinout for Waveshare Pico-Audio (ADC0 not usable)
+//  buffer sized to give a 375 Hz tick
+static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {SAMPLE_RATE,
+                                                   MTL::PIN_31,  // MCLK
+                                                   MTL::PIN_29,  // SD
+                                                   MTL::PIN_32}; // LRCLK + SCLK
+
+#else
+
+#error "Target hardware not specified"
+
+#endif
+
 PIO_AUDIO_ATTACH_IRQ_0(audio);
 
 //! DAC pump call-back

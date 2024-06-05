@@ -24,13 +24,24 @@ set(python_path ${CMAKE_CURRENT_SOURCE_DIR}/../Platform/python)
 
 add_subdirectory(DX7)
 
-add_executable(picoX7 picoX7_${PLT_TARGET}.cpp)
+if(${PLT_TARGET} STREQUAL rpipico)
 
-target_include_directories(picoX7 PRIVATE .)
+   foreach(hardware
+           WAVESHARE_BREAD_BOARD
+           WAVESHARE_PIGGY_BACK)
 
-if(${PLT_TARGET} STREQUAL native)
-   target_link_libraries(picoX7 PRIVATE DX7 PLT STB)
-else()
-   target_link_libraries(picoX7 PRIVATE DX7 TNY MTL TNY)
+      add_executable(            picoX7_${hardware} picoX7.cpp)
+      target_compile_definitions(picoX7_${hardware} PRIVATE HW_${hardware})
+      target_include_directories(picoX7_${hardware} PRIVATE .)
+      target_link_libraries(     picoX7_${hardware} PRIVATE DX7 TNY MTL TNY)
+
+   endforeach()
+
+elseif(${PLT_TARGET} STREQUAL native)
+
+   add_executable(            picoX7 picoX7_native.cpp)
+   target_include_directories(picoX7 PRIVATE .)
+   target_link_libraries(     picoX7 PRIVATE DX7 PLT STB)
+
 endif()
 

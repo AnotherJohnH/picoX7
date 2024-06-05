@@ -49,6 +49,14 @@ to another I2S DAC
 |38|GND|DAC GND|
 |39|VSYS|DAC VSYS|
 
+### Alternative hardware targets
+
+Software builds for the following hardware targets...
++ WAVESHARE_BREAD_BOARD - The hardware described above
++ WAVESHARE_PIGGY_BACK - Similar to the hardware described above but with the WaveShare module mounted piggy-back. The ADC0 input is not usable.
+
+NOTE: The LCD and LED displays are optional and will nto block operation if not fitted
+
 ### Components
 
 |Name|Description|Source|
@@ -122,7 +130,8 @@ Build directly using cmake...
 
 Flashable image will be found under the build sub directory here...
 
-    .../Source/picoX7.uf2
+    .../Source/picoX7_WAVESHARE_BREAD_BOARD.uf2
+    .../Source/picoX7_WAVESHARE_PIGGY_BACK.uf2
 
 ## License
 
