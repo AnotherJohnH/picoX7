@@ -41,6 +41,8 @@ public:
       voice[0].setDebug(true);
    }
 
+   bool isAnyVoiceOn() const { return active != 0; }
+
    //! Get next sample
    int32_t operator()()
    {
@@ -69,6 +71,7 @@ public:
       }
    }
 
+private:
    // MIDI::Instrument implementation
 
    signed allocVoice() const override
@@ -139,11 +142,15 @@ public:
    void voiceOn(unsigned index_, uint8_t note_, uint8_t velocity_) override
    {
       voice[index_].noteOn(note_, velocity_, order++);
+
+      ++active;
    }
 
    void voiceOff(unsigned index_, uint8_t velocity_) override
    {
       voice[index_].noteOff(velocity_, order++);
+
+      --active;
    }
 
    void voicePressure(unsigned index_, uint8_t level_) override
@@ -162,7 +169,8 @@ public:
    }
 
 protected:
-   VOICE voice[N];
+   VOICE    voice[N];
+   unsigned active{0};
 
 private:
    unsigned order {0}; //!< Order of last MIDI event

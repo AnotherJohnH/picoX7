@@ -221,9 +221,6 @@ void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
 
 int MTL_main()
 {
-   // Starting
-   led = true;
-
    // Clear screen and cursor to home
    printf("\e[2J");
    printf("\e[1,1H");
@@ -248,6 +245,8 @@ int MTL_main()
    {
       midi_in0.tick();
       midi_in1.tick();
+
+      led = synth.isAnyVoiceOn();
 
 #if 0
       puts("\033[H");
