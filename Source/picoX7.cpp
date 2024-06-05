@@ -62,17 +62,19 @@ MTL::Digital::Out<MTL::PIN_LED1> led;
 
 // --- MIDI-in -----------------------------------------------------------------
 
-//! MIDI in at 31250 baud
-class MidiIn1 : public MIDI::Interface
+//! Physical MIDI at 31250 baud
+class MidiPhys : public MIDI::Interface
 {
 public:
-   MidiIn1(MIDI::Instrument& instrument)
+   MidiPhys(MIDI::Instrument& instrument)
       : MIDI::Interface(instrument)
    {}
 
    bool empty() const override { return uart.empty(); }
 
    uint8_t rx() override { return uart.rx(); }
+
+   void tx(uint8_t byte) { return uart.tx(byte); }
 
 private:
 #if defined(HW_PIMORONI_VGA_DEMO)
@@ -86,10 +88,10 @@ private:
 // --- debug MIDI-in -----------------------------------------------------------
 
 //! Slow MIDI in via the console UART
-class MidiIn0 : public MIDI::Interface
+class MidiHost : public MIDI::Interface
 {
 public:
-   MidiIn0(MIDI::Instrument& instrument)
+   MidiHost(MIDI::Instrument& instrument)
       : MIDI::Interface(instrument)
    {}
 
@@ -159,6 +161,8 @@ unsigned SynthIO::readSliderADC()
 
 static Usage                            usage {};
 static Synth<NUM_VOICES, /* AMP_N */ 8> synth {};
+static MidiHost                         midi_host {synth};
+static MidiPhys                         midi_phys {synth};
 
 // --- DAC ---------------------------------------------------------------------
 
@@ -216,6 +220,17 @@ void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
    usage.end();
 }
 
+// --- Debug console -----------------------------------------------------------
+
+#if defined(HW_PIMORONI_VGA_DEMO)
+
+// Override UART0 on Pins 0 and 1 to provide a debug stream on GPIO20
+void MTL_putch(uint8_t ch)
+{
+   midi_phys.tx(ch);
+}
+
+#endif
 
 // --- Entry point -------------------------------------------------------------
 
@@ -234,17 +249,14 @@ int MTL_main()
    printf("Compiler : %s\n", __VERSION__);
    printf("\n");
 
-   MidiIn0 midi_in0 {synth};
-   MidiIn1 midi_in1 {synth};
-
    synth.programChange(0, 0);
 
    audio.start();
 
    while(true)
    {
-      midi_in0.tick();
-      midi_in1.tick();
+      midi_host.tick();
+      midi_phys.tick();
 
       led = synth.isAnyVoiceOn();
 
