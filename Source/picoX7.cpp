@@ -32,13 +32,33 @@
 #include "MTL/Pins.h"
 #include "MTL/PioAudio.h"
 #include "MTL/Led7Seg.h"
-#include "MTL/AlphaNumLcd_Gpio.h"
 #include "MTL/rp2040/Uart.h"
 #include "MTL/rp2040/Clocks.h"
-#include "MTL/rp2040/Adc.h"
 
 #include "Usage.h"
 #include "DX7/Synth.h"
+
+// ------------------------------------------------------------------------------------
+
+#if defined(HW_WAVESHARE_BREAD_BOARD)
+
+#define HW_GPIO_LCD
+#define HW_ADC
+
+#elif defined(HW_WAVESHARE_PIGGY_BACK)
+
+#define HW_I2C_LCD
+//XXX cannot use ADC as the ADC pins overlap with waveshare I2S
+
+#elif defined(HW_PIMORONI_VGA_DEMO)
+
+#else
+
+#error "Target hardware not specified"
+
+#endif
+
+// ------------------------------------------------------------------------------------
 
 static const unsigned SAMPLE_RATE = 49096;                   // DAC sample rate (Hz)
 static const unsigned TICK_RATE   = 375;                     // 6800 firmware tick (375 Hz)
@@ -115,6 +135,10 @@ void SynthIO::displayLED(unsigned number)
 
 // --- 16x12 LCD display -------------------------------------------------------
 
+#if defined(HW_GPIO_LCD)
+
+#include "MTL/AlphaNumLcd_Gpio.h"
+
 static MTL::AlphaNumLcd</* PIN_DATA */   MTL::PIN_9,
                         /* PIN_R_S */    MTL::PIN_19,
                         /* PIN_ENABLE */ MTL::PIN_20,
@@ -122,23 +146,28 @@ static MTL::AlphaNumLcd</* PIN_DATA */   MTL::PIN_9,
                         /* ROWS */       2,
                         /* DL_8BIT */    true> lcd;
 
+#elif defined(HW_I2C_LCD)
+
+#include "MTL/AlphaNumLcd_I2C.h"
+
+static MTL::AlphaNumLcd<MTL::I2C1_P19_P20, /* COLS */ 16, /* ROWS */ 2> lcd;
+
+#endif
+
 void SynthIO::displayLCD(unsigned row, const char* text)
 {
+#if defined(HW_GPIO_LCD) || defined(HW_I2C_LCD)
    lcd.move(0, row);
    lcd.print(text);
+#endif
 }
 
 
 // --- ADC ---------------------------------------------------------------------
 
-#if defined(HW_WAVESHARE_PIGGY_BACK) || defined(HW_PIMORONI_VGA_DEMO)
+#if defined(HW_ADC)
 
-// XXX cannot use ADC as the ADC pins overlap with other hardwared
-//     interfaces
-
-unsigned SynthIO::readSliderADC() { return 0; }
-
-#else
+#include "MTL/rp2040/Adc.h"
 
 MTL::Adc adc;
 
@@ -153,6 +182,10 @@ unsigned SynthIO::readSliderADC()
 
    return adc.scaledResult(100);
 }
+
+#else
+
+unsigned SynthIO::readSliderADC() { return 0; }
 
 #endif
 
@@ -193,10 +226,6 @@ static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {SAMPLE_RATE,
                                                    MTL::PIN_32,     // LRCLK + SCLK
                                                    MTL::PIN_IGNORE, // No MCLK
                                                    /* LSB LRCLK / MSB SCLK */ false};
-
-#else
-
-#error "Target hardware not specified"
 
 #endif
 
