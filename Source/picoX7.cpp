@@ -32,7 +32,7 @@
 #include "MTL/Pins.h"
 #include "MTL/PioAudio.h"
 #include "MTL/Led7Seg.h"
-#include "MTL/Lcd.h"
+#include "MTL/AlphaNumLcd_Gpio.h"
 #include "MTL/rp2040/Uart.h"
 #include "MTL/rp2040/Clocks.h"
 #include "MTL/rp2040/Adc.h"
@@ -115,12 +115,12 @@ void SynthIO::displayLED(unsigned number)
 
 // --- 16x12 LCD display -------------------------------------------------------
 
-static MTL::Lcd</* PIN_DATA */   MTL::PIN_9,
-                /* PIN_R_S */    MTL::PIN_19,
-                /* PIN_ENABLE */ MTL::PIN_20,
-                /* COLS */       16,
-                /* ROWS */       2,
-                /* DL_8BIT */    true> lcd;
+static MTL::AlphaNumLcd</* PIN_DATA */   MTL::PIN_9,
+                        /* PIN_R_S */    MTL::PIN_19,
+                        /* PIN_ENABLE */ MTL::PIN_20,
+                        /* COLS */       16,
+                        /* ROWS */       2,
+                        /* DL_8BIT */    true> lcd;
 
 void SynthIO::displayLCD(unsigned row, const char* text)
 {
