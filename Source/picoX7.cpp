@@ -42,15 +42,21 @@
 
 #if defined(HW_WAVESHARE_BREAD_BOARD)
 
+#define HW_DESCR "WaveShare Rev2.1 I2S on bread-board"
+
 #define HW_GPIO_LCD
 #define HW_ADC
 
 #elif defined(HW_WAVESHARE_PIGGY_BACK)
 
+#define HW_DESCR "WaveShare Rev2.1 I2S piggy-back"
+
 #define HW_I2C_LCD
 //XXX cannot use ADC as the ADC pins overlap with waveshare I2S
 
 #elif defined(HW_PIMORONI_VGA_DEMO)
+
+#define HW_DESCR "Piromoni I2S"
 
 #else
 
@@ -270,7 +276,7 @@ int MTL_main()
    printf("\e[1,1H");
 
    printf("\n");
-   printf("Program  : picoX7\n");
+   printf("Program  : picoX7 (%s)\n", HW_DESCR);
    printf("Author   : Copyright (c) 2023 John D. Haughton\n");
    printf("Version  : %s\n", MTL_VERSION);
    printf("Commit   : %s\n", MTL_COMMIT);
