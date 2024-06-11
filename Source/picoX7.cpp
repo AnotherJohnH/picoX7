@@ -51,12 +51,13 @@
 
 #define HW_DESCR "WaveShare Rev2.1 I2S piggy-back"
 
-#define HW_I2C_LCD
-//XXX cannot use ADC as the ADC pins overlap with waveshare I2S
+#define HW_I2C_LCD        //XXX cannot use ADC as the ADC pins overlap with waveshare I2S
+#define HW_USB_DEVICE
 
 #elif defined(HW_PIMORONI_VGA_DEMO)
 
 #define HW_DESCR "Piromoni I2S"
+#define HW_USB_DEVICE
 
 #else
 
@@ -195,6 +196,18 @@ unsigned SynthIO::readSliderADC() { return 0; }
 
 #endif
 
+// --- USB ---------------------------------------------------------------------
+
+#if defined(HW_USB_DEVICE)
+
+#include "PicoX7USBDevice.h"
+
+PicoX7USBDevice device{};
+MTL::Usb        usb{device};
+
+extern "C" void IRQ_USBCTRL() { usb.irq(); }
+
+#endif
 
 // -----------------------------------------------------------------------------
 
