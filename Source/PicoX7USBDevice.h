@@ -67,16 +67,16 @@ public:
       printf("tx done\n");
    }
 
-   USB::MS::Header         header{descr_list};
-   USB::MS::JackIn         jack_in{descr_list,  USB::MS::EMBEDDED, 1};
-//   USB::MS::JackOut<1>     jack_out{descr_list, USB::MS::EMBEDDED, 1};
-   USB::MS::EndPoint       d_midi_in{descr_list, USB::EndPointDescr::OUT, USB::EndPointDescr::BULK};
-   USB::MS::CSEndPoint<1>  cs_midi_in{descr_list, /* jack */ 1};
-//   USB::MS::EndPoint       d_midi_out{descr_list, USB::EndPointDescr::IN, USB::EndPointDescr::BULK};
-//   USB::MS::CSEndPoint<1>  cs_midi_out{descr_list, /* jack */ 2};
+   USB::MS::HeaderDescr        header{descr_list};
+   USB::MS::JackInDescr        jack_in{descr_list,  USB::MS::EMBEDDED, 1};
+   USB::MS::JackOutDescr<1>    jack_out{descr_list, USB::MS::EMBEDDED, 1};
+   USB::MS::EndPointDescr      d_midi_in{descr_list, USB::EndPointDescr::OUT, USB::EndPointDescr::BULK};
+   USB::MS::CSEndPointDescr<1> cs_midi_in{descr_list, /* jack */ 1};
+   USB::MS::EndPointDescr      d_midi_out{descr_list, USB::EndPointDescr::IN, USB::EndPointDescr::BULK};
+   USB::MS::CSEndPointDescr<1> cs_midi_out{descr_list, /* jack */ 2};
 
-   MTL::Usb::EndPoint      midi_in{d_midi_in};
-//   MTL::Usb::EndPoint      midi_out{d_midi_out};
+   MTL::Usb::EndPoint midi_in{d_midi_in};
+   MTL::Usb::EndPoint midi_out{d_midi_out};
 };
 
 
@@ -88,7 +88,7 @@ public:
    {
       setVendor("https://github.com/AnotherJohnH");
       setProduct("picoX7");
-      setSerialNumber("00000001");
+      setSerialNumber(MTL_COMMIT);
    }
 
    USB::Config            config{*this};
