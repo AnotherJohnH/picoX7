@@ -196,25 +196,38 @@ unsigned SynthIO::readSliderADC() { return 0; }
 
 #endif
 
+static Usage                            usage {};
+static Synth<NUM_VOICES, /* AMP_N */ 8> synth {};
+static MidiHost                         midi_host {synth};
+static MidiPhys                         midi_phys {synth};
+
 // --- USB ---------------------------------------------------------------------
 
 #if defined(HW_USB_DEVICE)
 
 #include "PicoX7USBDevice.h"
 
-PicoX7USBDevice device{};
-MTL::Usb        usb{device};
+class MidiUSB : public MIDI::Interface
+{
+public:
+   MidiUSB(MIDI::Instrument& instrument)
+      : MIDI::Interface(instrument)
+   {}
 
-extern "C" void IRQ_USBCTRL() { usb.irq(); }
+   bool empty() const override { return device.empty(); }
+
+   uint8_t rx() override { return device.rx(); }
+
+   PicoX7USBDevice device{};
+   MTL::Usb        usb{device};
+};
+
+static MidiUSB midi_usb  {synth};
+
+extern "C" void IRQ_USBCTRL() { midi_usb.usb.irq(); }
 
 #endif
 
-// -----------------------------------------------------------------------------
-
-static Usage                            usage {};
-static Synth<NUM_VOICES, /* AMP_N */ 8> synth {};
-static MidiHost                         midi_host {synth};
-static MidiPhys                         midi_phys {synth};
 
 // --- DAC ---------------------------------------------------------------------
 
@@ -305,6 +318,9 @@ int MTL_main()
    {
       midi_host.tick();
       midi_phys.tick();
+#if defined(HW_USB_DEVICE)
+      midi_usb.tick();
+#endif
 
       led = synth.isAnyVoiceOn();
 

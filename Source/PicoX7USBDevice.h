@@ -47,8 +47,21 @@ public:
    MIDIStreamingInterface(USB::Config& config_)
       : USB::Interface(config_, USB::CLASS_AUDIO, USB::MS::SUB_CLASS)
    {
+      header.total_length = 0x41;
+      jack_out.source[0].id = 2;
+      jack_out_ext.source[0].id = 1;
    }
 
+   bool empty() const { return fifo.empty(); }
+
+   uint8_t rx()
+   {
+      uint8_t byte = fifo.back();
+      fifo.pop();
+      return byte;
+   }
+
+private:
    void configured()
    {
       midi_in.startRx(64);
@@ -57,8 +70,19 @@ public:
 
    void buffRx(uint8_t ep_, const uint8_t* data_, unsigned length_) override
    {
-      uint32_t word = *(uint32_t*)data_;
-      printf("MIDI rx %08X %u\n", word, length_);
+      printf("MIDI in %02X %02X %02X %02X\n", data_[0], data_[1], data_[2], data_[3]);
+
+      midi_out.startTx(0);
+
+      fifo.push(data_[1]);
+      if (data_[2] != 0)
+      {
+         fifo.push(data_[2]);
+         if (data_[3] != 0)
+         {
+            fifo.push(data_[3]);
+         }
+      }
    }
 
    void buffTx(uint8_t ep_) override
@@ -67,13 +91,20 @@ public:
       printf("tx done\n");
    }
 
+   STB::Fifo<uint8_t, 8> fifo{};
+
    USB::MS::HeaderDescr        header{descr_list};
-   USB::MS::JackInDescr        jack_in{descr_list,  USB::MS::EMBEDDED, 1};
-   USB::MS::JackOutDescr<1>    jack_out{descr_list, USB::MS::EMBEDDED, 1};
+
+   USB::MS::JackInDescr        jack_in{     descr_list, USB::MS::EMBEDDED, 1};
+   USB::MS::JackInDescr        jack_in_ext{ descr_list, USB::MS::EXTERNAL, 2};
+   USB::MS::JackOutDescr<1>    jack_out{    descr_list, USB::MS::EMBEDDED, 3};
+   USB::MS::JackOutDescr<1>    jack_out_ext{descr_list, USB::MS::EXTERNAL, 4};
+
    USB::MS::EndPointDescr      d_midi_in{descr_list, USB::EndPointDescr::OUT, USB::EndPointDescr::BULK};
    USB::MS::CSEndPointDescr<1> cs_midi_in{descr_list, /* jack */ 1};
+
    USB::MS::EndPointDescr      d_midi_out{descr_list, USB::EndPointDescr::IN, USB::EndPointDescr::BULK};
-   USB::MS::CSEndPointDescr<1> cs_midi_out{descr_list, /* jack */ 2};
+   USB::MS::CSEndPointDescr<1> cs_midi_out{descr_list, /* jack */ 3};
 
    MTL::Usb::EndPoint midi_in{d_midi_in};
    MTL::Usb::EndPoint midi_out{d_midi_out};
@@ -91,8 +122,13 @@ public:
       setSerialNumber(MTL_COMMIT);
    }
 
+   bool empty() const { return ms_interface.empty(); }
+
+   uint8_t rx() { return ms_interface.rx(); }
+
+private:
    USB::Config            config{*this};
    ACInterface            ac_interface{config};
-   MIDIStreamingInterface midi_streaming_interface{config};
+   MIDIStreamingInterface ms_interface{config};
 };
 
