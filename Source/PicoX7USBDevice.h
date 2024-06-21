@@ -65,13 +65,10 @@ private:
    void configured()
    {
       midi_in.startRx(64);
-      printf("Configured\n");
    }
 
    void buffRx(uint8_t ep_, const uint8_t* data_, unsigned length_) override
    {
-      printf("MIDI in %02X %02X %02X %02X\n", data_[0], data_[1], data_[2], data_[3]);
-
       midi_out.startTx(0);
 
       fifo.push(data_[1]);
@@ -88,7 +85,6 @@ private:
    void buffTx(uint8_t ep_) override
    {
       midi_in.startRx(64);
-      printf("tx done\n");
    }
 
    STB::Fifo<uint8_t, 8> fifo{};
