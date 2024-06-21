@@ -69,17 +69,31 @@ private:
 
    void buffRx(uint8_t ep_, const uint8_t* data_, unsigned length_) override
    {
-      midi_out.startTx(0);
-
-      fifo.push(data_[1]);
-      if (data_[2] != 0)
+      for(unsigned offset = 0; offset < length_; offset += 4)
       {
-         fifo.push(data_[2]);
-         if (data_[3] != 0)
+         const uint8_t* msg = data_ + offset;
+
+         // printf("MIDI: %02X - %02X %02X %02X\n", msg[0], msg[1], msg[2], msg[3]);
+         unsigned len;
+
+         switch(msg[0] & 0xF)
          {
-            fifo.push(data_[3]);
+         case 0x0: len = 0; break; // ignore reserved misc function codes
+         case 0x1: len = 0; break; // ignore reserved cable events
+         case 0x2: len = 2; break;
+         case 0x5: len = 1; break;
+         case 0x6: len = 2; break;
+         case 0xC: len = 2; break;
+         case 0xD: len = 2; break;
+         case 0xF: len = 1; break;
+         default:  len = 3; break;
          }
+
+         for(unsigned i = 0; i < len; ++i)
+            fifo.push(msg[1 + i]);
       }
+
+      midi_out.startTx(0);
    }
 
    void buffTx(uint8_t ep_) override
