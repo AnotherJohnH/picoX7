@@ -24,15 +24,18 @@
 
 #include "MTL/rp2040/Usb.h"
 
-#include "MTL/UsbAudioControl.h"
-#include "MTL/UsbMIDI.h"
+#include "USB/Device.h"
+#include "USB/Interface.h"
+#include "USB/Audio/Control.h"
+#include "USB/Audio/MIDIStreaming.h"
+
 
 //! Standard Audio Controller interface
 class ACInterface : public USB::Interface
 {
 public:
-   ACInterface(USB::Config& config_)
-      : USB::Interface(config_, USB::CLASS_AUDIO, USB::AC::SUB_CLASS)
+   ACInterface(List& list_)
+      : USB::Interface(list_, USB::CLASS_AUDIO, USB::AC::SUB_CLASS)
    {
    }
 
@@ -44,12 +47,12 @@ public:
 class MIDIStreamingInterface : public USB::Interface
 {
 public:
-   MIDIStreamingInterface(USB::Config& config_)
-      : USB::Interface(config_, USB::CLASS_AUDIO, USB::MS::SUB_CLASS)
+   MIDIStreamingInterface(List& list_)
+      : USB::Interface(list_, USB::CLASS_AUDIO, USB::MS::SUB_CLASS)
    {
-      header.total_length = 0x41;
-      jack_out.source[0].id = 2;
-      jack_out_ext.source[0].id = 1;
+      // This needs to be the end-point address which will be 2
+      // but be nice to compute for more complex devices
+      d_jack_out.source[0].id = 2;
    }
 
    bool empty() const { return fifo.empty(); }
@@ -73,7 +76,6 @@ private:
       {
          const uint8_t* msg = data_ + offset;
 
-         // printf("MIDI: %02X - %02X %02X %02X\n", msg[0], msg[1], msg[2], msg[3]);
          unsigned len;
 
          switch(msg[0] & 0xF)
@@ -103,32 +105,29 @@ private:
 
    STB::Fifo<uint8_t, 8> fifo{};
 
-   USB::MS::HeaderDescr        header{descr_list};
-
-   USB::MS::JackInDescr        jack_in{     descr_list, USB::MS::EMBEDDED, 1};
-   USB::MS::JackInDescr        jack_in_ext{ descr_list, USB::MS::EXTERNAL, 2};
-   USB::MS::JackOutDescr<1>    jack_out{    descr_list, USB::MS::EMBEDDED, 3};
-   USB::MS::JackOutDescr<1>    jack_out_ext{descr_list, USB::MS::EXTERNAL, 4};
-
-   USB::MS::EndPointDescr      d_midi_in{descr_list, USB::EndPointDescr::OUT, USB::EndPointDescr::BULK};
-   USB::MS::CSEndPointDescr<1> cs_midi_in{descr_list, /* jack */ 1};
-
+   // USB Configuration descriptors
+   USB::MS::HeaderDescr        d_header{descr_list};
+   USB::MS::JackInDescr        d_jack_in{ descr_list, USB::MS::EMBEDDED, 1};
+   USB::MS::JackOutDescr<1>    d_jack_out{descr_list, USB::MS::EMBEDDED, 2};
+   USB::MS::EndPointDescr      d_midi_in{ descr_list, USB::EndPointDescr::OUT, USB::EndPointDescr::BULK};
+   USB::MS::CSEndPointDescr<1> d_cs_midi_in{descr_list, /* jack */ 1};
    USB::MS::EndPointDescr      d_midi_out{descr_list, USB::EndPointDescr::IN, USB::EndPointDescr::BULK};
-   USB::MS::CSEndPointDescr<1> cs_midi_out{descr_list, /* jack */ 3};
+   USB::MS::CSEndPointDescr<1> d_cs_midi_out{descr_list, /* jack */ 2};
 
+   //! Endpoint implementation
    MTL::Usb::EndPoint midi_in{d_midi_in};
    MTL::Usb::EndPoint midi_out{d_midi_out};
 };
 
 
+//! USB-MIDI device
 class PicoX7USBDevice : public USB::Device
 {
 public:
    PicoX7USBDevice()
-      : USB::Device(/* vendor */ 0xa704, /* product */ 0x91c0, /* version */ 0x0007)
    {
       setVendor("https://github.com/AnotherJohnH");
-      setProduct("picoX7");
+      setProduct(0x91C0, MTL_BCD_VERSION, "picoX7");
       setSerialNumber(MTL_COMMIT);
    }
 
@@ -138,7 +137,7 @@ public:
 
 private:
    USB::Config            config{*this};
-   ACInterface            ac_interface{config};
-   MIDIStreamingInterface ms_interface{config};
+   ACInterface            ac_interface{config.interface_list};
+   MIDIStreamingInterface ms_interface{config.interface_list};
 };
 

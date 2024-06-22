@@ -1,4 +1,4 @@
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 #  Copyright (c) 2023 John D. Haughton
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,10 +24,15 @@ cmake_minimum_required(VERSION 3.19.1)
 
 project(picoX7
         LANGUAGES CXX ASM
-        VERSION 0.07)
+        VERSION 0.17)
 
 add_subdirectory(Platform)
 
 add_subdirectory(Source)
 add_subdirectory(Test)
 add_subdirectory(docs/Research)
+
+if(${PLT_TARGET} STREQUAL rpipico)
+   # TODO automate conversion of VERSION to hex
+   target_compile_definitions(MTL PUBLIC MTL_BCD_VERSION=0x0017)
+endif()
