@@ -83,7 +83,8 @@ private:
 
       for(unsigned i = 0; i < N; ++i)
       {
-         const VOICE& v = voice[i];
+         const VOICE& v  = voice[i];
+         unsigned     vo = voice_order[i];
 
          if (v.isMute())
          {
@@ -93,18 +94,18 @@ private:
          else if (v.isOff())
          {
             // Find oldest voice that is OFF
-            if (v.getOrder() < first_decay)
+            if (vo < first_decay)
             {
-               first_decay       = v.getOrder();
+               first_decay       = vo;
                first_decay_index = i;
             }
          }
          else
          {
             // Find oldest voice that is ON
-            if (v.getOrder() < first_on)
+            if (vo < first_on)
             {
-               first_on       = v.getOrder();
+               first_on       = vo;
                first_on_index = i;
             }
          }
@@ -135,20 +136,23 @@ private:
 
    void voiceMute(unsigned index_) override
    {
-      voice[index_].noteOff(/* velocity */ 0, order++);
+      voice_order[index_] = order++;
+      voice[index_].noteOff(/* velocity */ 0);
       voice[index_].mute();
    }
 
    void voiceOn(unsigned index_, uint8_t note_, uint8_t velocity_) override
    {
-      voice[index_].noteOn(note_, velocity_, order++);
+      voice_order[index_] = order++;
+      voice[index_].noteOn(note_, velocity_);
 
       ++active;
    }
 
    void voiceOff(unsigned index_, uint8_t velocity_) override
    {
-      voice[index_].noteOff(velocity_, order++);
+      voice_order[index_] = order++;
+      voice[index_].noteOff(velocity_);
 
       --active;
    }
@@ -173,5 +177,6 @@ protected:
    unsigned active{0};
 
 private:
-   unsigned order {0}; //!< Order of last MIDI event
+   unsigned order {0};      //!< Order of last MIDI event
+   unsigned voice_order[N]; //!< Order of last MIDI event for each voice
 };

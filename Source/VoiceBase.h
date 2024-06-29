@@ -32,52 +32,84 @@ class VoiceBase
 public:
    VoiceBase() = default;
 
+   void setDebug(bool debug_) { debug = debug_; }
+
+   //! is voice unused
    bool isMute() const { return state == MUTE; }
+
+   //! is note "pressed"
    bool isOn()   const { return state == ON; }
+
+   //! is note "released"
    bool isOff()  const { return state == OFF; }
 
-   //! Get current note pitch
+   //! Get current MIDI pitch
    uint8_t getNote() const { return note; }
 
-   //! Get current note velocity
-   uint8_t getVelocity() const { return velocity; }
+   //! Silence voice
+   void mute()
+   {
+      state = MUTE;
+      level = 0;
 
-   //! Get event order of current state
-   unsigned getOrder() const { return order; }
+      gateOff();
+   }
 
    //! MIDI note on event for this voice
-   void noteOn(uint8_t note_, uint8_t velocity_, unsigned order_)
+   void noteOn(uint8_t note_, uint8_t velocity_)
    {
-      state    = ON;
-      order    = order_;
-      note     = note_;
-      velocity = velocity_;
+      state = ON;
+      note  = note_;
+      level = velocity_;
 
       gateOn();
    }
 
    //! MIDI note off event for this voice
-   void noteOff(uint8_t velocity_, unsigned order_)
+   void noteOff(uint8_t velocity_)
    {
-      state    = OFF;
-      order    = order_;
-      velocity = velocity_;
+      state = OFF;
+      level = velocity_;
 
       gateOff();
    }
 
+   //! Update MIDI pitch bend
+   void setPitchBend(int16_t value_)
+   {
+      pitch = value_;
+
+      updatePitch();
+   }
+
+   //! Update voice level from MIDI aftertouch
+   void setPressure(uint8_t value_)
+   {
+      level = value_;
+
+      updateLevel();
+   }
+
+   //! Update MIDI controls
+   void setControl(uint8_t number_, uint8_t value_)
+   {
+      control[number_] = value_;
+
+      updateControl(number_, value_);
+   }
+
+protected:
    // Override for voice implementation
+   virtual void gateOn() = 0;
+   virtual void gateOff() = 0;
+   virtual void updatePitch() {}
+   virtual void updateLevel() {}
+   virtual void updateControl(uint8_t number_, uint8_t value_) {}
 
-   virtual void mute() { state = MUTE; }
-   virtual void gateOn() {}
-   virtual void gateOff() {}
-   virtual void setPressure(uint8_t value) {}
-   virtual void setControl(uint8_t control, uint8_t value) {}
-   virtual void setPitchBend(int16_t value) {}
-
-private:
-   State    state {MUTE};
-   unsigned order {};     //!< Event order on entry into current state
-   uint8_t  note {};
-   uint8_t  velocity {};
+   bool    debug {false};
+   State   state {MUTE};
+   int16_t pitch {0};
+   uint8_t note {0};
+   uint8_t level {0};
+   uint8_t control[128] = {0};
 };

@@ -24,6 +24,7 @@
 
 #include <cstring>
 #include <unistd.h>
+
 #include "MTL/MTL.h"
 
 #include "SynthBase.h"
@@ -35,6 +36,8 @@
 #include "Table_dx7_rom_2.h"
 #include "Table_dx7_rom_3.h"
 #include "Table_dx7_rom_4.h"
+
+namespace DX7 {
 
 template <unsigned N, unsigned AMP_N = N>
 class Synth : public SynthBase<N,Voice,AMP_N>
@@ -229,3 +232,5 @@ private:
    uint8_t  group{};
    unsigned param{};
 };
+
+} // namespace DX7

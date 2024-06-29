@@ -77,7 +77,7 @@ unsigned SynthIO::readSliderADC()
 
 // -----------------------------------------------------------------------------
 
-static Synth<NUM_VOICES> synth {};
+static DX7::Synth<NUM_VOICES> synth {};
 
 // --- DAC ---------------------------------------------------------------------
 

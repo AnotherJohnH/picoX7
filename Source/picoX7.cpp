@@ -36,6 +36,7 @@
 #include "MTL/rp2040/Clocks.h"
 
 #include "Usage.h"
+
 #include "DX7/Synth.h"
 
 // ------------------------------------------------------------------------------------
@@ -196,10 +197,10 @@ unsigned SynthIO::readSliderADC() { return 0; }
 
 #endif
 
-static Usage                            usage {};
-static Synth<NUM_VOICES, /* AMP_N */ 8> synth {};
-static MidiHost                         midi_host {synth};
-static MidiPhys                         midi_phys {synth};
+static Usage                                 usage {};
+static DX7::Synth<NUM_VOICES, /* AMP_N */ 8> synth {};
+static MidiHost                              midi_host {synth};
+static MidiPhys                              midi_phys {synth};
 
 // --- USB ---------------------------------------------------------------------
 

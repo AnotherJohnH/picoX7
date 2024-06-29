@@ -27,12 +27,12 @@
 #include "Firmware.h"
 #include "SysEx.h"
 
+namespace DX7 {
+
 class Voice : public VoiceBase
 {
 public:
    Voice() = default;
-
-   void setDebug(bool debug_) { debug = debug_; }
 
    void loadProgram(uint8_t number, const SysEx::Voice* voice)
    {
@@ -54,10 +54,17 @@ public:
       fw.tick();
    }
 
+   //! Return next sample for this voice
+   int32_t operator()()
+   {
+      return hw();
+   }
+
+private:
    //! Start a new note
    void gateOn() override
    {
-      fw.voiceAdd(getNote(), getVelocity());
+      fw.voiceAdd(note, level);
    }
 
    //! Release a new note
@@ -66,37 +73,32 @@ public:
       fw.voiceRemove();
    }
 
-   void setPressure(uint8_t level_) override
+   void updatePitch() override
    {
-      fw.setModAfterTouch(level_);
+      fw.setPitchBend(pitch);
    }
 
-   void setControl(uint8_t control, uint8_t value) override
+   void updateLevel() override
    {
-      switch (control)
+      fw.setModAfterTouch(level);
+   }
+
+   void updateControl(uint8_t number_, uint8_t value_) override
+   {
+      switch (number_)
       {
-      case  1: fw.setModWheel(value);         break;
-      case  2: fw.setModBreathControl(value); break;
-      case  4: fw.setModFootControl(value);   break;
+      case  1: fw.setModWheel(value_);         break;
+      case  2: fw.setModBreathControl(value_); break;
+      case  4: fw.setModFootControl(value_);   break;
 
       case 64: /* sustain */ break;
       case 65: /* portamento */ break;
       }
    }
 
-   void setPitchBend(int16_t value) override
-   {
-      fw.setPitchBend(value);
-   }
-
-   //! Return next sample for this voice
-   int32_t operator()()
-   {
-      return hw();
-   } 
-
 private:
-   bool     debug{false};
    OpsAlg   hw;
    Firmware fw{hw};
 };
+
+} // namespace DX7
