@@ -22,12 +22,19 @@
 
 #pragma once
 
-#include "MTL/Config.h"
-
 #if defined(MTL_rpipico)
+
+#include "MTL/Config.h"
 #include "MTL/CortexM0/SysTick.h"
-#elif defined(MTL_mbedLPC1768)
-#include "MTL/CortexM3/SysTick.h"
+
+#else
+
+// allow building completely non function
+namespace MTL { using SysTick = uint32_t; }
+
+const unsigned FLASH_SIZE = 100;
+const unsigned RAM_SIZE   = 100;
+
 #endif
 
 //! Resource usage measurement

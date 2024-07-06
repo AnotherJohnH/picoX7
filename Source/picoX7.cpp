@@ -27,6 +27,13 @@
 
 #include "STB/MIDIInterface.h"
 
+#if defined(HW_NATIVE)
+
+#include "PLT/Audio.h"
+#include "PLT/Event.h"
+
+#else
+
 #include "MTL/MTL.h"
 #include "MTL/Digital.h"
 #include "MTL/Pins.h"
@@ -34,6 +41,8 @@
 #include "MTL/Led7Seg.h"
 #include "MTL/rp2040/Uart.h"
 #include "MTL/rp2040/Clocks.h"
+
+#endif
 
 #include "Usage.h"
 
@@ -71,9 +80,19 @@
 #define HW_DESCR "Piromoni VGA Demo"
 
 #define HW_MIDI_USB_DEVICE
+#define HW_MIDI_FAKE
 #define HW_DAC_PIMORONI_VGA_DEMO
 #define HW_LED
 #define HW_7_SEG_LED
+#define HW_LCD_NONE
+#define HW_ADC_NONE
+
+#elif defined(HW_NATIVE)
+
+#define HW_DESCR "native"
+
+#define HW_MIDI_FAKE
+#define HW_DAC_NATIVE
 #define HW_LCD_NONE
 #define HW_ADC_NONE
 
@@ -86,11 +105,13 @@
 
 // ------------------------------------------------------------------------------------
 
-static const unsigned SAMPLE_RATE = 49096;                   // DAC sample rate (Hz)
-static const unsigned TICK_RATE   = 375;                     // 6800 firmware tick (375 Hz)
-static const unsigned BUFFER_SIZE = SAMPLE_RATE / TICK_RATE; // DAC buffer size (samples)
-static const unsigned NUM_VOICES  = 6;                       // Polyphony
-static const bool     PROFILE     = false;                   // Resource usage profiling
+#if defined(HW_NATIVE)
+
+#define HW_DAC_FREQ  48000
+
+#else
+
+#define HW_DAC_FREQ  49096
 
 //! Select a system clock with clean division to 49.1 KHz
 //namespace MTL { Clocks::SysFreq clocks_sys_freq = Clocks::SYS_FREQ_137_48_MHZ; }
@@ -101,6 +122,13 @@ static const bool     PROFILE     = false;                   // Resource usage p
 //! Select a system clock with clean division to 49.096 KHz
 namespace MTL { Clocks::SysFreq clocks_sys_freq = Clocks::SYS_FREQ_191_08_MHZ; }
 
+#endif
+
+static const unsigned SAMPLE_RATE = HW_DAC_FREQ;             // DAC sample rate (Hz)
+static const unsigned TICK_RATE   = 375;                     // 6800 firmware tick (375 Hz)
+static const unsigned BUFFER_SIZE = SAMPLE_RATE / TICK_RATE; // DAC buffer size (samples)
+static const unsigned NUM_VOICES  = 6;                       // Polyphony
+static const bool     PROFILE     = false;                   // Resource usage profiling
 
 static DX7::Synth<NUM_VOICES, /* AMP_N */ 8> synth {};
 static Usage                                 usage {};
@@ -130,7 +158,31 @@ private:
    MTL::Uart1 uart{31250, 8, MTL::UART::NONE, 1};
 };
 
-static MidiPhys midi_phys {synth};
+static MidiPhys midi_in {synth};
+
+#elif defined(HW_MIDI_FAKE)
+
+//! Fake MIDI in with hard coded messages
+class MidiFake : public MIDI::Interface
+{
+public:
+   MidiFake(MIDI::Instrument& instrument)
+      : MIDI::Interface(instrument)
+   {}
+
+   bool empty() const override { return n == sizeof(data); }
+
+   uint8_t rx() override { return data[n++]; }
+
+private:
+   unsigned n {0};
+   uint8_t  data[7] =
+   {
+      0x90, 0x3C, 0x7F, 0x40, 0x7F, 0x43, 0x7F
+   };
+};
+
+static MidiFake midi_in {synth};
 
 #endif
 
@@ -275,6 +327,8 @@ unsigned SynthIO::readSliderADC() { return 0; }
 
 #if defined(HW_DAC_WAVESHARE)
 
+#define HW_DAC_I2S
+
 #if defined(HW_ADC)
 
 //! 49.1 KHz I2S DAC, with pinout for Waveshare Pico-Audio (Rev 2.1) adjusted to allow use of ADC0
@@ -297,6 +351,8 @@ static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {SAMPLE_RATE,
 
 #elif defined(HW_DAC_PIMORONI_VGA_DEMO)
 
+#define HW_DAC_I2S
+
 //! 49.1 KHz I2S DAC, with pinout for PiMoroni VGA DEMO
 //  buffer sized to give a 375 Hz tick
 static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {SAMPLE_RATE,
@@ -305,11 +361,9 @@ static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {SAMPLE_RATE,
                                                    MTL::PIN_IGNORE, // No MCLK
                                                    /* LSB LRCLK / MSB SCLK */ false};
 
-#else
-
-#error "DAC config not set"
-
 #endif
+
+#if defined(HW_DAC_I2S)
 
 PIO_AUDIO_ATTACH_IRQ_0(audio);
 
@@ -333,10 +387,41 @@ void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
       usage.end();
 }
 
+#elif defined(HW_DAC_NATIVE)
+
+class Audio : public PLT::Audio::Out
+{
+public:
+   Audio()
+      : PLT::Audio::Out(SAMPLE_RATE, PLT::Audio::Format::SINT16, /* channels */ 2)
+   {}
+
+private:
+   void getSamples(int16_t* buffer, unsigned n) override
+   {
+      (void) BUFFER_SIZE;
+
+      synth.tick();
+
+      for(unsigned i = 0; i < n; i += 2)
+      {
+         buffer[i + 1] = buffer[i] = synth();
+      }
+   }
+};
+
+static Audio audio;
+
+#else
+
+#error "DAC config not set"
+
+#endif
+
 
 // --- Entry point -------------------------------------------------------------
 
-int MTL_main()
+int main()
 {
    // Clear screen and cursor to home
    printf("\e[2J");
@@ -345,8 +430,8 @@ int MTL_main()
    printf("\n");
    printf("Program  : picoX7 (%s)\n", HW_DESCR);
    printf("Author   : Copyright (c) 2023 John D. Haughton\n");
-   printf("Version  : %s\n", MTL_VERSION);
-   printf("Commit   : %s\n", MTL_COMMIT);
+   printf("Version  : %s\n", PLT_VERSION);
+   printf("Commit   : %s\n", PLT_COMMIT);
    printf("Built    : %s %s\n", __TIME__, __DATE__);
    printf("Compiler : %s\n", __VERSION__);
    printf("\n");
@@ -359,9 +444,8 @@ int MTL_main()
 
    while(true)
    {
-#if defined(HW_MIDI_PHYS)
-      midi_phys.tick();
-#endif
+      midi_in.tick();
+
 #if defined(HW_MIDI_USB_DEVICE)
       midi_usb.tick();
 #endif
@@ -379,6 +463,10 @@ int MTL_main()
 
           usleep(500000);
       }
+
+#if defined(HW_NATIVE)
+      return PLT::Event::mainLoop();
+#endif
    }
 
    return 0;

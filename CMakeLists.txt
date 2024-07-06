@@ -34,5 +34,5 @@ add_subdirectory(docs/Research)
 
 if(${PLT_TARGET} STREQUAL rpipico)
    # TODO automate conversion of VERSION to hex
-   target_compile_definitions(MTL PUBLIC MTL_BCD_VERSION=0x0017)
+   target_compile_definitions(MTL PUBLIC PLT_BCD_VERSION=0x0017)
 endif()

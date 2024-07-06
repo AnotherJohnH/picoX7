@@ -127,8 +127,8 @@ public:
    PicoX7USBDevice()
    {
       setVendor("https://github.com/AnotherJohnH");
-      setProduct(0x91C0, MTL_BCD_VERSION, "picoX7");
-      setSerialNumber(MTL_COMMIT);
+      setProduct(0x91C0, PLT_BCD_VERSION, "picoX7");
+      setSerialNumber(PLT_COMMIT);
    }
 
    bool empty() const { return ms_interface.empty(); }
