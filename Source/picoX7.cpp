@@ -286,6 +286,19 @@ static MTL::AlphaNumLcd<MTL::I2C1_P19_P20, /* COLS */ 16, /* ROWS */ 2> lcd;
 void SynthIO::displayLCD(unsigned row, const char* text)
 {
 #if not defined(HW_LCD_NONE)
+   if (PROFILE)
+   {
+      static char temp[32];
+
+      switch(row)
+      {
+      case 0: snprintf(temp, sizeof(temp), "FLASH: %2u%%", usage.getFLASHUsage()); break;
+      case 1: snprintf(temp, sizeof(temp), "RAM:   %2u%%", usage.getRAMUsage());   break;
+      }
+
+      text = temp;
+   }
+
    lcd.move(0, row);
    lcd.print(text);
 #endif
@@ -456,12 +469,12 @@ int main()
 
       if (PROFILE)
       {
-          puts("\033[H");
-          printf("FLASH: %2u%%   ", usage.getFLASHUsage());
-          printf("RAM: %2u%%   ", usage.getRAMUsage());
-          printf("CPU: %2u%%\n", usage.getCPUUsage());
-
-          usleep(500000);
+#if defined(HW_7_SEG_LED)
+          led_7seg.printDec(usage.getCPUUsage(), 3);
+          usleep(100000);
+#else
+          (void) usage;
+#endif
       }
 
 #if defined(HW_NATIVE)
