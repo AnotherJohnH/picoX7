@@ -107,11 +107,11 @@
 
 #if defined(HW_NATIVE)
 
-#define HW_DAC_FREQ  48000
+#define HW_DAC_FREQ  48000  //!< DAC sample rate (Hz)
 
 #else
 
-#define HW_DAC_FREQ  49096
+#define HW_DAC_FREQ  49096 //!< DAC sample rate (Hz)
 
 //! Select a system clock with clean division to 49.1 KHz
 //namespace MTL { Clocks::SysFreq clocks_sys_freq = Clocks::SYS_FREQ_137_48_MHZ; }
@@ -124,9 +124,8 @@ namespace MTL { Clocks::SysFreq clocks_sys_freq = Clocks::SYS_FREQ_191_08_MHZ; }
 
 #endif
 
-static const unsigned SAMPLE_RATE = HW_DAC_FREQ;             // DAC sample rate (Hz)
 static const unsigned TICK_RATE   = 375;                     // 6800 firmware tick (375 Hz)
-static const unsigned BUFFER_SIZE = SAMPLE_RATE / TICK_RATE; // DAC buffer size (samples)
+static const unsigned BUFFER_SIZE = HW_DAC_FREQ / TICK_RATE; // DAC buffer size (samples)
 static const unsigned NUM_VOICES  = 6;                       // Polyphony
 static const bool     PROFILE     = false;                   // Resource usage profiling
 
@@ -346,7 +345,7 @@ unsigned SynthIO::readSliderADC() { return 0; }
 
 //! 49.1 KHz I2S DAC, with pinout for Waveshare Pico-Audio (Rev 2.1) adjusted to allow use of ADC0
 //  buffer sized to give a 375 Hz tick XXX not piggy-back
-static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {SAMPLE_RATE,
+static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {HW_DAC_FREQ,
                                                    MTL::PIN_29,  // SD
                                                    MTL::PIN_32,  // LRCLK + SCLK
                                                    MTL::PIN_27}; // MCLK
@@ -355,7 +354,7 @@ static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {SAMPLE_RATE,
 
 //! 49.1 KHz I2S DAC, with pinout for Waveshare Pico-Audio (Rev 2.1)
 //  buffer sized to give a 375 Hz tick XXX piggy-back
-static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {SAMPLE_RATE,
+static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {HW_DAC_FREQ,
                                                    MTL::PIN_29,  // SD
                                                    MTL::PIN_32,  // LRCLK + SCLK
                                                    MTL::PIN_31}; // MCLK
@@ -368,7 +367,7 @@ static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {SAMPLE_RATE,
 
 //! 49.1 KHz I2S DAC, with pinout for PiMoroni VGA DEMO
 //  buffer sized to give a 375 Hz tick
-static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {SAMPLE_RATE,
+static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {HW_DAC_FREQ,
                                                    MTL::PIN_31,     // SD
                                                    MTL::PIN_32,     // LRCLK + SCLK
                                                    MTL::PIN_IGNORE, // No MCLK
@@ -406,7 +405,7 @@ class Audio : public PLT::Audio::Out
 {
 public:
    Audio()
-      : PLT::Audio::Out(SAMPLE_RATE, PLT::Audio::Format::SINT16, /* channels */ 2)
+      : PLT::Audio::Out(HW_DAC_FREQ, PLT::Audio::Format::SINT16, /* channels */ 2)
    {}
 
 private:
