@@ -33,7 +33,7 @@ int main()
 {
    unsigned     patch_index {0};
    SysEx::Voice patch{ table_dx7_rom_1, patch_index};
-   OpsAlg       hw;
+   Egs          hw;
    Firmware     fw{hw};
 
    fw.loadData(&patch);

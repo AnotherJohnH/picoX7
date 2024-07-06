@@ -30,14 +30,16 @@
 #include "Table_dx7_sine_div3_15.h"
 #include "Table_dx7_sine_div5_15.h"
 
-#include "Egs.h"
+#include "EnvGen.h"
 
 //! Model of Yamaha OPS (like the YM21280)
 template <unsigned NUM_OP>
-class Ops : public Egs<NUM_OP>
+class Ops
 {
 public:
    Ops() = default;
+
+   EnvGen* getEgsPointer(unsigned op_index_) { return &state[op_index_].egs; }
 
    //! Set the oscillator sync mode
    void setOpsSync(bool sync_)
@@ -54,19 +56,17 @@ public:
    //! Set operator frequency
    void setOpsFreq(unsigned op_index, uint32_t f14)
    {
-      phase_inc_32[op_index] = table_dx7_exp_22[f14] << 9;
+      state[op_index].phase_inc_32 = table_dx7_exp_22[f14] << 9;
    }
 
    //! Start of note
    void keyOn()
    {
-      Egs<NUM_OP>::keyOn();
-
       for(unsigned op_index = 0; op_index < NUM_OP; ++op_index)
       {
          if (sync)
          {
-            phase_accum_32[op_index] = 0;
+            state[op_index].phase_acc_32 = 0;
          }
       }
    }
@@ -80,13 +80,11 @@ protected:
       // the internal index follows the order of operator computation
       // and the order of operator parameter encoding in the SysEx patch
       // encoding
-      const unsigned op_index = 6 - OP_NUMBER;
+      const unsigned op_index = NUM_OP - OP_NUMBER;
 
-      int32_t amp_14 = this->getEgsAmp(op_index);
+      int32_t amp_14 = state[op_index].egs();
 
-      phase_accum_32[op_index] += phase_inc_32[op_index];
-
-      uint32_t phase_12 = (phase_accum_32[op_index] + (modulation_12 << 22)) >> 20;
+      uint32_t phase_12 = (state[op_index].stepPhase() + (modulation_12 << 22)) >> 20;
 
       int32_t output_15;
       switch (COM)
@@ -134,13 +132,25 @@ private:
    bool     sync {true};
    uint8_t  fdbk {0};
 
-   // Internal operator state
-   uint32_t phase_accum_32[NUM_OP] = {0};
-   uint32_t phase_inc_32[NUM_OP]   = {0};
-
    // Internal voice computation state
    int32_t  modulation_12 {0};
    int32_t  feedback1_15 {0};
    int32_t  feedback2_15 {0};
    int32_t  memory_15 {0};
+
+   // Internal operator state
+   struct State
+   {
+      EnvGen   egs{};
+      uint32_t phase_acc_32{0};
+      uint32_t phase_inc_32{0};
+
+      uint32_t stepPhase()
+      {
+          phase_acc_32 += phase_inc_32;
+          return phase_acc_32;
+      }
+   };
+
+   State state[NUM_OP];
 };

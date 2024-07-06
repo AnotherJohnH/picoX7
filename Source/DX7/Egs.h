@@ -22,15 +22,21 @@
 
 #pragma once
 
+#include "OpsAlg.h"
 #include "EnvGen.h"
 #include "Egs_EnvGen.h"
 
 //! Model of Yamaha EGS (like the YM21290)
-template <unsigned NUM_OP>
-class Egs
+class Egs : public OpsAlg
 {
 public:
-   Egs() = default;
+   Egs()
+   {
+      for(unsigned i = 0; i < NUM_OP; ++i)
+      {
+         egs[i] = getEgsPointer(i);
+      }
+   }
 
    void prog(const SysEx::Voice* patch)
    {
@@ -38,7 +44,7 @@ public:
       {
          const SysEx::Op& op = patch->op[i];
 
-         egs[i].prog(op.eg_amp, op.out_level);
+         egs[i]->prog(op.eg_amp, op.out_level);
       }
    }
 
@@ -80,9 +86,11 @@ public:
    {
       for(unsigned op_index = 0; op_index < NUM_OP; ++op_index)
       {
-         egs[op_index].keyOn();
+         egs[op_index]->keyOn();
          op_eg[op_index].keyOn();
       }
+
+      Ops<NUM_OP>::keyOn();
    }
 
    //! Release of note
@@ -90,7 +98,7 @@ public:
    {
       for(unsigned op_index = 0; op_index < NUM_OP; ++op_index)
       {
-         egs[op_index].keyOff();
+         egs[op_index]->keyOff();
          op_eg[op_index].keyOff();
       }
    }
@@ -101,7 +109,7 @@ public:
    {
       for(unsigned op_index = 0; op_index < NUM_OP; ++op_index)
       {
-         if (not egs[op_index].isComplete())
+         if (not egs[op_index]->isComplete())
             return false;
       }
 
@@ -110,7 +118,7 @@ public:
 
    int32_t getEgsAmp(unsigned op_index_)
    {
-      return egs[op_index_]();
+      return egs[op_index_]->operator()();
    }
 
    int32_t getNewEgsAmp(unsigned op_index_)
@@ -127,11 +135,13 @@ public:
    }
 
 private:
+   static const unsigned NUM_OP = 6;
+
    // EGS program state
-   EnvGen     egs[NUM_OP];
+   EnvGen*    egs[NUM_OP];
    Egs_EnvGen op_eg[NUM_OP];
-   uint8_t    op_eg_rates[NUM_OP][4];
-   uint8_t    op_eg_levels[NUM_OP][4];
+   //uint8_t    op_eg_rates[NUM_OP][4];
+   //uint8_t    op_eg_levels[NUM_OP][4];
    uint8_t    op_rate_scaling[NUM_OP] = {0};
    uint8_t    op_amp_mod_sens[NUM_OP] = {0};
    bool       op_pitch_fixed[NUM_OP] = {false};

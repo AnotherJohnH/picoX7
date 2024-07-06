@@ -27,14 +27,14 @@
 
 #pragma once
 
-#include "OpsAlg.h"
+#include "Egs.h"
 #include "Lfo.h"
 
 //! Model of Yamaha DX7 firmware
 class Firmware
 {
 public:
-   Firmware(OpsAlg& hw_)
+   Firmware(Egs& hw_)
       : hw(hw_)
    {
    }
@@ -381,7 +381,7 @@ private:
    };
 
    SysEx::Voice  patch;
-   OpsAlg&       hw;                   //! Access to simulated DX7 EGS and OPS hardware
+   Egs&          hw;                   //! Access to simulated DX7 EGS and OPS hardware
    uint16_t      master_tune {0x959};  //  XXX too high should default to 0x100
    uint16_t      key_pitch;
    Lfo           lfo;                  //! Firmware LFO

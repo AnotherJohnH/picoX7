@@ -26,6 +26,7 @@
 
 #include "Firmware.h"
 #include "SysEx.h"
+#include "Egs.h"
 
 namespace DX7 {
 
@@ -97,7 +98,7 @@ private:
    }
 
 private:
-   OpsAlg   hw;
+   Egs      hw;
    Firmware fw{hw};
 };
 
