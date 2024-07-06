@@ -30,7 +30,7 @@
 #if defined(HW_NATIVE)
 
 #include "PLT/Audio.h"
-#include "PLT/Event.h"
+#include "PLT/MIDIInterface.h"
 
 #else
 
@@ -91,7 +91,7 @@
 
 #define HW_DESCR "native"
 
-#define HW_MIDI_FAKE
+#define HW_MIDI_NATIVE
 #define HW_DAC_NATIVE
 #define HW_LCD_NONE
 #define HW_ADC_NONE
@@ -182,6 +182,10 @@ private:
 };
 
 static MidiFake midi_in {synth};
+
+#elif defined(HW_MIDI_NATIVE)
+
+PLT::MIDI::Interface midi_in {synth};
 
 #endif
 
@@ -469,16 +473,12 @@ int main()
       if (PROFILE)
       {
 #if defined(HW_7_SEG_LED)
-          led_7seg.printDec(usage.getCPUUsage(), 3);
-          usleep(100000);
+         led_7seg.printDec(usage.getCPUUsage(), 3);
+         usleep(100000);
 #else
-          (void) usage;
+         (void) usage;
 #endif
       }
-
-#if defined(HW_NATIVE)
-      return PLT::Event::mainLoop();
-#endif
    }
 
    return 0;
