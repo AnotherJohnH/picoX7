@@ -79,9 +79,12 @@ public:
    {
       ampl += rate;
 
-      if (rise == (ampl >= level))
+      int32_t over = (ampl - level) * sign;
+
+      if (over > 0)
       {
          ampl = level;
+
          setPhase(Phase(phase + 1));
       }
 
@@ -94,9 +97,11 @@ private:
    {
       phase = phase_;
       level = L[phase];
-      rise  = ampl < level;
-      rate  = rise ? +R[phase]
-                   : -R[phase];
+
+      bool rise = ampl < level;
+
+      sign  = rise ? +1 : -1;
+      rate  = rise ? +R[phase] : -R[phase];
 
       if (rate > 0)
          // Seems like attack needs to be 4 times faster
@@ -106,7 +111,7 @@ private:
    int32_t  ampl{0};     //!< Current amplitude
    int32_t  rate{0};     //!< Rate for current phase
    int32_t  level{0};    //!< Target level for current phase
-   bool     rise{false}; //!< Direction of change in current phase
+   int32_t  sign{};      //!< Direction of change in current phase
    Phase    phase{P1};   //!< Current phase
    uint32_t R[6] = {};   //!< Programmed rates for each phase
    uint32_t L[6] = {};   //!< programmed levels for each phase
