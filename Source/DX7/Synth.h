@@ -47,7 +47,10 @@ public:
    {
       // Load ROM 1 into the internal patch memory
       memcpy(internal_patches, table_dx7_rom_1, sizeof(internal_patches));
+   }
 
+   void start()
+   {
       this->displayLED(188);
       this->displayLCD(0, "*    picoX7    *");
       this->displayLCD(1, "*  SYNTHESIZER *");

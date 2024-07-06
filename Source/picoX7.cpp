@@ -39,26 +39,43 @@
 
 #include "DX7/Synth.h"
 
-// ------------------------------------------------------------------------------------
 
-#if defined(HW_WAVESHARE_BREAD_BOARD)
+// --- Target Hardware Configuration --------------------------------------------------
 
-#define HW_DESCR "WaveShare Rev2.1 I2S on bread-board"
+#if defined(HW_WAVESHARE_GPIO_LCD)
 
-#define HW_GPIO_LCD
-#define HW_ADC
+#define HW_DESCR "WaveShare Rev2.1 GPIO LCD"
 
-#elif defined(HW_WAVESHARE_PIGGY_BACK)
+#define HW_MIDI_USB_DEVICE
+#define HW_MIDI_UART1
+#define HW_DAC_WAVESHARE
+#define HW_LED
+#define HW_7_SEG_LED
+#define HW_LCD_GPIO
+#define HW_ADC_NONE
 
-#define HW_DESCR "WaveShare Rev2.1 I2S piggy-back"
+#elif defined(HW_WAVESHARE_I2C_LCD)
 
-#define HW_I2C_LCD        //XXX cannot use ADC as the ADC pins overlap with waveshare I2S
-#define HW_USB_DEVICE
+#define HW_DESCR "WaveShare Rev2.1 I2C LCD "
+
+#define HW_MIDI_USB_DEVICE
+#define HW_MIDI_UART1
+#define HW_DAC_WAVESHARE
+#define HW_LED
+#define HW_7_SEG_LED
+#define HW_LCD_I2C
+#define HW_ADC_NONE
 
 #elif defined(HW_PIMORONI_VGA_DEMO)
 
-#define HW_DESCR "Piromoni I2S"
-#define HW_USB_DEVICE
+#define HW_DESCR "Piromoni VGA Demo"
+
+#define HW_MIDI_USB_DEVICE
+#define HW_DAC_PIMORONI_VGA_DEMO
+#define HW_LED
+#define HW_7_SEG_LED
+#define HW_LCD_NONE
+#define HW_ADC_NONE
 
 #else
 
@@ -66,12 +83,14 @@
 
 #endif
 
+
 // ------------------------------------------------------------------------------------
 
 static const unsigned SAMPLE_RATE = 49096;                   // DAC sample rate (Hz)
 static const unsigned TICK_RATE   = 375;                     // 6800 firmware tick (375 Hz)
 static const unsigned BUFFER_SIZE = SAMPLE_RATE / TICK_RATE; // DAC buffer size (samples)
 static const unsigned NUM_VOICES  = 6;                       // Polyphony
+static const bool     PROFILE     = false;                   // Resource usage profiling
 
 //! Select a system clock with clean division to 49.1 KHz
 //namespace MTL { Clocks::SysFreq clocks_sys_freq = Clocks::SYS_FREQ_137_48_MHZ; }
@@ -83,12 +102,15 @@ static const unsigned NUM_VOICES  = 6;                       // Polyphony
 namespace MTL { Clocks::SysFreq clocks_sys_freq = Clocks::SYS_FREQ_191_08_MHZ; }
 
 
-// --- RP2040 module LED --------------------------------------------------------------
+static DX7::Synth<NUM_VOICES, /* AMP_N */ 8> synth {};
+static Usage                                 usage {};
 
-MTL::Digital::Out<MTL::PIN_LED1> led;
 
+// --- MIDI-IN -----------------------------------------------------------------
 
-// --- MIDI-in -----------------------------------------------------------------
+#if defined(HW_MIDI_UART1)
+
+// pico pin 7 : IN
 
 //! Physical MIDI at 31250 baud
 class MidiPhys : public MIDI::Interface
@@ -105,45 +127,82 @@ public:
    void tx(uint8_t byte) { return uart.tx(byte); }
 
 private:
-#if defined(HW_PIMORONI_VGA_DEMO)
-   MTL::Uart1_ALT2 uart{31250, 8, MTL::UART::NONE, 1};
-#else
    MTL::Uart1 uart{31250, 8, MTL::UART::NONE, 1};
-#endif
 };
 
+static MidiPhys midi_phys {synth};
 
-// --- debug MIDI-in -----------------------------------------------------------
+#endif
 
-//! Slow MIDI in via the console UART
-class MidiHost : public MIDI::Interface
+
+// --- USB MIDI ----------------------------------------------------------------
+
+#if defined(HW_MIDI_USB_DEVICE)
+
+// pico micro USB : MIDI in
+
+#include "PicoX7USBDevice.h"
+
+class MidiUSB : public MIDI::Interface
 {
 public:
-   MidiHost(MIDI::Instrument& instrument)
+   MidiUSB(MIDI::Instrument& instrument)
       : MIDI::Interface(instrument)
    {}
 
-   bool empty() const override { return MTL_getch_empty(); }
+   bool empty() const override { return device.empty(); }
 
-   uint8_t rx() override { return MTL_getch(); }
+   uint8_t rx() override { return device.rx(); }
+
+   PicoX7USBDevice device{};
+   MTL::Usb        usb{device};
 };
+
+static MidiUSB midi_usb {synth};
+
+extern "C" void IRQ_USBCTRL() { midi_usb.usb.irq(); }
+
+#endif
+
+
+// --- Key press LED ------------------------------------------------------------------
+
+#if defined(HW_LED)
+
+MTL::Digital::Out<MTL::PIN_LED1> led;
+
+#endif
 
 
 // --- 7-segment LED display ---------------------------------------------------
+
+#if defined(HW_7_SEG_LED)
+
+// pico pin 4 : DATA
+// pico pin 5 : CLOCK
 
 static MTL::Led7Seg</* PIN_CLK */  MTL::PIN_5,
                     /* PIN_DATA */ MTL::PIN_4,
                     /* NUM_DIGITS */ 2> led_7seg;
 
+#endif
+
 void SynthIO::displayLED(unsigned number)
 {
+#if defined(HW_7_SEG_LED)
    led_7seg.printDec(number, number >= 100 ? 0 : 3);
+#endif
 }
 
 
 // --- 16x12 LCD display -------------------------------------------------------
 
-#if defined(HW_GPIO_LCD)
+#if defined(HW_LCD_GPIO)
+
+// pico pin 9-12  : DATA[0:3]
+// pico pin 14-17 : DATA[4:7]
+// pico pin 19    : RS
+// pico pin 20    : E
 
 #include "MTL/AlphaNumLcd_Gpio.h"
 
@@ -154,17 +213,27 @@ static MTL::AlphaNumLcd</* PIN_DATA */   MTL::PIN_9,
                         /* ROWS */       2,
                         /* DL_8BIT */    true> lcd;
 
-#elif defined(HW_I2C_LCD)
+#elif defined(HW_LCD_I2C)
+
+// XXX not tested
+// pico pin 19    : SDA
+// pico pin 20    : SCL
 
 #include "MTL/AlphaNumLcd_I2C.h"
 
 static MTL::AlphaNumLcd<MTL::I2C1_P19_P20, /* COLS */ 16, /* ROWS */ 2> lcd;
 
+#elif defined(HW_LCD_NONE)
+
+#else
+
+#error "LCD config not set"
+
 #endif
 
 void SynthIO::displayLCD(unsigned row, const char* text)
 {
-#if defined(HW_GPIO_LCD) || defined(HW_I2C_LCD)
+#if not defined(HW_LCD_NONE)
    lcd.move(0, row);
    lcd.print(text);
 #endif
@@ -191,66 +260,42 @@ unsigned SynthIO::readSliderADC()
    return adc.scaledResult(100);
 }
 
-#else
+#elif defined(HW_ADC_NONE)
 
 unsigned SynthIO::readSliderADC() { return 0; }
 
-#endif
+#else
 
-static Usage                                 usage {};
-static DX7::Synth<NUM_VOICES, /* AMP_N */ 8> synth {};
-static MidiHost                              midi_host {synth};
-static MidiPhys                              midi_phys {synth};
-
-// --- USB ---------------------------------------------------------------------
-
-#if defined(HW_USB_DEVICE)
-
-#include "PicoX7USBDevice.h"
-
-class MidiUSB : public MIDI::Interface
-{
-public:
-   MidiUSB(MIDI::Instrument& instrument)
-      : MIDI::Interface(instrument)
-   {}
-
-   bool empty() const override { return device.empty(); }
-
-   uint8_t rx() override { return device.rx(); }
-
-   PicoX7USBDevice device{};
-   MTL::Usb        usb{device};
-};
-
-static MidiUSB midi_usb  {synth};
-
-extern "C" void IRQ_USBCTRL() { midi_usb.usb.irq(); }
+#error "ADC config not set"
 
 #endif
 
 
 // --- DAC ---------------------------------------------------------------------
 
-#if defined(HW_WAVESHARE_BREAD_BOARD)
+#if defined(HW_DAC_WAVESHARE)
+
+#if defined(HW_ADC)
 
 //! 49.1 KHz I2S DAC, with pinout for Waveshare Pico-Audio (Rev 2.1) adjusted to allow use of ADC0
-//  buffer sized to give a 375 Hz tick
+//  buffer sized to give a 375 Hz tick XXX not piggy-back
 static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {SAMPLE_RATE,
                                                    MTL::PIN_29,  // SD
                                                    MTL::PIN_32,  // LRCLK + SCLK
                                                    MTL::PIN_27}; // MCLK
 
-#elif defined(HW_WAVESHARE_PIGGY_BACK)
+#else
 
 //! 49.1 KHz I2S DAC, with pinout for Waveshare Pico-Audio (Rev 2.1)
-//  buffer sized to give a 375 Hz tick
+//  buffer sized to give a 375 Hz tick XXX piggy-back
 static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {SAMPLE_RATE,
                                                    MTL::PIN_29,  // SD
                                                    MTL::PIN_32,  // LRCLK + SCLK
                                                    MTL::PIN_31}; // MCLK
 
-#elif defined(HW_PIMORONI_VGA_DEMO)
+#endif
+
+#elif defined(HW_DAC_PIMORONI_VGA_DEMO)
 
 //! 49.1 KHz I2S DAC, with pinout for PiMoroni VGA DEMO
 //  buffer sized to give a 375 Hz tick
@@ -260,6 +305,10 @@ static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {SAMPLE_RATE,
                                                    MTL::PIN_IGNORE, // No MCLK
                                                    /* LSB LRCLK / MSB SCLK */ false};
 
+#else
+
+#error "DAC config not set"
+
 #endif
 
 PIO_AUDIO_ATTACH_IRQ_0(audio);
@@ -267,7 +316,8 @@ PIO_AUDIO_ATTACH_IRQ_0(audio);
 //! DAC pump call-back
 void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
 {
-   usage.start();
+   if (PROFILE)
+       usage.start();
 
    synth.tick();
 
@@ -275,24 +325,14 @@ void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
    {
       int16_t sample = synth();
 
-      // Same 16-nit sample to left and right audio streams
+      // Same 16-bit sample to left and right audio streams
       buffer[i] = (sample << 16) | (sample & 0xFFFF);
    }
 
-   usage.end();
+   if (PROFILE)
+      usage.end();
 }
 
-// --- Debug console -----------------------------------------------------------
-
-#if defined(HW_PIMORONI_VGA_DEMO)
-
-// Override UART0 on Pins 0 and 1 to provide a debug stream on GPIO20
-void MTL_putch(uint8_t ch)
-{
-   midi_phys.tx(ch);
-}
-
-#endif
 
 // --- Entry point -------------------------------------------------------------
 
@@ -311,28 +351,34 @@ int MTL_main()
    printf("Compiler : %s\n", __VERSION__);
    printf("\n");
 
+   synth.start();
+
    synth.programChange(0, 0);
 
    audio.start();
 
    while(true)
    {
-      midi_host.tick();
+#if defined(HW_MIDI_PHYS)
       midi_phys.tick();
-#if defined(HW_USB_DEVICE)
+#endif
+#if defined(HW_MIDI_USB_DEVICE)
       midi_usb.tick();
 #endif
 
+#if defined(HW_LED)
       led = synth.isAnyVoiceOn();
-
-#if 0
-      puts("\033[H");
-      printf("FLASH: %2u%%   ", usage.getFLASHUsage());
-      printf("RAM: %2u%%   ", usage.getRAMUsage());
-      printf("CPU: %2u%%\n", usage.getCPUUsage());
-
-      usleep(500000);
 #endif
+
+      if (PROFILE)
+      {
+          puts("\033[H");
+          printf("FLASH: %2u%%   ", usage.getFLASHUsage());
+          printf("RAM: %2u%%   ", usage.getRAMUsage());
+          printf("CPU: %2u%%\n", usage.getCPUUsage());
+
+          usleep(500000);
+      }
    }
 
    return 0;

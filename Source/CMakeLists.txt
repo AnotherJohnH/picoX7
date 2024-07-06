@@ -27,8 +27,8 @@ add_subdirectory(DX7)
 if(${PLT_TARGET} STREQUAL rpipico)
 
    foreach(hardware
-           WAVESHARE_BREAD_BOARD
-           WAVESHARE_PIGGY_BACK
+           WAVESHARE_GPIO_LCD
+           WAVESHARE_I2C_LCD
            PIMORONI_VGA_DEMO)
 
       add_executable(            picoX7_${hardware} picoX7.cpp)

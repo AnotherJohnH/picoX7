@@ -29,34 +29,29 @@ For more information on the circuit above see  the [schematic](https://github.co
 Works well but notice Cirrus Logic have discontinued this device. Should be easy to switch
 to another I2S DAC
 + The Pico is significantly overclocked to 191.08 MHz to support 6 voices and generate a jitter free sample rate of 49096 Hz.
-+ UART-0 used as a debug console (TX) and alternate MIDIish-IN from the host (115200 baud)
-+ UART-1 (RX) implements the MIDI-IN interface
++ UART-0 used as a debug console  (115200 baud)
++ UART-1 (RX) implements the physical MIDI-IN interface
 + Two PIO state machines are used to generate I2S and MCLK for the DAC module
 
 |Pin|Peripheral|Allocation|
 |---|---|---|
 |1|UART-0|Debug console out (UART) TX|
-|2|UART-0|Extra MIDI IN (not MIDI baud rate)|
+|2|UART-0|Debug console in (UART) RX|
 |3|GND|UART GND|
 |6|UART-1|MIDI IN|
-|28|GND|DAC GND|
 |29|PIO|I2S DATA|
-|31 => 27|PIO|MCLK (for I2S DAC chip)|
-|31|ADC|Data entry pot|
+|31|PIO|MCLK (for I2S DAC chip)|
 |32|PIO|I2S LR CLK|
-|33|GND|DAC GND|
 |34|PIO|I2S DATA CLK|
-|38|GND|DAC GND|
-|39|VSYS|DAC VSYS|
 
 ### Alternative hardware targets
 
 Software builds for the following hardware targets...
-+ WAVESHARE_BREAD_BOARD - The hardware described above
-+ WAVESHARE_PIGGY_BACK - Similar to the hardware described above but with the WaveShare module mounted piggy-back. The ADC0 input is not usable.
++ WAVESHARE_GPIO_LCD - The hardware described above
++ WAVESHARE_I2C_LCD  - Untested LCD probably not working yet
 + PIMORONI_VGA_DEMO - Support for the Pimoroni Pico VGA Demo Base (!!!! untested !!!!)
 
-NOTE: The LCD and LED displays are optional and will nto block operation if not fitted
+NOTE: The LCD and LED displays are optional and will not block operation if not fitted
 
 ### Components
 
@@ -131,8 +126,8 @@ Build directly using cmake...
 
 Flashable image will be found under the build sub directory here...
 
-    .../Source/picoX7_WAVESHARE_BREAD_BOARD.uf2
-    .../Source/picoX7_WAVESHARE_PIGGY_BACK.uf2
+    .../Source/picoX7_WAVESHARE_GPIO_LCD.uf2
+    .../Source/picoX7_WAVESHARE_I2C_LCD.uf2
     .../Source/picoX7_PIMORONI_VGA_DEMO.uf2
 
 ## License
