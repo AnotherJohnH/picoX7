@@ -25,16 +25,15 @@
 #include "SysEx.h"
 
 #include "Table_dx7_exp_14.h"
-
 #include "Table_dx7_level_30.h"
 #include "Table_dx7_rate_30.h"
 
 //! DX7 envelope generator
 class EnvGen
 {
-   enum Phase : uint8_t
+   enum Index : uint8_t
    {
-      P1 = 0, P2 = 1, P3 = 2, SUSTAIN = 3, P4 = 4, RELEASE = 4, COMPLETE = 5
+      ATTACK = 0, DECAY1 = 1, DECAY2 = 2, SUSTAIN = 3, RELEASE = 4, IDLE = 5, NUM_PHASE
    };
 
 public:
@@ -45,47 +44,70 @@ public:
    {
       for(unsigned i = 0; i < 4; i++)
       {
-         Phase p = i == 3 ? P4 : Phase(i);
+         Index p;
 
-         L[p] = table_dx7_level_30[env.level[i] * out_level / 100];
-         R[p] = table_dx7_rate_30[env.rate[i]];
+         switch(i)
+         {
+         case 0: p = ATTACK;  break;
+         case 1: p = DECAY1;  break;
+         case 2: p = DECAY2;  break;
+         case 3: p = RELEASE; break;
+         }
+
+         phase[p].rate  = table_dx7_rate_30[env.rate[i]];
+         phase[p].level = table_dx7_level_30[env.level[i] * out_level / 100];
+
+         unsigned prev_i = (i - 1) & 3;
+
+         if (env.level[i] > env.level[prev_i])
+         {
+             // Seems like attack needs to be 4 times faster
+             phase[p].rate *= 4;
+             phase[p].sign = +1;
+         }
+         else
+         {
+             phase[p].rate *= -1;
+             phase[p].sign = -1;
+         }
       }
 
-      L[SUSTAIN] = L[P3];
-      R[SUSTAIN] = 0;
+      phase[SUSTAIN].rate  = 0;
+      phase[SUSTAIN].level = phase[DECAY2].level;
 
-      L[COMPLETE] = L[P4];
-      R[COMPLETE] = 0;
+      phase[IDLE].rate  = 0;
+      phase[IDLE].level = phase[RELEASE].level;
+
+      setPhase(IDLE);
    }
 
    //! Start a note
    void keyOn()
    {
-      ampl = L[P4];
-      setPhase(P1);
+      setPhase(ATTACK);
    }
 
    //! Release a note
    void keyOff()
    {
-      setPhase(RELEASE);
+      if (index < RELEASE)
+         setPhase(RELEASE);
    }
 
    //! Check if amplitude has reached L4
-   bool isComplete() const { return phase == COMPLETE; }
+   bool isComplete() const { return index == IDLE; }
 
    //! Get amplitude sample
    uint32_t operator()()
    {
-      ampl += rate;
+      ampl += current.rate;
 
-      int32_t over = (ampl - level) * sign;
-
+      int32_t over = (ampl - current.level) * current.sign;
       if (over > 0)
       {
-         ampl = level;
+         ampl = current.level;
 
-         setPhase(Phase(phase + 1));
+         setPhase(Index(index + 1));
       }
 
       return table_dx7_exp_14[ampl >> (30 - 14)];
@@ -93,26 +115,24 @@ public:
 
 private:
    //! Change current phase
-   void setPhase(Phase phase_)
+   void setPhase(Index index_)
    {
-      phase = phase_;
-      level = L[phase];
+      index = index_;
 
-      bool rise = ampl < level;
-
-      sign  = rise ? +1 : -1;
-      rate  = rise ? +R[phase] : -R[phase];
-
-      if (rate > 0)
-         // Seems like attack needs to be 4 times faster
-         rate *= 4;
+      current.rate  = phase[index].rate;
+      current.level = phase[index].level;
+      current.sign  = phase[index].sign;
    }
 
-   int32_t  ampl{0};     //!< Current amplitude
-   int32_t  rate{0};     //!< Rate for current phase
-   int32_t  level{0};    //!< Target level for current phase
-   int32_t  sign{};      //!< Direction of change in current phase
-   Phase    phase{P1};   //!< Current phase
-   uint32_t R[6] = {};   //!< Programmed rates for each phase
-   uint32_t L[6] = {};   //!< programmed levels for each phase
+   struct Phase
+   {
+      int32_t rate{0};  //!< Rate phase
+      int32_t level{0}; //!< Target level for phase
+      int32_t sign{0};  //!< Direction
+   };
+
+   int32_t ampl{0};          //!< Current amplitude
+   Phase   current{};        //!< Current phase control
+   Index   index{};          //!< Current phase index
+   Phase   phase[NUM_PHASE];
 };
