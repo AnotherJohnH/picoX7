@@ -389,8 +389,6 @@ void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
    if (PROFILE)
        usage.start();
 
-   synth.tick();
-
    for(unsigned i = 0; i < n; ++i)
    {
       int16_t sample = synth();
@@ -416,8 +414,6 @@ private:
    void getSamples(int16_t* buffer, unsigned n) override
    {
       (void) BUFFER_SIZE;
-
-      synth.tick();
 
       for(unsigned i = 0; i < n; i += 2)
       {
@@ -465,6 +461,8 @@ int main()
 #if defined(HW_MIDI_USB_DEVICE)
       midi_usb.tick();
 #endif
+
+      synth.tick();
 
 #if defined(HW_LED)
       led = synth.isAnyVoiceOn();
