@@ -44,7 +44,7 @@ public:
    bool isAnyVoiceOn() const { return active != 0; }
 
    //! Get next sample
-   int32_t operator()()
+   int32_t getSample()
    {
       int32_t mix {0};
 
@@ -57,6 +57,29 @@ public:
       }
 
       return mix / AMP_N;
+   }
+
+   //! Get next pair of samples
+   uint32_t getSamplePair()
+   {
+      int32_t mix1 {0};
+      int32_t mix2 {0};
+
+      for(unsigned i = 0; i < N; ++i)
+      {
+         VOICE& v = voice[i];
+
+         if (not v.isMute())
+         {
+            mix1 += v();
+            mix2 += v();
+         }
+      }
+
+      mix1 /= AMP_N;
+      mix2 /= AMP_N;
+
+      return (mix1 << 16) | (mix2 & 0xFFFF);
    }
 
    //! Control tick

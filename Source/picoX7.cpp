@@ -395,11 +395,7 @@ void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
 
    for(unsigned i = 0; i < n; ++i)
    {
-      int16_t sample1 = synth();
-      int16_t sample2 = synth();
-
-      // First 16-bit sample in MS bits second sample in LS bits
-      buffer[i] = (sample1 << 16) | (sample2 & 0xFFFF);
+      buffer[i] = synth.getSamplePair();
    }
 
    if (PROFILE)
@@ -422,7 +418,7 @@ private:
 
       for(unsigned i = 0; i < n; i += 2)
       {
-         buffer[i + 1] = buffer[i] = synth();
+         buffer[i + 1] = buffer[i] = synth.getSample();
       }
    }
 };
