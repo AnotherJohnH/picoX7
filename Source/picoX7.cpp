@@ -37,8 +37,8 @@
 #include "MTL/MTL.h"
 #include "MTL/Digital.h"
 #include "MTL/Pins.h"
-#include "MTL/PioAudio.h"
 #include "MTL/Led7Seg.h"
+#include "MTL/rp2040/PioAudio.h"
 #include "MTL/rp2040/Uart.h"
 #include "MTL/rp2040/Clocks.h"
 
@@ -124,10 +124,11 @@ namespace MTL { Clocks::SysFreq clocks_sys_freq = Clocks::SYS_FREQ_191_08_MHZ; }
 
 #endif
 
-static const unsigned TICK_RATE   = 375;                     // 6800 firmware tick (375 Hz)
-static const unsigned BUFFER_SIZE = HW_DAC_FREQ / TICK_RATE; // DAC buffer size (samples)
-static const unsigned NUM_VOICES  = 6;                       // Polyphony
-static const bool     PROFILE     = false;                   // Resource usage profiling
+static const unsigned TICK_RATE        = 375;                     // 6800 firmware tick (375 Hz)
+static const unsigned SAMPLES_PER_TICK = HW_DAC_FREQ / TICK_RATE; // DAC buffer size (16 bit samples)
+static const unsigned BUFFER_SIZE      = SAMPLES_PER_TICK / 2;    // DAC buffer size (32 bit samples pairs)
+static const unsigned NUM_VOICES       = 6;                       // Polyphony
+static const bool     PROFILE          = false;                   // Resource usage profiling
 
 static DX7::Synth<NUM_VOICES, /* AMP_N */ 8> synth {};
 static Usage                                 usage {};
@@ -352,7 +353,8 @@ unsigned SynthIO::readSliderADC() { return 0; }
 static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {HW_DAC_FREQ,
                                                    MTL::PIN_29,  // SD
                                                    MTL::PIN_32,  // LRCLK + SCLK
-                                                   MTL::PIN_27}; // MCLK
+                                                   MTL::PIN_27,  // MCLK
+                                                   true};        // mono
 
 #else
 
@@ -361,7 +363,8 @@ static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {HW_DAC_FREQ,
 static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {HW_DAC_FREQ,
                                                    MTL::PIN_29,  // SD
                                                    MTL::PIN_32,  // LRCLK + SCLK
-                                                   MTL::PIN_31}; // MCLK
+                                                   MTL::PIN_31,  // MCLK
+                                                   true};        // mono
 
 #endif
 
@@ -375,7 +378,8 @@ static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {HW_DAC_FREQ,
                                                    MTL::PIN_31,     // SD
                                                    MTL::PIN_32,     // LRCLK + SCLK
                                                    MTL::PIN_IGNORE, // No MCLK
-                                                   /* LSB LRCLK / MSB SCLK */ false};
+                                                   true,            // mono
+                                                   false};          // LSB LRCLK / MSB SCLK
 
 #endif
 
@@ -391,10 +395,11 @@ void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
 
    for(unsigned i = 0; i < n; ++i)
    {
-      int16_t sample = synth();
+      int16_t sample1 = synth();
+      int16_t sample2 = synth();
 
-      // Same 16-bit sample to left and right audio streams
-      buffer[i] = (sample << 16) | (sample & 0xFFFF);
+      // First 16-bit sample in MS bits second sample in LS bits
+      buffer[i] = (sample1 << 16) | (sample2 & 0xFFFF);
    }
 
    if (PROFILE)
