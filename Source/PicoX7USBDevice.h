@@ -103,7 +103,7 @@ private:
       midi_in.startRx(64);
    }
 
-   STB::Fifo<uint8_t, 8> fifo{};
+   STB::Fifo<uint8_t, 10> fifo{};
 
    // USB Configuration descriptors
    USB::MS::HeaderDescr        d_header{descr_list};

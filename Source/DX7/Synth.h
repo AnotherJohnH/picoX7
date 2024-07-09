@@ -212,6 +212,7 @@ private:
          snprintf(line1 + 3, 13, "%2u ", (number_ % 32) + 1);
 #endif
          strncpy(line1 + 6, (const char*)edit_patch.name, 10);
+         line1[16] = '\0';
 
          this->displayLCD(1, line1);
       }
