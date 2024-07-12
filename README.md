@@ -72,7 +72,7 @@ Incomplete but starting to work.
 
 Done...
    + I2S (via PIO) 16-bit stereo DAC interface at 49096 Hz
-   + Basic MIDI in support via UART
+   + Basic MIDI in support via UART and USB
    + Voice allocator
    + YM21280 OPS simulation
    + Basic YM21290 EGS simulation
@@ -92,7 +92,7 @@ Limitations...
    + DAC implementation is quite different to the original. Suspect dynamic range is reduced
    + Hitachi 6303 (~MC6803) CPU controller and firmware is not being emulated
    + not using logs for sine amplitude modulation in the OPS => almost certainly not bit accurate
-   + [8 voices](https://github.com/AnotherJohnH/picoX7/wiki/Software-Blog#16th-july-2023) (not 16!) - Running on just one arm core at ~85% CPU usage
+   + [8 voices](https://github.com/AnotherJohnH/picoX7/wiki/Software-Blog#16th-july-2023) (not 16!) - Running on two arm cores at ~85% CPU usage
 
 See the [software blog](https://github.com/AnotherJohnH/picoX7/wiki/Software-Blog) and [hardware blog](https://github.com/AnotherJohnH/picoX7/wiki/Hardware-Blog)  for more detailed progress updates.
 

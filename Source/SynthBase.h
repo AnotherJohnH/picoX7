@@ -44,11 +44,12 @@ public:
    bool isAnyVoiceOn() const { return active != 0; }
 
    //! Get next sample
-   int32_t getSample()
+   int32_t getSample(unsigned first_voice_= 0,
+                     unsigned num_voices_ = N)
    {
       int32_t mix {0};
 
-      for(unsigned i = 0; i < N; ++i)
+      for(unsigned i = first_voice_; i < num_voices_; ++i)
       {
          VOICE& v = voice[i];
 
@@ -60,12 +61,13 @@ public:
    }
 
    //! Get next pair of samples
-   uint32_t getSamplePair()
+   int32_t getSamplePair(unsigned first_voice_ = 0,
+                         unsigned last_voice_  = N)
    {
       int32_t mix1 {0};
       int32_t mix2 {0};
 
-      for(unsigned i = 0; i < N; ++i)
+      for(unsigned i = first_voice_; i < last_voice_; ++i)
       {
          VOICE& v = voice[i];
 
@@ -83,9 +85,10 @@ public:
    }
 
    //! Control tick
-   void tick()
+   void tick(unsigned first_voice_ = 0,
+             unsigned last_voice_  = N)
    {
-      for(unsigned i = 0; i < N; ++i)
+      for(unsigned i = first_voice_; i < last_voice_; ++i)
       {
          VOICE& v = voice[i];
 

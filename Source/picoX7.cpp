@@ -41,6 +41,7 @@
 #include "MTL/rp2040/PioAudio.h"
 #include "MTL/rp2040/Uart.h"
 #include "MTL/rp2040/Clocks.h"
+#include "MTL/rp2040/Sio.h"
 
 #endif
 
@@ -127,10 +128,11 @@ namespace MTL { Clocks::SysFreq clocks_sys_freq = Clocks::SYS_FREQ_191_08_MHZ; }
 static const unsigned TICK_RATE        = 375;                     // 6800 firmware tick (375 Hz)
 static const unsigned SAMPLES_PER_TICK = HW_DAC_FREQ / TICK_RATE; // DAC buffer size (16 bit samples)
 static const unsigned BUFFER_SIZE      = SAMPLES_PER_TICK / 2;    // DAC buffer size (32 bit samples pairs)
-static const unsigned NUM_VOICES       = 6;                       // Polyphony
-static const bool     PROFILE          = false;                   // Resource usage profiling
+static const unsigned NUM_VOICES       = 8;                       // Polyphony
+static const bool     PROFILE0         = false;                   // Resource profiling (core0)
+static const bool     PROFILE1         = false;                   // Resource profiling (core1)
 
-static DX7::Synth<NUM_VOICES, /* AMP_N */ 8> synth {};
+static DX7::Synth<NUM_VOICES, /* AMP_N */ 4> synth {};
 static Usage                                 usage {};
 
 
@@ -290,7 +292,7 @@ static MTL::AlphaNumLcd<MTL::I2C1_P19_P20, /* COLS */ 16, /* ROWS */ 2> lcd;
 void SynthIO::displayLCD(unsigned row, const char* text)
 {
 #if not defined(HW_LCD_NONE)
-   if (PROFILE)
+   if (PROFILE0 || PROFILE1)
    {
       static char temp[32];
 
@@ -354,17 +356,17 @@ static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {HW_DAC_FREQ,
                                                    MTL::PIN_29,  // SD
                                                    MTL::PIN_32,  // LRCLK + SCLK
                                                    MTL::PIN_27,  // MCLK
-                                                   true};        // mono
+                                                   MTL::PioI2S::MONO_16};
 
 #else
 
 //! 49.1 KHz I2S DAC, with pinout for Waveshare Pico-Audio (Rev 2.1)
 //  buffer sized to give a 375 Hz tick XXX piggy-back
-static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {HW_DAC_FREQ,
-                                                   MTL::PIN_29,  // SD
-                                                   MTL::PIN_32,  // LRCLK + SCLK
-                                                   MTL::PIN_31,  // MCLK
-                                                   true};        // mono
+static MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK> audio {HW_DAC_FREQ,
+                                                        MTL::PIN_29,  // SD
+                                                        MTL::PIN_32,  // LRCLK + SCLK
+                                                        MTL::PIN_31,  // MCLK
+                                                        MTL::PioI2S::STEREO_PAIRS_16};
 
 #endif
 
@@ -378,7 +380,7 @@ static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {HW_DAC_FREQ,
                                                    MTL::PIN_31,     // SD
                                                    MTL::PIN_32,     // LRCLK + SCLK
                                                    MTL::PIN_IGNORE, // No MCLK
-                                                   true,            // mono
+                                                   MTL::PioI2S::MONO_16,
                                                    false};          // LSB LRCLK / MSB SCLK
 
 #endif
@@ -387,19 +389,54 @@ static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {HW_DAC_FREQ,
 
 PIO_AUDIO_ATTACH_IRQ_0(audio);
 
+MTL::Sio sio;
+
 //! DAC pump call-back
 void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
 {
-   if (PROFILE)
-       usage.start();
+   if (PROFILE0)
+      usage.start();
 
-   for(unsigned i = 0; i < n; ++i)
+   sio.txFifoPush(uint32_t(buffer));
+   __asm__("sev");
+
+   for(unsigned i = 0; i < SAMPLES_PER_TICK; i += 2)
    {
-      buffer[i] = synth.getSamplePair();
+      buffer[i + 1] = synth.getSamplePair(0, NUM_VOICES / 2);
    }
 
-   if (PROFILE)
+   synth.tick(0, NUM_VOICES / 2);
+
+   if (PROFILE0)
       usage.end();
+}
+
+void main_1()
+{
+   MTL::SysTick sys_tick;
+
+   while(true)
+   {
+      while(sio.rxFifoEmpty())
+      {
+         __asm__("wfe");
+      }
+
+      if (PROFILE1)
+         usage.start();
+
+      uint32_t* buffer = (uint32_t*)sio.rxFifoPop();
+
+      for(unsigned i = 0; i < SAMPLES_PER_TICK; i += 2)
+      {
+         buffer[i + 0] = synth.getSamplePair(NUM_VOICES / 2, NUM_VOICES);
+      }
+
+      synth.tick(NUM_VOICES / 2, NUM_VOICES);
+
+      if (PROFILE1)
+         usage.end();
+   }
 }
 
 #elif defined(HW_DAC_NATIVE)
@@ -418,7 +455,7 @@ private:
 
       for(unsigned i = 0; i < n; i += 2)
       {
-         buffer[i + 1] = buffer[i] = synth.getSample();
+         buffer[i + 1] = buffer[i] = synth.getSample(0, NUM_VOICES);
       }
    }
 };
@@ -449,6 +486,10 @@ int main()
    printf("Compiler : %s\n", __VERSION__);
    printf("\n");
 
+#if defined(HW_DAC_I2S)
+   MTL_start_core(1, main_1);
+#endif
+
    synth.start();
 
    synth.programChange(0, 0);
@@ -463,13 +504,11 @@ int main()
       midi_usb.tick();
 #endif
 
-      synth.tick();
-
 #if defined(HW_LED)
       led = synth.isAnyVoiceOn();
 #endif
 
-      if (PROFILE)
+      if (PROFILE0 || PROFILE1)
       {
 #if defined(HW_7_SEG_LED)
          led_7seg.printDec(usage.getCPUUsage(), 3);
