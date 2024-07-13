@@ -397,6 +397,7 @@ void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
    if (PROFILE0)
       usage.start();
 
+   // Wakeup core-1 with
    sio.txFifoPush(uint32_t(buffer));
    __asm__("sev");
 
@@ -417,6 +418,7 @@ void main_1()
 
    while(true)
    {
+      // Wait for wakeup from core-0
       while(sio.rxFifoEmpty())
       {
          __asm__("wfe");
