@@ -42,6 +42,7 @@
 #include "MTL/rp2040/Uart.h"
 #include "MTL/rp2040/Clocks.h"
 #include "MTL/rp2040/Sio.h"
+#include "MTL/rp2040/Irq.h"
 
 #endif
 
@@ -347,47 +348,59 @@ unsigned SynthIO::readSliderADC() { return 0; }
 #if defined(HW_DAC_WAVESHARE)
 
 #define HW_DAC_I2S
+#define HW_DAC_DMA_IRQ 0
 
 #if defined(HW_ADC)
 
 //! 49.1 KHz I2S DAC, with pinout for Waveshare Pico-Audio (Rev 2.1) adjusted to allow use of ADC0
 //  buffer sized to give a 375 Hz tick XXX not piggy-back
-static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {HW_DAC_FREQ,
-                                                   MTL::PIN_29,  // SD
-                                                   MTL::PIN_32,  // LRCLK + SCLK
-                                                   MTL::PIN_27,  // MCLK
-                                                   MTL::PioI2S::MONO_16};
+static MTL::PioAudio<MTL::Pio0,
+                     BUFFER_SIZE,
+                     HW_DAC_DMA_IRQ> audio{HW_DAC_FREQ,
+                                           MTL::PIN_29,  // SD
+                                           MTL::PIN_32,  // LRCLK + SCLK
+                                           MTL::PIN_27,  // MCLK
+                                           MTL::PioI2S::STEREO_PAIRS_16};
 
 #else
 
 //! 49.1 KHz I2S DAC, with pinout for Waveshare Pico-Audio (Rev 2.1)
 //  buffer sized to give a 375 Hz tick XXX piggy-back
-static MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK> audio {HW_DAC_FREQ,
-                                                        MTL::PIN_29,  // SD
-                                                        MTL::PIN_32,  // LRCLK + SCLK
-                                                        MTL::PIN_31,  // MCLK
-                                                        MTL::PioI2S::STEREO_PAIRS_16};
+static MTL::PioAudio<MTL::Pio0,
+                     SAMPLES_PER_TICK,
+                     HW_DAC_DMA_IRQ> audio{HW_DAC_FREQ,
+                                           MTL::PIN_29,  // SD
+                                           MTL::PIN_32,  // LRCLK + SCLK
+                                           MTL::PIN_31,  // MCLK
+                                           MTL::PioI2S::STEREO_PAIRS_16};
 
 #endif
 
 #elif defined(HW_DAC_PIMORONI_VGA_DEMO)
 
 #define HW_DAC_I2S
+#define HW_DAC_DMA_IRQ 0
 
 //! 49.1 KHz I2S DAC, with pinout for PiMoroni VGA DEMO
 //  buffer sized to give a 375 Hz tick
-static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {HW_DAC_FREQ,
-                                                   MTL::PIN_31,     // SD
-                                                   MTL::PIN_32,     // LRCLK + SCLK
-                                                   MTL::PIN_IGNORE, // No MCLK
-                                                   MTL::PioI2S::MONO_16,
-                                                   false};          // LSB LRCLK / MSB SCLK
+static MTL::PioAudio<MTL::Pio0,
+                     BUFFER_SIZE,
+                     HW_DAC_DMA_IRQ> audio{HW_DAC_FREQ,
+                                           MTL::PIN_31,     // SD
+                                           MTL::PIN_32,     // LRCLK + SCLK
+                                           MTL::PIN_IGNORE, // No MCLK
+                                           MTL::PioI2S::STEREO_PAIRS_16,
+                                           false};          // LSB LRCLK / MSB SCLK
 
 #endif
 
 #if defined(HW_DAC_I2S)
 
+#if HW_DAC_DMA_IRQ == 0
 PIO_AUDIO_ATTACH_IRQ_0(audio);
+#else
+PIO_AUDIO_ATTACH_IRQ_1(audio);
+#endif
 
 MTL::Sio sio;
 
@@ -489,6 +502,13 @@ int main()
    printf("\n");
 
 #if defined(HW_DAC_I2S)
+
+#if defined(HW_MIDI_USB_DEVICE)
+   // Reduce audio IRQ priority to give preference to the USB interface
+   MTL::NVIC<MTL::IRQ_DMA_0>().setPriority(0b01 << 6);
+   MTL::NVIC<MTL::IRQ_DMA_1>().setPriority(0b01 << 6);
+#endif
+
    MTL_start_core(1, main_1);
 #endif
 
