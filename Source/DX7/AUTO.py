@@ -107,20 +107,20 @@ Table.gen('dx7_sine_div5_15',
           prefix     = '',
           fmt        = '6d')
 
-# 0..99 => 30-bit EG level
+# 0..63 => 30-bit EG level
 Table.gen('dx7_level_30',
            bits      = 32,
-           func      = lambda i,x : int(x * 0x3FFFFFFF),
-           size      = 100,
+           func      = lambda i,x : int(x * (pow(2, 30) - 1)),
+           log2_size = 6,
            typename  = "uint32_t",
            prefix    = '0x',
            fmt       = '08x')
 
-# 0..99 => 30-bit EG rate
+# 0..63 => 30-bit EG rate
 Table.gen('dx7_rate_30',
            bits      = 32,
-           func      = lambda i,x : int(0x3FFFFFFF / (180 * pow(3,-i/10) * 49096)),
-           size      = 100,
+           func      = lambda i,x : int(pow(2, 7 + (i/4))),
+           log2_size = 6,
            typename  = "uint32_t",
            prefix    = '0x',
            fmt       = '08x')

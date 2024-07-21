@@ -48,8 +48,11 @@ public:
       }
    }
 
-   //! Set operator envelope generator rates
-   void setEgsOpEgRates(unsigned op_index_, const uint8_t* rates_) { op_eg[op_index_].setRates(rates_); }
+   //! Set an operator envelope generator rate
+   void setEgsOpEgRate(unsigned op_index_, unsigned index_, uint8_t rate6_)
+   {
+      egs[op_index_]->setRate(index_, rate6_);
+   }
 
    //! Set operator envelope generator target levels
    void setEgsOpEgLevels(unsigned op_index_, const uint8_t* levels_) { op_eg[op_index_].setLevels(levels_); }

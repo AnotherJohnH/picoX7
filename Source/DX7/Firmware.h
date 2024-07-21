@@ -106,16 +106,14 @@ public:
 
 private:
    //! Implement PATCH_LOAD_OPERATOR_EG_RATES
-   void loadOperatorEgRates(unsigned index, const SysEx::Op& op)
+   void loadOperatorEgRates(unsigned op_index_, const SysEx::Op& op)
    {
-      uint8_t rates[4];
-
       for(unsigned i = 0; i < 4; ++i)
       {
-         rates[i] = (op.eg_amp.rate[i] * 164) >> 8;
-      }
+         uint8_t rate6 = (op.eg_amp.rate[i] * 164) >> 8;
 
-      hw.setEgsOpEgRates(index, rates);
+         hw.setEgsOpEgRate(op_index_, i, rate6);
+      }
    }
 
    //! Implement PATCH_LOAD_OPERATOR_EG_LEVELS

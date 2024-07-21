@@ -37,31 +37,30 @@ class EnvGen
    };
 
 public:
-   EnvGen() = default;
+   EnvGen()
+   {
+      phase[SUSTAIN].rate  = 0;
+      phase[IDLE].rate     = 0;
+   }
+
+   void setRate(unsigned index, uint8_t rate6_)   { rate_reg[index]  = rate6_; }
+   void setLevel(unsigned index, uint8_t level6_) { level_reg[index] = level6_; }
 
    //! Program the level and rate
    void prog(const SysEx::EnvGen& env, uint8_t out_level)
    {
       for(unsigned i = 0; i < 4; i++)
       {
-         Index p;
+         Index p = getPhase(i);
 
-         switch(i)
-         {
-         case 0: p = ATTACK;  break;
-         case 1: p = DECAY1;  break;
-         case 2: p = DECAY2;  break;
-         case 3: p = RELEASE; break;
-         }
-
-         phase[p].rate  = table_dx7_rate_30[env.rate[i]];
-         phase[p].level = table_dx7_level_30[env.level[i] * out_level / 100];
+         phase[p].rate  = table_dx7_rate_30[rate_reg[i]];
+         phase[p].level = table_dx7_level_30[((env.level[i] * 164) >> 8) * out_level / 100];
 
          unsigned prev_i = (i - 1) & 3;
 
          if (env.level[i] > env.level[prev_i])
          {
-             // Seems like attack needs to be 4 times faster
+             // Attack is 4 times faster than release
              phase[p].rate *= 4;
              phase[p].sign = +1;
          }
@@ -72,11 +71,8 @@ public:
          }
       }
 
-      phase[SUSTAIN].rate  = 0;
       phase[SUSTAIN].level = phase[DECAY2].level;
-
-      phase[IDLE].rate  = 0;
-      phase[IDLE].level = phase[RELEASE].level;
+      phase[IDLE].level    = phase[RELEASE].level;
 
       setPhase(IDLE);
    }
@@ -114,6 +110,19 @@ public:
    }
 
 private:
+   static Index getPhase(unsigned i)
+   {
+      switch(i)
+      {
+      case 0: return ATTACK;
+      case 1: return DECAY1;
+      case 2: return DECAY2;
+      case 3: return RELEASE;
+      }
+
+      return IDLE;
+   }
+
    //! Change current phase
    void setPhase(Index index_)
    {
@@ -135,4 +144,6 @@ private:
    Phase   current{};        //!< Current phase control
    Index   index{};          //!< Current phase index
    Phase   phase[NUM_PHASE];
+   uint8_t rate_reg[4]  = {};
+   uint8_t level_reg[4] = {};
 };
