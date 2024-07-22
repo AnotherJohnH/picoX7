@@ -190,6 +190,12 @@ private:
 
    void voiceControl(unsigned index_, uint8_t control_, uint8_t value_) override
    {
+      if (control_ == 119)
+      {
+         voiceProgram(index_, value_);
+         return;
+      }
+
       voice[index_].setControl(control_, value_);
    }
 
