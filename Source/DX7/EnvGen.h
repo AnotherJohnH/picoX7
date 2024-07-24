@@ -44,6 +44,7 @@ public:
    }
 
    void setRate(unsigned index, uint8_t rate6_)   { rate_reg[index]  = rate6_; }
+
    void setLevel(unsigned index, uint8_t level6_) { level_reg[index] = level6_; }
 
    //! Program the level and rate

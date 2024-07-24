@@ -106,27 +106,25 @@ public:
 
 private:
    //! Implement PATCH_LOAD_OPERATOR_EG_RATES
-   void loadOperatorEgRates(unsigned op_index_, const SysEx::Op& op)
+   void loadOperatorEgRates(unsigned op_index_, const SysEx::Op& op_)
    {
       for(unsigned i = 0; i < 4; ++i)
       {
-         uint8_t rate6 = (op.eg_amp.rate[i] * 164) >> 8;
+         uint8_t rate6 = (op_.eg_amp.rate[i] * 164) >> 8;
 
          hw.setEgsOpEgRate(op_index_, i, rate6);
       }
    }
 
    //! Implement PATCH_LOAD_OPERATOR_EG_LEVELS
-   void loadOperatorEgLevels(unsigned index, const SysEx::Op& op)
+   void loadOperatorEgLevels(unsigned op_index_, const SysEx::Op& op_)
    {
-      uint8_t levels[4];
-
       for(unsigned i = 0; i < 4; ++i)
       {
-         levels[i] = table_log[op.eg_amp.level[i]];
-      }
+         uint8_t level6 = table_log[op_.eg_amp.level[i]] >> 1;
 
-      hw.setEgsOpEgLevels(index, levels);
+         hw.setEgsOpEgLevel(op_index_, i, level6);
+      }
    }
 
    //! Implement PATCH_LOAD_OPERATOR_KBD_SCALING

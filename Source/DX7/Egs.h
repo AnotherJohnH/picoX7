@@ -24,7 +24,6 @@
 
 #include "OpsAlg.h"
 #include "EnvGen.h"
-#include "Egs_EnvGen.h"
 
 //! Model of Yamaha EGS (like the YM21290)
 class Egs : public OpsAlg
@@ -55,7 +54,10 @@ public:
    }
 
    //! Set operator envelope generator target levels
-   void setEgsOpEgLevels(unsigned op_index_, const uint8_t* levels_) { op_eg[op_index_].setLevels(levels_); }
+   void setEgsOpEgLevel(unsigned op_index_, unsigned index_, const uint8_t level6_)
+   {
+      egs[op_index_]->setLevel(index_, level6_);
+   }
 
    //! Set operator amplitude modulation sensitivity
    void setEgsOpAmpModSens(unsigned op_index_, uint8_t sens_)     { op_amp_mod_sens[op_index_] = sens_; }
@@ -90,7 +92,6 @@ public:
       for(unsigned op_index = 0; op_index < NUM_OP; ++op_index)
       {
          egs[op_index]->keyOn();
-         op_eg[op_index].keyOn();
       }
 
       Ops<NUM_OP>::keyOn();
@@ -102,7 +103,6 @@ public:
       for(unsigned op_index = 0; op_index < NUM_OP; ++op_index)
       {
          egs[op_index]->keyOff();
-         op_eg[op_index].keyOff();
       }
    }
 
@@ -124,11 +124,6 @@ public:
       return egs[op_index_]->operator()();
    }
 
-   int32_t getNewEgsAmp(unsigned op_index_)
-   {
-      return op_eg[op_index_]();
-   }
-
    //! get frequency value from the EGS for the OPS
    uint32_t getEgsFreq(unsigned op_index_)
    {
@@ -142,9 +137,6 @@ private:
 
    // EGS program state
    EnvGen*    egs[NUM_OP];
-   Egs_EnvGen op_eg[NUM_OP];
-   //uint8_t    op_eg_rates[NUM_OP][4];
-   //uint8_t    op_eg_levels[NUM_OP][4];
    uint8_t    op_rate_scaling[NUM_OP] = {0};
    uint8_t    op_amp_mod_sens[NUM_OP] = {0};
    bool       op_pitch_fixed[NUM_OP] = {false};
