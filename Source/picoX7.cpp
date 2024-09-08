@@ -66,7 +66,7 @@
 
 #elif defined(HW_WAVESHARE_I2C_LCD)
 
-#define HW_DESCR "WaveShare Rev2.1 I2C LCD "
+#define HW_DESCR "WaveShare Rev2.1 I2C LCD"
 
 #define HW_MIDI_USB_DEVICE
 #define HW_MIDI_UART1
@@ -85,6 +85,17 @@
 #define HW_DAC_PIMORONI_VGA_DEMO
 #define HW_LED
 #define HW_7_SEG_LED
+#define HW_LCD_NONE
+#define HW_ADC_NONE
+
+#elif defined(HW_PIMORONI_PICO_AUDIO)
+
+#define HW_DESCR "Piromoni pico audio"
+
+#define HW_MIDI_USB_DEVICE
+#define HW_MIDI_FAKE
+#define HW_DAC_PIMORONI_PICO_AUDIO
+#define HW_LED
 #define HW_LCD_NONE
 #define HW_ADC_NONE
 
@@ -273,13 +284,15 @@ static MTL::AlphaNumLcd</* PIN_DATA */   MTL::PIN_9,
 
 #elif defined(HW_LCD_I2C)
 
-// XXX not tested
 // pico pin 19    : SDA
 // pico pin 20    : SCL
 
+#include "MTL/chip/I2C.h"
 #include "MTL/AlphaNumLcd_I2C.h"
 
-static MTL::AlphaNumLcd<MTL::I2C1_P19_P20, /* COLS */ 16, /* ROWS */ 2> lcd;
+static MTL::AlphaNumLcd<MTL::I2C1_P19_P20,
+                        /* COLS */ 16,
+                        /* ROWS */ 2> lcd;
 
 #elif defined(HW_LCD_NONE)
 
@@ -381,6 +394,20 @@ static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {HW_DAC_FREQ,
                                                    MTL::PIN_32,     // LRCLK + SCLK
                                                    MTL::PIN_IGNORE, // No MCLK
                                                    MTL::PioI2S::MONO_16,
+                                                   false};          // LSB LRCLK / MSB SCLK
+
+
+#elif defined(HW_DAC_PIMORONI_PICO_AUDIO)
+
+#define HW_DAC_I2S
+
+//! 49.1 KHz I2S DAC, with pinout for PiMoroni VGA DEMO
+//  buffer sized to give a 375 Hz tick
+static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {HW_DAC_FREQ,
+                                                   MTL::PIN_12,     // SD
+                                                   MTL::PIN_14,     // LRCLK + SCLK
+                                                   MTL::PIN_IGNORE, // No MCLK
+                                                   MTL::PioI2S::STEREO_PAIRS_16,
                                                    false};          // LSB LRCLK / MSB SCLK
 
 #endif

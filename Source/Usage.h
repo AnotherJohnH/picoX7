@@ -25,7 +25,7 @@
 #if defined(MTL_rpipico)
 
 #include "MTL/Config.h"
-#include "MTL/CortexM0/SysTick.h"
+#include "MTL/core/SysTick.h"
 
 #else
 
