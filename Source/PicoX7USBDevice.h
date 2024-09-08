@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "MTL/rp2040/Usb.h"
+#include "MTL/chip/Usb.h"
 
 #include "USB/Device.h"
 #include "USB/Interface.h"

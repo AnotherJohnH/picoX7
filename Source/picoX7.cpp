@@ -38,10 +38,10 @@
 #include "MTL/Digital.h"
 #include "MTL/Pins.h"
 #include "MTL/Led7Seg.h"
-#include "MTL/rp2040/PioAudio.h"
-#include "MTL/rp2040/Uart.h"
-#include "MTL/rp2040/Clocks.h"
-#include "MTL/rp2040/Sio.h"
+#include "MTL/chip/PioAudio.h"
+#include "MTL/chip/Uart.h"
+#include "MTL/chip/Clocks.h"
+#include "MTL/chip/Sio.h"
 
 #endif
 
@@ -328,7 +328,7 @@ void SynthIO::displayLCD(unsigned row, const char* text)
 
 #if defined(HW_ADC)
 
-#include "MTL/rp2040/Adc.h"
+#include "MTL/chip/Adc.h"
 
 MTL::Adc adc;
 

@@ -30,6 +30,15 @@ if(${PLT_TARGET} STREQUAL rpipico)
 
    set(target_libs TNY MTL TNY)
 
+elseif(${PLT_TARGET} STREQUAL rpipico2)
+
+   set(config_list
+       WAVESHARE_GPIO_LCD
+       WAVESHARE_I2C_LCD
+       PIMORONI_PICO_AUDIO)
+
+   set(target_libs TNY MTL TNY)
+
 elseif(${PLT_TARGET} STREQUAL native)
 
    set(config_list

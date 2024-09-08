@@ -32,7 +32,7 @@ add_subdirectory(Source)
 add_subdirectory(Test)
 add_subdirectory(docs/Research)
 
-if(${PLT_TARGET} STREQUAL rpipico)
+if(${PLT_TARGET} STREQUAL rpipico OR ${PLT_TARGET} STREQUAL rpipico2)
    # TODO automate conversion of VERSION to hex
    target_compile_definitions(MTL PUBLIC PLT_BCD_VERSION=0x0018)
 endif()
