@@ -28,7 +28,7 @@ For more information on the circuit above see  the [schematic](https://github.co
 (see below)
 Works well but notice Cirrus Logic have discontinued this device. Should be easy to switch
 to another I2S DAC
-+ The Pico is significantly overclocked to 191.08 MHz to support 6 voices and generate a jitter free sample rate of 49096 Hz.
++ The Pico is significantly overclocked to 191.08 MHz to support 8 voices and generate a jitter free sample rate of 49096 Hz.
 + UART-0 used as a debug console  (115200 baud)
 + UART-1 (RX) implements the physical MIDI-IN interface
 + Two PIO state machines are used to generate I2S and MCLK for the DAC module
@@ -39,6 +39,8 @@ to another I2S DAC
 |2|UART-0|Debug console in (UART) RX|
 |3|GND|UART GND|
 |6|UART-1|MIDI IN|
+|19|I2C1|SDA (for I2C LCD)|
+|20|I2C1|SCL (for I2C LCD)|
 |29|PIO|I2S DATA|
 |31|PIO|MCLK (for I2S DAC chip)|
 |32|PIO|I2S LR CLK|
@@ -48,7 +50,7 @@ to another I2S DAC
 
 Software builds for the following hardware targets...
 + WAVESHARE_GPIO_LCD - The hardware described above
-+ WAVESHARE_I2C_LCD  - Untested LCD probably not working yet
++ WAVESHARE_I2C_LCD  - Use an I2C LCD on pins 19+20 instead of the 8-bit parallel interface 
 + PIMORONI_VGA_DEMO - Support for the Pimoroni Pico VGA Demo Base (!!!! untested !!!!)
 
 NOTE: The LCD and LED displays are optional and will not block operation if not fitted
@@ -59,12 +61,13 @@ NOTE: The LCD and LED displays are optional and will not block operation if not 
 |---|---|---|
 |Raspberry Pi Pico|DIP module hosting an RP2040 MCU and 2 MiB Flash|[PiHut](https://thepihut.com/products/raspberry-pi-pico?variant=41925332566211)|
 |Waveshare Pico Audio|I2S DAC module that directly mounts under the Pico|[PiHut](https://thepihut.com/products/pico-audio-audio-module-for-raspberry-pi-pico-inc-speakers)|
-|MIDI controller|Music keyboard with actual MIDI out (not MIDI over USB)|Old Roland PC-200 works for me|
+|MIDI controller|Music keyboard with actual MIDI out (MIDI over the USB connector also works)|Old Roland PC-200 works for me|
 |MIDI-in adapter|An optically isolated 5-pin DIN to UART interface|3 resistors, a diode and an op-amp work well if the controller is battery powered ;-)|
 |Reset button|Reset the Pico and allow Flashing|Why not included on the Pico module ?!@#|
+|16x2 I2C LCD|Optional voice name display|[PiHut](https://thepihut.com/products/lcd1602-i2c-module)|
 |Raspberry Pi Debug probe|Not essential but very helpful|[PiHut](https://thepihut.com/products/raspberry-pi-debug-probe)|
 
-**NOTE** No particular affiliation with PiHut but they have a nice selection and good service
+**NOTE** No particular affiliation with PiHut but they have a nice selection and excellent service
 
 ## Status
 
@@ -77,6 +80,7 @@ Done...
    + YM21280 OPS simulation
    + Basic YM21290 EGS simulation
    + DX7 voice patches are starting to sound recognisble
+   + Use the 2nd Arm Cortex-M0
 
 To do, (at least)...
    - Tune EGS simulation
@@ -86,7 +90,7 @@ To do, (at least)...
    - Mod and key sensitivity
    - Maybe a logarithmic OPS implementation
    - Optimise to squeeze in more voices
-   - Use the 2nd Arm Cortex-M0 (currently idle!)
+   - Support for the RP2350 in the Pico-2
 
 Limitations...
    + DAC implementation is quite different to the original. Suspect dynamic range is reduced
