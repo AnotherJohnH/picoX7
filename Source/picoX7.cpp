@@ -93,10 +93,11 @@
 #define HW_DESCR "Piromoni pico audio"
 
 #define HW_MIDI_USB_DEVICE
-#define HW_MIDI_FAKE
+#define HW_MIDI_UART1
 #define HW_DAC_PIMORONI_PICO_AUDIO
 #define HW_LED
-#define HW_LCD_NONE
+#define HW_7_SEG_LED
+#define HW_LCD_I2C
 #define HW_ADC_NONE
 
 #elif defined(HW_NATIVE)
@@ -365,11 +366,11 @@ unsigned SynthIO::readSliderADC() { return 0; }
 
 //! 49.1 KHz I2S DAC, with pinout for Waveshare Pico-Audio (Rev 2.1) adjusted to allow use of ADC0
 //  buffer sized to give a 375 Hz tick XXX not piggy-back
-static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {HW_DAC_FREQ,
-                                                   MTL::PIN_29,  // SD
-                                                   MTL::PIN_32,  // LRCLK + SCLK
-                                                   MTL::PIN_27,  // MCLK
-                                                   MTL::PioI2S::MONO_16};
+static MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK> audio {HW_DAC_FREQ,
+                                                        MTL::PIN_29,  // SD
+                                                        MTL::PIN_32,  // LRCLK + SCLK
+                                                        MTL::PIN_27,  // MCLK
+                                                        MTL::PioI2S::STEREO_PAIRS_16};
 
 #else
 
@@ -389,12 +390,12 @@ static MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK> audio {HW_DAC_FREQ,
 
 //! 49.1 KHz I2S DAC, with pinout for PiMoroni VGA DEMO
 //  buffer sized to give a 375 Hz tick
-static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {HW_DAC_FREQ,
-                                                   MTL::PIN_31,     // SD
-                                                   MTL::PIN_32,     // LRCLK + SCLK
-                                                   MTL::PIN_IGNORE, // No MCLK
-                                                   MTL::PioI2S::MONO_16,
-                                                   false};          // LSB LRCLK / MSB SCLK
+static MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK> audio {HW_DAC_FREQ,
+                                                        MTL::PIN_31,     // SD
+                                                        MTL::PIN_32,     // LRCLK + SCLK
+                                                        MTL::PIN_IGNORE, // No MCLK
+                                                        MTL::PioI2S::STEREO_PAIRS_16,
+                                                        false};          // LSB LRCLK / MSB SCLK
 
 
 #elif defined(HW_DAC_PIMORONI_PICO_AUDIO)
@@ -403,12 +404,12 @@ static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {HW_DAC_FREQ,
 
 //! 49.1 KHz I2S DAC, with pinout for PiMoroni VGA DEMO
 //  buffer sized to give a 375 Hz tick
-static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {HW_DAC_FREQ,
-                                                   MTL::PIN_12,     // SD
-                                                   MTL::PIN_14,     // LRCLK + SCLK
-                                                   MTL::PIN_IGNORE, // No MCLK
-                                                   MTL::PioI2S::STEREO_PAIRS_16,
-                                                   false};          // LSB LRCLK / MSB SCLK
+static MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK> audio {HW_DAC_FREQ,
+                                                        MTL::PIN_12,     // SD
+                                                        MTL::PIN_14,     // LRCLK + SCLK
+                                                        MTL::PIN_IGNORE, // No MCLK
+                                                        MTL::PioI2S::STEREO_PAIRS_16,
+                                                        false};          // LSB LRCLK / MSB SCLK
 
 #endif
 
