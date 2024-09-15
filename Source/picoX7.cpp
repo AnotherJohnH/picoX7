@@ -168,7 +168,7 @@ public:
    void tx(uint8_t byte) { return uart.tx(byte); }
 
 private:
-   MTL::Uart1 uart{31250, 8, MTL::UART::NONE, 1};
+   MTL::Uart1_P6_P7 uart{31250, 8, MTL::UART::NONE, 1};
 };
 
 static MidiPhys midi_in {synth};
