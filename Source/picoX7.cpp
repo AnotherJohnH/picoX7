@@ -75,6 +75,7 @@
 #define HW_LED
 #define HW_7_SEG_LED
 #define HW_LCD_I2C
+#define HW_LCD_I2C_ADDR 0x3E
 #define HW_ADC_NONE
 
 #elif defined(HW_PIMORONI_VGA_DEMO)
@@ -99,6 +100,7 @@
 #define HW_LED
 #define HW_7_SEG_LED
 #define HW_LCD_I2C
+#define HW_LCD_I2C_ADDR 0x3E
 #define HW_ADC_NONE
 
 #elif defined(HW_PWM_DAC)
@@ -111,6 +113,7 @@
 #define HW_LED
 #define HW_7_SEG_LED
 #define HW_LCD_I2C
+#define HW_LCD_I2C_ADDR 0x3E
 #define HW_ADC_NONE
 
 #elif defined(HW_NATIVE)
@@ -306,7 +309,7 @@ static MTL::AlphaNumLcd</* PIN_DATA */   MTL::PIN_9,
 
 static MTL::AlphaNumLcd<MTL::I2C1_P19_P20,
                         /* COLS */ 16,
-                        /* ROWS */ 2> lcd;
+                        /* ROWS */ 2> lcd { HW_LCD_I2C_ADDR };
 
 #elif defined(HW_LCD_NONE)
 
