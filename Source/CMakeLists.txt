@@ -26,7 +26,8 @@ if(${PLT_TARGET} STREQUAL rpipico)
        WAVESHARE_GPIO_LCD
        WAVESHARE_I2C_LCD
        PIMORONI_VGA_DEMO
-       PIMORONI_PICO_AUDIO)
+       PIMORONI_PICO_AUDIO
+       PWM_DAC)
 
    set(target_libs TNY MTL TNY)
 
@@ -35,7 +36,8 @@ elseif(${PLT_TARGET} STREQUAL rpipico2)
    set(config_list
        WAVESHARE_GPIO_LCD
        WAVESHARE_I2C_LCD
-       PIMORONI_PICO_AUDIO)
+       PIMORONI_PICO_AUDIO
+       PWM_DAC)
 
    set(target_libs TNY MTL TNY)
 
