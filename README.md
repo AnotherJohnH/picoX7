@@ -52,7 +52,7 @@ Software builds for the following hardware targets...
 + WAVESHARE_GPIO_LCD - The hardware described above
 + WAVESHARE_I2C_LCD  - Use an I2C LCD on pins 19+20 instead of the 8-bit parallel interface
 + PIMORONI_PICO_AUDIO - Use the Pimoroni Pico Audio I2S DAC instead (also uses the I2C LCD)
-+ PWM_DAC - "Look no DAC!" well there is a DAC, implemented using on-chip PWM and a few resistors and capacitors on pins 21 and 22 
++ PWM_DAC - DAC implemented using the on-chip PWM and a few external resistors and capacitors on pins 21 and 22 (sound quality is not great) 
 + PIMORONI_VGA_DEMO - Support for the Pimoroni Pico VGA Demo Base (!!!! untested !!!!)
 
 NOTE: The LCD and LED displays are optional and will not block operation if not fitted
