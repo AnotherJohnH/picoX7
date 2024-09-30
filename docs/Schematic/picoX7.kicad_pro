@@ -402,7 +402,9 @@
   },
   "libraries": {
     "pinned_footprint_libs": [],
-    "pinned_symbol_libs": []
+    "pinned_symbol_libs": [
+      "MCU_RaspberryPi_and_Boards"
+    ]
   },
   "meta": {
     "filename": "picoX7.kicad_pro",
@@ -471,7 +473,7 @@
     },
     "net_format_name": "",
     "page_layout_descr_file": "",
-    "plot_directory": "",
+    "plot_directory": "/Users/johnh/Dropbox/Projects/Sound/picoX7/docs/",
     "spice_current_sheet_as_root": false,
     "spice_external_command": "spice \"%I\"",
     "spice_model_current_sheet_as_root": true,
