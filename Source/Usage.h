@@ -22,7 +22,7 @@
 
 #pragma once
 
-#if defined(MTL_rpipico)
+#if defined(MTL_rpipico) || defined(MTL_rpipico2)
 
 #include "MTL/Config.h"
 #include "MTL/core/SysTick.h"

@@ -39,6 +39,7 @@
 #include "MTL/Pins.h"
 #include "MTL/Led7Seg.h"
 #include "MTL/chip/PioAudio.h"
+#include "MTL/chip/PwmAudio.h"
 #include "MTL/chip/Uart.h"
 #include "MTL/chip/Clocks.h"
 #include "MTL/chip/Sio.h"
@@ -74,6 +75,7 @@
 #define HW_LED
 #define HW_7_SEG_LED
 #define HW_LCD_I2C
+#define HW_LCD_I2C_ADDR 0x3E
 #define HW_ADC_NONE
 
 #elif defined(HW_PIMORONI_VGA_DEMO)
@@ -93,10 +95,25 @@
 #define HW_DESCR "Piromoni pico audio"
 
 #define HW_MIDI_USB_DEVICE
-#define HW_MIDI_FAKE
+#define HW_MIDI_UART1
 #define HW_DAC_PIMORONI_PICO_AUDIO
 #define HW_LED
-#define HW_LCD_NONE
+#define HW_7_SEG_LED
+#define HW_LCD_I2C
+#define HW_LCD_I2C_ADDR 0x3E
+#define HW_ADC_NONE
+
+#elif defined(HW_PWM_DAC)
+
+#define HW_DESCR "Simple PWM DAC"
+
+#define HW_MIDI_USB_DEVICE
+#define HW_MIDI_UART1
+#define HW_DAC_PWM
+#define HW_LED
+#define HW_7_SEG_LED
+#define HW_LCD_I2C
+#define HW_LCD_I2C_ADDR 0x3E
 #define HW_ADC_NONE
 
 #elif defined(HW_NATIVE)
@@ -168,7 +185,7 @@ public:
    void tx(uint8_t byte) { return uart.tx(byte); }
 
 private:
-   MTL::Uart1 uart{31250, 8, MTL::UART::NONE, 1};
+   MTL::Uart1_P6_P7 uart{31250, 8, MTL::UART::NONE, 1};
 };
 
 static MidiPhys midi_in {synth};
@@ -292,7 +309,7 @@ static MTL::AlphaNumLcd</* PIN_DATA */   MTL::PIN_9,
 
 static MTL::AlphaNumLcd<MTL::I2C1_P19_P20,
                         /* COLS */ 16,
-                        /* ROWS */ 2> lcd;
+                        /* ROWS */ 2> lcd { HW_LCD_I2C_ADDR };
 
 #elif defined(HW_LCD_NONE)
 
@@ -365,11 +382,11 @@ unsigned SynthIO::readSliderADC() { return 0; }
 
 //! 49.1 KHz I2S DAC, with pinout for Waveshare Pico-Audio (Rev 2.1) adjusted to allow use of ADC0
 //  buffer sized to give a 375 Hz tick XXX not piggy-back
-static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {HW_DAC_FREQ,
-                                                   MTL::PIN_29,  // SD
-                                                   MTL::PIN_32,  // LRCLK + SCLK
-                                                   MTL::PIN_27,  // MCLK
-                                                   MTL::PioI2S::MONO_16};
+static MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK> audio {HW_DAC_FREQ,
+                                                        MTL::PIN_29,  // SD
+                                                        MTL::PIN_32,  // LRCLK + SCLK
+                                                        MTL::PIN_27,  // MCLK
+                                                        MTL::Audio::STEREO_PAIRS_16};
 
 #else
 
@@ -379,7 +396,7 @@ static MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK> audio {HW_DAC_FREQ,
                                                         MTL::PIN_29,  // SD
                                                         MTL::PIN_32,  // LRCLK + SCLK
                                                         MTL::PIN_31,  // MCLK
-                                                        MTL::PioI2S::STEREO_PAIRS_16};
+                                                        MTL::Audio::STEREO_PAIRS_16};
 
 #endif
 
@@ -389,12 +406,12 @@ static MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK> audio {HW_DAC_FREQ,
 
 //! 49.1 KHz I2S DAC, with pinout for PiMoroni VGA DEMO
 //  buffer sized to give a 375 Hz tick
-static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {HW_DAC_FREQ,
-                                                   MTL::PIN_31,     // SD
-                                                   MTL::PIN_32,     // LRCLK + SCLK
-                                                   MTL::PIN_IGNORE, // No MCLK
-                                                   MTL::PioI2S::MONO_16,
-                                                   false};          // LSB LRCLK / MSB SCLK
+static MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK> audio {HW_DAC_FREQ,
+                                                        MTL::PIN_31,     // SD
+                                                        MTL::PIN_32,     // LRCLK + SCLK
+                                                        MTL::PIN_IGNORE, // No MCLK
+                                                        MTL::Audio::STEREO_PAIRS_16,
+                                                        false};          // LSB LRCLK / MSB SCLK
 
 
 #elif defined(HW_DAC_PIMORONI_PICO_AUDIO)
@@ -403,23 +420,23 @@ static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {HW_DAC_FREQ,
 
 //! 49.1 KHz I2S DAC, with pinout for PiMoroni VGA DEMO
 //  buffer sized to give a 375 Hz tick
-static MTL::PioAudio<MTL::Pio0,BUFFER_SIZE> audio {HW_DAC_FREQ,
-                                                   MTL::PIN_12,     // SD
-                                                   MTL::PIN_14,     // LRCLK + SCLK
-                                                   MTL::PIN_IGNORE, // No MCLK
-                                                   MTL::PioI2S::STEREO_PAIRS_16,
-                                                   false};          // LSB LRCLK / MSB SCLK
+static MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK> audio {HW_DAC_FREQ,
+                                                        MTL::PIN_12,     // SD
+                                                        MTL::PIN_14,     // LRCLK + SCLK
+                                                        MTL::PIN_IGNORE, // No MCLK
+                                                        MTL::Audio::STEREO_PAIRS_16,
+                                                        false};          // LSB LRCLK / MSB SCLK
 
 #endif
 
 #if defined(HW_DAC_I2S)
 
-PIO_AUDIO_ATTACH_IRQ_0(audio);
+MTL_AUDIO_ATTACH_IRQ_0(audio);
 
 MTL::Sio sio;
 
 //! DAC pump call-back
-void MTL::PioAudio_getSamples(uint32_t* buffer, unsigned n)
+void MTL::Audio::getSamples(uint32_t* buffer, unsigned n)
 {
    if (PROFILE0)
       usage.start();
@@ -459,6 +476,68 @@ void main_1()
       for(unsigned i = 0; i < SAMPLES_PER_TICK; i += 2)
       {
          buffer[i + 0] = synth.getSamplePair(NUM_VOICES / 2, NUM_VOICES);
+      }
+
+      synth.tick(NUM_VOICES / 2, NUM_VOICES);
+
+      if (PROFILE1)
+         usage.end();
+   }
+}
+
+#elif defined(HW_DAC_PWM)
+
+static MTL::PwmAudio<MTL::PIN_21, /* BITS */ 8, SAMPLES_PER_TICK> audio{HW_DAC_FREQ};
+
+MTL_AUDIO_ATTACH_IRQ_0(audio);
+
+static MTL::Sio sio;
+
+//! DAC pump call-back
+void MTL::Audio::getSamples(uint32_t* buffer, unsigned n)
+{
+   if (PROFILE0)
+      usage.start();
+
+   // Wakeup core-1 with
+   sio.txFifoPush(uint32_t(buffer));
+   __asm__("sev");
+
+   uint16_t* left_buffer = (uint16_t*)buffer;
+
+   for(unsigned i = 0; i < SAMPLES_PER_TICK; i++)
+   {
+      int16_t sample = synth.getSample(0, NUM_VOICES / 2);
+      left_buffer[i * 2] = audio.packSamples(sample, 0);
+   }
+
+   synth.tick(0, NUM_VOICES / 2);
+
+   if (PROFILE0)
+      usage.end();
+}
+
+void main_1()
+{
+   MTL::SysTick sys_tick;
+
+   while(true)
+   {
+      // Wait for wakeup from core-0
+      while(sio.rxFifoEmpty())
+      {
+         __asm__("wfe");
+      }
+
+      if (PROFILE1)
+         usage.start();
+
+      uint16_t* right_buffer = ((uint16_t*)sio.rxFifoPop()) + 1;
+
+      for(unsigned i = 0; i < SAMPLES_PER_TICK; i++)
+      {
+         int16_t sample = synth.getSample(NUM_VOICES / 2, NUM_VOICES);
+         right_buffer[i * 2] = audio.packSamples(sample, 0);
       }
 
       synth.tick(NUM_VOICES / 2, NUM_VOICES);
@@ -515,7 +594,7 @@ int main()
    printf("Compiler : %s\n", __VERSION__);
    printf("\n");
 
-#if defined(HW_DAC_I2S)
+#if defined(HW_DAC_I2S) || defined(HW_DAC_PWM)
    MTL_start_core(1, main_1);
 #endif
 

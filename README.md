@@ -14,7 +14,7 @@ Slightly boring [video](https://www.youtube.com/watch?v=7_5bl6q7xVs) of the pico
 + arm-none-eabi-gcc
 + cmake
 + ninja (make works too)
-+ SDL2 (for native test target)
++ SDL2 (only for native test target)
 
 Both Pico and native targets should build on MacOS or Linux.
 
@@ -50,10 +50,14 @@ to another I2S DAC
 
 Software builds for the following hardware targets...
 + WAVESHARE_GPIO_LCD - The hardware described above
-+ WAVESHARE_I2C_LCD  - Use an I2C LCD on pins 19+20 instead of the 8-bit parallel interface 
++ WAVESHARE_I2C_LCD  - Use an I2C LCD on pins 19+20 instead of the 8-bit parallel interface
++ PIMORONI_PICO_AUDIO - Use the Pimoroni Pico Audio I2S DAC instead (also uses the I2C LCD)
++ PWM_DAC - DAC implemented using the on-chip PWM and a few external resistors and capacitors on pins 21 and 22 (sound quality is not great) 
 + PIMORONI_VGA_DEMO - Support for the Pimoroni Pico VGA Demo Base (!!!! untested !!!!)
 
 NOTE: The LCD and LED displays are optional and will not block operation if not fitted
+
+In addition all the above targets are built for and work with RP2350 Picos as well as the older RP2040 Picos. 
 
 ### Components
 
@@ -90,7 +94,6 @@ To do, (at least)...
    - Mod and key sensitivity
    - Maybe a logarithmic OPS implementation
    - Optimise to squeeze in more voices
-   - Support for the RP2350 in the Pico-2
 
 Limitations...
    + DAC implementation is quite different to the original. Suspect dynamic range is reduced
