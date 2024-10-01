@@ -74,8 +74,8 @@
 #define HW_DAC_WAVESHARE
 #define HW_LED
 #define HW_7_SEG_LED
-#define HW_LCD_I2C
-#define HW_LCD_I2C_ADDR 0x3E
+#define HW_LCD_I2C_BRIDGE
+#define HW_LCD_I2C_ADDR 0x27
 #define HW_ADC_NONE
 
 #elif defined(HW_PIMORONI_VGA_DEMO)
@@ -306,6 +306,18 @@ static MTL::AlphaNumLcd</* PIN_DATA */   MTL::PIN_9,
 
 #include "MTL/chip/I2C.h"
 #include "MTL/AlphaNumLcd_I2C.h"
+
+static MTL::AlphaNumLcd<MTL::I2C1_P19_P20,
+                        /* COLS */ 16,
+                        /* ROWS */ 2> lcd { HW_LCD_I2C_ADDR };
+
+#elif defined(HW_LCD_I2C_BRIDGE)
+
+// pico pin 19    : SDA
+// pico pin 20    : SCL
+
+#include "MTL/chip/I2C.h"
+#include "MTL/AlphaNumLcd_I2CBridge.h"
 
 static MTL::AlphaNumLcd<MTL::I2C1_P19_P20,
                         /* COLS */ 16,
