@@ -22,7 +22,7 @@ Both Pico and native targets should build on MacOS or Linux.
 
 ![prototype](docs/breadboard_v0.04.jpg)
 
-For more information on the circuit above see  the [schematic](https://github.com/AnotherJohnH/picoX7/blob/main/docs/schematic_v0.04.pdf) and the [hardware blog](https://github.com/AnotherJohnH/picoX7/wiki/Hardware-Blog)
+For more information on the circuit above see  the [schematic](https://github.com/AnotherJohnH/picoX7/blob/main/docs/schematic_v0.05.pdf) and the [hardware blog](https://github.com/AnotherJohnH/picoX7/wiki/Hardware-Blog)
 
 + Currently building for an I2S DAC based around the Cirrus Logic CS4344 from WaveShare
 (see below)
