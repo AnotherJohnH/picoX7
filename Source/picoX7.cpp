@@ -227,7 +227,7 @@ PLT::MIDI::Interface midi_in {synth};
 
 // pico micro USB : MIDI in
 
-#include "PicoX7USBDevice.h"
+#include "MTL/USBMidiDevice.h"
 
 class MidiUSB : public MIDI::Interface
 {
@@ -240,8 +240,11 @@ public:
 
    uint8_t rx() override { return device.rx(); }
 
-   PicoX7USBDevice device{};
-   MTL::Usb        usb{device};
+   MTL::USBMidiDevice device{"https://github.com/AnotherJohnH",
+                             0x91C0, PLT_BCD_VERSION, "picoX7",
+                             PLT_COMMIT};
+
+   MTL::Usb usb{device};
 };
 
 static MidiUSB midi_usb {synth};
