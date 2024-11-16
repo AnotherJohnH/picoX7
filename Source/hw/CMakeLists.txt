@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-#  Copyright (c) 2023 John D. Haughton
+#  Copyright (c) 2024 John D. Haughton
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to deal
@@ -20,16 +20,38 @@
 #  SOFTWARE.
 #-------------------------------------------------------------------------------
 
-set(python_path ${CMAKE_CURRENT_SOURCE_DIR}/../Platform/python)
+if(${PLT_TARGET} STREQUAL rpipico)
 
-add_subdirectory(DX7)
-add_subdirectory(hw)
+   set(hw_config_list
+       WAVESHARE_GPIO_LCD
+       WAVESHARE_I2C_LCD
+       PIMORONI_VGA_DEMO
+       PIMORONI_PICO_AUDIO
+       PWM_DAC
+       PARENT_SCOPE)
 
-foreach(hw_config ${hw_config_list})
+   set(hw_target_libs TNY MTL TNY
+       PARENT_SCOPE)
 
-   add_executable(            picoX7_${hw_config} picoX7.cpp)
-   target_compile_definitions(picoX7_${hw_config} PRIVATE HW_${hw_config})
-   target_include_directories(picoX7_${hw_config} PRIVATE .)
-   target_link_libraries(     picoX7_${hw_config} PRIVATE DX7 ${hw_target_libs})
+elseif(${PLT_TARGET} STREQUAL rpipico2)
 
-endforeach()
+   set(hw_config_list
+       WAVESHARE_GPIO_LCD
+       WAVESHARE_I2C_LCD
+       PIMORONI_PICO_AUDIO
+       PWM_DAC
+       PARENT_SCOPE)
+
+   set(hw_target_libs TNY MTL TNY
+       PARENT_SCOPE)
+
+elseif(${PLT_TARGET} STREQUAL native)
+
+   set(hw_config_list
+       NATIVE
+       PARENT_SCOPE)
+
+   set(hw_target_libs PLT STB
+       PARENT_SCOPE)
+
+endif()
