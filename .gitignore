@@ -1,2 +1,4 @@
 .DS_Store
 build_*
+Backup
+*.bkp
