@@ -39,23 +39,23 @@ namespace hw {
 
 #if defined(HW_MIDI_IN_UART1)
 
-//! Physical MIDI at 31250 baud
-// pico pin 7 : IN
+//! Physical MIDI in on pico pin 7
 class MidiIn : public MIDI::Interface
 {
 public:
-   MidiIn(MIDI::Instrument& instrument)
-      : MIDI::Interface(instrument)
+   MidiIn(MIDI::Instrument& instrument_, bool debug_)
+      : MIDI::Interface(instrument_, debug_)
    {}
 
+private:
    bool empty() const override { return uart.empty(); }
 
    uint8_t rx() override { return uart.rx(); }
 
-   void tx(uint8_t byte) { return uart.tx(byte); }
-
-private:
-   MTL::Uart1_P6_P7 uart{31250, 8, MTL::UART::NONE, 1};
+   MTL::Uart1_P6_P7 uart{/* baud */      31250,
+                         /* bits */      8,
+                         /* parity */    MTL::UART::NONE,
+                         /* stop bits */ 1};
 };
 
 #elif defined(HW_MIDI_IN_FAKE)
@@ -64,15 +64,15 @@ private:
 class MidiIn : public MIDI::Interface
 {
 public:
-   MidiIn(MIDI::Instrument& instrument)
-      : MIDI::Interface(instrument)
+   MidiIn(MIDI::Instrument& instrument_, bool debug_)
+      : MIDI::Interface(instrument_, debug_)
    {}
 
+private:
    bool empty() const override { return n == sizeof(data); }
 
    uint8_t rx() override { return data[n++]; }
 
-private:
    unsigned n {0};
    uint8_t  data[7] =
    {

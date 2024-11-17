@@ -60,10 +60,11 @@ static const unsigned BUFFER_SIZE      = SAMPLES_PER_TICK / 2;  //!< DAC buffer 
 static const unsigned NUM_VOICES       = 8;                     //!< Polyphony
 static const bool     PROFILE0         = false;                 //!< Resource profiling (core0)
 static const bool     PROFILE1         = false;                 //!< Resource profiling (core1)
+static const bool     MIDI_DEBUG       = false;
 
 static DX7::Synth<NUM_VOICES, /* AMP_N */ 4> synth {};
 static Usage                                 usage {};
-static hw::MidiIn                            midi_in {synth};
+static hw::MidiIn                            midi_in {synth, MIDI_DEBUG};
 static hw::Led                               led {};
 
 
@@ -71,7 +72,7 @@ static hw::Led                               led {};
 
 #if defined(HW_MIDI_USB_DEVICE)
 
-static hw::MidiUSBDevice midi_usb {synth, 0x91C0, "picoX7"};
+static hw::MidiUSBDevice midi_usb {synth, 0x91C0, "picoX7", MIDI_DEBUG};
 
 extern "C" void IRQ_USBCTRL() { midi_usb.usb.irq(); }
 

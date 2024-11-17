@@ -40,12 +40,13 @@ namespace hw {
 class MidiUSBDevice : public MIDI::Interface
 {
 public:
-   MidiUSBDevice(MIDI::Instrument& instrument,
-                 uint16_t          device_id,
-                 const char*       device_name)
-      : MIDI::Interface(instrument)
+   MidiUSBDevice(MIDI::Instrument& instrument_,
+                 uint16_t          device_id_,
+                 const char*       device_name_,
+                 bool              debug_ = false)
+      : MIDI::Interface(instrument_, debug_)
       , device("https://github.com/AnotherJohnH",
-               device_id, PLT_BCD_VERSION, device_name,
+               device_id_, PLT_BCD_VERSION, device_name_,
                PLT_COMMIT)
    {}
 
