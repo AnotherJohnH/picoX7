@@ -67,7 +67,7 @@ public:
                                                   MTL::PIN_32,  // LRCLK + SCLK
                                                   MTL::PIN_27,  // MCLK
                                                   MTL::Audio::STEREO_PAIRS_16,
-                                                  false}        // LSB LRCLK / MSB SCLK
+                                                  true}        // LSB LRCLK / MSB SCLK
    {
    }
 };
@@ -86,7 +86,7 @@ public:
                                                   MTL::PIN_32,  // LRCLK + SCLK
                                                   MTL::PIN_31,  // MCLK
                                                   MTL::Audio::STEREO_PAIRS_16,
-                                                  false}        // LSB LRCLK / MSB SCLK
+                                                  true}        // LSB LRCLK / MSB SCLK
    {
    }
 };
@@ -149,7 +149,10 @@ class Audio : public PLT::Audio::Out
 public:
    // XXX requested DAC frequency ignored
    Audio(unsigned dac_freq)
-      : PLT::Audio::Out(/* sample_rate */ 48000, PLT::Audio::Format::SINT16, /* channels */ 2)
+      : PLT::Audio::Out(/* sample_rate */ 48000,
+                        PLT::Audio::Format::SINT16,
+                        /* channels */ 2,
+                        /* samples */ SAMPLES_PER_TICK)
    {}
 
 private:
