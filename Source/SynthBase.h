@@ -31,17 +31,14 @@
 //! Base class for MIDI synth
 template <unsigned N, typename VOICE, unsigned AMP_N = N>
 class SynthBase
-   : public MIDI::Instrument
+   : public MIDI::Instrument<N>
    , public SynthIO
 {
 public:
    SynthBase()
-      : MIDI::Instrument(N)
    {
       voice[0].setDebug(true);
    }
-
-   bool isAnyVoiceOn() const { return active != 0; }
 
    //! Get next sample
    int32_t getSample(unsigned first_voice_= 0,
@@ -99,88 +96,20 @@ public:
 
 private:
    // MIDI::Instrument implementation
-
-   signed allocVoice() const override
-   {
-      unsigned first_decay       = order;
-      unsigned first_decay_index = 0;
-      unsigned first_on          = order;
-      unsigned first_on_index    = 0;
-
-      for(unsigned i = 0; i < N; ++i)
-      {
-         const VOICE& v  = voice[i];
-         unsigned     vo = voice_order[i];
-
-         if (v.isMute())
-         {
-            // Free voice found
-            return i;
-         }
-         else if (v.isOff())
-         {
-            // Find oldest voice that is OFF
-            if (vo < first_decay)
-            {
-               first_decay       = vo;
-               first_decay_index = i;
-            }
-         }
-         else
-         {
-            // Find oldest voice that is ON
-            if (vo < first_on)
-            {
-               first_on       = vo;
-               first_on_index = i;
-            }
-         }
-      }
-
-      // No free voices
-      if (first_decay != order)
-      {
-         return first_decay_index;
-      }
-
-      // => Use the oldest voice that is on
-      return first_on_index;
-   }
-
-   signed findVoice(uint8_t note_) const override
-   {
-      for(unsigned i = 0; i < N; ++i)
-      {
-         if (voice[i].isOn() && (voice[i].getNote() == note_))
-         {
-            return i;
-         }
-      }
-
-      return -1;
-   }
-
    void voiceMute(unsigned index_) override
    {
-      voice_order[index_] = order++;
       voice[index_].noteOff(/* velocity */ 0);
       voice[index_].mute();
    }
 
    void voiceOn(unsigned index_, uint8_t note_, uint8_t velocity_) override
    {
-      voice_order[index_] = order++;
       voice[index_].noteOn(note_, velocity_);
-
-      ++active;
    }
 
    void voiceOff(unsigned index_, uint8_t velocity_) override
    {
-      voice_order[index_] = order++;
       voice[index_].noteOff(velocity_);
-
-      --active;
    }
 
    void voicePressure(unsigned index_, uint8_t level_) override
@@ -192,7 +121,7 @@ private:
    {
       if (control_ == 119)
       {
-         voiceProgram(index_, value_);
+         this->voiceProgram(index_, value_);
          return;
       }
 
@@ -205,10 +134,5 @@ private:
    }
 
 protected:
-   VOICE    voice[N];
-   unsigned active{0};
-
-private:
-   unsigned order {0};      //!< Order of last MIDI event
-   unsigned voice_order[N]; //!< Order of last MIDI event for each voice
+   VOICE voice[N];
 };
