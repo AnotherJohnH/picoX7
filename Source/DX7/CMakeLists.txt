@@ -37,7 +37,7 @@ add_custom_command(
       ${CMAKE_CURRENT_SOURCE_DIR}/cart/rom1b.syx
       ${CMAKE_CURRENT_SOURCE_DIR}/cart/rom2a.syx
       ${CMAKE_CURRENT_SOURCE_DIR}/cart/rom2b.syx
-      ${python_path}/Table.py
+      ${python_path}/table.py
    OUTPUT
       ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_exp_14.h
       ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_exp_14.cpp
