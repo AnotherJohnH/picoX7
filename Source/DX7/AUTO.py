@@ -23,7 +23,7 @@
 
 import math
 import sys
-import Table
+import table
 
 #------------------------------------------------------------------------------
 
@@ -39,12 +39,10 @@ def cartridge(filename, name):
             break
          data.append(int.from_bytes(byte, byteorder='big', signed=False))
 
-   Table.gen(name,
-             bits      = 8,
+   table.gen(name,
              func      = lambda i,x : data[i + 6],
-             log2_size = 12,
              typename  = "uint8_t",
-             prefix    = '0x',
+             log2_size = 12,
              fmt       = '02x')
 
 #------------------------------------------------------------------------------
@@ -53,76 +51,62 @@ def cartridge(filename, name):
 # NOTE: The more obvious formula is int(math.pow(2.0, i / 1024)/4 + 0.5). The formula used
 #       below more accurately represents the values compressed into the actual ROMs as
 #       discovered and represented by Ken Shirriff
-Table.gen('dx7_exp_14',
-          bits       = 16,
+table.gen('dx7_exp_14',
           func       = lambda i,x : (int(math.pow(2.0, (i % 1024) / 1024) * 2048 + 0.5) << (i >> 10)) >> 13,
+          typename   = "uint16_t",
           log2_size  = 14,
-          prefix     = '0x',
           fmt        = '04x')
 
 # 14-bit (Q4.10) => 22-bit 2^x table
 # NOTE: The more obvious formula is int(math.pow(2.0, i / 1024) * 64 + 0.5). The formula used
 #       below more accurately represents the values compressed into the actual ROMs as
 #       discovered and represented by Ken Shirriff
-Table.gen('dx7_exp_22',
-          bits       = 32,
+table.gen('dx7_exp_22',
           func       = lambda i,x : (int(math.pow(2.0, (i % 1024) / 1024 ) * 2048 + 0.5) << (i >> 10)) >> 5,
+          typename   = "uint32_t",
           log2_size  = 14,
-          prefix     = '0x',
           fmt        = '08x')
 
 # 11-bit => 14-bit  half log-sine table
-Table.gen('dx7_log_sine_14',
-          bits       = 16,
+table.gen('dx7_log_sine_14',
           func       = lambda i,x : int(-math.log(math.sin((i + 0.5) * math.pi / 2048), 2) * 1024 + 0.5002),
-          log2_size  = 11,
           typename   = "uint16_t",
-          prefix     = '0x',
+          log2_size  = 11,
           fmt        = '04x')
 
 # 12-bit => 14-bit   sine table
-Table.gen('dx7_sine_15',
-          bits       = 16,
+table.gen('dx7_sine_15',
           func       = lambda i,x : int(math.sin((i + 0.5) * 2 * math.pi / 4096) * 0x3FFF + 0.5002),
-          log2_size  = 12,
           typename   = "int16_t",
-          prefix     = '',
+          log2_size  = 12,
           fmt        = '6d')
 
 # 12-bit => 14-bit   sine table / 3
-Table.gen('dx7_sine_div3_15',
-          bits       = 16,
+table.gen('dx7_sine_div3_15',
           func       = lambda i,x : int(math.sin((i + 0.5) * 2 * math.pi / 4096) * 0x3FFF / 3 + 0.5002),
-          log2_size  = 12,
           typename   = "int16_t",
-          prefix     = '',
+          log2_size  = 12,
           fmt        = '6d')
 
 # 12-bit => 14-bit   sine table / 5
-Table.gen('dx7_sine_div5_15',
-          bits       = 16,
+table.gen('dx7_sine_div5_15',
           func       = lambda i,x : int(math.sin((i + 0.5) * 2 * math.pi / 4096) * 0x3FFF / 5 + 0.5002),
-          log2_size  = 12,
           typename   = "int16_t",
-          prefix     = '',
+          log2_size  = 12,
           fmt        = '6d')
 
 # 0..63 => 30-bit EG level
-Table.gen('dx7_level_30',
-           bits      = 32,
+table.gen('dx7_level_30',
            func      = lambda i,x : int(x * (pow(2, 30) - 1)),
-           log2_size = 6,
            typename  = "uint32_t",
-           prefix    = '0x',
+           log2_size = 6,
            fmt       = '08x')
 
 # 0..63 => 30-bit EG rate
-Table.gen('dx7_rate_30',
-           bits      = 32,
+table.gen('dx7_rate_30',
            func      = lambda i,x : int(pow(2, 7 + (i/4))),
-           log2_size = 6,
            typename  = "uint32_t",
-           prefix    = '0x',
+           log2_size = 6,
            fmt       = '08x')
 
 # Program cartridges

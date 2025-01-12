@@ -55,7 +55,8 @@ private:
    MTL::Uart1_P6_P7 uart{/* baud */      31250,
                          /* bits */      8,
                          /* parity */    MTL::UART::NONE,
-                         /* stop bits */ 1};
+                         /* stop bits */ 1,
+                         /* pull up */   true};
 };
 
 #elif defined(HW_MIDI_IN_FAKE)
