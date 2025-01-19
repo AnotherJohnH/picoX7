@@ -60,113 +60,184 @@ public:
    }
 
 private:
+   enum State : uint8_t
+   {
+      STATE_IGNORE,
+
+      STATE_START,
+      STATE_START_SUB,
+
+      STATE_PATCH,
+      STATE_PATCH_SIZE_MS,
+      STATE_PATCH_SIZE_LS,
+
+      STATE_PATCH_EDIT_DATA,
+      STATE_PATCH_EDIT_CSUM,
+
+      STATE_PATCH_INT_DATA,
+      STATE_PATCH_INT_CSUM,
+
+      STATE_PARAM,
+
+      STATE_PARAM_VOICE,
+      STATE_PARAM_VOICE_VALUE,
+
+      STATE_PARAM_FUNC,
+      STATE_PARAM_FUNC_VALUE
+   };
+
    //! Handle a SYSEX byte
    void sysEx(uint8_t byte) override
    {
       if (byte == 0xF0)
       {
-         state = 0;
+         state = STATE_START;
+         return;
       }
       else if (byte == 0xF7)
       {
+         state = STATE_IGNORE;
+         return;
       }
-      else
+
+      switch(state)
       {
-         switch(state)
+      case STATE_IGNORE:
+         break;
+
+      case STATE_START:
+         state = byte == ID_YAMAHA ? STATE_START_SUB
+                                   : STATE_IGNORE;
+         break;
+
+      case STATE_START_SUB:
          {
-         case 0: // Identification
-            state = byte == ID_YAMAHA ? 1 : 10;
-            break;
-
-         case 1: // Sub-state and channel
+            unsigned sub_status = (byte >> 4) & 0b111;
+            unsigned channel    = byte & 0b1111;
+            if (channel == 0)
             {
-               unsigned sub_status = (byte >> 4) & 0b111;
-               unsigned channel    = byte & 0b1111;
-               if (sub_status == 0)
-                  state = 2;
-               else if (sub_status == 1)
-                  state = 7;
-               (void) channel;
-            }
-            break;
-
-         case 2: // voice patch or patches
-            state = 3;
-            index = 0;
-            if (byte == TYPE_1_VOICE)
-            {
-               buffer      = (uint8_t*) &edit_patch;
-               buffer_size = sizeof(edit_patch);
-            }
-            else if (byte == TYPE_32_VOICES)
-            {
-               buffer      = (uint8_t*) &internal_patches;
-               buffer_size = sizeof(internal_patches);
+               if (sub_status == SUB_STATUS_PATCH)
+                  state = STATE_PATCH;
+               else if (sub_status == SUB_STATUS_PARAM)
+                  state = STATE_PARAM;
             }
             else
-            {
-               state = 10;
-            }
-            break;
-
-         case 3: // byte count MS byte
-            size = byte << 7;
-            state = 4;
-            break;
-
-         case 4: // byte count LS byte
-            size |= byte;
-            if (size == buffer_size)
-            {
-               state = 5;
-            }
-            break;
-
-         case 5: // data
-            buffer[index++] = byte;
-            if (index == buffer_size)
-            {
-               state = 6;
-            }
-            break;
-
-         case 6: // checksum
-            // TODO check the checksum
-            if (buffer == (const uint8_t*)&edit_patch)
-            {
-               for(unsigned i = 0; i < N; ++i)
-                  this->voice[i].loadProgram(0, &edit_patch);
-            }
-            break;
-
-         case 7:
-            group = byte >> 2;
-            param = (byte & 0b11) << 7;
-            state = 8;
-            break;
-
-         case 8:
-            param |= byte;
-            state = 9;
-            break;
-
-         case 9:
-            if (group == 0)
-            {
-               buffer = (uint8_t*) &edit_patch;
-               buffer[param] = byte;
-               for(unsigned i = 0; i < N; ++i)
-                  this->voice[i].loadProgram(0, &edit_patch);
-            }
-            else if (group == 2)
-            {
-               // TODO function parameters
-            }
-            break;
-
-         case 10: // Ignore
-            break;
+               state = STATE_IGNORE;
          }
+         break;
+
+
+      case STATE_PATCH:
+         if (byte == PATCH_FORMAT_1_VOICE)
+         {
+            index = 1;
+            state = STATE_PATCH_SIZE_MS;
+         }
+         else if (byte == PATCH_FORMAT_32_VOICES)
+         {
+            index = 32;
+            state = STATE_PATCH_SIZE_MS;
+         }
+         else
+            state = STATE_IGNORE;
+         break;
+
+      case STATE_PATCH_SIZE_MS:
+         size  = byte << 7;
+         state = STATE_PATCH_SIZE_LS;
+         break;
+
+      case STATE_PATCH_SIZE_LS:
+         size |= byte;
+         if ((index ==  1) && (size == sizeof(edit_patch)))
+         {
+            index = 0;
+            state = STATE_PATCH_EDIT_DATA;
+         }
+         else if ((index == 32) && (size == sizeof(internal_patches)))
+         {
+            index = 0;
+            state = STATE_PATCH_INT_DATA;
+         }
+         else
+            state = STATE_IGNORE;
+         break;
+
+
+      case STATE_PATCH_EDIT_DATA:
+         {
+            auto buffer = (uint8_t*) &edit_patch;
+            buffer[index++] = byte;
+            if (index == size)
+               state = STATE_PATCH_EDIT_CSUM;
+         }
+         break;
+
+      case STATE_PATCH_EDIT_CSUM:
+         // TODO check the checksum
+         for(unsigned i = 0; i < N; ++i)
+            this->voice[i].loadProgram(0, &edit_patch);
+         state = STATE_IGNORE;
+         break;
+
+
+      case STATE_PATCH_INT_DATA:
+         {
+            auto buffer = (uint8_t*) &internal_patches;
+            buffer[index++] = byte;
+            if (index == size)
+               state = STATE_PATCH_INT_CSUM;
+         }
+         break;
+
+      case STATE_PATCH_INT_CSUM:
+         // TODO check the checksum
+         state = STATE_IGNORE;
+         break;
+
+
+      case STATE_PARAM:
+         {
+            unsigned group = byte >> 2;
+            if (group == PARAM_GROUP_VOICE)
+            {
+               index = (byte & 0b11) << 7;
+               state = STATE_PARAM_VOICE;
+            }
+            else if (group == PARAM_GROUP_FUNC)
+            {
+               state = STATE_PARAM_FUNC;
+            }
+         }
+         break;
+
+
+      case STATE_PARAM_VOICE:
+         index |= byte;
+         state = STATE_PARAM_VOICE_VALUE;
+         break;
+
+      case STATE_PARAM_VOICE_VALUE:
+         {
+            auto buffer = (uint8_t*) &edit_patch;
+            buffer[index] = byte;
+
+            for(unsigned i = 0; i < N; ++i)
+               this->voice[i].loadProgram(0, &edit_patch, /* update */ true);
+         }
+         state = STATE_IGNORE;
+         break;
+
+
+      case STATE_PARAM_FUNC:
+         index = byte;
+         state = STATE_PARAM_FUNC_VALUE;
+         break;
+
+      case STATE_PARAM_FUNC_VALUE:
+         // TODO function parameters
+         state = STATE_IGNORE;
+         break;
       }
    }
 
@@ -220,21 +291,21 @@ private:
       this->voice[index_].loadProgram(number_, &edit_patch);
    }
 
-   const uint8_t ID_YAMAHA      = 67;
-   const uint8_t TYPE_1_VOICE   = 0;
-   const uint8_t TYPE_32_VOICES = 9;
+   const uint8_t ID_YAMAHA              = 67;
+   const uint8_t SUB_STATUS_PATCH       = 0;
+   const uint8_t SUB_STATUS_PARAM       = 1;
+   const uint8_t PATCH_FORMAT_1_VOICE   = 0;
+   const uint8_t PATCH_FORMAT_32_VOICES = 9;
+   const uint8_t PARAM_GROUP_VOICE      = 0;
+   const uint8_t PARAM_GROUP_FUNC       = 2;
 
    SysEx::Voice  edit_patch;
    SysEx::Packed internal_patches[32];
 
    // SYSEX state machine state
-   uint8_t  state{0};
-   uint8_t* buffer {};
-   size_t   buffer_size {};
-   size_t   size{};
-   unsigned index{};
-   uint8_t  group{};
-   unsigned param{};
+   State  state{STATE_IGNORE};
+   size_t size{};
+   size_t index{};
 };
 
 } // namespace DX7

@@ -35,9 +35,9 @@ class Voice : public VoiceBase
 public:
    Voice() = default;
 
-   void loadProgram(uint8_t number, const SysEx::Voice* voice)
+   void loadProgram(uint8_t number, const SysEx::Voice* voice, bool update = false)
    {
-      if (debug)
+      if (debug && not update)
       {
          voice->print(number + 1);
       }
