@@ -25,7 +25,7 @@
 #include "SysEx.h"
 
 #include "Table_dx7_exp_14.h"
-#include "Table_dx7_level_30.h"
+#include "Table_dx7_level_22.h"
 #include "Table_dx7_rate_30.h"
 
 //! DX7 envelope generator
@@ -55,7 +55,7 @@ public:
          Index p = getPhase(i);
 
          phase[p].rate  = table_dx7_rate_30[rate_reg[i]];
-         phase[p].level = table_dx7_level_30[((env.level[i] * 164) >> 8) * out_level / 100];
+         phase[p].level = (table_dx7_level_22[(env.level[i] * 164) >> 8] * out_level / 99) << 8;
 
          unsigned prev_i = (i - 1) & 3;
 

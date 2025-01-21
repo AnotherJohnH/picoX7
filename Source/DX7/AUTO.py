@@ -95,12 +95,12 @@ table.gen('dx7_sine_div5_15',
           log2_size  = 12,
           fmt        = '6d')
 
-# 0..63 => 30-bit EG level
-table.gen('dx7_level_30',
-           func      = lambda i,x : int(x * (pow(2, 30) - 1)),
+# 0..63 => 22-bit EG level
+table.gen('dx7_level_22',
+           func      = lambda i,x : int(x * (pow(2, 22) - 1)),
            typename  = "uint32_t",
            log2_size = 6,
-           fmt       = '08x')
+           fmt       = '06x')
 
 # 0..63 => 30-bit EG rate
 table.gen('dx7_rate_30',

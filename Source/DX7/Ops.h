@@ -84,7 +84,7 @@ protected:
 
       int32_t amp_14 = state[op_index].egs();
 
-      uint32_t phase_12 = (state[op_index].stepPhase() + (modulation_12 << 22)) >> 20;
+      uint32_t phase_12 = (state[op_index].stepPhase() - (modulation_12 << 22)) >> 20;
 
       int32_t output_15;
       switch (COM)
