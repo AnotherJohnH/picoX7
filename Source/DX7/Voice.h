@@ -42,7 +42,7 @@ public:
          voice->print(number + 1);
       }
 
-      fw.loadData(voice);
+      fw.loadVoice(voice);
    }
 
    void tick()

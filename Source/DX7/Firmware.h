@@ -29,6 +29,7 @@
 
 #include "Egs.h"
 #include "Lfo.h"
+#include "Modulation.h"
 
 //! Model of Yamaha DX7 firmware
 class Firmware
@@ -39,14 +40,14 @@ public:
    {
    }
 
-   //! Implement PATCH_LOAD_DATA
-   void loadData(const SysEx::Voice* patch_)
+   //! Load voice patch
+   void loadVoice(const SysEx::Voice* patch_)
    {
-      patch = *patch_;
+      voice_patch = *patch_;
 
       for(unsigned i = 0; i < SysEx::NUM_OP; i++)
       {
-         const SysEx::Op& op = patch.op[i];
+         const SysEx::Op& op = voice_patch.op[i];
 
          loadOperatorEgRates(i, op);
          loadOperatorEgLevels(i, op);
@@ -62,7 +63,15 @@ public:
       loadLfo();
 
       // TODO remove
-      hw.prog(&patch);
+      hw.prog(&voice_patch);
+   }
+
+   //! Load param patch
+   void loadParam(const SysEx::Param* patch_)
+   {
+      param_patch = *patch_;
+
+      modulation.load(param_patch);
    }
 
    //! Implement HANDLER_OCF should be called 375 Hz
@@ -74,7 +83,7 @@ public:
    //! Implement VOICE_ADD called for a note on event
    void voiceAdd(uint8_t note_, uint8_t velocity_)
    {
-      uint8_t note = note_ + patch.transpose - 24;
+      uint8_t note = note_ + voice_patch.transpose - 24;
       if (note > 127)
          note = 127;
 
@@ -96,13 +105,14 @@ public:
    //! Implement PITCH_BEND_PARSE
    void setPitchBend(int16_t raw14_)
    {
+      pitch_bend = raw14_;
    }
 
    //! Set raw modulation input
-   void setModWheel(        uint8_t raw_) { mod_wheel      = raw_; }
-   void setModFootControl(  uint8_t raw_) { foot_control   = raw_; }
-   void setModBreathControl(uint8_t raw_) { breath_control = raw_; }
-   void setModAfterTouch(   uint8_t raw_) { after_touch    = raw_; }
+   void setModWheel(        uint8_t raw_) { modulation.rawInput(Modulation::MOD_WHEEL,      raw_); }
+   void setModFootControl(  uint8_t raw_) { modulation.rawInput(Modulation::FOOT_CONTROL,   raw_); }
+   void setModBreathControl(uint8_t raw_) { modulation.rawInput(Modulation::BREATH_CONTROL, raw_); }
+   void setModAfterTouch(   uint8_t raw_) { modulation.rawInput(Modulation::AFTER_TOUCH,    raw_); }
 
 private:
    //! Implement PATCH_LOAD_OPERATOR_EG_RATES
@@ -207,15 +217,15 @@ private:
    //! Implement PATCH_LOAD_ALG_MODE
    void loadAlgMode()
    {
-      hw.setOpsSync(patch.osc_sync);
-      hw.setOpsAlg(patch.alg);
-      hw.setOpsFdbk(patch.feedback);
+      hw.setOpsSync(voice_patch.osc_sync);
+      hw.setOpsAlg(voice_patch.alg);
+      hw.setOpsFdbk(voice_patch.feedback);
    }
 
    //! Implement PATCH_LOAD_LFO
    void loadLfo()
    {
-      lfo.prog(patch);
+      lfo.prog(voice_patch);
    }
 
    //! Implement VOICE_CONVERT_NOTE_TO_PITCH
@@ -237,50 +247,10 @@ private:
       }
    }
 
-   //! Implement MOD_PROCESS_INPUT_SOURCES
-   void modProcessInputSources()
-   {
-      eg_bias_total_range = 0;
-      for(unsigned i = 0; i < NUM_MOD_SOURCE; ++i)
-      {
-         mod[i].computeScaledInput(eg_bias_total_range);
-      }
-
-      // Calculate amplitude modulation and EG bias
-      amp_mod = 0;
-      eg_bias = 0;
-
-      for(unsigned i = 0; i < NUM_MOD_SOURCE; ++i)
-      {
-         if (mod[i].isAmplitude())
-            amp_mod += mod[i]();
-
-         if (mod[i].isEgBias())
-            eg_bias += mod[i]();
-      }
-
-      if (amp_mod > 0xFF)
-         amp_mod = 0xFF;
-
-      if (eg_bias > 0xFF)
-         eg_bias = 0xFF;
-   }
-
    //! Implement MOD_PITCH_LOAD_TO_EGS
    void modPitchLoadToEgs()
    {
-      unsigned pitch_mod = 0;
-
-      for(unsigned i = 0; i < NUM_MOD_SOURCE; ++i)
-      {
-         if (mod[i].isPitch())
-            pitch_mod += mod[i]();
-      }
-
-      if (pitch_mod > 0xFF)
-         pitch_mod = 0xFF;
-
-      pitch_mod += pitch_bend;
+      unsigned pitch_mod = pitch_bend + modulation.getPitchFactor();
 
       hw.setEgsPitchMod(pitch_mod);
    }
@@ -322,78 +292,16 @@ private:
       0x9E, 0xA0, 0xA1, 0xA2, 0xA4, 0xA5, 0xA6, 0xA8
    };
 
-   class Modulation
-   {
-   public:
-      Modulation() = default;
+   SysEx::Voice voice_patch;
+   SysEx::Param param_patch;
 
-      bool isPitch() const     { return pitch; }
-      bool isAmplitude() const { return amplitude; }
-      bool isEgBias() const    { return eg_bias; }
-
-      uint8_t operator()() const { return scaled_input; }
-
-      void prog(bool pitch_, bool amplitude_, bool eg_bias_, uint8_t range_)
-      {
-         pitch     = pitch_;
-         amplitude = amplitude_;
-         eg_bias   = eg_bias_;
-         range     = range_;
-      }
-
-      //! Set the raw input for the modulation source
-      void operator=(uint8_t raw_input_)
-      {
-         raw_input = raw_input_;
-      }
-
-      //! Implement MOD_CALCULATE_SOURCE_SCALED_INPUT
-      void computeScaledInput(uint8_t& eg_bias_total_range)
-      {
-         // Quantise range
-         uint8_t q_range = (range * 660) >> 8;
-
-         // Accumulate EG bias
-         if (eg_bias)
-         {
-            unsigned total_range = eg_bias_total_range + q_range;
-
-            if (total_range > 0xFF)
-               total_range = 0xFF;
-
-            eg_bias_total_range = total_range;
-         }
-
-         scaled_input = (raw_input * q_range) >> 8;
-      }
-
-   private:
-      bool    pitch {false};
-      bool    amplitude {false};
-      bool    eg_bias {false};
-      uint8_t raw_input {0};
-      uint8_t scaled_input {0};
-      uint8_t range {50};
-   };
-
-   SysEx::Voice  patch;
-   Egs&          hw;                   //! Access to simulated DX7 EGS and OPS hardware
-   uint16_t      master_tune {0x959};  //  XXX too high should default to 0x100
-   uint16_t      key_pitch;
-   Lfo           lfo;                  //! Firmware LFO
-
-   // Modulation sources
-   static const unsigned NUM_MOD_SOURCE {4};
-
-   Modulation    mod[NUM_MOD_SOURCE];
-   Modulation&   mod_wheel      {mod[0]};
-   Modulation&   foot_control   {mod[1]};
-   Modulation&   breath_control {mod[2]};
-   Modulation&   after_touch    {mod[3]};
-
-   uint8_t       eg_bias_total_range{};
-   uint8_t       amp_mod {};
-   uint8_t       eg_bias{};
-
+   // Firmware state
+   uint16_t      master_tune{0x959};   //  XXX too high should default to 0x100
+   Modulation    modulation;
    int16_t       pitch_bend;
+   uint16_t      key_pitch;
+   Lfo           lfo;
+
+   // DX7 EGS and OPS interface
+   Egs&          hw;
 };

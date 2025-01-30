@@ -252,4 +252,25 @@ struct Voice
    uint8_t name[NAME_LEN];
 };
 
+//! General parameters
+struct Param
+{
+   void print() const;
+
+   uint8_t mono_not_poly {0};        // 0 => poly, 1 => mono
+   uint8_t pitch_bend_range {0};     // 0-12
+   uint8_t pitch_bend_step{0};       // 0-12
+   uint8_t portamento_mode{0};       // 0 => retain, 1 => follow
+   uint8_t portamento_gliss{0};      // 0-1
+   uint8_t portamento_time{0};       // 0-99
+   uint8_t mod_wheel_range{0};       // 0-99
+   uint8_t mod_wheel_assign{0};      // 0b001 => pitch, 0b010 => amp, 0b100 => EG bias
+   uint8_t foot_control_range{0};    // 0-99
+   uint8_t foot_control_assign{0};   // 0b001 => pitch, 0b010 => amp, 0b100 => EG bias
+   uint8_t breath_control_range{0};  // 0-99
+   uint8_t breath_control_assign{0}; // 0b001 => pitch, 0b010 => amp, 0b100 => EG bias
+   uint8_t after_touch_range{0};     // 0-99
+   uint8_t after_touch_assign{0};    // 0b001 => pitch, 0b010 => amp, 0b100 => EG bias
+};
+
 } // namespace SysEx

@@ -140,3 +140,27 @@ void Voice::print(unsigned n) const
    printf("\n");
    printf("\n");
 }
+
+void Param::print() const
+{
+   fmtf(" MOD", "%2u", mod_wheel_range);
+   fmtf(" P", "%u", mod_wheel_assign & 1);
+   fmtf(" A", "%u", (mod_wheel_assign >> 1) & 1);
+   fmtf(" E", "%u", (mod_wheel_assign >> 2) & 1);
+
+   fmtf("  FOOT", "%2u", foot_control_range);
+   fmtf(" P", "%u", foot_control_assign & 1);
+   fmtf(" A", "%u", (foot_control_assign >> 1) & 1);
+   fmtf(" E", "%u", (foot_control_assign >> 2) & 1);
+
+   fmtf("  BREATH", "%2u", breath_control_range);
+   fmtf(" P", "%u", breath_control_assign & 1);
+   fmtf(" A", "%u", (breath_control_assign >> 1) & 1);
+   fmtf(" E", "%u", (breath_control_assign >> 2) & 1);
+
+   fmtf("  AFTER", "%2u", after_touch_range);
+   fmtf(" P", "%u", after_touch_assign & 1);
+   fmtf(" A", "%u", (after_touch_assign >> 1) & 1);
+   fmtf(" E", "%u", (after_touch_assign >> 2) & 1);
+   printf("\n");
+}
