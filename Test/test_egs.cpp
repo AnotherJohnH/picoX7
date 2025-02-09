@@ -36,7 +36,7 @@ int main()
    Egs          hw;
    Firmware     fw{hw};
 
-   fw.loadData(&patch);
+   fw.loadVoice(&patch);
 
    for(unsigned t = 0; t < 2 * (49096); t++)
    {

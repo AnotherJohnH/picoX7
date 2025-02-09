@@ -250,7 +250,7 @@ private:
    //! Implement MOD_PITCH_LOAD_TO_EGS
    void modPitchLoadToEgs()
    {
-      unsigned pitch_mod = pitch_bend + modulation.getPitchFactor();
+      unsigned pitch_mod = pitch_bend + modulation.getPitchMod();
 
       hw.setEgsPitchMod(pitch_mod);
    }
