@@ -47,44 +47,46 @@ public:
       }
    }
 
-   //! Set an operator envelope generator rate
+   // EGS inputs
+
+   //! Set voice pitch [0x3000..301F]
+   void setEgsVoicePitch(uint16_t pitch_) { voice_pitch = pitch_; }
+
+   //! Set operator pitch value [0x3020..302F]
+   void setEgsOpPitch(unsigned op_index_, uint16_t pitch_) { op_pitch[op_index_] = pitch_; }
+
+   //! Set operator pitch mode, fixed or ratio
+   void setEgsOpPitchFixed(unsigned op_index_, bool fixed_) { op_pitch_fixed[op_index_] = fixed_; }
+
+   //! Set operator detune [0x3030..303F]
+   void setEgsOpDetune(unsigned op_index_, uint8_t detune_) { op_detune[op_index_] = detune_ - 7; }
+
+   //! Set an operator envelope generator rate [0x3040..305F]
    void setEgsOpEgRate(unsigned op_index_, unsigned index_, uint8_t rate6_)
    {
       egs[op_index_]->setRate(index_, rate6_);
    }
 
-   //! Set operator envelope generator target levels
+   //! Set operator envelope generator target levels [0x3060..307F]
    void setEgsOpEgLevel(unsigned op_index_, unsigned index_, const uint8_t level6_)
    {
       egs[op_index_]->setLevel(index_, level6_);
    }
 
-   //! Set operator amplitude modulation sensitivity
-   void setEgsOpAmpModSens(unsigned op_index_, uint8_t sens_)     { op_amp_mod_sens[op_index_] = sens_; }
+   //! Set operator level [0x3080..]
+   void setEgsOpLevel(unsigned op_index_, uint8_t level_) { op_levels[op_index_] = level_; }
 
    //! Set operator rate scaling
    void setEgsOpRateScaling(unsigned op_index_, uint8_t scaling_) { op_rate_scaling[op_index_] = scaling_; }
 
-   //! Set operator pitch mode, fixed or ratio
-   void setEgsOpPitchFixed(unsigned op_index_, bool fixed_)       { op_pitch_fixed[op_index_] = fixed_; }
+   //! Set operator amplitude modulation sensitivity
+   void setEgsOpAmpModSens(unsigned op_index_, uint8_t sens_) { op_amp_mod_sens[op_index_] = sens_; }
 
-   //! Set operator pitch value
-   void setEgsOpPitch(unsigned op_index_, uint16_t pitch_)        { op_pitch[op_index_] = pitch_; }
+   //! Set amplitude modulation (0..FF)
+   void setEgsAmpMod(uint8_t value_) { amp_mod = value_; }
 
-   //! Set operator detune
-   void setEgsOpDetune(unsigned op_index_, uint8_t detune_)       { op_detune[op_index_] = detune_ - 7; }
-
-   //! Set operator lebel
-   void setEgsOpLevel(unsigned op_index_, uint8_t level_)         { op_levels[op_index_] = level_; }
-
-   //! Set voice pitch
-   void setEgsVoicePitch(uint16_t pitch_)                      { voice_pitch = pitch_; }
-
-   //! Set amplitude modulation
-   void setEgsAmpMod(uint8_t modulation_)                      { amp_mod = modulation_; }
-
-   //! Set pitch modulation
-   void setEgsPitchMod(uint8_t modulation_)                    { pitch_mod = modulation_; }
+   //! Set pitch modulation (0..FFFF)
+   void setEgsPitchMod(uint16_t value_) { pitch_mod = value_; }
 
    //! Start of note
    void keyOn()
@@ -105,6 +107,7 @@ public:
          egs[op_index]->keyOff();
       }
    }
+
 
    //! Check if all amplitude envelopes are at L4
    //! NOTE: This is not functionality performed by a real DX
@@ -135,17 +138,15 @@ public:
 private:
    static const unsigned NUM_OP = 6;
 
-   // EGS program state
-   EnvGen*    egs[NUM_OP];
-   uint8_t    op_rate_scaling[NUM_OP] = {0};
-   uint8_t    op_amp_mod_sens[NUM_OP] = {0};
-   bool       op_pitch_fixed[NUM_OP] = {false};
-   uint16_t   op_pitch[NUM_OP] = {0};
-   int8_t     op_detune[NUM_OP] = {0};
-
-   // EGS dynamic voice state
-   uint8_t  op_levels[NUM_OP] {0};
-   uint16_t amp_mod {0};
-   int16_t  pitch_mod {0x0};
-   uint16_t voice_pitch {0};
+   // EGS registers
+   uint16_t voice_pitch{0};
+   uint16_t op_pitch[NUM_OP] = {0};
+   bool     op_pitch_fixed[NUM_OP] = {false};
+   int8_t   op_detune[NUM_OP] = {0};
+   EnvGen*  egs[NUM_OP];
+   uint8_t  op_levels[NUM_OP] = {0};
+   uint8_t  op_rate_scaling[NUM_OP] = {0};
+   uint8_t  op_amp_mod_sens[NUM_OP] = {0};
+   uint8_t  amp_mod{0};                          // DX7 @ 0x30F0
+   uint16_t pitch_mod{0x0};                      // DX7 @ 0x30F2
 };

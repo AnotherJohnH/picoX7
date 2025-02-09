@@ -20,6 +20,8 @@
 // SOFTWARE.
 //------------------------------------------------------------------------------
 
+// \brief DX7 EGS simulation - EG
+
 #pragma once
 
 #include "SysEx.h"
@@ -33,14 +35,14 @@ class EnvGen
 {
    enum Index : uint8_t
    {
-      ATTACK = 0, DECAY1 = 1, DECAY2 = 2, SUSTAIN = 3, RELEASE = 4, IDLE = 5, NUM_PHASE
+      ATTACK = 0, DECAY1 = 1, DECAY2 = 2, SUSTAIN = 3, RELEASE = 4, END = 5, NUM_PHASE
    };
 
 public:
    EnvGen()
    {
-      phase[SUSTAIN].rate  = 0;
-      phase[IDLE].rate     = 0;
+      phase[SUSTAIN].rate = 0;
+      phase[END].rate     = 0;
    }
 
    void setRate(unsigned index, uint8_t rate6_)   { rate_reg[index]  = rate6_; }
@@ -73,9 +75,9 @@ public:
       }
 
       phase[SUSTAIN].level = phase[DECAY2].level;
-      phase[IDLE].level    = phase[RELEASE].level;
+      phase[END].level     = phase[RELEASE].level;
 
-      setPhase(IDLE);
+      setPhase(END);
    }
 
    //! Start a note
@@ -92,22 +94,22 @@ public:
    }
 
    //! Check if amplitude has reached L4
-   bool isComplete() const { return index == IDLE; }
+   bool isComplete() const { return index == END; }
 
    //! Get amplitude sample
    uint32_t operator()()
    {
-      ampl += current.rate;
+      output += current.rate;
 
-      int32_t over = (ampl - current.level) * current.sign;
+      int32_t over = (output - current.level) * current.sign;
       if (over > 0)
       {
-         ampl = current.level;
+         output = current.level;
 
          setPhase(Index(index + 1));
       }
 
-      return table_dx7_exp_14[ampl >> (30 - 14)];
+      return table_dx7_exp_14[output >> (30 - 14)];
    }
 
 private:
@@ -121,7 +123,7 @@ private:
       case 3: return RELEASE;
       }
 
-      return IDLE;
+      return END;
    }
 
    //! Change current phase
@@ -141,10 +143,11 @@ private:
       int32_t sign{0};  //!< Direction
    };
 
-   int32_t ampl{0};          //!< Current amplitude
+   int32_t output{0};        //!< Current amplitude
    Phase   current{};        //!< Current phase control
    Index   index{};          //!< Current phase index
    Phase   phase[NUM_PHASE];
+
    uint8_t rate_reg[4]  = {};
    uint8_t level_reg[4] = {};
 };
