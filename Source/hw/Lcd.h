@@ -35,6 +35,9 @@
 #elif defined(HW_LCD_I2C_BRIDGE)
 #include "MTL/AlphaNumLcd_I2CBridge.h"
 
+#elif defined(HW_LCD_GPIO_ALTERNATE)
+#include "MTL/AlphaNumLcd_Gpio.h"
+
 #else
 #define HW_LCD_NONE
 #endif
@@ -90,6 +93,19 @@ public:
    {
    }
 };
+
+#elif defined(HW_LCD_GPIO_ALTERNATE)
+
+// RP2350 pin 27-35 (GPIO16-23)  : DATA[0:7]
+// RP2350 pin 36 (GPIO24)  : RS
+// rp2350 pin 37 (GPIO25)   : E
+
+using Lcd = MTL::AlphaNumLcd</* PIN_DATA */   MTL::PIN_16,
+                             /* PIN_R_S */    MTL::PIN_24,
+                             /* PIN_ENABLE */ MTL::PIN_25,
+                             /* COLS */       16,
+                             /* ROWS */       2,
+                             /* DL_8BIT */    true>;
 
 #endif
 
