@@ -2,3 +2,4 @@
 build
 Backup
 *.bkp
+/dedicated_hw/picoX7-backups

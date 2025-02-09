@@ -88,6 +88,29 @@
 #define HW_MIDI_IN_NATIVE
 #define HW_DAC_NATIVE
 
+#elif defined(HW_DEDICATED_GPIO_LCD)
+
+#define HW_DESCR "Dedicated PCB + GPIO LCD"
+
+#define HW_MIDI_USB_DEVICE
+#define HW_MIDI_IN_UART1
+#define HW_DAC_PIMORONI_PICO_AUDIO
+#define HW_LED
+#define HW_LED_7_SEG
+#define HW_LCD_GPIO_ALTERNATE
+
+#elif defined(HW_DEDICATED_I2C_LCD)
+
+#define HW_DESCR "Dedicated PCB + I2C LCD"
+
+#define HW_MIDI_USB_DEVICE
+#define HW_MIDI_IN_UART1
+#define HW_DAC_PIMORONI_PICO_AUDIO
+#define HW_LED
+#define HW_LED_7_SEG
+#define HW_LCD_I2C
+#define HW_LCD_I2C_ADDR 0x3E
+
 #else
 
 #error "Target hardware not specified"
