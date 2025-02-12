@@ -64,9 +64,6 @@ public:
       pitch_eg.load(voice_patch);
 
       loadAlgMode();
-
-      // TODO remove
-      hw.prog(&voice_patch);
    }
 
    //! Load param patch
@@ -135,9 +132,14 @@ private:
    //! Implement PATCH_LOAD_OPERATOR_EG_LEVELS
    void loadOperatorEgLevels(unsigned op_index_, const SysEx::Op& op_)
    {
+      hw.setEgsOpLevel(op_index_, op_.out_level);
+
       for(unsigned i = 0; i < 4; ++i)
       {
          uint8_t level6 = table_log[op_.eg_amp.level[i]] >> 1;
+
+         // TODO
+         level6 = op_.eg_amp.level[i];
 
          hw.setEgsOpEgLevel(op_index_, i, level6);
       }

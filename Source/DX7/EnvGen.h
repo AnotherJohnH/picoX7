@@ -43,46 +43,30 @@ public:
    {
       phase[SUSTAIN].rate = 0;
       phase[END].rate     = 0;
-   }
-
-   void setRate(unsigned index, uint8_t rate6_)   { rate_reg[index]  = rate6_; }
-
-   void setLevel(unsigned index, uint8_t level6_) { level_reg[index] = level6_; }
-
-   //! Program the level and rate
-   void prog(const SysEx::EnvGen& env, uint8_t out_level)
-   {
-      for(unsigned i = 0; i < 4; i++)
-      {
-         Index p = getPhase(i);
-
-         phase[p].rate  = table_dx7_rate_30[rate_reg[i]];
-         phase[p].level = (table_dx7_level_22[(env.level[i] * 164) >> 8] * out_level / 99) << 8;
-
-         unsigned prev_i = (i - 1) & 3;
-
-         if (env.level[i] > env.level[prev_i])
-         {
-             // Attack is 4 times faster than release
-             phase[p].rate *= 4;
-             phase[p].sign = +1;
-         }
-         else
-         {
-             phase[p].rate *= -1;
-             phase[p].sign = -1;
-         }
-      }
-
-      phase[SUSTAIN].level = phase[DECAY2].level;
-      phase[END].level     = phase[RELEASE].level;
 
       setPhase(END);
+   }
+
+   void setRate(unsigned index, uint8_t rate6_)
+   {
+      Index p = index == 3 ? RELEASE : Index(index);
+
+      phase[p].rate = table_dx7_rate_30[rate6_];
+   }
+
+   void setLevel(unsigned index, uint8_t level6_, uint8_t out_level_)
+   {
+      Index p = index == 3 ? RELEASE : Index(index);
+
+      phase[p].level = (table_dx7_level_22[(level6_ * 164) >> 8] * out_level_ / 99) << 8;
    }
 
    //! Start a note
    void keyOn()
    {
+      phase[SUSTAIN].level = phase[DECAY2].level;
+      phase[END].level     = phase[RELEASE].level;
+
       setPhase(ATTACK);
    }
 
@@ -99,31 +83,35 @@ public:
    //! Get amplitude sample
    uint32_t operator()()
    {
-      output += current.rate;
-
-      int32_t over = (output - current.level) * current.sign;
-      if (over > 0)
+      if (output >= current.level)
       {
-         output = current.level;
-
-         setPhase(Index(index + 1));
+         output -= current.rate;
+         if (output <= current.level)
+         {
+            output = current.level;
+            nextPhase();
+         }
+      }
+      else
+      {
+         output += current.rate * 4;
+         if (output >= current.level)
+         {
+            output = current.level;
+            nextPhase();
+         }
       }
 
       return table_dx7_exp_14[output >> (30 - 14)];
    }
 
 private:
-   static Index getPhase(unsigned i)
+   void nextPhase()
    {
-      switch(i)
+      if ((index != SUSTAIN) && (index != END))
       {
-      case 0: return ATTACK;
-      case 1: return DECAY1;
-      case 2: return DECAY2;
-      case 3: return RELEASE;
+         setPhase(Index(index + 1));
       }
-
-      return END;
    }
 
    //! Change current phase
@@ -133,21 +121,16 @@ private:
 
       current.rate  = phase[index].rate;
       current.level = phase[index].level;
-      current.sign  = phase[index].sign;
    }
 
    struct Phase
    {
       int32_t rate{0};  //!< Rate phase
       int32_t level{0}; //!< Target level for phase
-      int32_t sign{0};  //!< Direction
    };
 
    int32_t output{0};        //!< Current amplitude
    Phase   current{};        //!< Current phase control
    Index   index{};          //!< Current phase index
    Phase   phase[NUM_PHASE];
-
-   uint8_t rate_reg[4]  = {};
-   uint8_t level_reg[4] = {};
 };

@@ -37,16 +37,6 @@ public:
       }
    }
 
-   void prog(const SysEx::Voice* patch)
-   {
-      for(unsigned i = 0; i < NUM_OP; i++)
-      {
-         const SysEx::Op& op = patch->op[i];
-
-         egs[i]->prog(op.eg_amp, op.out_level);
-      }
-   }
-
    // EGS inputs
 
    //! Set voice pitch [0x3000..301F]
@@ -70,7 +60,7 @@ public:
    //! Set operator envelope generator target levels [0x3060..307F]
    void setEgsOpEgLevel(unsigned op_index_, unsigned index_, const uint8_t level6_)
    {
-      egs[op_index_]->setLevel(index_, level6_);
+      egs[op_index_]->setLevel(index_, level6_, op_levels[op_index_]);
    }
 
    //! Set operator level [0x3080..]
