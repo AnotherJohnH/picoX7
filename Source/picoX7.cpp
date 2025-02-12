@@ -276,6 +276,8 @@ void hw::Audio<SAMPLES_PER_TICK>::getSamples(int16_t* buffer, unsigned n)
    {
       buffer[i + 1] = buffer[i] = synth.getSample(0, NUM_VOICES);
    }
+
+   synth.tick(0, NUM_VOICES);
 }
 
 #endif

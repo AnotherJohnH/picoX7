@@ -287,6 +287,9 @@ private:
 
       int16_t value = mod * lfo.getPitchOutput();
 
+      // TODO
+      value = 0;
+
       value = (value >> 1) + pitch_bend;
 
       hw.setEgsPitchMod(value);
