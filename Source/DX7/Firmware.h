@@ -138,9 +138,6 @@ private:
       {
          uint8_t level6 = table_log[op_.eg_amp.level[i]] >> 1;
 
-         // TODO
-         level6 = op_.eg_amp.level[i];
-
          hw.setEgsOpEgLevel(op_index_, i, level6);
       }
    }

@@ -27,7 +27,6 @@
 #include "SysEx.h"
 
 #include "Table_dx7_exp_14.h"
-#include "Table_dx7_level_22.h"
 #include "Table_dx7_rate_30.h"
 
 //! DX7 envelope generator
@@ -47,6 +46,11 @@ public:
       setPhase(END);
    }
 
+   void setOpLevel(uint8_t op_level_)
+   {
+      op_level = op_level_;
+   }
+
    void setRate(unsigned index, uint8_t rate6_)
    {
       Index p = index == 3 ? RELEASE : Index(index);
@@ -54,11 +58,13 @@ public:
       phase[p].rate = table_dx7_rate_30[rate6_];
    }
 
-   void setLevel(unsigned index, uint8_t level6_, uint8_t out_level_)
+   void setLevel(unsigned index, uint8_t level6_)
    {
       Index p = index == 3 ? RELEASE : Index(index);
 
-      phase[p].level = (table_dx7_level_22[(level6_ * 164) >> 8] * out_level_ / 99) << 8;
+      uint32_t l = 0x3f000000 - (level6_ << 24);
+
+      phase[p].level = ((l >> 8) * op_level / 99) << 8;
    }
 
    //! Start a note
@@ -133,4 +139,5 @@ private:
    Phase   current{};        //!< Current phase control
    Index   index{};          //!< Current phase index
    Phase   phase[NUM_PHASE];
+   uint8_t op_level;         //!< The OP level
 };

@@ -40,7 +40,17 @@ const uint8_t table_log[100] =
    0x09, 0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x00
 };
 
-TEST(EnvGen, init)
+TEST(EnvGen, level)
+{
+   EnvGen eg;
+
+   for(unsigned l = 0; l <= 99; ++l)
+   {
+      printf("%2u, 0x%08x\n", l, 0x3f000000 - ((table_log[l] >> 1) << 24));
+   }
+}
+
+TEST(EnvGen, brass_1)
 {
    // "BRASS   1 "
    SysEx::EnvGen eg_patch[6] =
@@ -58,11 +68,12 @@ TEST(EnvGen, init)
 
    for(unsigned i = 0; i < 6; ++i)
    {
+      env_gen[i].setOpLevel(level[i]);
+
       for(unsigned j = 0; j < 4; ++j)
       {
          env_gen[i].setRate( j, (eg_patch[i].rate[j] * 164) >> 8);
-         //env_gen[i].setLevel(j, table_log[eg_patch[i].level[j]] >> 1, level[i]);
-         env_gen[i].setLevel(j, eg_patch[i].level[j], level[i]);
+         env_gen[i].setLevel(j, table_log[eg_patch[i].level[j]] >> 1);
       }
 
       env_gen[i].keyOn();
@@ -91,4 +102,3 @@ TEST(EnvGen, init)
 
    fclose(fp);
 }
-

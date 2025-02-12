@@ -40,16 +40,28 @@ public:
    // EGS inputs
 
    //! Set voice pitch [0x3000..301F]
-   void setEgsVoicePitch(uint16_t pitch_) { voice_pitch = pitch_; }
+   void setEgsVoicePitch(uint16_t pitch_)
+   {
+      voice_pitch = pitch_;
+   }
 
    //! Set operator pitch value [0x3020..302F]
-   void setEgsOpPitch(unsigned op_index_, uint16_t pitch_) { op_pitch[op_index_] = pitch_; }
+   void setEgsOpPitch(unsigned op_index_, uint16_t pitch_)
+   {
+      op_pitch[op_index_] = pitch_;
+   }
 
    //! Set operator pitch mode, fixed or ratio
-   void setEgsOpPitchFixed(unsigned op_index_, bool fixed_) { op_pitch_fixed[op_index_] = fixed_; }
+   void setEgsOpPitchFixed(unsigned op_index_, bool fixed_)
+   {
+      op_pitch_fixed[op_index_] = fixed_;
+   }
 
    //! Set operator detune [0x3030..303F]
-   void setEgsOpDetune(unsigned op_index_, uint8_t detune_) { op_detune[op_index_] = detune_ - 7; }
+   void setEgsOpDetune(unsigned op_index_, uint8_t detune_)
+   {
+      op_detune[op_index_] = detune_ - 7;
+   }
 
    //! Set an operator envelope generator rate [0x3040..305F]
    void setEgsOpEgRate(unsigned op_index_, unsigned index_, uint8_t rate6_)
@@ -60,17 +72,26 @@ public:
    //! Set operator envelope generator target levels [0x3060..307F]
    void setEgsOpEgLevel(unsigned op_index_, unsigned index_, const uint8_t level6_)
    {
-      egs[op_index_]->setLevel(index_, level6_, op_levels[op_index_]);
+      egs[op_index_]->setLevel(index_, level6_);
    }
 
    //! Set operator level [0x3080..]
-   void setEgsOpLevel(unsigned op_index_, uint8_t level_) { op_levels[op_index_] = level_; }
+   void setEgsOpLevel(unsigned op_index_, uint8_t level_)
+   {
+      egs[op_index_]->setOpLevel(level_);
+   }
 
    //! Set operator rate scaling
-   void setEgsOpRateScaling(unsigned op_index_, uint8_t scaling_) { op_rate_scaling[op_index_] = scaling_; }
+   void setEgsOpRateScaling(unsigned op_index_, uint8_t scaling_)
+   {
+      op_rate_scaling[op_index_] = scaling_;
+   }
 
    //! Set operator amplitude modulation sensitivity
-   void setEgsOpAmpModSens(unsigned op_index_, uint8_t sens_) { op_amp_mod_sens[op_index_] = sens_; }
+   void setEgsOpAmpModSens(unsigned op_index_, uint8_t sens_)
+   {
+      op_amp_mod_sens[op_index_] = sens_;
+   }
 
    //! Set amplitude modulation (0..FF)
    void setEgsAmpMod(uint8_t value_) { amp_mod = value_; }
@@ -134,7 +155,6 @@ private:
    bool     op_pitch_fixed[NUM_OP] = {false};
    int8_t   op_detune[NUM_OP] = {0};
    EnvGen*  egs[NUM_OP];
-   uint8_t  op_levels[NUM_OP] = {0};
    uint8_t  op_rate_scaling[NUM_OP] = {0};
    uint8_t  op_amp_mod_sens[NUM_OP] = {0};
    uint8_t  amp_mod{0};                          // DX7 @ 0x30F0
