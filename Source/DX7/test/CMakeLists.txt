@@ -1,16 +1,16 @@
-#------------------------------------------------------------------------------
-#  Copyright (c) 2023 John D. Haughton
-#
+#-------------------------------------------------------------------------------
+#  Copyright (c) 2019 John D. Haughton
+# 
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to deal
 #  in the Software without restriction, including without limitation the rights
 #  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 #  copies of the Software, and to permit persons to whom the Software is
 #  furnished to do so, subject to the following conditions:
-#
+# 
 #  The above copyright notice and this permission notice shall be included in
 #  all copies or substantial portions of the Software.
-#
+# 
 #  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 #  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,21 +20,19 @@
 #  SOFTWARE.
 #-------------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 3.19.1)
+if(${PLT_NATIVE})
 
-project(picoX7
-        LANGUAGES CXX ASM
-        VERSION 0.19)
+   add_executable(test_DX7
+                  testMain.cpp
+                  testEnvGen.cpp)
 
-include(CTest)
+   target_include_directories(test_DX7
+      PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/..
+      PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/..)
 
-add_subdirectory(Platform)
+   target_link_libraries(test_DX7
+      PRIVATE DX7 STB)
 
-add_subdirectory(Source)
-add_subdirectory(Test)
-add_subdirectory(docs/Research)
+   add_test(NAME test_DX7 COMMAND test_DX7)
 
-if(${PLT_TARGET} STREQUAL rpipico OR ${PLT_TARGET} STREQUAL rpipico2)
-   # TODO automate conversion of VERSION to hex
-   target_compile_definitions(MTL PUBLIC PLT_BCD_VERSION=0x0019)
 endif()
