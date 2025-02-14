@@ -239,6 +239,8 @@ struct Voice
       transpose           = packed.transpose;
 
       memcpy(name, packed.name, NAME_LEN);
+
+      operator_on = 0b00111111;
    }
 
    Op      op[NUM_OP];
@@ -250,6 +252,7 @@ struct Voice
    uint8_t pitch_mod_sense {0}; // 0-7
    uint8_t transpose {0};       // 0-48     12 = C2
    uint8_t name[NAME_LEN];
+   uint8_t operator_on;
 };
 
 //! General parameters

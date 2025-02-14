@@ -51,19 +51,20 @@ public:
       {
          const SysEx::Op& op = voice_patch.op[i];
 
-         loadOperatorEgRates(i, op);
-         loadOperatorEgLevels(i, op);
-         loadOperatorKbdScaling(i, op);
-         loadOperatorKbdVelSens(i, op);
-         loadOperatorPitch(i, op);
-         loadOperatorKbdRateScaling(i, op);
-         loadOperatorDetune(i, op);
+         patchActivateOperatorEgRate(i, op);
+         patchActivateOperatorEgLevel(i, op);
+         patchActivateOperatorKbdScaling(i, op);
+         patchActivateOperatorKbdVelSens(i, op);
+         patchActivateOperatorPitch(i, op);
+         patchActivateOperatorKbdRateScaling(i, op);
+         patchActivateOperatorDetune(i, op);
+
+         op_enable[i] = (patch_->operator_on & (1 << i)) != 0;
       }
 
-      lfo.load(voice_patch);
       pitch_eg.load(voice_patch);
-
-      loadAlgMode();
+      patchActivateAlgMode();
+      lfo.load(voice_patch);
    }
 
    //! Load param patch
@@ -118,8 +119,8 @@ public:
    void setModAfterTouch(   uint8_t raw_) { modulation.rawInput(Modulation::AFTER_TOUCH,    raw_); }
 
 private:
-   //! Implement PATCH_LOAD_OPERATOR_EG_RATES
-   void loadOperatorEgRates(unsigned op_index_, const SysEx::Op& op_)
+   //! Implement PATCH_ACTIVATE_OPERATOR_EG_RATE
+   void patchActivateOperatorEgRate(unsigned op_index_, const SysEx::Op& op_)
    {
       for(unsigned i = 0; i < 4; ++i)
       {
@@ -129,8 +130,8 @@ private:
       }
    }
 
-   //! Implement PATCH_LOAD_OPERATOR_EG_LEVELS
-   void loadOperatorEgLevels(unsigned op_index_, const SysEx::Op& op_)
+   //! Implement PATCH_ACTIVATE_OPERATOR_EG_LEVEL
+   void patchActivateOperatorEgLevel(unsigned op_index_, const SysEx::Op& op_)
    {
       hw.setEgsOpLevel(op_index_, op_.out_level);
 
@@ -142,20 +143,64 @@ private:
       }
    }
 
-   //! Implement PATCH_LOAD_OPERATOR_KBD_SCALING
-   void loadOperatorKbdScaling(unsigned index, const SysEx::Op& op)
+   //! Implement PATCH_ACTIVATE_OPERATOR_KBD_SCALING
+   void patchActivateOperatorKbdScaling(unsigned index, const SysEx::Op& op)
    {
-      // TODO
+      unsigned breakpoint  = table_key_pitch[op.kbd_lvl_scl_bpt + 20] >> 2;
+      unsigned depth_left  = (op.kbd_lvl_scl_lft_depth * 660) >> 8;
+      unsigned depth_right = (op.kbd_lvl_scl_rgt_depth * 660) >> 8;
+
+      static const uint8_t table_kbd_scaling_curve_exp[36] =
+      {
+         0x00, 0x01, 0x02, 0x03, 0x04, 0x05,
+         0x06, 0x07, 0x08, 0x09, 0x0B, 0x0E,
+         0x10, 0x13, 0x17, 0x1C, 0x21, 0x27,
+         0x2F, 0x39, 0x43, 0x50, 0x5F, 0x71,
+         0x86, 0xA0, 0xBE, 0xE0, 0xFF, 0xFF,
+         0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
+      };
+
+      static const uint8_t table_kbd_scaling_curve_lin[36] =
+      {
+         0x00, 0x08, 0x10, 0x18, 0x20, 0x28,
+         0x30, 0x38, 0x40, 0x48, 0x50, 0x58,
+         0x60, 0x68, 0x70, 0x78, 0x80, 0x88,
+         0x90, 0x98, 0xA0, 0xA8, 0xB2, 0xB8,
+         0xC0, 0xC8, 0xD0, 0xD8, 0xE0, 0xE8,
+         0xF0, 0xF8, 0xFF, 0xFF, 0xFF, 0xFF
+      };
+
+      signed         left_sign  = op.kbd_lvl_scl_lft_curve >= 2 ? +1 : -1;
+      bool           left_lin   = op.kbd_lvl_scl_lft_curve == 0 || op.kbd_lvl_scl_lft_curve == 3;
+      const uint8_t* left_curve = left_lin ? table_kbd_scaling_curve_lin
+                                           : table_kbd_scaling_curve_exp;
+
+      signed         right_sign  = op.kbd_lvl_scl_rgt_curve >= 2 ? +1 : -1;
+      bool           right_lin   = op.kbd_lvl_scl_rgt_curve == 0 || op.kbd_lvl_scl_rgt_curve == 3;
+      const uint8_t* right_curve = right_lin ? table_kbd_scaling_curve_lin
+                                             : table_kbd_scaling_curve_exp;
+
+      unsigned out_level = table_log[op.out_level];
+
+      for(signed note = 0; note < 43; ++note)
+      {
+         signed offset = note - breakpoint;
+
+         signed curve = offset <= 0 ? left_curve[-offset] * depth_left * left_sign
+                                    : right_curve[offset] * depth_right * right_sign;
+
+         op_out[index][note] = out_level + curve;
+      }
    }
 
-   //! Implement PATCH_LOAD_OPERATOR_VEL_SENS
-   void loadOperatorKbdVelSens(unsigned index, const SysEx::Op& op)
+   //! Implement PATCH_ACTIVATE_OPERATOR_VEL_SENS
+   void patchActivateOperatorKbdVelSens(unsigned index, const SysEx::Op& op)
    {
-      // TODO
+      op_key_vel_sense[index] = (8 - op.key_vel_sense) * 0x1E0;
    }
 
-   //! Implement PATCH_LOAD_OPERATOR_PITCH
-   void loadOperatorPitch(unsigned index, const SysEx::Op& op)
+   //! Implement PATCH_ACTIVATE_OPERATOR_PITCH
+   void patchActivateOperatorPitch(unsigned index, const SysEx::Op& op)
    {
       if (op.osc_mode == SysEx::RATIO)
       {
@@ -202,20 +247,21 @@ private:
       }
    }
 
-   void loadOperatorKbdRateScaling(unsigned index, const SysEx::Op& op)
+   //! Implement PATCH_ACTIVATE_OPERATOR_KBD_RATE_SCALING
+   void patchActivateOperatorKbdRateScaling(unsigned index, const SysEx::Op& op)
    {
       hw.setEgsOpRateScaling(index, op.kbd_rate_scale);
       hw.setEgsOpAmpModSens(index, op.amp_mod_sense);
    }
 
-   //! Implement PATCH_LOAD_OPERATOR_DETUNE
-   void loadOperatorDetune(unsigned index, const SysEx::Op& op)
+   //! Implement PATCH_ACTIVATE_OPERATOR_DETUNE
+   void patchActivateOperatorDetune(unsigned index, const SysEx::Op& op)
    {
       hw.setEgsOpDetune(index, op.osc_detune);
    }
 
-   //! Implement PATCH_LOAD_ALG_MODE
-   void loadAlgMode()
+   //! Implement PATCH_ACTIVATE_ALG_MODE
+   void patchActivateAlgMode()
    {
       hw.setOpsSync(voice_patch.osc_sync);
       hw.setOpsAlg(voice_patch.alg);
@@ -231,9 +277,37 @@ private:
    }
 
    //! Implement VOICE_ADDLOAD_OPERATOR_DATA_TO_EGS
-   void voiceAddLoadOperatorDataToEgs(uint16_t pitch, uint8_t note_vel)
+   void voiceAddLoadOperatorDataToEgs(uint16_t pitch_, uint8_t note_vel7_)
    {
-      hw.setEgsVoicePitch(pitch + master_tune);
+      static uint8_t table_op_volume_velocity_scale[32] =
+      {
+         0x00, 0x04, 0x0C, 0x15, 0x1E, 0x28, 0x2E, 0x34,
+         0x3A, 0x40, 0x46, 0x4C, 0x52, 0x58, 0x5E, 0x64,
+         0x67, 0x6A, 0x6D, 0x70, 0x72, 0x74, 0x76, 0x78,
+         0x7A, 0x7C, 0x7E, 0x80, 0x82, 0x83, 0x84, 0x85
+      };
+
+      uint8_t scale = table_op_volume_velocity_scale[note_vel7_ >> 2];
+
+      for(unsigned op_index = 0; op_index < SysEx::NUM_OP; ++op_index)
+      {
+         uint16_t vel_sense = op_key_vel_sense[op_index];
+
+         unsigned vol = ((vel_sense & 0xFF00) + scale * (vel_sense & 0xFF)) >> 8;
+         if (vol > 0xFF) vol = 0xFF;
+
+         op_volume[op_index] = vol;
+
+         if (op_enable[op_index])
+         {
+         }
+         else
+         {
+            vol = 0xFF;
+         }
+      }
+
+      hw.setEgsVoicePitch(pitch_ + master_tune);
 
       for(unsigned op_index = 0; op_index < SysEx::NUM_OP; ++op_index)
       {
@@ -337,6 +411,11 @@ private:
    Modulation    modulation;
    Lfo           lfo;
    PitchEg<1>    pitch_eg;
+
+   uint16_t      op_key_vel_sense[6];    //!< M_PATCH_OP_SENS
+   uint16_t      op_volume[6];           //!< M_OP_VOULME
+   bool          op_enable[6];
+   uint8_t       op_out[6][43];
 
    // DX7 EGS and OPS interface
    Egs&          hw;
