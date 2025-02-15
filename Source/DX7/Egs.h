@@ -178,9 +178,9 @@ public:
    }
 
    //! Set pitch modulation (0..FFFF)
-   void setEgsPitchMod(uint16_t pitch_mod_)
+   void setEgsPitchMod(int16_t pitch_mod_)
    {
-      pitch_mod = pitch_mod_;
+      pitch_mod = pitch_mod_ >> 4;
 
       sendEgsFreq();
 
@@ -203,6 +203,7 @@ public:
       return true;
    }
 
+   //! Called by OPS simulation for next EG level
    int32_t getEgsAmp(unsigned op_index_)
    {
       return egs[op_index_]->operator()();
@@ -258,7 +259,7 @@ private:
    uint8_t  op_rate_scaling[NUM_OP] = {0};
    uint8_t  op_amp_mod_sens[NUM_OP] = {0};
    uint8_t  amp_mod{0};                          // DX7 @ 0x30F0
-   uint16_t pitch_mod{0x0};                      // DX7 @ 0x30F2
+   int16_t  pitch_mod{0x0};                      // DX7 @ 0x30F2
 
 #if defined(REG_SIM)
    uint8_t  reg[256];
