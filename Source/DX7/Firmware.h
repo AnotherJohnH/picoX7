@@ -65,6 +65,8 @@ public:
       pitch_eg.load(voice_patch);
       patchActivateAlgMode();
       lfo.load(voice_patch);
+
+      hw.debug();
    }
 
    //! Load param patch
@@ -257,7 +259,7 @@ private:
    //! Implement PATCH_ACTIVATE_OPERATOR_DETUNE
    void patchActivateOperatorDetune(unsigned index, const SysEx::Op& op)
    {
-      hw.setEgsOpDetune(index, op.osc_detune);
+      hw.setEgsOpDetune(index, op.osc_detune - 7);
    }
 
    //! Implement PATCH_ACTIVATE_ALG_MODE
