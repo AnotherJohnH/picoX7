@@ -310,11 +310,6 @@ private:
       }
 
       hw.setEgsVoicePitch(pitch_ + master_tune);
-
-      for(unsigned op_index = 0; op_index < SysEx::NUM_OP; ++op_index)
-      {
-         hw.setOpsFreq(op_index, hw.getEgsFreq(op_index));
-      }
    }
 
    void computeAmplitudeModulation()

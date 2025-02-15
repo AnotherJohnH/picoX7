@@ -48,6 +48,8 @@ public:
    {
       voice_pitch = pitch_;
 
+      sendEgsFreq();
+
 #if defined(REG_SIM)
       pitch_ <<= 2;
       reg[0] = pitch_ >> 8;
@@ -58,7 +60,7 @@ public:
    //! Set operator pitch value [0x3020..302F]
    void setEgsOpPitch(unsigned op_index_, uint16_t pitch_)
    {
-      op_pitch[op_index_] = pitch_;
+      op_pitch[op_index_] = pitch_ >> 2;
 
 #if defined(REG_SIM)
       reg[0x20 + op_index_ * 2] = pitch_ >> 8;
@@ -180,6 +182,8 @@ public:
    {
       pitch_mod = pitch_mod_;
 
+      sendEgsFreq();
+
 #if defined(REG_SIM)
       reg[0xF2] = pitch_mod_ >> 8;
       reg[0xF3] = pitch_mod_ & 0xFF;
@@ -202,14 +206,6 @@ public:
    int32_t getEgsAmp(unsigned op_index_)
    {
       return egs[op_index_]->operator()();
-   }
-
-   //! get frequency value from the EGS for the OPS
-   uint32_t getEgsFreq(unsigned op_index_)
-   {
-      uint16_t pitch = op_pitch_fixed[op_index_] ? 0 : voice_pitch;
-
-      return pitch + (op_pitch[op_index_] >> 2) + op_detune[op_index_] + pitch_mod;
    }
 
    void debug()
@@ -237,6 +233,20 @@ public:
    }
 
 private:
+   //! Send frequency value from the EGS to the OPS
+   void sendEgsFreq()
+   {
+      for(unsigned op_index_ = 0; op_index_ < 6; op_index_++)
+      {
+         uint16_t pitch = op_pitch_fixed[op_index_] ? 0
+                                                    : voice_pitch;
+
+         pitch += op_pitch[op_index_] + op_detune[op_index_] + pitch_mod;
+
+         setOpsFreq(op_index_, pitch);
+      }
+   }
+
    static const unsigned NUM_OP = 6;
 
    // EGS registers
