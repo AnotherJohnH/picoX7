@@ -44,7 +44,7 @@ public:
    int8_t getAmpOutput() const { return output; }
 
    //! Get current pitch output value (2's comp 8-bit)
-   int8_t getPitchOutput() const { return output * pitch_mod_sense >> 8; }
+   int8_t getPitchOutput() const { return (output * pitch_mod_sense) >> 8; }
 
    //! Configure from SysEx program
    void load(const SysEx::Voice& patch)
@@ -165,10 +165,10 @@ public:
                0x7D, 0x7D, 0x7E, 0x7E, 0x7F, 0x7F, 0x7F, 0x7F
             };
 
-            uint8_t index = (phase_accum >> 8) % 64;
-            if (phase_accum & 0x4000)
+            unsigned index = (phase_accum >> 8) & 0x3F;
+            if ((phase_accum & 0x4000) != 0)
             {
-               index ^= 63;
+               index ^= 0x3F;
             }
             output = sine_table[index];
             if (phase_accum < 0)
@@ -213,7 +213,7 @@ private:
    uint16_t delay_accum{0};           //!< DX7 var @ 0xDD:DE
 
    // Outputs
-   uint8_t  output{0};                //!< DX7 var @ 0xD9
+   int8_t   output{0};                //!< DX7 var @ 0xD9
    uint8_t  amp_mod{};
    uint8_t  pitch_mod{};
 };
