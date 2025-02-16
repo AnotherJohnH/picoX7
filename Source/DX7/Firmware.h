@@ -414,7 +414,7 @@ private:
    SysEx::Param param_patch;
 
    // Firmware state
-   int16_t      master_tune{0x0000};
+   int16_t      master_tune{0x0100};
    int16_t      pitch_bend;
 
    Modulation   modulation;
