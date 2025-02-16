@@ -149,7 +149,8 @@ private:
 
       case STATE_PATCH_SIZE_LS:
          size |= byte;
-         if ((index ==  1) && (size == sizeof(edit_patch)))
+         // sizeof(edit_patch) - 1 as the operator on/off byte is missing from the message
+         if ((index == 1) && (size == (sizeof(edit_patch) - 1)))
          {
             index = 0;
             state = STATE_PATCH_EDIT_DATA;
@@ -170,6 +171,9 @@ private:
             buffer[index++] = byte;
             if (index == size)
                state = STATE_PATCH_EDIT_CSUM;
+
+            // operator on/off byte is not in the patch se default to all on
+            edit_patch.operator_on = 0b111111;
          }
          break;
 
