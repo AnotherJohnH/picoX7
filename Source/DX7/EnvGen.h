@@ -67,6 +67,16 @@ public:
       phase[p].level = ((l >> 8) * op_level / 99) << 8;
    }
 
+   void setAmpMod(uint8_t amp_mod_)
+   {
+      amp_mod = amp_mod_;
+   }
+
+   void setAmpModSens(uint8_t amp_mod_sens_)
+   {
+      amp_mod_sens = amp_mod_sens_;
+   }
+
    //! Start a note
    void keyOn()
    {
@@ -140,4 +150,6 @@ private:
    Index   index{};          //!< Current phase index
    Phase   phase[NUM_PHASE];
    uint8_t op_level;         //!< The OP level
+   uint8_t amp_mod;          //!< Amplitude modulation
+   uint8_t amp_mod_sens;     //!< Amplitude modulation sensitivity
 };

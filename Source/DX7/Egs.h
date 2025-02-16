@@ -37,7 +37,7 @@ public:
    {
       for(unsigned i = 0; i < NUM_OP; ++i)
       {
-         egs[i] = getEgsPointer(i);
+         op_egs[i] = getEgsPointer(i);
       }
    }
 
@@ -92,7 +92,7 @@ public:
    //! Set an operator envelope generator rate [0x3040..305F]
    void setEgsOpEgRate(unsigned op_index_, unsigned index_, uint8_t rate6_)
    {
-      egs[op_index_]->setRate(index_, rate6_);
+      op_egs[op_index_]->setRate(index_, rate6_);
 
 #if defined(REG_SIM)
       reg[0x40 + op_index_ * 4 + index_] = rate6_;
@@ -102,7 +102,7 @@ public:
    //! Set operator envelope generator target levels [0x3060..307F]
    void setEgsOpEgLevel(unsigned op_index_, unsigned index_, const uint8_t level6_)
    {
-      egs[op_index_]->setLevel(index_, level6_);
+      op_egs[op_index_]->setLevel(index_, level6_);
 
 #if defined(REG_SIM)
       reg[0x60 + op_index_ * 4 + index_] = level6_;
@@ -112,7 +112,7 @@ public:
    //! Set operator level [0x3080..]
    void setEgsOpLevel(unsigned op_index_, uint8_t level_)
    {
-      egs[op_index_]->setOpLevel(level_);
+      op_egs[op_index_]->setOpLevel(level_);
 
 #if defined(REG_SIM)
       reg[0x80 + op_index_] = level_;
@@ -132,7 +132,7 @@ public:
    //! Set operator amplitude modulation sensitivity
    void setEgsOpAmpModSens(unsigned op_index_, uint8_t sens_)
    {
-      op_amp_mod_sens[op_index_] = sens_;
+      op_egs[op_index_]->setAmpModSens(sens_);
 
 #if defined(REG_SIM)
       reg[0xE0 + op_index_] = (reg[0xE0 + op_index_] & 0b111) | (sens_ << 3);
@@ -142,7 +142,10 @@ public:
    //! Set amplitude modulation (0..FF)
    void setEgsAmpMod(uint8_t amp_mod_)
    {
-      amp_mod = amp_mod_;
+      for(unsigned op_index = 0; op_index < 6; ++op_index)
+      {
+         op_egs[op_index]->setAmpMod(amp_mod_);
+      }
 
 #if defined(REG_SIM)
       reg[0xF0] = amp_mod_;
@@ -154,7 +157,7 @@ public:
    {
       for(unsigned op_index = 0; op_index < NUM_OP; ++op_index)
       {
-         egs[op_index]->keyOn();
+         op_egs[op_index]->keyOn();
       }
 
       Ops<NUM_OP>::keyOn();
@@ -169,7 +172,7 @@ public:
    {
       for(unsigned op_index = 0; op_index < NUM_OP; ++op_index)
       {
-         egs[op_index]->keyOff();
+         op_egs[op_index]->keyOff();
       }
 
 #if defined(REG_SIM)
@@ -196,17 +199,17 @@ public:
    {
       for(unsigned op_index = 0; op_index < NUM_OP; ++op_index)
       {
-         if (not egs[op_index]->isComplete())
+         if (not op_egs[op_index]->isComplete())
             return false;
       }
 
       return true;
    }
 
-   //! Called by OPS simulation for next EG level
+   //! Used by unit test
    int32_t getEgsAmp(unsigned op_index_)
    {
-      return egs[op_index_]->operator()();
+      return op_egs[op_index_]->operator()();
    }
 
    void debug()
@@ -250,18 +253,17 @@ private:
 
    static const unsigned NUM_OP = 6;
 
-   // EGS registers
+   // State representing EGS registers
    uint16_t voice_pitch{0};
    uint16_t op_pitch[NUM_OP] = {0};
    bool     op_pitch_fixed[NUM_OP] = {false};
    int8_t   op_detune[NUM_OP] = {0};
-   EnvGen*  egs[NUM_OP];
+   EnvGen*  op_egs[NUM_OP];
    uint8_t  op_rate_scaling[NUM_OP] = {0};
-   uint8_t  op_amp_mod_sens[NUM_OP] = {0};
-   uint8_t  amp_mod{0};                          // DX7 @ 0x30F0
    int16_t  pitch_mod{0x0};                      // DX7 @ 0x30F2
 
 #if defined(REG_SIM)
+   // Bit accurate EGS register contents
    uint8_t  reg[256];
 #endif
 };
