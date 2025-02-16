@@ -56,7 +56,7 @@ public:
    //! Set operator frequency
    void setOpsFreq(unsigned op_index, uint32_t f14)
    {
-      state[op_index].phase_inc_32 = table_dx7_exp_22[f14] << 9;
+      state[op_index].phase_inc_32 = table_dx7_exp_22[f14] << 12;
    }
 
    //! Start of note

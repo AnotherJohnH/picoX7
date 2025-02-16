@@ -46,12 +46,11 @@ public:
    //! Set voice pitch [0x3000..301F]
    void setEgsVoicePitch(uint16_t pitch_)
    {
-      voice_pitch = pitch_;
+      voice_pitch = pitch_ >> 2;
 
       sendEgsFreq();
 
 #if defined(REG_SIM)
-      pitch_ <<= 2;
       reg[0] = pitch_ >> 8;
       reg[1] = pitch_ & 0xFF;
 #endif
@@ -242,7 +241,7 @@ private:
    {
       for(unsigned op_index_ = 0; op_index_ < 6; op_index_++)
       {
-         uint16_t pitch = op_pitch_fixed[op_index_] ? 0
+         uint32_t pitch = op_pitch_fixed[op_index_] ? 0
                                                     : voice_pitch;
 
          pitch += op_pitch[op_index_] + op_detune[op_index_] + pitch_mod;

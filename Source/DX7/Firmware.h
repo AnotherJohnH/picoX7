@@ -96,13 +96,17 @@ public:
       if (note > 127)
          note = 127;
 
-      voiceConvertNoteToPitch(note);
-
-      lfo.keyOn();
+      uint16_t key_pitch = voiceConvertNoteToLogFreq(note);
 
       voiceAddLoadOperatorDataToEgs(key_pitch, velocity_);
 
+      voiceAddLoadFreqToEgs(key_pitch);
+
+      lfo.keyOn();
+
       hw.keyOn();
+
+      hw.debug();
    }
 
    //! Implement VOICE_REMOVE called for a note off event
@@ -270,15 +274,15 @@ private:
       hw.setOpsFdbk(voice_patch.feedback);
    }
 
-   //! Implement VOICE_CONVERT_NOTE_TO_PITCH
-   void voiceConvertNoteToPitch(uint8_t note)
+   //! Implement VOICE_CONVERT_NOTE_TO_LOG_FREQ
+   uint16_t voiceConvertNoteToLogFreq(uint8_t note_)
    {
-      uint8_t value   = table_key_pitch[note];
+      uint8_t value   = table_key_pitch[note_];
       uint8_t ls_bits = value & 0b11;
-      key_pitch       = (value << 6) | (ls_bits << 4) | (ls_bits << 2);
+      return (value << 8) | (ls_bits << 6) | (ls_bits << 4) | (ls_bits << 2);
    }
 
-   //! Implement VOICE_ADDLOAD_OPERATOR_DATA_TO_EGS
+   //! Implement VOICE_ADD_LOAD_OPERATOR_DATA_TO_EGS
    void voiceAddLoadOperatorDataToEgs(uint16_t pitch_, uint8_t note_vel7_)
    {
       static uint8_t table_op_volume_velocity_scale[32] =
@@ -308,8 +312,20 @@ private:
             vol = 0xFF;
          }
       }
+   }
 
-      hw.setEgsVoicePitch(pitch_ + master_tune);
+   //! Implement VOICE_ADD_LOAD_FREQ_TO_EGS
+   void voiceAddLoadFreqToEgs(int16_t pitch_)
+   {
+      pitch_ += pitch_eg.getOutput(/* voice */ 0);
+
+      pitch_ -= 0x1BA8;
+      if (pitch_ < 0)
+         pitch_ = 0;
+
+      pitch_ += master_tune;
+
+      hw.setEgsVoicePitch(pitch_);
    }
 
    void computeAmplitudeModulation()
@@ -398,18 +414,17 @@ private:
    SysEx::Param param_patch;
 
    // Firmware state
-   uint16_t      master_tune{0x959};   //  XXX too high should default to 0x100
-   int16_t       pitch_bend;
-   uint16_t      key_pitch;
+   int16_t      master_tune{0x0000};
+   int16_t      pitch_bend;
 
-   Modulation    modulation;
-   Lfo           lfo;
-   PitchEg<1>    pitch_eg;
+   Modulation   modulation;
+   Lfo          lfo;
+   PitchEg<1>   pitch_eg;
 
-   uint16_t      op_key_vel_sense[6];    //!< M_PATCH_OP_SENS
-   uint16_t      op_volume[6];           //!< M_OP_VOULME
-   bool          op_enable[6];
-   uint8_t       op_out[6][43];
+   uint16_t     op_key_vel_sense[6];    //!< M_PATCH_OP_SENS
+   uint16_t     op_volume[6];           //!< M_OP_VOULME
+   bool         op_enable[6];
+   uint8_t      op_out[6][43];
 
    // DX7 EGS and OPS interface
    Egs&          hw;
