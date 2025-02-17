@@ -41,7 +41,7 @@ public:
    PitchEg() = default;
 
    //! Get current output value
-   uint8_t getOutput(unsigned voice_index_) const   { return output[voice_index_]; }
+   int16_t getOutput(unsigned voice_index_) const { return output[voice_index_] - 0x4000; }
 
    //! Configure from SysEx program
    void load(const SysEx::Voice& patch)
@@ -95,17 +95,17 @@ public:
    }
 
    //! Step the EG (should be called at 375 Hz)
-   void tick()
+   bool tick()
    {
       toggle = not toggle;
       if (toggle)
-         return;
+         return false;
 
       for(unsigned v = 0; v < NUM_VOICES; ++v)
       {
          if ((phase[v] != SUSTAIN) && (phase[v] != END))
          {
-            unsigned s       = phase[v] > 3 ? 3 : phase[v];
+            unsigned s       = phase[v] > SUSTAIN ? 3 : phase[v];
             unsigned delta   = rate[s];
             unsigned target  = level[s] << 7;
             unsigned current = output[v];
@@ -139,6 +139,8 @@ public:
             }
          }
       }
+
+      return true;
    }
 
 private:

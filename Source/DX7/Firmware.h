@@ -84,9 +84,14 @@ public:
 
       computeAmplitudeModulation();
 
-      pitch_eg.tick();
+      if (pitch_eg.tick())
+      {
+         voiceAddLoadFreqToEgs(key_pitch);
+      }
 
       computePitchModulation();
+
+      hw.sendEgsFreq();
    }
 
    //! Implement VOICE_ADD called for a note on event
@@ -96,13 +101,16 @@ public:
       if (note > 127)
          note = 127;
 
-      uint16_t key_pitch = voiceConvertNoteToLogFreq(note);
+      key_pitch = voiceConvertNoteToLogFreq(note);
 
       voiceAddLoadOperatorDataToEgs(key_pitch, velocity_);
 
       voiceAddLoadFreqToEgs(key_pitch);
 
+      hw.sendEgsFreq();
+
       lfo.keyOn();
+      pitch_eg.keyOn(/* voice */ 0);
 
       hw.keyOn();
 
@@ -112,6 +120,7 @@ public:
    //! Implement VOICE_REMOVE called for a note off event
    void voiceRemove()
    {
+      pitch_eg.keyOff(/* voice */ 0);
       hw.keyOff();
    }
 
@@ -420,6 +429,7 @@ private:
    Modulation   modulation;
    Lfo          lfo;
    PitchEg<1>   pitch_eg;
+   uint16_t     key_pitch;
 
    uint16_t     op_key_vel_sense[6];    //!< M_PATCH_OP_SENS
    uint16_t     op_volume[6];           //!< M_OP_VOULME

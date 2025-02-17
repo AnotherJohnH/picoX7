@@ -48,8 +48,6 @@ public:
    {
       voice_pitch = pitch_ >> 2;
 
-      sendEgsFreq();
-
 #if defined(REG_SIM)
       reg[0] = pitch_ >> 8;
       reg[1] = pitch_ & 0xFF;
@@ -184,8 +182,6 @@ public:
    {
       pitch_mod = pitch_mod_ >> 4;
 
-      sendEgsFreq();
-
 #if defined(REG_SIM)
       reg[0xF2] = pitch_mod_ >> 8;
       reg[0xF3] = pitch_mod_ & 0xFF;
@@ -235,7 +231,6 @@ public:
 #endif
    }
 
-private:
    //! Send frequency value from the EGS to the OPS
    void sendEgsFreq()
    {
@@ -250,6 +245,7 @@ private:
       }
    }
 
+private:
    static const unsigned NUM_OP = 6;
 
    // State representing EGS registers

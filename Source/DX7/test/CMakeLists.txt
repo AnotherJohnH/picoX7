@@ -24,7 +24,8 @@ if(${PLT_NATIVE})
 
    add_executable(test_DX7
                   testMain.cpp
-                  testEnvGen.cpp)
+                  testEnvGen.cpp
+                  testPitchEg.cpp)
 
    target_include_directories(test_DX7
       PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/..
