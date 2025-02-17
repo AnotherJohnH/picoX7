@@ -112,7 +112,7 @@ public:
       op_egs[op_index_]->setOpLevel(level_);
 
 #if defined(REG_SIM)
-      reg[0x80 + op_index_] = level_;
+      reg[0x80 + op_index_ * 16] = level_;
 #endif
    }
 
