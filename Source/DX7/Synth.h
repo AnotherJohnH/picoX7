@@ -149,13 +149,12 @@ private:
 
       case STATE_PATCH_SIZE_LS:
          size |= byte;
-         // sizeof(edit_patch) - 1 as the operator on/off byte is missing from the message
-         if ((index == 1) && (size == (sizeof(edit_patch) - 1)))
+         if ((index == 1) && (size == SYSEX_EDIT_PATCH_SIZE))
          {
             index = 0;
             state = STATE_PATCH_EDIT_DATA;
          }
-         else if ((index == 32) && (size == sizeof(internal_patches)))
+         else if ((index == 32) && (size == SYSEX_32_PATCH_SIZE))
          {
             index = 0;
             state = STATE_PATCH_INT_DATA;
@@ -302,6 +301,10 @@ private:
    const uint8_t PATCH_FORMAT_32_VOICES = 9;
    const uint8_t PARAM_GROUP_VOICE      = 0;
    const uint8_t PARAM_GROUP_FUNC       = 2;
+
+   // sizeof(SysEx::Voice) - 1 as the operator on/off byte is missing from the SYSEX message
+   const size_t SYSEX_EDIT_PATCH_SIZE = sizeof(SysEx::Voice) - 1;
+   const size_t SYSEX_32_PATCH_SIZE   = sizeof(SysEx::Packed) * 32;
 
    SysEx::Voice  edit_patch;
    SysEx::Packed internal_patches[32];
