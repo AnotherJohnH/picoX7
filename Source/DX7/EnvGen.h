@@ -58,13 +58,13 @@ public:
       phase[p].rate = table_dx7_rate_30[rate6_];
    }
 
-   void setLevel(unsigned index, uint8_t level6_)
+   void setLevel(unsigned index, uint8_t level6_, uint8_t bad_op_level_)
    {
       Index p = index == 3 ? RELEASE : Index(index);
 
       uint32_t l = 0x3f000000 - (level6_ << 24);
 
-      phase[p].level = ((l >> 8) * op_level / 99) << 8;
+      phase[p].level = ((l >> 8) * bad_op_level_ / 99) << 8;
    }
 
    void setAmpMod(uint8_t amp_mod_)

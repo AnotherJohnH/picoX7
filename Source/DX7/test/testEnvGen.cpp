@@ -68,12 +68,12 @@ TEST(EnvGen, brass_1)
 
    for(unsigned i = 0; i < 6; ++i)
    {
-      env_gen[i].setOpLevel(level[i]);
+      env_gen[i].setOpLevel(level[i]); // TODO convert to real value sent to EGS
 
       for(unsigned j = 0; j < 4; ++j)
       {
          env_gen[i].setRate( j, (eg_patch[i].rate[j] * 164) >> 8);
-         env_gen[i].setLevel(j, table_log[eg_patch[i].level[j]] >> 1);
+         env_gen[i].setLevel(j, table_log[eg_patch[i].level[j]] >> 1, level[i]);
       }
 
       env_gen[i].keyOn();

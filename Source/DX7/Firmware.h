@@ -148,13 +148,11 @@ private:
    //! Implement PATCH_ACTIVATE_OPERATOR_EG_LEVEL
    void patchActivateOperatorEgLevel(unsigned op_index_, const SysEx::Op& op_)
    {
-      hw.setEgsOpLevel(op_index_, op_.out_level);
-
       for(unsigned i = 0; i < 4; ++i)
       {
          uint8_t level6 = table_log[op_.eg_amp.level[i]] >> 1;
 
-         hw.setEgsOpEgLevel(op_index_, i, level6);
+         hw.setEgsOpEgLevel(op_index_, i, level6, op_.out_level);
       }
    }
 
@@ -320,6 +318,8 @@ private:
          {
             vol = 0xFF;
          }
+
+         hw.setEgsOpLevel(op_index, vol);
       }
    }
 
