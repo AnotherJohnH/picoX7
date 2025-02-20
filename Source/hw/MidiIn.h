@@ -75,9 +75,13 @@ private:
    uint8_t rx() override { return data[n++]; }
 
    unsigned n {0};
+
    uint8_t  data[7] =
    {
-      0x90, 0x3C, 0x7F, 0x40, 0x7F, 0x43, 0x7F
+      0x90,        // NOTE ON
+      0x3C, 0x7F,  // C vel=127
+      0x40, 0x7F,  // E vel=127
+      0x43, 0x7F   // G vel=127
    };
 };
 
