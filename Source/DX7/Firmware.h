@@ -452,7 +452,12 @@ private:
    SysEx::Param param_patch;
 
    // Firmware state
+#if defined(HW_NATIVE)
+   int16_t      master_tune{0x0121}; // Tune up to attempt to compenstate for 48KHz sample rate
+#else
    int16_t      master_tune{0x0100};
+#endif
+
    int16_t      pitch_bend;
 
    Modulation   modulation;
