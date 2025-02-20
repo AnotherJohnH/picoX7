@@ -193,33 +193,42 @@ private:
          0xF0, 0xF8, 0xFF, 0xFF, 0xFF, 0xFF
       };
 
-      signed         left_sign  = op.kbd_lvl_scl_lft_curve >= 2 ? +1 : -1;
+      // Note, sign is "opposite" as lower values are louder
+
+      signed         left_sign  = op.kbd_lvl_scl_lft_curve >= 2 ? -1 : +1;
       bool           left_lin   = op.kbd_lvl_scl_lft_curve == 0 || op.kbd_lvl_scl_lft_curve == 3;
       const uint8_t* left_curve = left_lin ? table_kbd_scaling_curve_lin
                                            : table_kbd_scaling_curve_exp;
 
-      signed         right_sign  = op.kbd_lvl_scl_rgt_curve >= 2 ? +1 : -1;
+      signed         right_sign  = op.kbd_lvl_scl_rgt_curve >= 2 ? -1 : +1;
       bool           right_lin   = op.kbd_lvl_scl_rgt_curve == 0 || op.kbd_lvl_scl_rgt_curve == 3;
       const uint8_t* right_curve = right_lin ? table_kbd_scaling_curve_lin
                                              : table_kbd_scaling_curve_exp;
 
       unsigned out_level = table_log[op.out_level];
 
-      for(signed note = 0; note < 43; ++note)
+      for(signed note = 1; note <= 43; ++note)
       {
          signed offset = note - breakpoint;
 
          signed curve = offset <= 0 ? left_curve[-offset] * depth_left * left_sign
                                     : right_curve[offset] * depth_right * right_sign;
 
-         op_out[index][note] = out_level + curve;
+         signed note_level = (out_level + (curve >> 8)) << 1;
+
+         if (note_level < 0)
+            note_level = 0;
+         else if (note_level > 0xFF)
+            note_level = 0xFF;
+
+         operator_keyboard_scaling[index][note - 1] = note_level;
       }
    }
 
    //! Implement PATCH_ACTIVATE_OPERATOR_VEL_SENS
    void patchActivateOperatorKbdVelSens(unsigned index, const SysEx::Op& op)
    {
-      op_key_vel_sense[index] = (8 - op.key_vel_sense) * 0x1E0;
+      patch_op_sens[index] = (8 - op.key_vel_sense) * 0x1E0;
    }
 
    //! Implement PATCH_ACTIVATE_OPERATOR_PITCH
@@ -314,19 +323,29 @@ private:
 
       for(unsigned op_index = 0; op_index < SysEx::NUM_OP; ++op_index)
       {
-         uint16_t vel_sense = op_key_vel_sense[op_index];
+         uint16_t vel_sense = patch_op_sens[op_index];
 
          unsigned vol = ((vel_sense & 0xFF00) + scale * (vel_sense & 0xFF)) >> 8;
          if (vol > 0xFF) vol = 0xFF;
 
          op_volume[op_index] = vol;
 
-         if (op_enable[op_index])
+         if (not op_enable[op_index])
          {
+            vol = 0xFF;
          }
          else
          {
-            vol = 0xFF;
+            vol = op_volume[op_index] + operator_keyboard_scaling[op_index][pitch_ >> 10];
+
+            if (vol > 0xFF)
+            {
+               vol = 0xFF;
+            }
+            else if (vol < 4)
+            {
+               vol = 4;
+            }
          }
 
          hw.setEgsOpLevel(op_index, vol);
@@ -441,10 +460,10 @@ private:
    PitchEg<1>   pitch_eg;
    uint16_t     key_pitch;
 
-   uint16_t     op_key_vel_sense[6];    //!< M_PATCH_OP_SENS
-   uint16_t     op_volume[6];           //!< M_OP_VOULME
+   uint16_t     patch_op_sens[6];                  //!< M_PATCH_OP_SENS
+   uint16_t     op_volume[6];                      //!< M_OP_VOULME
    bool         op_enable[6];
-   uint8_t      op_out[6][43];
+   uint8_t      operator_keyboard_scaling[6][43];  //!< M_OPERATOR_KEYBOARD_SCALING
 
    // DX7 EGS and OPS interface
    Egs&          hw;
