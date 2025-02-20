@@ -25,10 +25,6 @@
 #include "OpsAlg.h"
 #include "EnvGen.h"
 
-#if defined(HW_NATIVE)
-#define REG_SIM
-#endif
-
 //! Model of Yamaha EGS (like the YM21290)
 class Egs : public OpsAlg
 {
