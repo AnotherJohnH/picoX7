@@ -95,15 +95,25 @@ public:
    }
 
    //! Implement VOICE_ADD called for a note on event
-   void voiceAdd(uint8_t note_, uint8_t velocity_)
+   void voiceAdd(uint8_t note_, uint8_t midi_velocity_)
    {
+      static const uint8_t table_midi_vel[32] =
+      {
+         0x6E, 0x64, 0x5A, 0x55, 0x50, 0x4B, 0x46, 0x41,
+         0x3A, 0x36, 0x32, 0x2E, 0x2A, 0x26, 0x22, 0x1E,
+         0x1C, 0x1A, 0x18, 0x16, 0x14, 0x12, 0x10, 0x0E,
+         0x0C, 0x0A, 0x08, 0x06, 0x04, 0x02, 0x01, 0x00
+      };
+
+      uint8_t velocity = table_midi_vel[midi_velocity_ >> 2];
+
       uint8_t note = note_ + voice_patch.transpose - 24;
       if (note > 127)
          note = 127;
 
       key_pitch = voiceConvertNoteToLogFreq(note);
 
-      voiceAddLoadOperatorDataToEgs(key_pitch, velocity_);
+      voiceAddLoadOperatorDataToEgs(key_pitch, velocity);
 
       voiceAddLoadFreqToEgs(key_pitch);
 
