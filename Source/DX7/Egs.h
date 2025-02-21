@@ -93,10 +93,9 @@ public:
    }
 
    //! Set operator envelope generator target levels [0x3060..307F]
-   void setEgsOpEgLevel(unsigned op_index_, unsigned index_, const uint8_t level6_,
-                        const uint8_t bad_op_level_)
+   void setEgsOpEgLevel(unsigned op_index_, unsigned index_, const uint8_t level6_)
    {
-      op_egs[op_index_]->setLevel(index_, level6_, bad_op_level_);
+      op_egs[op_index_]->setLevel(index_, level6_);
 
 #if defined(REG_SIM)
       reg[0x60 + op_index_ * 4 + index_] = level6_;

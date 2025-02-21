@@ -24,6 +24,8 @@
 
 #pragma once
 
+#include <cstdio>
+
 #include "SysEx.h"
 
 #include "Table_dx7_exp_14.h"
@@ -49,6 +51,17 @@ public:
    void setOpLevel(uint8_t op_level_)
    {
       op_level = op_level_;
+
+      for(unsigned index = 0; index < 4; index++)
+      {
+         Index p = index == 3 ? RELEASE : Index(index);
+
+         unsigned level = (patch_level[index] << 1) + op_level;
+         if (level > 0x7F)
+            level = 0x7F;
+
+         phase[p].level = 0x3f800000 - (level << 23);
+      }
    }
 
    void setRate(unsigned index, uint8_t rate6_)
@@ -58,13 +71,9 @@ public:
       phase[p].rate = table_dx7_rate_30[rate6_];
    }
 
-   void setLevel(unsigned index, uint8_t level6_, uint8_t bad_op_level_)
+   void setLevel(unsigned index, uint8_t level6_)
    {
-      Index p = index == 3 ? RELEASE : Index(index);
-
-      uint32_t l = 0x3f000000 - (level6_ << 24);
-
-      phase[p].level = ((l >> 8) * bad_op_level_ / 99) << 8;
+      patch_level[index] = level6_;
    }
 
    void setAmpMod(uint8_t amp_mod_)
@@ -141,8 +150,8 @@ private:
 
    struct Phase
    {
-      int32_t rate{0};  //!< Rate phase
-      int32_t level{0}; //!< Target level for phase
+      int32_t rate{0};        //!< Rate phase
+      int32_t level{0};       //!< Target level for phase
    };
 
    int32_t output{0};        //!< Current amplitude
@@ -152,4 +161,5 @@ private:
    uint8_t op_level;         //!< The OP level
    uint8_t amp_mod;          //!< Amplitude modulation
    uint8_t amp_mod_sens;     //!< Amplitude modulation sensitivity
+   uint8_t patch_level[4];
 };
