@@ -46,7 +46,7 @@ public:
    //! Set the algorithm feedback level
    void setOpsFdbk(uint8_t feedback_)
    {
-      fdbk = (7 - feedback_) + 4;
+      fdbk = (7 - feedback_) + 2;
    }
 
    //! Set operator frequency
@@ -79,7 +79,7 @@ protected:
       const unsigned op_index = NUM_OP - OP_NUMBER;
 
       uint32_t phase_32    = state[op_index].stepPhase();
-      uint32_t phase_12    = (phase_32 + (modulation_12 << 23)) >> (32 - 12);
+      uint32_t phase_12    = (phase_32 + (modulation_12 << 20)) >> (32 - 12);
       uint32_t log_wave_14 = table_dx7_log_sine_14[phase_12];
 
       // Apply EG attenuation
@@ -103,12 +103,12 @@ protected:
 
       switch(SEL)
       {
-      case 0: modulation_12 = 0;                                           break;
-      case 1: modulation_12 = output_14 >> 3;                              break;
-      case 2: modulation_12 = sum_15 >> 3;                                 break;
-      case 3: modulation_12 = memory_15 >> 3;                              break;
-      case 4: modulation_12 = feedback1_15 >> 3;                           break;
-      case 5: modulation_12 = (feedback1_15 + feedback2_15) >> (fdbk + 1); break;
+      case 0: modulation_12 = 0;                                     break;
+      case 1: modulation_12 = output_14;                             break;
+      case 2: modulation_12 = sum_15;                                break;
+      case 3: modulation_12 = memory_15;                             break;
+      case 4: modulation_12 = feedback1_15;                          break;
+      case 5: modulation_12 = (feedback1_15 + feedback2_15) >> fdbk; break;
       }
 
       if (A)
