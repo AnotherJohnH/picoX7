@@ -26,10 +26,6 @@
 #include "Table_dx7_exp_22.h"
 #include "Table_dx7_log_sine_14.h"
 
-#include "Table_dx7_sine_15.h"
-#include "Table_dx7_sine_div3_15.h"
-#include "Table_dx7_sine_div5_15.h"
-
 #include "EnvGen.h"
 
 //! Model of Yamaha OPS (like the YM21280)
@@ -82,40 +78,38 @@ protected:
       // encoding
       const unsigned op_index = NUM_OP - OP_NUMBER;
 
-      int32_t amp_14 = state[op_index].egs();
+      uint32_t phase_12  = (state[op_index].stepPhase() + (modulation_12 << 23)) >> 20;
+      int32_t  amp_13    = state[op_index].egs();
+      uint32_t log_15    = table_dx7_log_sine_14[phase_12] + amp_13;
 
-      uint32_t phase_12 = (state[op_index].stepPhase() - (modulation_12 << 25)) >> 20;
+      log_15 += LOG2_COM << 7;
 
-      int32_t output_15;
-      switch (COM)
-      {
-      case 1: output_15 = (table_dx7_sine_15[phase_12]      * amp_14) >> 14; break; //  1/1
-      case 2: output_15 = (table_dx7_sine_15[phase_12]      * amp_14) >> 15; break; //  1/2
-      case 3: output_15 = (table_dx7_sine_div3_15[phase_12] * amp_14) >> 14; break; //  1/3
-      case 4: output_15 = (table_dx7_sine_15[phase_12]      * amp_14) >> 16; break; //  1/4
-      case 5: output_15 = (table_dx7_sine_div5_15[phase_12] * amp_14) >> 14; break; //  1/5
-      case 6: output_15 = (table_dx7_sine_div3_15[phase_12] * amp_14) >> 15; break; //  1/6
-      }
+      if (log_15 > 0x3FFF)
+         log_15 = 0x3FFF;
 
-      int32_t sum_15 = 0;
+      signed output_14 = table_dx7_exp_14[0x3FFF - log_15];
+      if (phase_12 > 0x800)
+         output_14 = -output_14;
+
+      signed sum_15 = 0;
       if (C) sum_15 = memory_15;
-      if (D) sum_15 += output_15;
+      if (D) sum_15 += output_14;
 
       switch(SEL)
       {
-      case 0: modulation_12 = 0;                                     break;
-      case 1: modulation_12 = output_15 >> 3;                        break;
-      case 2: modulation_12 = sum_15 >> 3;                           break;
-      case 3: modulation_12 = memory_15 >> 3;                        break;
-      case 4: modulation_12 = feedback1_15 >> 3;                     break;
-      case 5: modulation_12 = (feedback1_15 + feedback2_15) >> fdbk; break;
+      case 0: modulation_12 = 0;                                           break;
+      case 1: modulation_12 = output_14 >> 3;                              break;
+      case 2: modulation_12 = sum_15 >> 3;                                 break;
+      case 3: modulation_12 = memory_15 >> 3;                              break;
+      case 4: modulation_12 = feedback1_15 >> 3;                           break;
+      case 5: modulation_12 = (feedback1_15 + feedback2_15) >> (fdbk + 1); break;
       }
 
       if (A)
       {
          // Feeedback path enabled
          feedback2_15 = feedback1_15;
-         feedback1_15 = output_15;
+         feedback1_15 = output_14;
       }
 
       if (C or D)

@@ -28,7 +28,6 @@
 
 #include "SysEx.h"
 
-#include "Table_dx7_exp_14.h"
 #include "Table_dx7_rate_30.h"
 
 //! DX7 envelope generator
@@ -50,17 +49,15 @@ public:
 
    void setOpLevel(uint8_t op_level_)
    {
-      op_level = op_level_;
-
       for(unsigned index = 0; index < 4; index++)
       {
          Index p = index == 3 ? RELEASE : Index(index);
 
-         unsigned level = (patch_level[index] << 1) + op_level;
+         unsigned level = (patch_level[index] << 1) + op_level_;
          if (level > 0x7F)
             level = 0x7F;
 
-         phase[p].level = 0x3f800000 - (level << 23);
+         phase[p].level = level << 23;
       }
    }
 
@@ -127,7 +124,7 @@ public:
          }
       }
 
-      return table_dx7_exp_14[output >> (30 - 14)];
+      return output >> (30 - 13);
    }
 
 private:
@@ -158,7 +155,6 @@ private:
    Phase   current{};        //!< Current phase control
    Index   index{};          //!< Current phase index
    Phase   phase[NUM_PHASE];
-   uint8_t op_level;         //!< The OP level
    uint8_t amp_mod;          //!< Amplitude modulation
    uint8_t amp_mod_sens;     //!< Amplitude modulation sensitivity
    uint8_t patch_level[4];

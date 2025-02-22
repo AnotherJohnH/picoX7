@@ -67,33 +67,12 @@ table.gen('dx7_exp_22',
           log2_size  = 14,
           fmt        = '08x')
 
-# 11-bit => 14-bit  half log-sine table
+# 12-bit => 14-bit abs-log-sine table
 table.gen('dx7_log_sine_14',
-          func       = lambda i,x : int(-math.log(math.sin((i + 0.5) * math.pi / 2048), 2) * 1024 + 0.5002),
+          func       = lambda i,x : int(-math.log(abs(math.sin((i + 0.5) * math.pi / 2048)), 2) * 1024 + 0.5002),
           typename   = "uint16_t",
-          log2_size  = 11,
+          log2_size  = 12,
           fmt        = '04x')
-
-# 12-bit => 14-bit   sine table
-table.gen('dx7_sine_15',
-          func       = lambda i,x : int(math.sin((i + 0.5) * 2 * math.pi / 4096) * 0x3FFF + 0.5002),
-          typename   = "int16_t",
-          log2_size  = 12,
-          fmt        = '6d')
-
-# 12-bit => 14-bit   sine table / 3
-table.gen('dx7_sine_div3_15',
-          func       = lambda i,x : int(math.sin((i + 0.5) * 2 * math.pi / 4096) * 0x3FFF / 3 + 0.5002),
-          typename   = "int16_t",
-          log2_size  = 12,
-          fmt        = '6d')
-
-# 12-bit => 14-bit   sine table / 5
-table.gen('dx7_sine_div5_15',
-          func       = lambda i,x : int(math.sin((i + 0.5) * 2 * math.pi / 4096) * 0x3FFF / 5 + 0.5002),
-          typename   = "int16_t",
-          log2_size  = 12,
-          fmt        = '6d')
 
 # 0..63 => 30-bit EG rate
 table.gen('dx7_rate_30',
