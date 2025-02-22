@@ -47,17 +47,19 @@ public:
       setPhase(END);
    }
 
-   void setOpLevel(uint8_t op_level_)
+   void setOpLevel(uint8_t op_level_7_)
    {
       for(unsigned index = 0; index < 4; index++)
       {
          Index p = index == 3 ? RELEASE : Index(index);
 
-         unsigned level = (patch_level[index] << 1) + op_level_;
-         if (level > 0x7F)
-            level = 0x7F;
+         unsigned atten = patch_level_7[index] + op_level_7_;
+         if (atten > 0x7F)
+            atten = 0x7F;
 
-         phase[p].level = level << 23;
+         phase[p].level = (atten << (INTERNAL_BITS -  7)) |
+                          (atten << (INTERNAL_BITS - 14)) |
+                          (atten << (INTERNAL_BITS - 21));
       }
    }
 
@@ -70,7 +72,10 @@ public:
 
    void setLevel(unsigned index, uint8_t level6_)
    {
-      patch_level[index] = level6_;
+      // Convert to 7-bit
+      // 0x00 - No attenuation
+      // 0x7F - Full attenuation
+      patch_level_7[index] = (level6_ << 1) | (level6_ >> 5);
    }
 
    void setAmpMod(uint8_t amp_mod_)
@@ -102,12 +107,14 @@ public:
    //! Check if amplitude has reached L4
    bool isComplete() const { return index == END; }
 
-   //! Get amplitude sample
+   //! Get amplitude sample 12-bit logarithmic
+   //! 0x000 no attenuation
+   //! 0xFFF full attenuation
    uint32_t operator()()
    {
       if (output >= current.level)
       {
-         output -= current.rate;
+         output -= current.rate * 4;
          if (output <= current.level)
          {
             output = current.level;
@@ -116,7 +123,7 @@ public:
       }
       else
       {
-         output += current.rate * 4;
+         output += current.rate;
          if (output >= current.level)
          {
             output = current.level;
@@ -124,7 +131,7 @@ public:
          }
       }
 
-      return output >> (30 - 13);
+      return output >> (INTERNAL_BITS - OUT_BITS);
    }
 
 private:
@@ -151,11 +158,14 @@ private:
       int32_t level{0};       //!< Target level for phase
    };
 
+   static const unsigned INTERNAL_BITS = 30;
+   static const unsigned OUT_BITS      = 12;
+
    int32_t output{0};        //!< Current amplitude
    Phase   current{};        //!< Current phase control
    Index   index{};          //!< Current phase index
    Phase   phase[NUM_PHASE];
    uint8_t amp_mod;          //!< Amplitude modulation
    uint8_t amp_mod_sens;     //!< Amplitude modulation sensitivity
-   uint8_t patch_level[4];
+   uint8_t patch_level_7[4];
 };

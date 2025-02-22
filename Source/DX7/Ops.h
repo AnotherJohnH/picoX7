@@ -78,9 +78,9 @@ protected:
       // encoding
       const unsigned op_index = NUM_OP - OP_NUMBER;
 
-      uint32_t phase_12  = (state[op_index].stepPhase() + (modulation_12 << 23)) >> 20;
-      int32_t  amp_13    = state[op_index].egs();
-      uint32_t log_15    = table_dx7_log_sine_14[phase_12] + amp_13;
+      uint32_t phase_12 = (state[op_index].stepPhase() + (modulation_12 << 23)) >> (32 - 12);
+      int32_t  amp_12   = state[op_index].egs();
+      uint32_t log_15   = table_dx7_log_sine_14[phase_12] + (amp_12 << 1);
 
       log_15 += LOG2_COM << 7;
 
