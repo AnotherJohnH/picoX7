@@ -2,11 +2,43 @@
 
 ![picox7](docs/picoX7.png)
 
-A software simulation of the Yamaha DX7 with a MIDI interface for the Raspberry Pi Pico
+A software simulation of the Yamaha DX7 with a USB and physical MIDI interface for the Raspberry Pi Pico
 
 Slightly boring [video](https://www.youtube.com/watch?v=7_5bl6q7xVs) of the picoX7 playing the Yamaha DX7 ROM cartrdige 1A patches...
 
 [![picoX7 rom1A](http://img.youtube.com/vi/7_5bl6q7xVs/0.jpg)](http://www.youtube.com/watch?v=7_5bl6q7xVs "picoX7 rom1A")
+
+## Status
+
+Done...
+   + I2S (via PIO) 16-bit stereo DAC interface at 49096 Hz
+   + Use of the 2nd Arm Cortex-M
+   + MIDI in support via UART and USB (including SYSEX in)
+   + Voice allocator
+   + YM21280 OPS simulation (logarithmic)
+   + YM21290 EGS simulation
+   + Firmware simulation including pitch envelope, LFO, key sensitivity and level scaling
+   + DX7 voice patches sound close
+
+To do...
+   - Tune EGS simulation
+   - Rate scaling
+   - Amplitude modulation sensitivity
+   - Portamento and glissando
+   - Optimise to squeeze in more voices
+
+Limitations...
+   - DAC implementation is quite different to the original. Dynamic range might be reduced?
+   - Hitachi 6303 (~MC6803) CPU controller and firmware is not being emulated or fully simulated
+   - [8 voices](https://github.com/AnotherJohnH/picoX7/wiki/Software-Blog#16th-july-2023) (not 16!) - Running on two arm cores at ~85% CPU usage
+   - 4 voices are on the left channel and 4 on the right ... stereo output needs to mixed to mono externally
+
+Deviations/enhancements compared to a real DX7...
+   + Each voice has it's own LFO
+   + Each voice has it's own patch state (in theory when supported could load a different patch into each voice)
+   + Support for 128 voice patches (DX7 had 32 internal and 32 cartridge)
+
+See the [software blog](https://github.com/AnotherJohnH/picoX7/wiki/Software-Blog) and [hardware blog](https://github.com/AnotherJohnH/picoX7/wiki/Hardware-Blog)  for more detailed progress updates.
 
 ## Software dependencies
 
@@ -72,36 +104,6 @@ In addition all the above targets are built for and work with RP2350 Picos as we
 |Raspberry Pi Debug probe|Not essential but very helpful|[PiHut](https://thepihut.com/products/raspberry-pi-debug-probe)|
 
 **NOTE** No particular affiliation with PiHut but they have a nice selection and excellent service
-
-## Status
-
-Incomplete but starting to work.
-
-Done...
-   + I2S (via PIO) 16-bit stereo DAC interface at 49096 Hz
-   + Basic MIDI in support via UART and USB
-   + Voice allocator
-   + YM21280 OPS simulation
-   + Basic YM21290 EGS simulation
-   + DX7 voice patches are starting to sound recognisble
-   + Use the 2nd Arm Cortex-M0
-
-To do, (at least)...
-   - Tune EGS simulation
-   - Pitch envelope
-   - LFO
-   - Rate and level scaling
-   - Mod and key sensitivity
-   - Maybe a logarithmic OPS implementation
-   - Optimise to squeeze in more voices
-
-Limitations...
-   + DAC implementation is quite different to the original. Suspect dynamic range is reduced
-   + Hitachi 6303 (~MC6803) CPU controller and firmware is not being emulated
-   + not using logs for sine amplitude modulation in the OPS => almost certainly not bit accurate
-   + [8 voices](https://github.com/AnotherJohnH/picoX7/wiki/Software-Blog#16th-july-2023) (not 16!) - Running on two arm cores at ~85% CPU usage
-
-See the [software blog](https://github.com/AnotherJohnH/picoX7/wiki/Software-Blog) and [hardware blog](https://github.com/AnotherJohnH/picoX7/wiki/Hardware-Blog)  for more detailed progress updates.
 
 ## How to build
 
