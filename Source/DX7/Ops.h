@@ -68,7 +68,7 @@ public:
    }
 
 protected:
-   //! Simulate a single operator (and associated envelope generator)
+   //! Simulate a single operator
    template <unsigned OP_NUMBER, unsigned SEL, bool A, bool C, bool D, unsigned COM, unsigned LOG2_COM>
    int32_t ops()
    {
@@ -78,16 +78,22 @@ protected:
       // encoding
       const unsigned op_index = NUM_OP - OP_NUMBER;
 
-      uint32_t phase_12 = (state[op_index].stepPhase() + (modulation_12 << 23)) >> (32 - 12);
-      int32_t  amp_12   = state[op_index].egs();
-      uint32_t log_15   = table_dx7_log_sine_14[phase_12] + (amp_12 << 1);
+      uint32_t phase_32    = state[op_index].stepPhase();
+      uint32_t phase_12    = (phase_32 + (modulation_12 << 23)) >> (32 - 12);
+      uint32_t log_wave_14 = table_dx7_log_sine_14[phase_12];
 
-      log_15 += LOG2_COM << 7;
+      // Apply EG attenuation
+      uint32_t amp_12 = state[op_index].egs();
+      log_wave_14 += (amp_12 << 1);
 
-      if (log_15 > 0x3FFF)
-         log_15 = 0x3FFF;
+      // Apply algorithm compensation
+      log_wave_14 += LOG2_COM << 7;
 
-      signed output_14 = table_dx7_exp_14[0x3FFF - log_15];
+      // Limit to maximum attenuation TODO fold into exp table
+      if (log_wave_14 > 0x3FFF)
+         log_wave_14 = 0x3FFF;
+
+      signed output_14 = table_dx7_exp_14[0x3FFF - log_wave_14];
       if (phase_12 > 0x800)
          output_14 = -output_14;
 
