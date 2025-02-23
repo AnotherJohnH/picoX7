@@ -93,7 +93,7 @@ protected:
       if (log_wave_14 > 0x3FFF)
          log_wave_14 = 0x3FFF;
 
-      signed output_14 = table_dx7_exp_14[0x3FFF - log_wave_14];
+      signed output_14 = table_dx7_exp_14[log_wave_14];
       if (phase_12 >= 0x800)
          output_14 = -output_14;
 

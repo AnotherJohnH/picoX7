@@ -47,12 +47,20 @@ def cartridge(filename, name):
 
 #------------------------------------------------------------------------------
 
-# 14-bit (Q4.10) => 14-bit 2^x table
+def dx7_exp_14(index_14):
+
+   index_14 = 0x3FFF - index_14
+
+   exp = (index_14 % 1024) / 1024
+
 # NOTE: The more obvious formula is int(math.pow(2.0, i / 1024)/4 + 0.5). The formula used
 #       below more accurately represents the values compressed into the actual ROMs as
 #       discovered and represented by Ken Shirriff
+   return int(math.pow(2.0, exp) * 0x800 + 0.5) << (index_14 >> 10) >> 13
+
+# 14-bit (Q4.10) => 14-bit 2^x table
 table.gen('dx7_exp_14',
-          func       = lambda i,x : (int(math.pow(2.0, (i % 1024) / 1024) * 2048 + 0.5) << (i >> 10)) >> 13,
+          func       = lambda i,x : dx7_exp_14(i),
           typename   = "uint16_t",
           log2_size  = 14,
           fmt        = '04x')
