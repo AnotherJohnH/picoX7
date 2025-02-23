@@ -85,322 +85,322 @@ public:
 private:
    int32_t alg1()
    {
-      (void) this->template ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<4, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
-      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
+      (void) this->template ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<4, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b01000>();
+      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01000>();
    }
 
    int32_t alg2()
    {
-      (void) this->template ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<4, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<3, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
-      (void) this->template ops<2, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      return this->template ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
+      (void) this->template ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<4, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<3, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b01000>();
+      (void) this->template ops<2, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      return this->template ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01000>();
    }
 
    int32_t alg3()
    {
-      (void) this->template ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<4, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
-      (void) this->template ops<3, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
+      (void) this->template ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<4, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b01000>();
+      (void) this->template ops<3, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01000>();
    }
 
    int32_t alg4()
    {
-      (void) this->template ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<4, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
-      (void) this->template ops<3, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
+      (void) this->template ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<4, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b01000>();
+      (void) this->template ops<3, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01000>();
    }
 
    int32_t alg5()
    {
-      (void) this->template ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
-      (void) this->template ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
-      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
+      (void) this->template ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b01101>();
+      (void) this->template ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01101>();
+      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01101>();
    }
 
    int32_t alg6()
    {
-      (void) this->template ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
-      (void) this->template ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
-      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
+      (void) this->template ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b01101>();
+      (void) this->template ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01101>();
+      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01101>();
    }
 
    int32_t alg7()
    {
-      (void) this->template ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<4, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
-      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
+      (void) this->template ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<4, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b01000>();
+      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01000>();
    }
 
    int32_t alg8()
    {
-      (void) this->template ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<4, /* SEL */ 2, /* A */ 1, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
-      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      return this->template ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
+      (void) this->template ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<4, /* SEL */ 2, /* A */ 1, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b01000>();
+      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      return this->template ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01000>();
    }
 
    int32_t alg9()
    {
-      (void) this->template ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<4, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<3, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
-      (void) this->template ops<2, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      return this->template ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
+      (void) this->template ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<4, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<3, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b01000>();
+      (void) this->template ops<2, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      return this->template ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01000>();
    }
 
    int32_t alg10()
    {
-      (void) this->template ops<6, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<4, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
-      (void) this->template ops<3, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      return this->template ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
+      (void) this->template ops<6, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<4, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b01000>();
+      (void) this->template ops<3, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      return this->template ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01000>();
    }
 
    int32_t alg11()
    {
-      (void) this->template ops<6, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<4, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
-      (void) this->template ops<3, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
+      (void) this->template ops<6, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<4, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b01000>();
+      (void) this->template ops<3, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01000>();
    }
 
    int32_t alg12()
    {
-      (void) this->template ops<6, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<4, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<3, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
-      (void) this->template ops<2, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      return this->template ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
+      (void) this->template ops<6, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<4, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<3, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b01000>();
+      (void) this->template ops<2, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      return this->template ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01000>();
    }
 
    int32_t alg13()
    {
-      (void) this->template ops<6, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<4, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
-      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
+      (void) this->template ops<6, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<4, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b01000>();
+      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01000>();
    }
 
    int32_t alg14()
    {
-      (void) this->template ops<6, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<4, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
-      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
+      (void) this->template ops<6, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<4, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b01000>();
+      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01000>();
    }
 
    int32_t alg15()
    {
-      (void) this->template ops<6, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<4, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<3, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
-      (void) this->template ops<2, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      return this->template ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 2, /* LOG2_COM */ 0b01000>();
+      (void) this->template ops<6, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<4, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<3, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b01000>();
+      (void) this->template ops<2, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      return this->template ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01000>();
    }
 
    int32_t alg16()
    {
-      (void) this->template ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<2, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<2, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b00000>();
    }
 
    int32_t alg17()
    {
-      (void) this->template ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<3, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<2, /* SEL */ 2, /* A */ 1, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      return this->template ops<1, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<3, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<2, /* SEL */ 2, /* A */ 1, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      return this->template ops<1, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b00000>();
    }
 
    int32_t alg18()
    {
-      (void) this->template ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<4, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<3, /* SEL */ 0, /* A */ 1, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<2, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      return this->template ops<1, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<4, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<3, /* SEL */ 0, /* A */ 1, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<2, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      return this->template ops<1, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b00000>();
    }
 
    int32_t alg19()
    {
-      (void) this->template ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 4, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
-      (void) this->template ops<4, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
-      (void) this->template ops<3, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
+      (void) this->template ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 4, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b01101>();
+      (void) this->template ops<4, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01101>();
+      (void) this->template ops<3, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01101>();
    }
 
    int32_t alg20()
    {
-      (void) this->template ops<6, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<4, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
-      (void) this->template ops<3, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<2, /* SEL */ 4, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
-      return this->template ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
+      (void) this->template ops<6, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<4, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b01101>();
+      (void) this->template ops<3, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<2, /* SEL */ 4, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01101>();
+      return this->template ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01101>();
    }
 
    int32_t alg21()
    {
-      (void) this->template ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 3, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
-      (void) this->template ops<4, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
-      (void) this->template ops<3, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<2, /* SEL */ 4, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
-      return this->template ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
+      (void) this->template ops<6, /* SEL */ 1, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 3, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b10000>();
+      (void) this->template ops<4, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10000>();
+      (void) this->template ops<3, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<2, /* SEL */ 4, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10000>();
+      return this->template ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10000>();
    }
 
    int32_t alg22()
    {
-      (void) this->template ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 4, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
-      (void) this->template ops<4, /* SEL */ 4, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
-      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
-      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
+      (void) this->template ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 4, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b10000>();
+      (void) this->template ops<4, /* SEL */ 4, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10000>();
+      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10000>();
+      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10000>();
    }
 
    int32_t alg23()
    {
-      (void) this->template ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 4, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
-      (void) this->template ops<4, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
-      (void) this->template ops<3, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
-      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
+      (void) this->template ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 4, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b10000>();
+      (void) this->template ops<4, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10000>();
+      (void) this->template ops<3, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10000>();
+      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10000>();
    }
 
    int32_t alg24()
    {
-      (void) this->template ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 4, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
-      (void) this->template ops<4, /* SEL */ 4, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
-      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
-      (void) this->template ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
-      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
+      (void) this->template ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 4, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b10011>();
+      (void) this->template ops<4, /* SEL */ 4, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10011>();
+      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10011>();
+      (void) this->template ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10011>();
+      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10011>();
    }
 
    int32_t alg25()
    {
-      (void) this->template ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 4, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
-      (void) this->template ops<4, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
-      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
-      (void) this->template ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
-      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
+      (void) this->template ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 4, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b10011>();
+      (void) this->template ops<4, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10011>();
+      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10011>();
+      (void) this->template ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10011>();
+      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10011>();
    }
 
    int32_t alg26()
    {
-      (void) this->template ops<6, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<4, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
-      (void) this->template ops<3, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
-      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
+      (void) this->template ops<6, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<4, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b01101>();
+      (void) this->template ops<3, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01101>();
+      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01101>();
    }
 
    int32_t alg27()
    {
-      (void) this->template ops<6, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<4, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
-      (void) this->template ops<3, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
-      return this->template ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
+      (void) this->template ops<6, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 2, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<4, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b01101>();
+      (void) this->template ops<3, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01101>();
+      return this->template ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01101>();
    }
 
    int32_t alg28()
    {
-      (void) this->template ops<6, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
-      (void) this->template ops<5, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
-      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      return this->template ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 3, /* LOG2_COM */ 0b01101>();
+      (void) this->template ops<6, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b01101>();
+      (void) this->template ops<5, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01101>();
+      (void) this->template ops<2, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      return this->template ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b01101>();
    }
 
    int32_t alg29()
    {
-      (void) this->template ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
-      (void) this->template ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
-      (void) this->template ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
-      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
+      (void) this->template ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b10000>();
+      (void) this->template ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10000>();
+      (void) this->template ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10000>();
+      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10000>();
    }
 
    int32_t alg30()
    {
-      (void) this->template ops<6, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
-      (void) this->template ops<5, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
-      (void) this->template ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
-      return this->template ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 4, /* LOG2_COM */ 0b10000>();
+      (void) this->template ops<6, /* SEL */ 5, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b10000>();
+      (void) this->template ops<5, /* SEL */ 1, /* A */ 1, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<4, /* SEL */ 1, /* A */ 0, /* C */ 1, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10000>();
+      (void) this->template ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10000>();
+      return this->template ops<1, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10000>();
    }
 
    int32_t alg31()
    {
-      (void) this->template ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* COM */ 1, /* LOG2_COM */ 0b00000>();
-      (void) this->template ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
-      (void) this->template ops<4, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
-      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
-      (void) this->template ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
-      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 5, /* LOG2_COM */ 0b10011>();
+      (void) this->template ops<6, /* SEL */ 1, /* A */ 1, /* C */ 0, /* D */ 0, /* LOG2_COM */ 0b00000>();
+      (void) this->template ops<5, /* SEL */ 0, /* A */ 0, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b10011>();
+      (void) this->template ops<4, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10011>();
+      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10011>();
+      (void) this->template ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10011>();
+      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10011>();
    }
 
    int32_t alg32()
    {
-      (void) this->template ops<6, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* COM */ 6, /* LOG2_COM */ 0b10101>();
-      (void) this->template ops<5, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 6, /* LOG2_COM */ 0b10101>();
-      (void) this->template ops<4, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 6, /* LOG2_COM */ 0b10101>();
-      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 6, /* LOG2_COM */ 0b10101>();
-      (void) this->template ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 6, /* LOG2_COM */ 0b10101>();
-      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* COM */ 6, /* LOG2_COM */ 0b10101>();
+      (void) this->template ops<6, /* SEL */ 0, /* A */ 1, /* C */ 0, /* D */ 1, /* LOG2_COM */ 0b10101>();
+      (void) this->template ops<5, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10101>();
+      (void) this->template ops<4, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10101>();
+      (void) this->template ops<3, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10101>();
+      (void) this->template ops<2, /* SEL */ 0, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10101>();
+      return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10101>();
    }
 
    int32_t (OpsAlg::*alg_ptr)() {&OpsAlg::alg1};

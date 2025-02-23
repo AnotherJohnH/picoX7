@@ -69,7 +69,7 @@ public:
 
 protected:
    //! Simulate a single operator
-   template <unsigned OP_NUMBER, unsigned SEL, bool A, bool C, bool D, unsigned COM, unsigned LOG2_COM>
+   template <unsigned OP_NUMBER, unsigned SEL, bool A, bool C, bool D, unsigned LOG2_COM>
    int32_t ops()
    {
       // Documented operator number 1-6 map to internal operator index 5-0
@@ -93,18 +93,18 @@ protected:
       if (log_wave_14 > 0x3FFF)
          log_wave_14 = 0x3FFF;
 
-      signed output_14 = table_dx7_exp_14[log_wave_14];
+      signed output_15 = table_dx7_exp_14[log_wave_14];
       if (phase_12 >= 0x800)
-         output_14 = -output_14;
+         output_15 = -output_15;
 
       signed sum_15 = 0;
       if (C) sum_15 = memory_15;
-      if (D) sum_15 += output_14;
+      if (D) sum_15 += output_15;
 
       switch(SEL)
       {
       case 0: modulation_12 = 0;                                     break;
-      case 1: modulation_12 = output_14;                             break;
+      case 1: modulation_12 = output_15;                             break;
       case 2: modulation_12 = sum_15;                                break;
       case 3: modulation_12 = memory_15;                             break;
       case 4: modulation_12 = feedback1_15;                          break;
@@ -115,7 +115,7 @@ protected:
       {
          // Feeedback path enabled
          feedback2_15 = feedback1_15;
-         feedback1_15 = output_14;
+         feedback1_15 = output_15;
       }
 
       if (C or D)
