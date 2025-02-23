@@ -161,11 +161,11 @@ private:
    static const unsigned INTERNAL_BITS = 30;
    static const unsigned OUT_BITS      = 12;
 
-   int32_t output{0};        //!< Current amplitude
-   Phase   current{};        //!< Current phase control
-   Index   index{};          //!< Current phase index
+   int32_t output{0x3F800000}; //!< Current amplitude (initialize to full attenuation)
+   Phase   current{};          //!< Current phase control
+   Index   index{};            //!< Current phase index
    Phase   phase[NUM_PHASE];
-   uint8_t amp_mod;          //!< Amplitude modulation
-   uint8_t amp_mod_sens;     //!< Amplitude modulation sensitivity
-   uint8_t patch_level_7[4];
+   uint8_t amp_mod{0};         //!< Amplitude modulation
+   uint8_t amp_mod_sens{0};    //!< Amplitude modulation sensitivity
+   uint8_t patch_level_7[4] = {};
 };
