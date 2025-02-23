@@ -353,7 +353,7 @@ private:
    }
 
    //! Implement VOICE_ADD_LOAD_FREQ_TO_EGS
-   void voiceAddLoadFreqToEgs(int16_t pitch_)
+   void voiceAddLoadFreqToEgs(signed pitch_)
    {
       pitch_ += pitch_eg.getOutput(/* voice */ 0);
 

@@ -65,7 +65,7 @@ table.gen('dx7_exp_22',
           func       = lambda i,x : (int(math.pow(2.0, (i % 1024) / 1024 ) * 2048 + 0.5) << (i >> 10)) >> 5,
           typename   = "uint32_t",
           log2_size  = 14,
-          fmt        = '08x')
+          fmt        = '06x')
 
 # 12-bit => 14-bit abs-log-sine table
 table.gen('dx7_log_sine_14',
