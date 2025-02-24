@@ -84,7 +84,12 @@ protected:
 
       // Apply EG attenuation
       uint32_t amp_12 = state[op_index].egs();
-      log_wave_14 += (amp_12 << 1);
+      if (amp_12 == 0xFFF)
+         amp_12 = 0x3FFF;
+      else
+         amp_12 <<= 1;
+
+      log_wave_14 += amp_12;
 
       // Apply algorithm compensation
       log_wave_14 += LOG2_COM << 7;
