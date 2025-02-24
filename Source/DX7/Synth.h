@@ -55,8 +55,8 @@ public:
       this->displayLCD(0, "*    picoX7    *");
       this->displayLCD(1, "*  SYNTHESIZER *");
 
-      // 2.5s
-      usleep(2500000);
+      // 1.5s
+      usleep(1500000);
    }
 
 private:
@@ -269,25 +269,15 @@ private:
 
          char line1[17];
 
-         if ((number_ >> 5) == 0)
-         {
-            this->displayLCD(0, "INTERNAL VOICE  ");
-            strcpy(line1, "INT");
-         }
-         else
-         {
-            this->displayLCD(0, "CARTRIDGE VOICE ");
-            strcpy(line1, "CRT");
-         }
-
 #if defined(TARGET_NATIVE)
-         sprintf(line1 + 3, "%2u ", (number_ % 32) + 1);
+         sprintf(line1, "  %3u ", number_ + 1);
 #else
-         snprintf(line1 + 3, 13, "%2u ", (number_ % 32) + 1);
+         snprintf(line1, sizeof(line1), "  %3u ", number_ + 1);
 #endif
          strncpy(line1 + 6, (const char*)edit_patch.name, 10);
          line1[16] = '\0';
 
+         this->displayLCD(0, "                ");
          this->displayLCD(1, line1);
       }
 
