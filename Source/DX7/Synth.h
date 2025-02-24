@@ -179,7 +179,7 @@ private:
       case STATE_PATCH_EDIT_CSUM:
          // TODO check the checksum
          for(unsigned i = 0; i < N; ++i)
-            this->voice[i].loadProgram(0, &edit_patch);
+            updateVoice(i, 0, /* update */ false);
          state = STATE_IGNORE;
          break;
 
@@ -226,7 +226,7 @@ private:
             buffer[index] = byte;
 
             for(unsigned i = 0; i < N; ++i)
-               this->voice[i].loadProgram(0, &edit_patch, /* update */ true);
+               updateVoice(i, 0, /* update */ true);
          }
          state = STATE_IGNORE;
          break;
@@ -242,6 +242,35 @@ private:
          state = STATE_IGNORE;
          break;
       }
+   }
+
+   void updateVoice(unsigned index_, unsigned number_, bool update_)
+   {
+      if (index_ == 0)
+      {
+         this->displayLED(number_ + 1);
+
+         char line[17];
+
+         if (number_ == 0)
+            strcpy(line, "edt             ");
+         else
+            snprintf(line, sizeof(line), "%03u             ", number_);
+         memcpy(line + 4, (const char*)edit_patch.name, 10);
+         this->displayLCD(0, line);
+
+         snprintf(line, sizeof(line), "A%2u F%u %c%c%c%c%c%c   ",
+                  edit_patch.alg + 1, edit_patch.feedback,
+                  edit_patch.op[5].osc_mode == SysEx::FIXED ? 'F' : 'R',
+                  edit_patch.op[4].osc_mode == SysEx::FIXED ? 'F' : 'R',
+                  edit_patch.op[3].osc_mode == SysEx::FIXED ? 'F' : 'R',
+                  edit_patch.op[2].osc_mode == SysEx::FIXED ? 'F' : 'R',
+                  edit_patch.op[1].osc_mode == SysEx::FIXED ? 'F' : 'R',
+                  edit_patch.op[0].osc_mode == SysEx::FIXED ? 'F' : 'R');
+         this->displayLCD(1, line);
+      }
+
+      this->voice[index_].loadProgram(number_, &edit_patch, update_);
    }
 
    void voiceProgram(unsigned index_, uint8_t number_) override
@@ -263,25 +292,7 @@ private:
 
       edit_patch = memory[number_ & 0x1F];
 
-      if (index_ == 0)
-      {
-         this->displayLED(number_ + 1);
-
-         char line1[17];
-
-#if defined(TARGET_NATIVE)
-         sprintf(line1, "  %3u ", number_ + 1);
-#else
-         snprintf(line1, sizeof(line1), "  %3u ", number_ + 1);
-#endif
-         strncpy(line1 + 6, (const char*)edit_patch.name, 10);
-         line1[16] = '\0';
-
-         this->displayLCD(0, "                ");
-         this->displayLCD(1, line1);
-      }
-
-      this->voice[index_].loadProgram(number_, &edit_patch);
+      updateVoice(index_, number_ + 1, /* update */ false);
    }
 
    const uint8_t ID_YAMAHA              = 67;
