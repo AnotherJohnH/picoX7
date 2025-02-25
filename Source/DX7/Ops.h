@@ -84,7 +84,7 @@ protected:
 
       // Apply EG attenuation
       uint32_t amp_12 = state[op_index].egs();
-      if (amp_12 == 0xFFF)
+      if (amp_12 >= 0xFFF)
          amp_12 = 0x3FFF;
       else
          amp_12 <<= 1;

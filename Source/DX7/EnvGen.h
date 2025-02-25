@@ -78,14 +78,26 @@ public:
       patch_level_7[index] = (level6_ << 1) | (level6_ >> 5);
    }
 
-   void setAmpMod(uint8_t amp_mod_)
+   void setAmpModSens(uint8_t amp_mod_sens_2_)
    {
-      amp_mod = amp_mod_;
+      switch(amp_mod_sens_2_)
+      {
+      case 0b00: amp_mod_sens_12 = 0xFFF; break;
+      case 0b01: amp_mod_sens_12 = 0xAAA; break;
+      case 0b10: amp_mod_sens_12 = 0x555; break;
+      case 0b11: amp_mod_sens_12 = 0x000; break;
+      }
    }
 
-   void setAmpModSens(uint8_t amp_mod_sens_)
+   void setAmpMod(uint8_t amp_mod_8_)
    {
-      amp_mod_sens = amp_mod_sens_;
+      amp_mod_12 = (amp_mod_8_ << 4) |
+                   (amp_mod_8_ >> 4);
+
+      amp_mod_12 -= amp_mod_sens_12;
+
+      if (amp_mod_12 < 0)
+         amp_mod_12 = 0;
    }
 
    //! Start a note
@@ -93,6 +105,7 @@ public:
    {
       phase[SUSTAIN].level = phase[DECAY2].level;
       phase[END].level     = phase[RELEASE].level;
+      output               = phase[RELEASE].level;
 
       setPhase(ATTACK);
    }
@@ -131,7 +144,9 @@ public:
          }
       }
 
-      return output >> (INTERNAL_BITS - OUT_BITS);
+      uint32_t amp_12 = output >> (INTERNAL_BITS - OUT_BITS);
+
+      return amp_12 + amp_mod_12;
    }
 
 private:
@@ -161,11 +176,11 @@ private:
    static const unsigned INTERNAL_BITS = 30;
    static const unsigned OUT_BITS      = 12;
 
-   int32_t output{0x3F800000}; //!< Current amplitude (initialize to full attenuation)
-   Phase   current{};          //!< Current phase control
-   Index   index{};            //!< Current phase index
-   Phase   phase[NUM_PHASE];
-   uint8_t amp_mod{0};         //!< Amplitude modulation
-   uint8_t amp_mod_sens{0};    //!< Amplitude modulation sensitivity
-   uint8_t patch_level_7[4] = {};
+   int32_t  output{0x3F800000}; //!< Current amplitude (initialize to full attenuation)
+   Phase    current{};          //!< Current phase control
+   Index    index{};            //!< Current phase index
+   Phase    phase[NUM_PHASE];
+   int32_t  amp_mod_12{0};      //!< Amplitude modulation
+   uint32_t amp_mod_sens_12{0}; //!< Amplitude modulation sensitivity
+   uint8_t  patch_level_7[4] = {};
 };

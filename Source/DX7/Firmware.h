@@ -375,7 +375,7 @@ private:
       if (mod > 0xFF) mod = 0xFF;
       mod -= modulation.getEGBias();
 
-      uint8_t value = mod * (~lfo.getAmpOutput() ^ 0x80);
+      uint8_t value = (mod * (~lfo.getAmpOutput() ^ 0x80)) >> 8;
       value += modulation.getEGBias();
       if (value > 0xFF) value = 0xFF;
 
