@@ -17,13 +17,12 @@ Done...
    + Voice allocator
    + YM21280 OPS simulation (logarithmic)
    + YM21290 EGS simulation
-   + Firmware simulation including pitch envelope, LFO, key sensitivity and level scaling
+   + Firmware simulation including pitch envelope, LFO, key sensitivity, level scaling, amplitude modulation
    + DX7 voice patches sound close
 
 To do...
    - Tune EGS simulation
    - Rate scaling
-   - Amplitude modulation sensitivity
    - Portamento and glissando
    - Optimise to squeeze in more voices
 
