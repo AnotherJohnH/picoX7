@@ -52,9 +52,18 @@ def dx7_exp_14(index_14):
    exp      = (index_14 % 1024) / 1024
 
 # NOTE: The more obvious formula is int(math.pow(2.0, i / 1024)/4 + 0.5). The formula used
-#       below more accurately represents the values compressed into the actual ROMs as
+#       below more accurately represents the values compressed into the actual ROM as
 #       discovered and represented by Ken Shirriff
-   return int(math.pow(2.0, exp) * 0x800 + 0.5) << (index_14 >> 10) >> 13
+   return (int(math.pow(2.0, exp) * 0x800 + 0.5) << (index_14 >> 10)) >> 13
+
+
+def dx7_exp_22(index_14):
+   exp = (index_14 % 1024) / 1024
+
+# NOTE: The more obvious formula is int(math.pow(2.0, i / 1024) * 64 + 0.5). The formula used
+#       below more accurately represents the values compressed into the actual ROM as
+#       discovered and represented by Ken Shirriff
+   return (int(math.pow(2.0, exp) * 0x800 + 0.5) << (index_14 >> 10)) >> 5
 
 
 def dx7_log_sine_14(index_12):
@@ -68,11 +77,8 @@ table.gen('dx7_exp_14',
           fmt        = '04x')
 
 # 14-bit (Q4.10) => 22-bit 2^x table
-# NOTE: The more obvious formula is int(math.pow(2.0, i / 1024) * 64 + 0.5). The formula used
-#       below more accurately represents the values compressed into the actual ROMs as
-#       discovered and represented by Ken Shirriff
 table.gen('dx7_exp_22',
-          func       = lambda i,x : (int(math.pow(2.0, (i % 1024) / 1024 ) * 2048 + 0.5) << (i >> 10)) >> 5,
+          func       = lambda i,x : dx7_exp_22(i),
           typename   = "uint32_t",
           log2_size  = 14,
           fmt        = '06x')
