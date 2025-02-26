@@ -53,7 +53,7 @@ public:
       {
          Index p = index == 3 ? RELEASE : Index(index);
 
-         unsigned atten = patch_level_7[index] + op_level_7_;
+         unsigned atten = patch_level_8[index] + op_level_7_;
          if (atten > 0x7F)
             atten = 0x7F;
 
@@ -67,15 +67,15 @@ public:
    {
       Index p = index == 3 ? RELEASE : Index(index);
 
-      phase[p].rate = table_dx7_rate_30[rate6_];
+      phase[p].rate = table_dx7_rate_30[rate6_] >> 1;
    }
 
    void setLevel(unsigned index, uint8_t level6_)
    {
-      // Convert to 7-bit
+      // Convert to 8-bit
       // 0x00 - No attenuation
-      // 0x7F - Full attenuation
-      patch_level_7[index] = (level6_ << 1) | (level6_ >> 5);
+      // 0xFF - Full attenuation
+      patch_level_8[index] = (level6_ << 2) | (level6_ >> 4);
    }
 
    void setAmpModSens(uint8_t amp_mod_sens_2_)
@@ -127,7 +127,7 @@ public:
    {
       if (output >= current.level)
       {
-         output -= current.rate * 4;
+         output -= current.rate * 8;
          if (output <= current.level)
          {
             output = current.level;
@@ -182,5 +182,5 @@ private:
    Phase    phase[NUM_PHASE];
    int32_t  amp_mod_12{0};      //!< Amplitude modulation
    uint32_t amp_mod_sens_12{0}; //!< Amplitude modulation sensitivity
-   uint8_t  patch_level_7[4] = {};
+   uint8_t  patch_level_8[4] = {};
 };
