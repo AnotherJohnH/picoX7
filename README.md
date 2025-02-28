@@ -4,7 +4,7 @@
 
 A software simulation of the Yamaha DX7 with a USB and physical MIDI interface for the Raspberry Pi Pico
 
-Slightly boring [video](https://youtu.be/ZSuNV67vHK8) of the picoX7 playing the Yamaha DX7 ROM cartrdige 1A patches...
+Slightly boring [video](https://youtu.be/ZSuNV67vHK8) of the picoX7 playing the Yamaha DX7 ROM cartridge 1A patches...
 
 [![picoX7 rom1A](http://img.youtube.com/vi/7_5bl6q7xVs/0.jpg)](https://youtu.be/ZSuNV67vHK8)
 
@@ -79,10 +79,10 @@ to another I2S DAC
 ### Alternative hardware targets
 
 Software builds for the following hardware targets...
-+ WAVESHARE_GPIO_LCD - The hardware described above
-+ WAVESHARE_I2C_LCD  - Use an I2C LCD on pins 19+20 instead of the 8-bit parallel interface
-+ PIMORONI_PICO_AUDIO - Use the Pimoroni Pico Audio I2S DAC instead (also uses the I2C LCD)
++ PIMORONI_PICO_AUDIO - Use the Pimoroni Pico Audio I2S DAC instead with an I2C LCD
 + PWM_DAC - DAC implemented using the on-chip PWM and a few external resistors and capacitors on pins 21 and 22 (sound quality is not great) 
++ WAVESHARE_I2C_LCD - Use an I2C LCD on pins 19+20 instead of the 8-bit parallel interface
++ WAVESHARE_GPIO_LCD - The hardware described above
 + PIMORONI_VGA_DEMO - Support for the Pimoroni Pico VGA Demo Base (!!!! untested !!!!)
 
 NOTE: The LCD and LED displays are optional and will not block operation if not fitted
