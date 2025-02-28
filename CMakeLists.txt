@@ -24,7 +24,7 @@ cmake_minimum_required(VERSION 3.19.1)
 
 project(picoX7
         LANGUAGES CXX ASM
-        VERSION 0.19)
+        VERSION 0.20)
 
 include(CTest)
 
@@ -36,5 +36,5 @@ add_subdirectory(docs/Research)
 
 if(${PLT_TARGET} STREQUAL rpipico OR ${PLT_TARGET} STREQUAL rpipico2)
    # TODO automate conversion of VERSION to hex
-   target_compile_definitions(MTL PUBLIC PLT_BCD_VERSION=0x0019)
+   target_compile_definitions(MTL PUBLIC PLT_BCD_VERSION=0x0020)
 endif()
