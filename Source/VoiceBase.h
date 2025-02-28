@@ -32,8 +32,6 @@ class VoiceBase
 public:
    VoiceBase() = default;
 
-   void setDebug(bool debug_) { debug = debug_; }
-
    //! is voice unused
    bool isMute() const { return state == MUTE; }
 
@@ -106,7 +104,6 @@ protected:
    virtual void updateLevel() {}
    virtual void updateControl(uint8_t number_, uint8_t value_) {}
 
-   bool    debug {false};
    State   state {MUTE};
    int16_t pitch {0};
    uint8_t note {0};

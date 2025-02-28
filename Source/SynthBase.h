@@ -35,10 +35,7 @@ class SynthBase
    , public SynthIO
 {
 public:
-   SynthBase()
-   {
-      voice[0].setDebug(true);
-   }
+   SynthBase() = default;
 
    //! Get next sample
    int32_t getSample(unsigned first_voice_= 0,

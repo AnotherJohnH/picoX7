@@ -248,10 +248,11 @@ private:
    {
       if (index_ == 0)
       {
-         this->displayLED(number_ + 1);
+         // 7-seg LED output
+         this->displayLED(number_);
 
+         // 16x2 LCD output
          char line[17];
-
          if (number_ == 0)
             strcpy(line, "edt             ");
          else
@@ -268,9 +269,15 @@ private:
                   edit_patch.op[1].osc_mode == SysEx::FIXED ? 'F' : 'R',
                   edit_patch.op[0].osc_mode == SysEx::FIXED ? 'F' : 'R');
          this->displayLCD(1, line);
+
+         // Console output
+         if (not update_)
+         {
+            edit_patch.print(number_);
+         }
       }
 
-      this->voice[index_].loadProgram(number_, &edit_patch, update_);
+      this->voice[index_].loadProgram(&edit_patch);
    }
 
    void voiceProgram(unsigned index_, uint8_t number_) override
