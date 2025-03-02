@@ -28,7 +28,7 @@
 
 #include "SysEx.h"
 
-#include "Table_dx7_rate_30.h"
+#include "Table_dx7_exp_19.h"
 
 //! DX7 envelope generator
 class EnvGen
@@ -67,7 +67,7 @@ public:
    {
       Index p = index == 3 ? RELEASE : Index(index);
 
-      phase[p].rate = table_dx7_rate_30[rate6_] >> 1;
+      phase[p].rate = table_dx7_exp_19[rate6_];
    }
 
    void setLevel(unsigned index, uint8_t level6_)
@@ -127,7 +127,7 @@ public:
    {
       if (output >= current.level)
       {
-         output -= current.rate * 8;
+         output -= current.rate;
          if (output <= current.level)
          {
             output = current.level;
@@ -136,7 +136,7 @@ public:
       }
       else
       {
-         output += current.rate;
+         output += (current.rate / 4);
          if (output >= current.level)
          {
             output = current.level;
@@ -173,10 +173,11 @@ private:
       int32_t level{0};       //!< Target level for phase
    };
 
-   static const unsigned INTERNAL_BITS = 30;
+   static const unsigned INTERNAL_BITS = 24;
    static const unsigned OUT_BITS      = 12;
+   static const uint32_t MAX_ATTEN     = (1 << INTERNAL_BITS) - 1;
 
-   int32_t  output{0x3F800000}; //!< Current amplitude (initialize to full attenuation)
+   int32_t  output{MAX_ATTEN};  //!< Current amplitude (initialize to full attenuation)
    Phase    current{};          //!< Current phase control
    Index    index{};            //!< Current phase index
    Phase    phase[NUM_PHASE];

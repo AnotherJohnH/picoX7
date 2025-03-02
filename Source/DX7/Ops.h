@@ -58,9 +58,9 @@ public:
    //! Start of note
    void keyOn()
    {
-      for(unsigned op_index = 0; op_index < NUM_OP; ++op_index)
+      if (sync)
       {
-         if (sync)
+         for(unsigned op_index = 0; op_index < NUM_OP; ++op_index)
          {
             state[op_index].phase_acc_32 = 0;
          }
