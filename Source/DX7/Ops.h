@@ -79,7 +79,7 @@ protected:
       const unsigned op_index = NUM_OP - OP_NUMBER;
 
       uint32_t phase_32    = state[op_index].stepPhase();
-      uint32_t phase_12    = (phase_32 + (modulation_12 << 20)) >> (32 - 12);
+      uint32_t phase_12    = (phase_32 + (modulation_15 << 20)) >> (32 - 12);
       uint32_t log_wave_14 = table_dx7_log_sine_14[phase_12];
 
       // Apply EG attenuation
@@ -108,12 +108,12 @@ protected:
 
       switch(SEL)
       {
-      case 0: modulation_12 = 0;                                     break;
-      case 1: modulation_12 = output_15;                             break;
-      case 2: modulation_12 = sum_15;                                break;
-      case 3: modulation_12 = memory_15;                             break;
-      case 4: modulation_12 = feedback1_15;                          break;
-      case 5: modulation_12 = (feedback1_15 + feedback2_15) >> fdbk; break;
+      case 0: modulation_15 = 0;                                     break;
+      case 1: modulation_15 = output_15;                             break;
+      case 2: modulation_15 = sum_15;                                break;
+      case 3: modulation_15 = memory_15;                             break;
+      case 4: modulation_15 = feedback1_15;                          break;
+      case 5: modulation_15 = (feedback1_15 + feedback2_15) >> fdbk; break;
       }
 
       if (A)
@@ -138,7 +138,7 @@ private:
    uint8_t  fdbk {0};
 
    // Internal voice computation state
-   int32_t  modulation_12 {0};
+   int32_t  modulation_15 {0};
    int32_t  feedback1_15 {0};
    int32_t  feedback2_15 {0};
    int32_t  memory_15 {0};
