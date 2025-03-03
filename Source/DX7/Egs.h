@@ -200,7 +200,7 @@ public:
    //! Used by unit test
    int32_t getEgsAmp(unsigned op_index_)
    {
-      return op_egs[op_index_]->operator()();
+      return op_egs[op_index_]->out();
    }
 
    void debug()

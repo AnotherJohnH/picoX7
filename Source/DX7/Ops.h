@@ -83,7 +83,7 @@ protected:
       uint32_t log_wave_14 = table_dx7_log_sine_14[phase_12];
 
       // Apply EG attenuation
-      uint32_t amp_12 = state[op_index].egs();
+      uint32_t amp_12 = state[op_index].egs.out();
       if (amp_12 >= 0xFFF)
          amp_12 = 0x3FFF;
       else

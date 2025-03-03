@@ -57,9 +57,11 @@ public:
          if (atten > 0x7F)
             atten = 0x7F;
 
+         // Assume  21 <= INTERNAL_BITS <= 28
          phase[p].level = (atten << (INTERNAL_BITS -  7)) |
                           (atten << (INTERNAL_BITS - 14)) |
-                          (atten << (INTERNAL_BITS - 21));
+                          (atten << (INTERNAL_BITS - 21)) |
+                          (atten >> (28 - INTERNAL_BITS));
       }
    }
 
@@ -123,7 +125,7 @@ public:
    //! Get amplitude sample 12-bit logarithmic
    //! 0x000 no attenuation
    //! 0xFFF full attenuation
-   uint32_t operator()()
+   uint32_t out()
    {
       if (output >= current.level)
       {
@@ -136,7 +138,7 @@ public:
       }
       else
       {
-         output += (current.rate / 4);
+         output += current.rate / 4;
          if (output >= current.level)
          {
             output = current.level;
@@ -148,6 +150,12 @@ public:
 
       return amp_12 + amp_mod_12;
    }
+
+   // For test
+   uint32_t dbgInternal() const { return output; }
+   uint32_t dbgTarget() const { return current.level; }
+   uint32_t dbgRate() const { return current.rate; }
+   unsigned dbgPhase() const { return unsigned(index); }
 
 private:
    void nextPhase()

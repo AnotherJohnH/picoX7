@@ -92,12 +92,59 @@ TEST(EnvGen, brass_1)
       }
 
       fprintf(fp, "%6u,", i);
-      fprintf(fp, "0x%08x,", env_gen[0]());
-      fprintf(fp, "0x%08x,", env_gen[1]());
-      fprintf(fp, "0x%08x,", env_gen[2]());
-      fprintf(fp, "0x%08x,", env_gen[3]());
-      fprintf(fp, "0x%08x,", env_gen[4]());
-      fprintf(fp, "0x%08x\n", env_gen[5]());
+      fprintf(fp, "0x%08x,", env_gen[0].out());
+      fprintf(fp, "0x%08x,", env_gen[1].out());
+      fprintf(fp, "0x%08x,", env_gen[2].out());
+      fprintf(fp, "0x%08x,", env_gen[3].out());
+      fprintf(fp, "0x%08x,", env_gen[4].out());
+      fprintf(fp, "0x%08x\n", env_gen[5].out());
+   }
+
+   fclose(fp);
+}
+
+TEST(EnvGen, decay)
+{
+   static const SysEx::EnvGen eg_patch =
+   {
+      {99, 40, 99, 99}, // Rate
+      {99,  0, 99,  0}  // Level
+   };
+
+   EnvGen env_gen;
+
+   for(unsigned i = 0; i < 4; ++i)
+   {
+      env_gen.setRate( i, (eg_patch.rate[i] * 164) >> 8);
+      env_gen.setLevel(i, table_log[eg_patch.level[i]] >> 1);
+   }
+
+   env_gen.setOpLevel(0x0F);
+
+   FILE* fp = fopen("decay.csv", "w");
+
+   fprintf(fp, "sample,out12,internal,target  ,rate    ,phase\n");
+
+   static const unsigned SAMPLE_RATE = 49096;
+
+   for(unsigned i = 0; i < SAMPLE_RATE * 6; ++i)
+   {
+      if (i == 4)
+      {
+         env_gen.keyOn();
+      }
+      else if (i == SAMPLE_RATE * 5)
+      {
+         env_gen.keyOff();
+      }
+
+      fprintf(fp, "%6u,", i);
+      fprintf(fp, "0x%03x,", env_gen.out());
+      fprintf(fp, "0x%06x,", env_gen.dbgInternal());
+      fprintf(fp, "0x%06x,", env_gen.dbgTarget());
+      fprintf(fp, "0x%06x,", env_gen.dbgRate());
+      fprintf(fp, "%u,", env_gen.dbgPhase());
+      fprintf(fp, "\n");
    }
 
    fclose(fp);
