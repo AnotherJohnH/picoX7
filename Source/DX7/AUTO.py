@@ -27,7 +27,7 @@ import table
 
 #------------------------------------------------------------------------------
 
-def cartridge(filename, name):
+def cartridge(filename, name, offset=6, log2_size=12):
    """ Convert a binary file to a C byte array """
 
    data = []
@@ -40,14 +40,20 @@ def cartridge(filename, name):
          data.append(int.from_bytes(byte, byteorder='big', signed=False))
 
    table.gen(name,
-             func      = lambda i,x : data[i + 6],
+             func      = lambda i,x : data[i + offset],
              typename  = "uint8_t",
-             log2_size = 12,
+             log2_size = log2_size,
              fmt       = '02x')
 
 #------------------------------------------------------------------------------
 
+def dx7_exp_19(index_6, x):
+   """ 6-bit (Q4.2) => 19-bit (Q16.3) 2^x table for EGS to calculate level increment (rate) """
+   return int(8 * pow(2, index_6 / 4))
+
+
 def dx7_exp_14(index_14, x):
+   """ 14-bit (Q4.10) => 14-bit 2^x table for OPS to calculate linear signal (amplitude) """
    index_14 = 0x3FFF - index_14
    exp      = (index_14 % 1024) / 1024
 
@@ -58,6 +64,7 @@ def dx7_exp_14(index_14, x):
 
 
 def dx7_exp_22(index_14, x):
+   """ 14-bit (Q4.10) => 22-bit 2^x table for OPS to calculate phase increment (freq) """
    exp = (index_14 % 1024) / 1024
 
 # NOTE: The more obvious formula is int(math.pow(2.0, i / 1024) * 64 + 0.5). The formula used
@@ -67,24 +74,17 @@ def dx7_exp_22(index_14, x):
 
 
 def dx7_log_sine_14(index_12, x):
-   return int(-math.log(abs(math.sin((index_12 + 0.5) * math.pi / 2048)), 2) * 1024 + 0.5002)
+   """ 12-bit => 14-bit abs-log-sine table for OPS simulation """
+   phase = ((index_12 + 0.5) * math.pi) / 2048
+   return int(-math.log(abs(math.sin(phase)), 2) * 1024 + 0.5002)
 
-
-def dx7_exp_19(index_6, x):
-   return int(8 * pow(2, index_6 / 4))
 
 #------------------------------------------------------------------------------
 
-# 14-bit (Q4.10) => 14-bit 2^x table for OPS to calculate linear signal (amplitude)
-table.gen('dx7_exp_14',      func = dx7_exp_14,      typename = "uint16_t", log2_size = 14, fmt = '04x')
-
-# 14-bit (Q4.10) => 22-bit 2^x table for OPS to calculate phase increment (freq)
-table.gen('dx7_exp_22',      func = dx7_exp_22,      typename = "uint32_t", log2_size = 14, fmt = '06x')
-
-# 6-bit => (Q15.4) 19-bit 2^x table for EGS to calculate level increment (rate)
+# Maths function lookup tables
 table.gen('dx7_exp_19',      func = dx7_exp_19,      typename = "uint32_t", log2_size =  6, fmt = '05x')
-
-# 12-bit => 14-bit abs-log-sine table
+table.gen('dx7_exp_14',      func = dx7_exp_14,      typename = "uint16_t", log2_size = 14, fmt = '04x')
+table.gen('dx7_exp_22',      func = dx7_exp_22,      typename = "uint32_t", log2_size = 14, fmt = '06x')
 table.gen('dx7_log_sine_14', func = dx7_log_sine_14, typename = "uint16_t", log2_size = 12, fmt = '04x')
 
 # Program cartridges
