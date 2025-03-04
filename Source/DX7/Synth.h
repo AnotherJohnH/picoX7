@@ -252,7 +252,7 @@ private:
          this->displayLED(number_);
 
          // 16x2 LCD output
-         char line[17];
+         char line[32];
          if (number_ == 0)
             strcpy(line, "edt             ");
          else
@@ -260,7 +260,7 @@ private:
          memcpy(line + 4, (const char*)edit_patch.name, 10);
          this->displayLCD(0, line);
 
-         snprintf(line, sizeof(line), "A%2u F%u %c%c%c%c%c%c   ",
+         snprintf(line, sizeof(line), "A%2u F%1u %c%c%c%c%c%c   ",
                   edit_patch.alg + 1, edit_patch.feedback,
                   edit_patch.op[5].osc_mode == SysEx::FIXED ? 'F' : 'R',
                   edit_patch.op[4].osc_mode == SysEx::FIXED ? 'F' : 'R',

@@ -107,8 +107,8 @@ public:
          {
             unsigned s       = phase[v] > SUSTAIN ? 3 : phase[v];
             unsigned delta   = rate[s];
-            unsigned target  = level[s] << 7;
-            unsigned current = output[v];
+            signed   target  = level[s] << 7;
+            signed   current = output[v];
 
             if (target == current)
             {
