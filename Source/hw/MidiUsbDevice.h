@@ -54,6 +54,8 @@ public:
 
    uint8_t rx() override { return device.rx(); }
 
+   void tx(uint8_t byte) override {}
+
    MTL::USBMidiDevice device;
    MTL::Usb           usb{device};
 };

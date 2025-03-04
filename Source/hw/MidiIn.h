@@ -52,6 +52,8 @@ private:
 
    uint8_t rx() override { return uart.rx(); }
 
+   void tx(uint8_t byte) override {}
+
    MTL::Uart1_P6_P7 uart{/* baud */      31250,
                          /* bits */      8,
                          /* parity */    MTL::UART::NONE,
@@ -73,6 +75,8 @@ private:
    bool empty() const override { return n == sizeof(data); }
 
    uint8_t rx() override { return data[n++]; }
+
+   void tx(uint8_t byte) override {}
 
    unsigned n {0};
 
