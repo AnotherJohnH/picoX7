@@ -25,8 +25,6 @@
 #include <cstring>
 #include <unistd.h>
 
-#include "MTL/MTL.h"
-
 #include "SynthBase.h"
 
 #include "SysEx.h"
@@ -51,9 +49,9 @@ public:
 
    void start()
    {
-      this->displayLED(188);
-      this->displayLCD(0, "*    picoX7    *");
-      this->displayLCD(1, "*  SYNTHESIZER *");
+      this->io.displayLED(188);
+      this->io.displayLCD(0, "*    picoX7    *");
+      this->io.displayLCD(1, "*  SYNTHESIZER *");
 
       // 1.5s
       usleep(1500000);
@@ -249,7 +247,7 @@ private:
       if (index_ == 0)
       {
          // 7-seg LED output
-         this->displayLED(number_);
+         this->io.displayLED(number_);
 
          // 16x2 LCD output
          char line[32];
@@ -258,7 +256,7 @@ private:
          else
             snprintf(line, sizeof(line), "%03u             ", number_);
          memcpy(line + 4, (const char*)edit_patch.name, 10);
-         this->displayLCD(0, line);
+         this->io.displayLCD(0, line);
 
          snprintf(line, sizeof(line), "A%2u F%1u %c%c%c%c%c%c   ",
                   edit_patch.alg + 1, edit_patch.feedback,
@@ -268,7 +266,7 @@ private:
                   edit_patch.op[2].osc_mode == SysEx::FIXED ? 'F' : 'R',
                   edit_patch.op[1].osc_mode == SysEx::FIXED ? 'F' : 'R',
                   edit_patch.op[0].osc_mode == SysEx::FIXED ? 'F' : 'R');
-         this->displayLCD(1, line);
+         this->io.displayLCD(1, line);
 
          // Console output
          if (not update_)

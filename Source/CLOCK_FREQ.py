@@ -21,7 +21,7 @@
 # SOFTWARE.
 #------------------------------------------------------------------------------
 #
-# Script used to find suitable PLL SYS configs
+# Script used to find suitable RPiPico PLL SYS configs 
 
 def pll(refdiv_6, fbdiv_12, post_div1_3, post_div2_3, clk_min, clk_max):
    """ Compute PLL frequency """

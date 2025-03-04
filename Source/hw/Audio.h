@@ -67,7 +67,7 @@ public:
                                                   MTL::PIN_32,  // LRCLK + SCLK
                                                   MTL::PIN_27,  // MCLK
                                                   MTL::Audio::STEREO_PAIRS_16,
-                                                  true}        // LSB LRCLK / MSB SCLK
+                                                  true}         // LSB LRCLK / MSB SCLK
    {
    }
 };
@@ -86,7 +86,7 @@ public:
                                                   MTL::PIN_32,  // LRCLK + SCLK
                                                   MTL::PIN_31,  // MCLK
                                                   MTL::Audio::STEREO_PAIRS_16,
-                                                  true}        // LSB LRCLK / MSB SCLK
+                                                  true}         // LSB LRCLK / MSB SCLK
    {
    }
 };

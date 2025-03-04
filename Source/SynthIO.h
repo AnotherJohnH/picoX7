@@ -36,6 +36,9 @@ public:
    //! Display on text on 16x2 LCD
    void displayLCD(unsigned row_, const char* text);
 
-   //! Read data entry slider
-   unsigned readSliderADC();
+   //! Read data entry control
+   unsigned readControl();
+
+   //! Read button matrix
+   uint8_t readButtons(uint8_t row);
 };

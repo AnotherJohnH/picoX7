@@ -20,9 +20,8 @@
 // SOFTWARE.
 //------------------------------------------------------------------------------
 
-#include "EnvGen.h"
-
-#include "SysEx.h"
+#include "DX7/EnvGen.h"
+#include "DX7/SysEx.h"
 
 #include "STB/Test.h"
 

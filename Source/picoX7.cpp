@@ -125,9 +125,9 @@ void SynthIO::displayLCD(unsigned row, const char* text)
 }
 
 
-// --- ADC ---------------------------------------------------------------------
+// --- VARIABLE CONTROL --------------------------------------------------------
 
-unsigned SynthIO::readSliderADC()
+unsigned SynthIO::readControl()
 {
 #if defined(HW_ADC)
    static bool    first_pass{true};
@@ -142,6 +142,14 @@ unsigned SynthIO::readSliderADC()
 #else
    return 0;
 #endif
+}
+
+
+// --- BUTTON MATRIX -----------------------------------------------------------
+
+uint8_t SynthIO::readButtons(uint8_t row_)
+{
+   return 0;
 }
 
 

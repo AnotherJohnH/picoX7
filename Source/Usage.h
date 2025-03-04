@@ -29,7 +29,7 @@
 
 #else
 
-// allow building completely non function
+// allow building completely non functional Usage
 namespace MTL { using SysTick = uint32_t; }
 
 const unsigned FLASH_SIZE = 100;
@@ -82,9 +82,9 @@ public:
    }
 
 private:
-   MTL::SysTick      tick {};
-   uint32_t          start_t24 {0};
-   uint32_t          end_t24 {0};
+   MTL::SysTick      tick{};
+   uint32_t          start_t24{0};
+   uint32_t          end_t24{0};
    volatile uint32_t usage{0};
    volatile uint32_t non_usage{0};
 };

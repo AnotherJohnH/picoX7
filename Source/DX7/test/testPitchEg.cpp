@@ -20,9 +20,8 @@
 // SOFTWARE.
 //------------------------------------------------------------------------------
 
-#include "PitchEg.h"
-
-#include "SysEx.h"
+#include "DX7/PitchEg.h"
+#include "DX7/SysEx.h"
 
 #include "STB/Test.h"
 

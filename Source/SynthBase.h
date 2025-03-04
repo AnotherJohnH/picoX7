@@ -30,9 +30,7 @@
 
 //! Base class for MIDI synth
 template <unsigned N, typename VOICE, unsigned AMP_N = N>
-class SynthBase
-   : public MIDI::Instrument<N>
-   , public SynthIO
+class SynthBase : public MIDI::Instrument<N>
 {
 public:
    SynthBase() = default;
@@ -118,6 +116,8 @@ private:
    {
       if (control_ == 119)
       {
+         // Hack to allow program selection via CC119 for DAWs that
+         // charge extra for easy MIDI program selection
          this->voiceProgram(index_, value_);
          return;
       }
@@ -131,5 +131,6 @@ private:
    }
 
 protected:
-   VOICE voice[N];
+   VOICE   voice[N];
+   SynthIO io{};
 };
