@@ -122,10 +122,10 @@ public:
    //! Check if amplitude has reached L4
    bool isComplete() const { return index == END; }
 
-   //! Get amplitude sample 12-bit logarithmic
+   //! Get amplitude attenuation sample 12-bit logarithmic
    //! 0x000 no attenuation
    //! 0xFFF full attenuation
-   uint32_t out()
+   uint32_t getAtten12()
    {
       if (output >= current.level)
       {

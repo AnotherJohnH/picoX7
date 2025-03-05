@@ -43,10 +43,14 @@ TEST(EnvGen, level)
 {
    EnvGen eg;
 
+   FILE* fp = fopen("level.csv", "w");
+
    for(unsigned l = 0; l <= 99; ++l)
    {
-      printf("%2u, 0x%08x\n", l, 0x3f000000 - ((table_log[l] >> 1) << 24));
+      fprintf(fp, "%2u, 0x%08x\n", l, 0x3f000000 - ((table_log[l] >> 1) << 24));
    }
+
+   fclose(fp);
 }
 
 TEST(EnvGen, brass_1)
@@ -91,12 +95,12 @@ TEST(EnvGen, brass_1)
       }
 
       fprintf(fp, "%6u,", i);
-      fprintf(fp, "0x%08x,", env_gen[0].out());
-      fprintf(fp, "0x%08x,", env_gen[1].out());
-      fprintf(fp, "0x%08x,", env_gen[2].out());
-      fprintf(fp, "0x%08x,", env_gen[3].out());
-      fprintf(fp, "0x%08x,", env_gen[4].out());
-      fprintf(fp, "0x%08x\n", env_gen[5].out());
+      fprintf(fp, "0x%08x,", env_gen[0].getAtten12());
+      fprintf(fp, "0x%08x,", env_gen[1].getAtten12());
+      fprintf(fp, "0x%08x,", env_gen[2].getAtten12());
+      fprintf(fp, "0x%08x,", env_gen[3].getAtten12());
+      fprintf(fp, "0x%08x,", env_gen[4].getAtten12());
+      fprintf(fp, "0x%08x\n", env_gen[5].getAtten12());
    }
 
    fclose(fp);
@@ -122,7 +126,7 @@ TEST(EnvGen, decay)
 
    FILE* fp = fopen("decay.csv", "w");
 
-   fprintf(fp, "sample,out12,internal,target  ,rate    ,phase\n");
+   fprintf(fp, "sample,atten12,internal,target  ,rate    ,phase\n");
 
    static const unsigned SAMPLE_RATE = 49096;
 
@@ -138,7 +142,7 @@ TEST(EnvGen, decay)
       }
 
       fprintf(fp, "%6u,", i);
-      fprintf(fp, "0x%03x,", env_gen.out());
+      fprintf(fp, "0x%03x,", env_gen.getAtten12());
       fprintf(fp, "0x%06x,", env_gen.dbgInternal());
       fprintf(fp, "0x%06x,", env_gen.dbgTarget());
       fprintf(fp, "0x%06x,", env_gen.dbgRate());

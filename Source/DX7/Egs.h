@@ -26,7 +26,7 @@
 #include "EnvGen.h"
 
 //! Model of Yamaha EGS (like the YM21290)
-class Egs : public OpsAlg
+class Egs : public OpsAlg<EnvGen>
 {
 public:
    Egs()
@@ -153,7 +153,7 @@ public:
          op_egs[op_index]->keyOn();
       }
 
-      Ops<NUM_OP>::keyOn();
+      Ops<NUM_OP,EnvGen>::keyOn();
 
 #if defined(REG_SIM)
       reg[0xF1] = 1;
@@ -200,7 +200,7 @@ public:
    //! Used by unit test
    int32_t getEgsAmp(unsigned op_index_)
    {
-      return op_egs[op_index_]->out();
+      return op_egs[op_index_]->getAtten12();
    }
 
    void debug()

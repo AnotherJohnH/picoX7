@@ -44,6 +44,8 @@ TEST(PitchEg, triangle)
 
    pitch_eg.keyOn(0);
 
+   FILE* fp = fopen("triangle.csv", "w");
+
    for(unsigned t = 0; t < 3000; ++t)
    {
       if (t >= 2200)
@@ -51,9 +53,11 @@ TEST(PitchEg, triangle)
 
       if (pitch_eg.tick())
       {
-         printf("%5d, 0x%04x\n", t, pitch_eg.getOutput(0));
+         fprintf(fp, "%5d, 0x%04x\n", t, pitch_eg.getOutput(0));
       }
    }
+
+   fclose(fp);
 }
 
 TEST(PitchEg, flat)
@@ -75,11 +79,15 @@ TEST(PitchEg, flat)
 
    pitch_eg.keyOn(0);
 
+   FILE* fp = fopen("flat.csv", "w");
+
    for(unsigned t = 0; t < 10; ++t)
    {
       if (pitch_eg.tick())
       {
-         printf("%5d, 0x%04x\n", t, pitch_eg.getOutput(0));
+         fprintf(fp, "%5d, 0x%04x\n", t, pitch_eg.getOutput(0));
       }
    }
+
+   fclose(fp);
 }

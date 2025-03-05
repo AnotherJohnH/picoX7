@@ -26,16 +26,14 @@
 #include "Table_dx7_exp_22.h"
 #include "Table_dx7_log_sine_14.h"
 
-#include "EnvGen.h"
-
 //! Model of Yamaha OPS (like the YM21280)
-template <unsigned NUM_OP>
+template <unsigned NUM_OP, typename EG_TYPE>
 class Ops
 {
 public:
    Ops() = default;
 
-   EnvGen* getEgsPointer(unsigned op_index_) { return &state[op_index_].egs; }
+   EG_TYPE* getEgsPointer(unsigned op_index_) { return &state[op_index_].eg; }
 
    //! Set the oscillator sync mode
    void setOpsSync(bool sync_)
@@ -83,7 +81,7 @@ protected:
       uint32_t log_wave_14 = table_dx7_log_sine_14[phase_12];
 
       // Apply EG attenuation
-      uint32_t amp_12 = state[op_index].egs.out();
+      uint32_t amp_12 = state[op_index].eg.getAtten12();
       if (amp_12 >= 0xFFF)
          amp_12 = 0x3FFF;
       else
@@ -134,26 +132,26 @@ protected:
 
 private:
    // Externaly configured state
-   bool     sync {true};
-   uint8_t  fdbk {0};
+   bool    sync{true};
+   uint8_t fdbk{0};
 
    // Internal voice computation state
-   int32_t  modulation_15 {0};
-   int32_t  feedback1_15 {0};
-   int32_t  feedback2_15 {0};
-   int32_t  memory_15 {0};
+   int32_t modulation_15{0};
+   int32_t feedback1_15{0};
+   int32_t feedback2_15{0};
+   int32_t memory_15{0};
 
    // Internal operator state
    struct State
    {
-      EnvGen   egs{};
+      EG_TYPE  eg{};
       uint32_t phase_acc_32{0};
       uint32_t phase_inc_32{0};
 
       uint32_t stepPhase()
       {
-          phase_acc_32 += phase_inc_32;
-          return phase_acc_32;
+         phase_acc_32 += phase_inc_32;
+         return phase_acc_32;
       }
    };
 

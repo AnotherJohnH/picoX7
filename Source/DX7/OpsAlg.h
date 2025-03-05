@@ -31,7 +31,8 @@
 #include "Ops.h"
 
 //! Implement the 32 DX7 OP algorithms in the YM21280 OPS
-class OpsAlg : public Ops</* NUM_OP */ 6>
+template <typename EG_TYPE>
+class OpsAlg : public Ops</* NUM_OP */ 6, EG_TYPE>
 {
 public:
    OpsAlg() = default;
