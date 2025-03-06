@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-#  Copyright (c) 2019 John D. Haughton
+#  Copyright (c) 2025 John D. Haughton
 # 
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to deal
@@ -27,10 +27,6 @@ if(${PLT_NATIVE})
                   testOps.cpp
                   testEnvGen.cpp
                   testPitchEg.cpp)
-
-   target_include_directories(test_DX7
-      PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/..
-      PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/..)
 
    target_link_libraries(test_DX7
       PRIVATE DX7 STB)
