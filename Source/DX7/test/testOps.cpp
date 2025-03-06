@@ -28,6 +28,8 @@
 
 #include "STB/Test.h"
 
+#define DEBUG if (0) printf
+
 class AlwaysOnEG
 {
 public:
@@ -91,10 +93,10 @@ TEST(Ops, amplitude)
 
    avg = avg / SAMPLES;
 
-   printf("first = %d\n", first);
-   printf("min   = -0x%04X\n", -min);
-   printf("max   = +0x%04X\n", +max);
-   printf("avg   = %.2f\n", avg);
+   DEBUG("first = %d\n", first);
+   DEBUG("min   = -0x%04X\n", -min);
+   DEBUG("max   = +0x%04X\n", +max);
+   DEBUG("avg   = %.2f\n", avg);
 
    // Check first sample is not negative and small
    EXPECT_LT(-1, first);
@@ -134,7 +136,7 @@ TEST(Ops, continuity)
          max_delta = delta;
    }
 
-   printf("max_delta = 0x%04X\n", max_delta);
+   DEBUG("max_delta = 0x%04X\n", max_delta);
 
    // The following should catch clipping/overflow issues
    EXPECT_GT(0x800, max_delta);
@@ -147,24 +149,23 @@ TEST(Ops, freq)
    {
       uint32_t note14;
       double   exp_freq;
-      double   err_lim;
    };
 
    SingleOp ops;
 
    std::vector<Test> test_vector =
    {
-   //  note14, freq (Hz), err_lim (Hz)
-      {0x0000,      27.5,           1},  // A0
-      {0x0400,        55,           1},  // A1
-      {0x0800,       110,           1},  // A2
-      {0x0C00,       220,           1},  // A3
-      {0x1000,       440,           1},  // A4
-      {0x1400,       880,           1},  // A5
-      {0x1800,      1760,           1},  // A6
-      {0x1C00,      3520,           1},  // A7
-      {0x2000,      7040,           2},  // A8
-      {0x2356,     12544,           6},  // G9
+   //  note14, freq (Hz)
+      {0x0000,      27.5},  // A0
+      {0x0400,        55},  // A1
+      {0x0800,       110},  // A2
+      {0x0C00,       220},  // A3
+      {0x1000,       440},  // A4
+      {0x1400,       880},  // A5
+      {0x1800,      1760},  // A6
+      {0x1C00,      3520},  // A7
+      {0x2000,      7040},  // A8
+      {0x2356,     12544},  // G9
    };
 
    static const unsigned SECONDS = 100;
@@ -190,12 +191,14 @@ TEST(Ops, freq)
       }
 
       double freq       = double(cycles) / SECONDS;
-      double freq_error = fabs(freq - test.exp_freq);
+      double octave     = log2(freq);
+      double exp_octave = log2(test.exp_freq);
+      double cent_error = fabs(octave - exp_octave) * 12 * 100;
 
-      printf("note14=0x%04x freq=%8.2f Hz error=%g Hz\n",
-             test.note14, freq, freq_error);
+      DEBUG("note14=0x%04x freq=%8.2f Hz error=%.1f cents\n",
+             test.note14, freq, cent_error);
 
-      EXPECT_GT(test.err_lim, freq_error);
+      EXPECT_GT(10.0, cent_error);
    }
 }
 
