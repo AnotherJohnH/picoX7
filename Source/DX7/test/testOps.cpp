@@ -28,7 +28,7 @@
 
 #include "STB/Test.h"
 
-#define DEBUG if (0) printf
+#define DEBUG if (1) printf
 
 class AlwaysOnEG
 {
@@ -50,7 +50,8 @@ public:
 
    void noteOn(uint32_t note14_)
    {
-      setOpsFreq(0, note14_ + RATIO_1_0);
+      uint32_t f14 = (note14_ + RATIO_1_0) & 0x3FFF;
+      setOpsFreq(0, f14);
       keyOn();
    }
 
@@ -156,6 +157,10 @@ TEST(Ops, freq)
    std::vector<Test> test_vector =
    {
    //  note14,  freq (Hz)
+      {0xECDC,       1.0},  // Lowest frequency required in fixed mode
+      {0xF000,   1.71875},  // A-4
+      {0xF400,    3.4375},  // A-3
+      {0xF800,     6.875},  // A-2
       {0xFC00,     13.75},  // A-1
       {0x0000,      27.5},  // A0
       {0x0400,        55},  // A1
@@ -166,8 +171,9 @@ TEST(Ops, freq)
       {0x1800,      1760},  // A6
       {0x1C00,      3520},  // A7
       {0x2000,      7040},  // A8
-      {0x2356,     12544},  // G9
+      {0x2356,  12543.85},  // G9
       {0x2400,     14080},  // A9
+      {0x2700,  23679.64},  // F#10
    };
 
    static const unsigned SECONDS = 100;

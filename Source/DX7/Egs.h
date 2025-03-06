@@ -232,20 +232,15 @@ public:
    {
       for(unsigned op_index_ = 0; op_index_ < 6; op_index_++)
       {
-         int32_t pitch_14;
+         int32_t pitch_14 = op_pitch[op_index_];
 
          if (op_pitch_fixed[op_index_])
-         {
-            pitch_14 = op_pitch[op_index_] - 0x1000;
-         }
+            pitch_14 -= 0x1000;
          else
-         {
-            pitch_14 = voice_pitch + op_pitch[op_index_];
-         }
+            pitch_14 += voice_pitch;
 
          pitch_14 += op_detune[op_index_] + pitch_mod;
-         if (pitch_14 < 0)
-            pitch_14 = 0;
+         pitch_14 &= 0x3FFF;
 
          setOpsFreq(op_index_, pitch_14);
       }

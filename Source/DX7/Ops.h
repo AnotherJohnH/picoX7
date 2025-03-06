@@ -50,7 +50,20 @@ public:
    //! Set operator frequency
    void setOpsFreq(unsigned op_index, uint32_t f14)
    {
-      state[op_index].phase_inc_32 = table_dx7_exp_22[f14 & 0x3FFF] << 13;
+      // TODO fold the low frequeny re-scale into the exponent
+      //      table to save a few cycles below
+      uint32_t phase_inc_19 = table_dx7_exp_22[f14];
+
+      if (f14 > 0x3400)
+      {
+         // Top end of table is rescaled (>>16) for very low frequencies
+         state[op_index].phase_inc_32 = phase_inc_19 >> 3;
+      }
+      else
+      {
+         // NOTE will alias at the high end as the NYQUIST is crossed
+         state[op_index].phase_inc_32 = phase_inc_19 << 13;
+      }
    }
 
    //! Start of note
