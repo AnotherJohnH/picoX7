@@ -42,8 +42,8 @@ See the [software blog](https://github.com/AnotherJohnH/picoX7/wiki/Software-Blo
 
 + https://github.com/AnotherJohnH/Platform
 + arm-none-eabi-gcc
-+ cmake
-+ ninja (make works too)
++ cmake via UNIX make or auto detection of ninja if installed
++ Python3
 + SDL2 (only for native test target)
 
 Both Pico and native targets should build on MacOS or Linux.
@@ -79,15 +79,15 @@ to another I2S DAC
 ### Alternative hardware targets
 
 Software builds for the following hardware targets...
-+ PIMORONI_PICO_AUDIO - Use the Pimoroni Pico Audio I2S DAC instead with an I2C LCD
-+ PWM_DAC - DAC implemented using the on-chip PWM and a few external resistors and capacitors on pins 21 and 22 (sound quality is not great) 
-+ WAVESHARE_I2C_LCD - Use an I2C LCD on pins 19+20 instead of the 8-bit parallel interface
++ PIMORONI_PICO_AUDIO - Use the Pimoroni Pico Audio I2S DAC and an I2C LCD
++ PWM_DAC - DAC implemented using the on-chip PWM and a few external resistors and capacitors on pins 21 and 22 (sound quality is poor)
 + WAVESHARE_GPIO_LCD - The hardware described above
++ WAVESHARE_I2C_LCD - Use an I2C LCD on pins 19+20 instead of the 8-bit parallel interface
 + PIMORONI_VGA_DEMO - Support for the Pimoroni Pico VGA Demo Base (!!!! untested !!!!)
 
 NOTE: The LCD and LED displays are optional and will not block operation if not fitted
 
-In addition all the above targets are built for and work with RP2350 Picos as well as the older RP2040 Picos. 
+In addition all the above targets are built for and work with RP2350 Picos as well as the older RP2040 Picos.
 
 ### Components
 
@@ -118,25 +118,37 @@ or
 
 ### Build
 
-Being developed on MacOS but should build fine on Linux too.
+Being developed on MacOS but should build on Linux too.
 
-Indirect build of all supported targets (with cmake and ninja)...
+Indirect build of all supported targets, rpipico, rpipico2 and native with cmake and make (or ninja)...
 
     make
 
-Build directly using cmake...
+Build a single hardware target e.g. rpipico2 using cmake...
 
     mkdir build
     cd build
-    cmake -DCMAKE_BUILD_TYPE=Release -DPLT_TARGET=rpipico -DCMAKE_TOOLCHAIN_FILE=Platform/MTL/rpipico/toolchain.cmake ..
+    cmake -DCMAKE_BUILD_TYPE=Release -DPLT_TARGET=rpipico2 -DCMAKE_TOOLCHAIN_FILE=Platform/MTL/rpipico2/toolchain.cmake ..
+    make
+
+flashable images will be found under the build sub-directory here...
+
+    build/Source/picoX7_PIMORONI_PICO_AUDIO.uf2
+    build/Source/picoX7_PIMORONI_VGA_DEMO.uf2
+    build/Source/picoX7_PWM_DAC.uf2
+    build/Source/picoX7_WAVESHARE_GPIO_LCD.uf2
+    build/Source/picoX7_WAVESHARE_I2C_LCD.uf2
+
+Build the native target...
+
+    mkdir build
+    cd build
     cmake -DCMAKE_BUILD_TYPE=Release -DPLT_TARGET=native ..
     make
 
-Flashable image will be found under the build sub directory here...
+a runable binary image will be found under the build subdirectory here...
 
-    .../Source/picoX7_WAVESHARE_GPIO_LCD.uf2
-    .../Source/picoX7_WAVESHARE_I2C_LCD.uf2
-    .../Source/picoX7_PIMORONI_VGA_DEMO.uf2
+    build/Source/picoX7_NATIVE
 
 ## License
 
