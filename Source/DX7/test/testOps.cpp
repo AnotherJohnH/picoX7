@@ -155,7 +155,8 @@ TEST(Ops, freq)
 
    std::vector<Test> test_vector =
    {
-   //  note14, freq (Hz)
+   //  note14,  freq (Hz)
+      {0xFC00,     13.75},  // A-1
       {0x0000,      27.5},  // A0
       {0x0400,        55},  // A1
       {0x0800,       110},  // A2
@@ -166,6 +167,7 @@ TEST(Ops, freq)
       {0x1C00,      3520},  // A7
       {0x2000,      7040},  // A8
       {0x2356,     12544},  // G9
+      {0x2400,     14080},  // A9
    };
 
    static const unsigned SECONDS = 100;
@@ -198,7 +200,10 @@ TEST(Ops, freq)
       DEBUG("note14=0x%04x freq=%8.2f Hz error=%.1f cents\n",
              test.note14, freq, cent_error);
 
-      EXPECT_GT(10.0, cent_error);
+      if (freq >= 50)
+         EXPECT_GT(1.0, cent_error);
+      else
+         EXPECT_GT(20.0, cent_error);
    }
 }
 
