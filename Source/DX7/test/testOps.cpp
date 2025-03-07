@@ -35,7 +35,15 @@ class AlwaysOnEG
 public:
    AlwaysOnEG() = default;
 
-   uint32_t getAtten12() { return 0x000; }
+   void setAtten12(uint32_t atten12_)
+   {
+      atten12 = atten12_;
+   }
+
+   uint32_t getAtten12() { return atten12; }
+
+private:
+   uint32_t atten12{0x000};
 };
 
 
@@ -66,7 +74,10 @@ public:
 
 TEST(Ops, amplitude)
 {
-   SingleOp ops;
+   SingleOp    ops{};
+   AlwaysOnEG* eg = ops.getEgsPointer(0);
+
+   eg->setAtten12(0x000);
 
    ops.noteOn(/* note14 (A4) */ 0x1000);
 
@@ -115,6 +126,58 @@ TEST(Ops, amplitude)
 }
 
 
+TEST(Ops, attenuation)
+{
+   SingleOp    ops{};
+   AlwaysOnEG* eg = ops.getEgsPointer(0);
+
+   struct Test
+   {
+      uint32_t atten12;
+      signed   exp_max;
+   };
+
+   std::vector<Test> test_vector =
+   {
+      {0x000, 0x8000},
+      {0x200, 0x4000},
+      {0x400, 0x2000},
+      {0x600, 0x1000},
+      {0x800, 0x0800},
+      {0xA00, 0x0400},
+      {0xC00, 0x0200},
+      {0xE00, 0x0100},
+      {0xFFE, 0x0080},
+      {0xFFF, 0x0000},
+   };
+
+   for(const auto& test : test_vector)
+   {
+      eg->setAtten12(test.atten12);
+
+      ops.noteOn(/* note14 (A4) */ 0x1000);
+
+      signed max = 0;
+
+      static const unsigned SAMPLES = 49096; // One seconds
+
+      for(unsigned i = 0; i < SAMPLES; ++i)
+      {
+         int32_t sample = ops.getSample();
+
+         if (sample > max)
+            max = sample;
+      }
+
+      signed error = test.exp_max - max;
+
+      DEBUG("atten12=0x%03X max = +0x%04X err = %u\n", test.atten12, max, error);
+
+      EXPECT_GT(0x20, abs(error));
+   }
+}
+
+
 TEST(Ops, continuity)
 {
    SingleOp ops;
@@ -146,13 +209,13 @@ TEST(Ops, continuity)
 
 TEST(Ops, freq)
 {
+   SingleOp ops;
+
    struct Test
    {
       uint32_t note14;
       double   exp_freq;
    };
-
-   SingleOp ops;
 
    std::vector<Test> test_vector =
    {
