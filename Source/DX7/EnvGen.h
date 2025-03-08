@@ -47,22 +47,33 @@ public:
       setPhase(END);
    }
 
-   void setOpLevel(uint8_t op_level_7_)
+   //! Set operator attenuation
+   void setOpAtten(uint8_t op_atten_8_)
    {
       for(unsigned index = 0; index < 4; index++)
       {
          Index p = index == 3 ? RELEASE : Index(index);
 
-         unsigned atten = patch_level_8[index] + op_level_7_;
-         if (atten > 0x7F)
-            atten = 0x7F;
+         unsigned atten8 = patch_atten_8[index] + op_atten_8_;
+         if (atten8 > 0xFF)
+            atten8 = 0xFF;
 
-         // Assume  21 <= INTERNAL_BITS <= 28
-         phase[p].level = (atten << (INTERNAL_BITS -  7)) |
-                          (atten << (INTERNAL_BITS - 14)) |
-                          (atten << (INTERNAL_BITS - 21)) |
-                          (atten >> (28 - INTERNAL_BITS));
+         // Assume  24 <= INTERNAL_BITS
+         phase[p].level = (atten8 << (INTERNAL_BITS -  8)) |
+                          (atten8 << (INTERNAL_BITS - 16)) |
+                          (atten8 << (INTERNAL_BITS - 24));
       }
+   }
+
+   //! Set EG patch attenutaion
+   void setAtten(unsigned index, uint8_t atten6_)
+   {
+      // Convert to 8-bit
+      // 0x00 - No attenuation
+      // 0xFF - Full attenuation
+
+      // XXX "interpolating" LS 2 bits from top 2 bits (may not be accurate?)
+      patch_atten_8[index] = (atten6_ << 2) | (atten6_ >> 4);
    }
 
    void setRate(unsigned index, uint8_t rate6_)
@@ -70,14 +81,6 @@ public:
       Index p = index == 3 ? RELEASE : Index(index);
 
       phase[p].rate = table_dx7_exp_19[rate6_];
-   }
-
-   void setLevel(unsigned index, uint8_t level6_)
-   {
-      // Convert to 8-bit
-      // 0x00 - No attenuation
-      // 0xFF - Full attenuation
-      patch_level_8[index] = (level6_ << 2) | (level6_ >> 4);
    }
 
    void setAmpModSens(uint8_t amp_mod_sens_2_)
@@ -191,5 +194,5 @@ private:
    Phase    phase[NUM_PHASE];
    int32_t  amp_mod_12{0};      //!< Amplitude modulation
    uint32_t amp_mod_sens_12{0}; //!< Amplitude modulation sensitivity
-   uint8_t  patch_level_8[4] = {};
+   uint8_t  patch_atten_8[4] = {};
 };

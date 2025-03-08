@@ -139,16 +139,24 @@ TEST(Ops, attenuation)
 
    std::vector<Test> test_vector =
    {
-      {0x000, 0x8000},
-      {0x200, 0x4000},
-      {0x400, 0x2000},
-      {0x600, 0x1000},
-      {0x800, 0x0800},
-      {0xA00, 0x0400},
-      {0xC00, 0x0200},
-      {0xE00, 0x0100},
-      {0xFFE, 0x0080},
-      {0xFFF, 0x0000},
+    // atten   peak
+      {0x000, 0x8000},  //    1    - full scale
+      {0x100, 0x4000},  //   1/2   - half scale
+      {0x200, 0x2000},
+      {0x300, 0x1000},
+      {0x400, 0x0800},
+      {0x500, 0x0400},
+      {0x600, 0x0200},
+      {0x700, 0x0100},
+      {0x800, 0x0080},
+      {0x900, 0x0040},
+      {0xA00, 0x0020},
+      {0xB00, 0x0010},
+      {0xC00, 0x0008},
+      {0xD00, 0x0004},
+      {0xE00, 0x0002},
+      {0xF00, 0x0001},
+      {0xFFF, 0x0000},  //    0   - off
    };
 
    for(const auto& test : test_vector)
@@ -192,7 +200,7 @@ TEST(Ops, continuity)
    for(unsigned i = 0; i < SAMPLES; ++i)
    {
       int32_t sample = ops.getSample();
- 
+
       int32_t delta = abs(sample - last_sample);
       last_sample = sample;
 

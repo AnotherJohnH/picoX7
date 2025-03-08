@@ -71,12 +71,12 @@ TEST(EnvGen, brass_1)
 
    for(unsigned i = 0; i < 6; ++i)
    {
-      env_gen[i].setOpLevel(level[i]); // TODO convert to real value sent to EGS
+      env_gen[i].setOpAtten(level[i]); // TODO convert to real value sent to EGS
 
       for(unsigned j = 0; j < 4; ++j)
       {
          env_gen[i].setRate( j, (eg_patch[i].rate[j] * 164) >> 8);
-         env_gen[i].setLevel(j, table_log[eg_patch[i].level[j]] >> 1);
+         env_gen[i].setAtten(j, table_log[eg_patch[i].level[j]] >> 1);
       }
 
       env_gen[i].keyOn();
@@ -119,10 +119,10 @@ TEST(EnvGen, decay)
    for(unsigned i = 0; i < 4; ++i)
    {
       env_gen.setRate( i, (eg_patch.rate[i] * 164) >> 8);
-      env_gen.setLevel(i, table_log[eg_patch.level[i]] >> 1);
+      env_gen.setAtten(i, table_log[eg_patch.level[i]] >> 1);
    }
 
-   env_gen.setOpLevel(0x0F);
+   env_gen.setOpAtten(0x0F);
 
    FILE* fp = fopen("decay.csv", "w");
 

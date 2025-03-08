@@ -86,13 +86,7 @@ protected:
       uint32_t log_wave_14 = table_dx7_log_sine_14[phase_12];
 
       // Apply EG attenuation
-      uint32_t amp_12 = state[op_index].eg.getAtten12();
-      if (amp_12 >= 0xFFF)
-         amp_12 = 0x3FFF;
-      else
-         amp_12 <<= 1;
-
-      log_wave_14 += amp_12;
+      log_wave_14 += state[op_index].eg.getAtten12() << 2;
 
       // Apply algorithm compensation
       log_wave_14 += LOG2_COM << 7;
