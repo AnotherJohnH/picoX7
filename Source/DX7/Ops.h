@@ -81,6 +81,7 @@ protected:
       // encoding
       const unsigned op_index = NUM_OP - OP_NUMBER;
 
+      // Sample sine table
       uint32_t phase_32    = state[op_index].stepPhase();
       uint32_t phase_12    = (phase_32 + (modulation_15 << 20)) >> (32 - 12);
       uint32_t log_wave_14 = table_dx7_log_sine_14[phase_12];
@@ -95,10 +96,12 @@ protected:
       if (log_wave_14 > 0x3FFF)
          log_wave_14 = 0x3FFF;
 
+      // Convert log sample to linear
       signed output_15 = table_dx7_exp_14[log_wave_14];
       if (phase_12 >= 0x800)
          output_15 = -output_15;
 
+      // Mixing and routing as required by the algorithm
       signed sum_15 = 0;
       if (C) sum_15 = memory_15;
       if (D) sum_15 += output_15;
@@ -126,6 +129,7 @@ protected:
          memory_15 = sum_15;
       }
 
+      // 16-bit sample returned and only used from the final operator
       return sum_15 << 1;
    }
 
