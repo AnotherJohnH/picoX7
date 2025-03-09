@@ -59,7 +59,7 @@ public:
             atten8 = 0xFF;
 
          // Assume  24 <= INTERNAL_BITS
-         phase[p].level = (atten8 << (INTERNAL_BITS -  8)) |
+         phase[p].atten = (atten8 << (INTERNAL_BITS -  8)) |
                           (atten8 << (INTERNAL_BITS - 16)) |
                           (atten8 << (INTERNAL_BITS - 24));
       }
@@ -108,9 +108,9 @@ public:
    //! Start a note
    void keyOn()
    {
-      phase[SUSTAIN].level = phase[DECAY2].level;
-      phase[END].level     = phase[RELEASE].level;
-      output               = phase[RELEASE].level;
+      phase[SUSTAIN].atten = phase[DECAY2].atten;
+      phase[END].atten     = phase[RELEASE].atten;
+      attenuation          = phase[RELEASE].atten;
 
       setPhase(ATTACK);
    }
@@ -130,34 +130,34 @@ public:
    //! 0xFFF full attenuation
    uint32_t getAtten12()
    {
-      if (output >= current.level)
+      if (attenuation >= target.atten)
       {
-         output -= current.rate;
-         if (output <= current.level)
+         attenuation -= target.rate;
+         if (attenuation <= target.atten)
          {
-            output = current.level;
+            attenuation = target.atten;
             nextPhase();
          }
       }
       else
       {
-         output += current.rate / 4;
-         if (output >= current.level)
+         attenuation += target.rate / 4;
+         if (attenuation >= target.atten)
          {
-            output = current.level;
+            attenuation = target.atten;
             nextPhase();
          }
       }
 
-      uint32_t amp_12 = output >> (INTERNAL_BITS - OUT_BITS);
+      uint32_t atten_12 = attenuation >> (INTERNAL_BITS - OUTPUT_BITS);
 
-      return amp_12 + amp_mod_12;
+      return atten_12 + amp_mod_12;
    }
 
    // For test
-   uint32_t dbgInternal() const { return output; }
-   uint32_t dbgTarget() const { return current.level; }
-   uint32_t dbgRate() const { return current.rate; }
+   uint32_t dbgInternal() const { return attenuation; }
+   uint32_t dbgTarget() const { return target.atten; }
+   uint32_t dbgRate() const { return target.rate; }
    unsigned dbgPhase() const { return unsigned(index); }
 
 private:
@@ -169,28 +169,26 @@ private:
       }
    }
 
-   //! Change current phase
+   //! Change target phase
    void setPhase(Index index_)
    {
-      index = index_;
-
-      current.rate  = phase[index].rate;
-      current.level = phase[index].level;
+      index  = index_;
+      target = phase[index];
    }
 
    struct Phase
    {
-      int32_t rate{0};        //!< Rate phase
-      int32_t level{0};       //!< Target level for phase
+      int32_t rate{0};  //!< Rate phase
+      int32_t atten{0}; //!< Target attenuation for phase
    };
 
    static const unsigned INTERNAL_BITS = 24;
-   static const unsigned OUT_BITS      = 12;
+   static const unsigned OUTPUT_BITS   = 12;
    static const uint32_t MAX_ATTEN     = (1 << INTERNAL_BITS) - 1;
 
-   int32_t  output{MAX_ATTEN};  //!< Current amplitude (initialize to full attenuation)
-   Phase    current{};          //!< Current phase control
-   Index    index{};            //!< Current phase index
+   int32_t  attenuation{MAX_ATTEN}; //!< Current attenuation (initialize to full attenuation)
+   Phase    target{};               //!< Current target phase
+   Index    index{};                //!< Current phase index
    Phase    phase[NUM_PHASE];
    int32_t  amp_mod_12{0};      //!< Amplitude modulation
    uint32_t amp_mod_sens_12{0}; //!< Amplitude modulation sensitivity
