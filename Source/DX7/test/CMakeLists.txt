@@ -25,6 +25,7 @@ if(${PLT_NATIVE})
    add_executable(test_DX7
                   testMain.cpp
                   testOps.cpp
+                  testEgs.cpp
                   testEnvGen.cpp
                   testPitchEg.cpp)
 

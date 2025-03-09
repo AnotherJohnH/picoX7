@@ -75,7 +75,7 @@ public:
 TEST(Ops, amplitude)
 {
    SingleOp    ops{};
-   AlwaysOnEG* eg = ops.getEgsPointer(0);
+   AlwaysOnEG* eg = ops.getEgPointer(0);
 
    eg->setAtten12(0x000);
 
@@ -129,7 +129,7 @@ TEST(Ops, amplitude)
 TEST(Ops, attenuation)
 {
    SingleOp    ops{};
-   AlwaysOnEG* eg = ops.getEgsPointer(0);
+   AlwaysOnEG* eg = ops.getEgPointer(0);
 
    struct Test
    {

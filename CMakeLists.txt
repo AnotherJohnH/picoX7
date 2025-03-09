@@ -31,7 +31,6 @@ include(CTest)
 add_subdirectory(Platform)
 
 add_subdirectory(Source)
-add_subdirectory(Test)
 add_subdirectory(docs/Research)
 
 if(${PLT_TARGET} STREQUAL rpipico OR ${PLT_TARGET} STREQUAL rpipico2)

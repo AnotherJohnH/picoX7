@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2023 John D. Haughton   
-// 
+// Copyright (c) 2023 John D. Haughton
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
@@ -10,7 +10,7 @@
 //
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,8 +20,7 @@
 // SOFTWARE.
 //------------------------------------------------------------------------------
 
-#include <cstdio>
-#include <cmath>
+#include "DX7/Egs.h"
 
 #include "DX7/SysEx.h"
 #include "DX7/OpsAlg.h"
@@ -29,10 +28,17 @@
 
 #include "Table_dx7_rom_1.h"
 
-int main()
+#include <cstdio>
+#include <cmath>
+
+#include "STB/Test.h"
+
+#define DEBUG if (0) printf
+
+TEST(Egs, old_test)
 {
-   unsigned     patch_index {0};
-   SysEx::Voice patch{ table_dx7_rom_1, patch_index};
+   unsigned     patch_index{0};
+   SysEx::Voice patch{table_dx7_rom_1, patch_index};
    Egs          hw;
    Firmware     fw{hw};
 
@@ -44,6 +50,6 @@ int main()
       else if (t == 49096) { hw.keyOff(); }
 
       uint32_t amp14 = hw.getEgsAmp(0);
-      printf("%u,0x%04x\n", t, amp14);
+      DEBUG("%u,0x%04x\n", t, amp14);
    }
 }

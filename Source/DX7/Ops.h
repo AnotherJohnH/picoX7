@@ -33,7 +33,7 @@ class Ops
 public:
    Ops() = default;
 
-   EG_TYPE* getEgsPointer(unsigned op_index_) { return &state[op_index_].eg; }
+   EG_TYPE* getEgPointer(unsigned op_index_) { return &state[op_index_].eg; }
 
    //! Set the oscillator sync mode
    void setOpsSync(bool sync_)

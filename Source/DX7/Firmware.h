@@ -65,8 +65,6 @@ public:
       pitch_eg.load(voice_patch);
       patchActivateAlgMode();
       lfo.load(voice_patch);
-
-      hw.debug();
    }
 
    //! Load param patch
@@ -123,8 +121,6 @@ public:
       pitch_eg.keyOn(/* voice */ 0);
 
       hw.keyOn();
-
-      hw.debug();
    }
 
    //! Implement VOICE_REMOVE called for a note off event

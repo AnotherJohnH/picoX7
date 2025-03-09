@@ -33,116 +33,82 @@ public:
    {
       for(unsigned i = 0; i < NUM_OP; ++i)
       {
-         op_egs[i] = getEgsPointer(i);
+         op[i].env_gen = getEgPointer(i);
       }
    }
 
    // EGS inputs
 
-   //! Set voice pitch [0x3000..301F]
-   void setEgsVoicePitch(uint16_t pitch_)
+   //! Set voice pitch [0x3000..301F] lS 2 bits ignored
+   void setEgsVoicePitch(uint16_t pitch16_)
    {
-      voice_pitch = pitch_ >> 2;
+      voice_pitch14 = pitch16_ >> 2;
 
-#if defined(REG_SIM)
-      reg[0] = pitch_ >> 8;
-      reg[1] = pitch_ & 0xFF;
+#if 0
+      for(unsigned op_index = 0; op_index < 6; ++op_index)
+      {
+         unsigned rate_scale = voice_pitch14 + op[op_index].rate_scale3;
+
+         // op[op_index].env_gen->setRateScale(rate_scale);
+      }
 #endif
    }
 
    //! Set operator pitch value [0x3020..302F]
    void setEgsOpPitch(unsigned op_index_, uint16_t pitch_)
    {
-      op_pitch[op_index_] = pitch_ >> 2;
-
-#if defined(REG_SIM)
-      reg[0x20 + op_index_ * 2] = pitch_ >> 8;
-      reg[0x21 + op_index_ * 2] = (reg[0x21 + op_index_ * 2] & 0b11) | (pitch_ & 0xFC);
-#endif
+      op[op_index_].pitch_ratio14 = pitch_ >> 2;
    }
 
    //! Set operator pitch mode, fixed or ratio
    void setEgsOpPitchFixed(unsigned op_index_, bool fixed_)
    {
-      op_pitch_fixed[op_index_] = fixed_;
-
-#if defined(REG_SIM)
-      reg[0x21 + op_index_ * 2] = (reg[0x21 + op_index_ * 2] & 0b11111100) | (fixed_ & 0b1);
-#endif
+      op[op_index_].pitch_fixed = fixed_;
    }
 
    //! Set operator detune [0x3030..303F]
-   void setEgsOpDetune(unsigned op_index_, signed detune_)
+   void setEgsOpDetune(unsigned op_index_, signed detune4_)
    {
-      op_detune[op_index_] = detune_;
-
-#if defined(REG_SIM)
-      reg[0x30 + op_index_] = detune_ < 0 ? 0b1000 | -detune_
-                                          : detune_;
-#endif
+      op[op_index_].detune4 = detune4_;
    }
 
    //! Set an operator envelope generator rate [0x3040..305F]
    void setEgsOpEgRate(unsigned op_index_, unsigned index_, uint8_t rate6_)
    {
-      op_egs[op_index_]->setRate(index_, rate6_);
-
-#if defined(REG_SIM)
-      reg[0x40 + op_index_ * 4 + index_] = rate6_;
-#endif
+      op[op_index_].env_gen->setRate(index_, rate6_);
    }
 
-   //! Set operator envelope generator target levels [0x3060..307F]
-   void setEgsOpEgLevel(unsigned op_index_, unsigned index_, const uint8_t level6_)
+   //! Set operator envelope generator target attenuation level [0x3060..307F]
+   void setEgsOpEgLevel(unsigned op_index_, unsigned index_, const uint8_t atten6_)
    {
-      op_egs[op_index_]->setAtten(index_, level6_);
-
-#if defined(REG_SIM)
-      reg[0x60 + op_index_ * 4 + index_] = level6_;
-#endif
+      op[op_index_].env_gen->setAtten(index_, atten6_);
    }
 
-   //! Set operator level [0x3080..]
+   //! Set operator attenuation level [0x3080..]
    void setEgsOpLevel(unsigned op_index_, uint8_t level8_)
    {
-      op_egs[op_index_]->setOpAtten(level8_);
-
-#if defined(REG_SIM)
-      reg[0x80 + op_index_ * 16] = level_;
-#endif
+      op[op_index_].env_gen->setOpAtten(level8_);
    }
 
    //! Set operator rate scaling
-   void setEgsOpRateScaling(unsigned op_index_, uint8_t scaling_)
+   void setEgsOpRateScaling(unsigned op_index_, uint8_t scale3_)
    {
-      op_rate_scaling[op_index_] = scaling_;
-
-#if defined(REG_SIM)
-      reg[0xE0 + op_index_] = (reg[0xE0 + op_index_] & 0b11111000) | (scaling_ & 0b111);
-#endif
+      op[op_index_].rate_scale3 = scale3_;
    }
 
    //! Set operator amplitude modulation sensitivity
    void setEgsOpAmpModSens(unsigned op_index_, uint8_t sens_)
    {
-      op_egs[op_index_]->setAmpModSens(sens_);
-
-#if defined(REG_SIM)
-      reg[0xE0 + op_index_] = (reg[0xE0 + op_index_] & 0b111) | (sens_ << 3);
-#endif
+      op[op_index_].env_gen->setAmpModSens(sens_);
    }
 
    //! Set amplitude modulation (0..FF)
-   void setEgsAmpMod(uint8_t amp_mod_)
+   void setEgsAmpMod(uint8_t amp_mod8_)
    {
-      for(unsigned op_index = 0; op_index < 6; ++op_index)
+      for(unsigned op_index = 0; op_index < NUM_OP; ++op_index)
       {
-         op_egs[op_index]->setAmpMod(amp_mod_);
+         op[op_index].env_gen->setAmpMod(amp_mod8_);
       }
-
-#if defined(REG_SIM)
-      reg[0xF0] = amp_mod_;
-#endif
    }
 
    //! Start of note
@@ -150,14 +116,10 @@ public:
    {
       for(unsigned op_index = 0; op_index < NUM_OP; ++op_index)
       {
-         op_egs[op_index]->keyOn();
+         op[op_index].env_gen->keyOn();
       }
 
       Ops<NUM_OP,EnvGen>::keyOn();
-
-#if defined(REG_SIM)
-      reg[0xF1] = 1;
-#endif
    }
 
    //! Release of note
@@ -165,23 +127,14 @@ public:
    {
       for(unsigned op_index = 0; op_index < NUM_OP; ++op_index)
       {
-         op_egs[op_index]->keyOff();
+         op[op_index].env_gen->keyOff();
       }
-
-#if defined(REG_SIM)
-      reg[0xF1] = 0;
-#endif
    }
 
-   //! Set pitch modulation (0..FFFF)
+   //! Set pitch modulation
    void setEgsPitchMod(int16_t pitch_mod_)
    {
-      pitch_mod = pitch_mod_ >> 4;
-
-#if defined(REG_SIM)
-      reg[0xF2] = pitch_mod_ >> 8;
-      reg[0xF3] = pitch_mod_ & 0xFF;
-#endif
+      pitch_mod12 = pitch_mod_ >> 4;
    }
 
    //! Check if all amplitude envelopes are at L4
@@ -190,7 +143,7 @@ public:
    {
       for(unsigned op_index = 0; op_index < NUM_OP; ++op_index)
       {
-         if (not op_egs[op_index]->isComplete())
+         if (not op[op_index].env_gen->isComplete())
             return false;
       }
 
@@ -200,66 +153,51 @@ public:
    //! Used by unit test
    int32_t getEgsAmp(unsigned op_index_)
    {
-      return op_egs[op_index_]->getAtten12();
-   }
-
-   void debug()
-   {
-#if defined(REG_SIM)
-      printf("\n");
-      for(unsigned i = 0; i < 256; ++i)
-      {
-         if ((i % 8) == 0)
-         {
-            printf("\e[32m");
-            printf("30%02X ", i);
-            printf("\e[37m");
-         }
-
-         printf(" %02X", reg[i]);
-
-         if ((i % 8) == 7)
-         {
-            printf("\n");
-         }
-      }
-      printf("\n");
-#endif
+      return op[op_index_].env_gen->getAtten12();
    }
 
    //! Send frequency value from the EGS to the OPS
    void sendEgsFreq()
    {
-      for(unsigned op_index_ = 0; op_index_ < 6; op_index_++)
+      for(unsigned op_index = 0; op_index < 6; op_index++)
       {
-         int32_t pitch_14 = op_pitch[op_index_];
-
-         if (op_pitch_fixed[op_index_])
-            pitch_14 -= 0x1000;
-         else
-            pitch_14 += voice_pitch;
-
-         pitch_14 += op_detune[op_index_] + pitch_mod;
-         pitch_14 &= 0x3FFF;
-
-         setOpsFreq(op_index_, pitch_14);
+         setOpsFreq(op_index,
+                    op[op_index].computeOpsFreq14(voice_pitch14, pitch_mod12));
       }
    }
 
 private:
    static const unsigned NUM_OP = 6;
 
-   // State representing EGS registers
-   uint16_t voice_pitch{0};
-   uint16_t op_pitch[NUM_OP] = {0};
-   bool     op_pitch_fixed[NUM_OP] = {false};
-   int8_t   op_detune[NUM_OP] = {0};
-   EnvGen*  op_egs[NUM_OP];
-   uint8_t  op_rate_scaling[NUM_OP] = {0};
-   int16_t  pitch_mod{0x0};                      // DX7 @ 0x30F2
+   class EgsOpState
+   {
+   public:
+      EgsOpState() = default;
 
-#if defined(REG_SIM)
-   // Bit accurate EGS register contents
-   uint8_t  reg[256];
-#endif
+      //! Compute the 14-bit frequency value to send to the OPS
+      uint32_t computeOpsFreq14(uint16_t voice_pitch14_, int16_t pitch_mod12_) const
+      {
+         int32_t pitch_14 = pitch_ratio14;
+
+         if (pitch_fixed)
+            pitch_14 -= 0x1000;
+         else
+            pitch_14 += voice_pitch14_;
+
+         pitch_14 += detune4 + pitch_mod12_;
+
+         return pitch_14 & 0x3FFF;
+      }
+
+      EnvGen*  env_gen{};
+      uint16_t pitch_ratio14{0};
+      bool     pitch_fixed{false};
+      int8_t   detune4{0};
+      uint8_t  rate_scale3{0};
+   };
+
+   // State representing EGS registers
+   uint16_t   voice_pitch14{0};
+   int16_t    pitch_mod12{0x0};                      // DX7 @ 0x30F2
+   EgsOpState op[NUM_OP];
 };
