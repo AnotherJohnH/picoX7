@@ -48,61 +48,26 @@ public:
    }
 
    //! Set operator attenuation
-   void setOpAtten(uint8_t op_atten_8_)
+   void setAtten8(unsigned index_, unsigned atten8_)
    {
-      for(unsigned index = 0; index < 4; index++)
-      {
-         Index p = index == 3 ? RELEASE : Index(index);
+      Index p = index_ == NUM_CONTROL - 1 ? RELEASE : Index(index_);
 
-         unsigned atten8 = patch_atten_8[index] + op_atten_8_;
-         if (atten8 > 0xFF)
-            atten8 = 0xFF;
-
-         // Assume  24 <= INTERNAL_BITS
-         phase[p].atten = (atten8 << (INTERNAL_BITS -  8)) |
-                          (atten8 << (INTERNAL_BITS - 16)) |
-                          (atten8 << (INTERNAL_BITS - 24));
-      }
+      // Assume  24 <= INTERNAL_BITS
+      phase[p].atten = (atten8_ << (INTERNAL_BITS -  8)) |
+                       (atten8_ << (INTERNAL_BITS - 16)) |
+                       (atten8_ << (INTERNAL_BITS - 24));
    }
 
-   //! Set EG patch attenutaion
-   void setAtten(unsigned index, uint8_t atten6_)
-   {
-      // Convert to 8-bit
-      // 0x00 - No attenuation
-      // 0xFF - Full attenuation
-
-      // XXX "interpolating" LS 2 bits from top 2 bits (may not be accurate?)
-      patch_atten_8[index] = (atten6_ << 2) | (atten6_ >> 4);
-   }
-
-   void setRate(unsigned index, uint8_t rate6_)
+   void setRate6(unsigned index, uint8_t rate6_)
    {
       Index p = index == 3 ? RELEASE : Index(index);
 
       phase[p].rate = table_dx7_exp_19[rate6_];
    }
 
-   void setAmpModSens(uint8_t amp_mod_sens_2_)
+   void setAmpMod(unsigned amp_mod_12_)
    {
-      switch(amp_mod_sens_2_)
-      {
-      case 0b00: amp_mod_sens_12 = 0xFFF; break;
-      case 0b01: amp_mod_sens_12 = 0xAAA; break;
-      case 0b10: amp_mod_sens_12 = 0x555; break;
-      case 0b11: amp_mod_sens_12 = 0x000; break;
-      }
-   }
-
-   void setAmpMod(uint8_t amp_mod_8_)
-   {
-      amp_mod_12 = (amp_mod_8_ << 4) |
-                   (amp_mod_8_ >> 4);
-
-      amp_mod_12 -= amp_mod_sens_12;
-
-      if (amp_mod_12 < 0)
-         amp_mod_12 = 0;
+      amp_mod_12 = amp_mod_12_;
    }
 
    //! Start a note
@@ -160,6 +125,8 @@ public:
    uint32_t dbgRate() const { return target.rate; }
    unsigned dbgPhase() const { return unsigned(index); }
 
+   static const unsigned NUM_CONTROL = 4;
+
 private:
    void nextPhase()
    {
@@ -188,9 +155,7 @@ private:
 
    int32_t  attenuation{MAX_ATTEN}; //!< Current attenuation (initialize to full attenuation)
    Phase    target{};               //!< Current target phase
+   uint32_t amp_mod_12{0};          //!< Amplitude modulation
    Index    index{};                //!< Current phase index
    Phase    phase[NUM_PHASE];
-   int32_t  amp_mod_12{0};      //!< Amplitude modulation
-   uint32_t amp_mod_sens_12{0}; //!< Amplitude modulation sensitivity
-   uint8_t  patch_atten_8[4] = {};
 };

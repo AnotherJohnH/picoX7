@@ -37,10 +37,10 @@
 
 TEST(Egs, old_test)
 {
-   unsigned     patch_index{0};
-   SysEx::Voice patch{table_dx7_rom_1, patch_index};
-   Egs          hw;
-   Firmware     fw{hw};
+   unsigned      patch_index{0};
+   SysEx::Voice  patch{table_dx7_rom_1, patch_index};
+   Egs           hw;
+   DX7::Firmware fw{hw};
 
    fw.loadVoice(&patch);
 

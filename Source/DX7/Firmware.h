@@ -33,6 +33,8 @@
 #include "Modulation.h"
 #include "PitchEg.h"
 
+namespace DX7 {
+
 //! Model of Yamaha DX7 firmware
 class Firmware
 {
@@ -115,11 +117,10 @@ public:
 
       voiceAddLoadFreqToEgs(key_pitch);
 
-      hw.sendEgsFreq();
-
       lfo.keyOn();
       pitch_eg.keyOn(/* voice */ 0);
 
+      hw.sendEgsFreq();
       hw.keyOn();
    }
 
@@ -147,7 +148,7 @@ private:
       {
          uint8_t rate6 = (op_.eg_amp.rate[i] * 164) >> 8;
 
-         hw.setEgsOpEgRate(op_index_, i, rate6);
+         hw.op[op_index_].setEgRate(i, rate6);
       }
    }
 
@@ -158,7 +159,7 @@ private:
       {
          uint8_t level6 = table_log[op_.eg_amp.level[i]] >> 1;
 
-         hw.setEgsOpEgLevel(op_index_, i, level6);
+         hw.op[op_index_].setEgAtten(i, level6);
       }
    }
 
@@ -254,11 +255,11 @@ private:
             0xED0, 0xEEF, 0xF0E, 0xF2D, 0xF4C, 0xF6A, 0xF88, 0xFA6, 0xFC4, 0xFE2
          };
 
-         hw.setEgsOpPitchFixed(index, false);
+         hw.op[index].setPitchFixed(false);
 
-         hw.setEgsOpPitch(index, table_op_freq_coarse[op.osc_freq_coarse] +
-                                 table_op_freq_fine[op.osc_freq_fine] +
-                                 0x232C);
+         hw.op[index].setPitchRatio(table_op_freq_coarse[op.osc_freq_coarse] +
+                                    table_op_freq_fine[op.osc_freq_fine] +
+                                    0x232C);
       }
       else
       {
@@ -267,25 +268,25 @@ private:
             0x0000, 0x3526, 0x6A4C, 0x9F74
          };
 
-         hw.setEgsOpPitchFixed(index, true);
+         hw.op[index].setPitchFixed(true);
 
-         hw.setEgsOpPitch(index, table_op_freq_fixed[op.osc_freq_coarse & 0b11] +
-                                 op.osc_freq_fine * 136 +
-                                 0x16AC);
+         hw.op[index].setPitchRatio(table_op_freq_fixed[op.osc_freq_coarse & 0b11] +
+                                    op.osc_freq_fine * 136 +
+                                    0x16AC);
       }
    }
 
    //! Implement PATCH_ACTIVATE_OPERATOR_KBD_RATE_SCALING
    void patchActivateOperatorKbdRateScaling(unsigned index, const SysEx::Op& op)
    {
-      hw.setEgsOpRateScaling(index, op.kbd_rate_scale);
-      hw.setEgsOpAmpModSens(index, op.amp_mod_sense);
+      hw.op[index].setEgRateScale(op.kbd_rate_scale);
+      hw.op[index].setAmpModSens(op.amp_mod_sense);
    }
 
    //! Implement PATCH_ACTIVATE_OPERATOR_DETUNE
    void patchActivateOperatorDetune(unsigned index, const SysEx::Op& op)
    {
-      hw.setEgsOpDetune(index, op.osc_detune - 7);
+      hw.op[index].setDetune(op.osc_detune - 7);
    }
 
    //! Implement PATCH_ACTIVATE_ALG_MODE
@@ -344,7 +345,7 @@ private:
             }
          }
 
-         hw.setEgsOpLevel(op_index, vol);
+         hw.op[op_index].setOpAtten(vol);
       }
    }
 
@@ -469,3 +470,5 @@ private:
    // DX7 EGS and OPS interface
    Egs&          hw;
 };
+
+} // namespace DX7

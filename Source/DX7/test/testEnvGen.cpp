@@ -21,9 +21,119 @@
 //------------------------------------------------------------------------------
 
 #include "DX7/EnvGen.h"
-#include "DX7/SysEx.h"
 
 #include "STB/Test.h"
+
+
+TEST(EnvGen, basic)
+{
+   EnvGen env_gen{};
+
+   env_gen.setAtten8(0, 0x00);
+   env_gen.setAtten8(1, 0x80);
+   env_gen.setAtten8(2, 0x40);
+   env_gen.setAtten8(3, 0xFF);
+
+   env_gen.setRate6(0, 0x80);
+   env_gen.setRate6(1, 0x80);
+   env_gen.setRate6(2, 0x80);
+   env_gen.setRate6(3, 0x80);
+
+   env_gen.setAmpMod(0);
+
+   uint32_t last_atten_12 = env_gen.getAtten12();
+   EXPECT_EQ(0xFFF, last_atten_12);
+
+   unsigned last_phase = env_gen.dbgPhase();
+   EXPECT_EQ(5, last_phase);
+
+   env_gen.keyOn();
+
+   EXPECT_LT(0xFFF, env_gen.dbgInternal());
+   EXPECT_EQ(0,     env_gen.dbgTarget());
+
+   const unsigned SAMPLES = 49096; // One second
+
+   for(unsigned i = 0; i < SAMPLES; ++i)
+   {
+      if (i == (SAMPLES / 2))
+         env_gen.keyOff();
+
+      uint32_t atten_12 = env_gen.getAtten12();
+
+      EXPECT_GT(1 << 12, atten_12);
+
+      //printf("%03X\n", atten_12);
+
+      unsigned phase = env_gen.dbgPhase();
+
+      bool new_phase = last_phase != phase;
+
+      switch(phase)
+      {
+      case 0:
+         if (new_phase)
+         {
+            EXPECT_EQ(5,     last_phase);
+            EXPECT_EQ(0xFFF, last_atten_12);
+         }
+         // EXPECT_GE(last_atten_12, atten_12);
+         break;
+
+      case 1:
+         if (new_phase)
+         {
+            EXPECT_EQ(0,     last_phase);
+            EXPECT_EQ(0x000, atten_12);
+         }
+         // EXPECT_LE(last_atten_12, atten_12);
+         break;
+
+      case 2:
+         if (new_phase)
+         {
+            EXPECT_EQ(1,     last_phase);
+         }
+         // EXPECT_LE(last_atten_12, atten_12);
+         break;
+
+      case 3:
+         if (new_phase)
+         {
+            EXPECT_EQ(2,     last_phase);
+         }
+         // EXPECT_LE(last_atten_12, atten_12);
+         break;
+
+      case 4:
+         if (new_phase)
+         {
+            EXPECT_EQ(3,     last_phase);
+         }
+         // EXPECT_LE(last_atten_12, atten_12);
+         break;
+
+      case 5:
+         if (new_phase)
+         {
+            EXPECT_EQ(4, last_phase);
+         }
+         EXPECT_EQ(0xFFF, atten_12);
+         break;
+      }
+
+      last_atten_12 = atten_12;
+      last_phase    = phase;
+   }
+
+   EXPECT_EQ(5,     last_phase);
+   EXPECT_EQ(0xFFF, last_atten_12);
+}
+
+
+// XXX the tests in this file have bit rotted and need improving
+#include "DX7/SysEx.h"
+
 
 const uint8_t table_log[100] =
 {
@@ -71,12 +181,10 @@ TEST(EnvGen, brass_1)
 
    for(unsigned i = 0; i < 6; ++i)
    {
-      env_gen[i].setOpAtten(level[i]); // TODO convert to real value sent to EGS
-
       for(unsigned j = 0; j < 4; ++j)
       {
-         env_gen[i].setRate( j, (eg_patch[i].rate[j] * 164) >> 8);
-         env_gen[i].setAtten(j, table_log[eg_patch[i].level[j]] >> 1);
+         env_gen[i].setRate6( j, (eg_patch[i].rate[j] * 164) >> 8);
+         env_gen[i].setAtten8(j, table_log[eg_patch[i].level[j]] >> 1);
       }
 
       env_gen[i].keyOn();
@@ -118,11 +226,9 @@ TEST(EnvGen, decay)
 
    for(unsigned i = 0; i < 4; ++i)
    {
-      env_gen.setRate( i, (eg_patch.rate[i] * 164) >> 8);
-      env_gen.setAtten(i, table_log[eg_patch.level[i]] >> 1);
+      env_gen.setRate6( i, (eg_patch.rate[i] * 164) >> 8);
+      env_gen.setAtten8(i, table_log[eg_patch.level[i]] >> 1);
    }
-
-   env_gen.setOpAtten(0x0F);
 
    FILE* fp = fopen("decay.csv", "w");
 

@@ -26,6 +26,7 @@ if(${PLT_NATIVE})
                   testMain.cpp
                   testOps.cpp
                   testEgs.cpp
+                  testEgsOpState.cpp
                   testEnvGen.cpp
                   testPitchEg.cpp)
 

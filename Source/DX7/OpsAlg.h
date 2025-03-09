@@ -30,6 +30,8 @@
 
 #include "Ops.h"
 
+namespace DX7 {
+
 //! Implement the 32 DX7 OP algorithms in the YM21280 OPS
 template <typename EG_TYPE>
 class OpsAlg : public Ops</* NUM_OP */ 6, EG_TYPE>
@@ -406,3 +408,5 @@ private:
 
    int32_t (OpsAlg::*alg_ptr)() {&OpsAlg::alg1};
 };
+
+} // namespace DX7
