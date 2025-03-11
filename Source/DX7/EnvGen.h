@@ -20,7 +20,7 @@
 // SOFTWARE.
 //------------------------------------------------------------------------------
 
-// \brief DX7 EGS simulation - EG
+// \brief DX Envelope Generator simulation
 
 #pragma once
 
@@ -28,9 +28,9 @@
 
 #include "SysEx.h"
 
-#include "Table_dx7_exp_19.h"
+#include "Table_dx_exp_19.h"
 
-//! DX7 envelope generator
+//! DX envelope generator
 class EnvGen
 {
    enum Index : uint8_t
@@ -62,7 +62,7 @@ public:
    {
       Index p = index == 3 ? RELEASE : Index(index);
 
-      phase[p].rate = table_dx7_exp_19[rate6_];
+      phase[p].rate = table_dx_exp_19[rate6_];
    }
 
    void setAmpMod(unsigned amp_mod_12_)

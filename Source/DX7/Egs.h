@@ -22,12 +22,12 @@
 
 #pragma once
 
-#include "OpsAlg.h"
+#include "OpsAlg6.h"
 #include "EnvGen.h"
 #include "EgsOpState.h"
 
 //! Model of Yamaha EGS (like the YM21290)
-class Egs : public DX7::OpsAlg<EnvGen>
+class Egs : public DX::OpsAlg6<EnvGen>
 {
 public:
    Egs()

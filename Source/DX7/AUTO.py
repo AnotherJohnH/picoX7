@@ -47,12 +47,12 @@ def cartridge(filename, name, offset=6, log2_size=12):
 
 #------------------------------------------------------------------------------
 
-def dx7_exp_19(index_6, x):
+def dx_exp_19(index_6, x):
    """ 6-bit (Q4.2) => 19-bit (Q16.3) 2^x table for EGS to calculate level increment (rate) """
    return int(8 * pow(2, index_6 / 4))
 
 
-def dx7_exp_14(index_14, x):
+def dx_exp_14(index_14, x):
    """ 14-bit (Q4.10) => 14-bit 2^x table for OPS to calculate linear signal (amplitude) """
    index_14 = 0x3FFF - index_14
    exp      = (index_14 % 1024) / 1024
@@ -63,7 +63,7 @@ def dx7_exp_14(index_14, x):
    return (int(math.pow(2.0, exp) * 0x800 + 0.5) << (index_14 >> 10)) >> 13
 
 
-def dx7_exp_32(index_14, x):
+def dx_exp_32(index_14, x):
    """ 14-bit (Q4.10) => 22-bit 2^x table for OPS to calculate phase increment (freq) """
    exp = (index_14 % 1024) / 1024
 
@@ -77,7 +77,7 @@ def dx7_exp_32(index_14, x):
    return exp22 << 13 if index_14 < 0x3400 else exp22 >> 3
 
 
-def dx7_log_sine_14(index_12, x):
+def dx_log_sine_14(index_12, x):
    """ 12-bit => 14-bit abs-log-sine table for OPS simulation """
    phase = ((index_12 + 0.5) * math.pi) / 2048
    return int(-math.log(abs(math.sin(phase)), 2) * 1024 + 0.5002)
@@ -86,10 +86,10 @@ def dx7_log_sine_14(index_12, x):
 #------------------------------------------------------------------------------
 
 # Maths function lookup tables
-table.gen('dx7_exp_19',      func = dx7_exp_19,      typename = "uint32_t", log2_size =  6, fmt = '05x')
-table.gen('dx7_exp_14',      func = dx7_exp_14,      typename = "uint16_t", log2_size = 14, fmt = '04x')
-table.gen('dx7_exp_32',      func = dx7_exp_32,      typename = "uint32_t", log2_size = 14, fmt = '08x')
-table.gen('dx7_log_sine_14', func = dx7_log_sine_14, typename = "uint16_t", log2_size = 12, fmt = '04x')
+table.gen('dx_exp_19',      func = dx_exp_19,      typename = "uint32_t", log2_size =  6, fmt = '05x')
+table.gen('dx_exp_14',      func = dx_exp_14,      typename = "uint16_t", log2_size = 14, fmt = '04x')
+table.gen('dx_exp_32',      func = dx_exp_32,      typename = "uint32_t", log2_size = 14, fmt = '08x')
+table.gen('dx_log_sine_14', func = dx_log_sine_14, typename = "uint16_t", log2_size = 12, fmt = '04x')
 
 # Program cartridges
 cartridge(sys.argv[1], "dx7_rom_1")

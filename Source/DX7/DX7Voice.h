@@ -24,7 +24,7 @@
 
 #include "VoiceBase.h"
 
-#include "Firmware.h"
+#include "DX7Firmware.h"
 #include "SysEx.h"
 #include "Egs.h"
 

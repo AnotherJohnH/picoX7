@@ -39,14 +39,14 @@ add_custom_command(
       ${CMAKE_CURRENT_SOURCE_DIR}/cart/rom2b.syx
       ${python_path}/table.py
    OUTPUT
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_exp_14.h
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_exp_14.cpp
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_exp_32.h
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_exp_32.cpp
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_exp_19.h
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_exp_19.cpp
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_log_sine_14.h
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_log_sine_14.cpp
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx_exp_14.h
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx_exp_14.cpp
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx_exp_32.h
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx_exp_32.cpp
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx_exp_19.h
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx_exp_19.cpp
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx_log_sine_14.h
+      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx_log_sine_14.cpp
       ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_rom_1.h
       ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_rom_1.cpp
       ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_rom_2.h
@@ -59,10 +59,10 @@ add_custom_command(
 
 add_library(DX7 STATIC
    SysEx.cpp
-   Table_dx7_exp_14.cpp
-   Table_dx7_exp_19.cpp
-   Table_dx7_exp_32.cpp
-   Table_dx7_log_sine_14.cpp
+   Table_dx_exp_14.cpp
+   Table_dx_exp_19.cpp
+   Table_dx_exp_32.cpp
+   Table_dx_log_sine_14.cpp
    Table_dx7_rom_1.cpp
    Table_dx7_rom_2.cpp
    Table_dx7_rom_3.cpp

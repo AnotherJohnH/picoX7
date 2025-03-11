@@ -33,7 +33,7 @@
 
 #endif
 
-#include "DX7/Synth.h"
+#include "DX7/DX7Synth.h"
 #include "hw/hw.h"
 
 #include "Usage.h"

@@ -28,7 +28,7 @@
 #include "SynthBase.h"
 
 #include "SysEx.h"
-#include "Voice.h"
+#include "DX7Voice.h"
 
 #include "Table_dx7_rom_1.h"
 #include "Table_dx7_rom_2.h"

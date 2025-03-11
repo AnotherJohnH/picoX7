@@ -22,9 +22,9 @@
 
 #pragma once
 
-#include "Table_dx7_exp_14.h"
-#include "Table_dx7_exp_32.h"
-#include "Table_dx7_log_sine_14.h"
+#include "Table_dx_exp_14.h"
+#include "Table_dx_exp_32.h"
+#include "Table_dx_log_sine_14.h"
 
 //! Model of Yamaha OPS (like the YM21280)
 template <unsigned NUM_OP, typename EG_TYPE>
@@ -55,7 +55,7 @@ public:
       // the nyquist for very low frequencies this logic has
       // been pre-folded into the 14 bits in 32 bits out
       // table used here by the table auto-generation script
-      state[op_index].phase_inc_32 = table_dx7_exp_32[f14];
+      state[op_index].phase_inc_32 = table_dx_exp_32[f14];
    }
 
    //! Start of note
@@ -75,7 +75,7 @@ protected:
    template <unsigned OP_NUMBER, unsigned SEL, bool A, bool C, bool D, unsigned LOG2_COM>
    int32_t ops()
    {
-      // Documented operator number 1-6 map to internal operator index 5-0
+      // Documented operator number 1..N map to internal operator index N-1..0
       // the internal index follows the order of operator computation
       // and the order of operator parameter encoding in the SysEx patch
       // encoding
@@ -84,7 +84,7 @@ protected:
       // Sample sine table
       uint32_t phase_32    = state[op_index].stepPhase();
       uint32_t phase_12    = (phase_32 + (modulation_15 << 20)) >> (32 - 12);
-      uint32_t log_wave_14 = table_dx7_log_sine_14[phase_12];
+      uint32_t log_wave_14 = table_dx_log_sine_14[phase_12];
 
       // Apply EG attenuation
       log_wave_14 += state[op_index].eg.getAtten12() << 2;
@@ -97,7 +97,7 @@ protected:
          log_wave_14 = 0x3FFF;
 
       // Convert log sample to linear
-      signed output_15 = table_dx7_exp_14[log_wave_14];
+      signed output_15 = table_dx_exp_14[log_wave_14];
       if (phase_12 >= 0x800)
          output_15 = -output_15;
 

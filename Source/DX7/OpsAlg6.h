@@ -30,14 +30,14 @@
 
 #include "Ops.h"
 
-namespace DX7 {
+namespace DX {
 
 //! Implement the 32 DX7 OP algorithms in the YM21280 OPS
 template <typename EG_TYPE>
-class OpsAlg : public Ops</* NUM_OP */ 6, EG_TYPE>
+class OpsAlg6 : public Ops</* NUM_OP */ 6, EG_TYPE>
 {
 public:
-   OpsAlg() = default;
+   OpsAlg6() = default;
 
    //! Return next sample for the selected algorithm
    int32_t operator()()
@@ -50,38 +50,38 @@ public:
    {
       switch (algorithm + 1)
       {
-      case  1: alg_ptr = &OpsAlg::alg1;  break;
-      case  2: alg_ptr = &OpsAlg::alg2;  break;
-      case  3: alg_ptr = &OpsAlg::alg3;  break;
-      case  4: alg_ptr = &OpsAlg::alg4;  break;
-      case  5: alg_ptr = &OpsAlg::alg5;  break;
-      case  6: alg_ptr = &OpsAlg::alg6;  break;
-      case  7: alg_ptr = &OpsAlg::alg7;  break;
-      case  8: alg_ptr = &OpsAlg::alg8;  break;
-      case  9: alg_ptr = &OpsAlg::alg9;  break;
-      case 10: alg_ptr = &OpsAlg::alg10; break;
-      case 11: alg_ptr = &OpsAlg::alg11; break;
-      case 12: alg_ptr = &OpsAlg::alg12; break;
-      case 13: alg_ptr = &OpsAlg::alg13; break;
-      case 14: alg_ptr = &OpsAlg::alg14; break;
-      case 15: alg_ptr = &OpsAlg::alg15; break;
-      case 16: alg_ptr = &OpsAlg::alg16; break;
-      case 17: alg_ptr = &OpsAlg::alg17; break;
-      case 18: alg_ptr = &OpsAlg::alg18; break;
-      case 19: alg_ptr = &OpsAlg::alg19; break;
-      case 20: alg_ptr = &OpsAlg::alg20; break;
-      case 21: alg_ptr = &OpsAlg::alg21; break;
-      case 22: alg_ptr = &OpsAlg::alg22; break;
-      case 23: alg_ptr = &OpsAlg::alg23; break;
-      case 24: alg_ptr = &OpsAlg::alg24; break;
-      case 25: alg_ptr = &OpsAlg::alg25; break;
-      case 26: alg_ptr = &OpsAlg::alg26; break;
-      case 27: alg_ptr = &OpsAlg::alg27; break;
-      case 28: alg_ptr = &OpsAlg::alg28; break;
-      case 29: alg_ptr = &OpsAlg::alg29; break;
-      case 30: alg_ptr = &OpsAlg::alg30; break;
-      case 31: alg_ptr = &OpsAlg::alg31; break;
-      case 32: alg_ptr = &OpsAlg::alg32; break;
+      case  1: alg_ptr = &OpsAlg6::alg1;  break;
+      case  2: alg_ptr = &OpsAlg6::alg2;  break;
+      case  3: alg_ptr = &OpsAlg6::alg3;  break;
+      case  4: alg_ptr = &OpsAlg6::alg4;  break;
+      case  5: alg_ptr = &OpsAlg6::alg5;  break;
+      case  6: alg_ptr = &OpsAlg6::alg6;  break;
+      case  7: alg_ptr = &OpsAlg6::alg7;  break;
+      case  8: alg_ptr = &OpsAlg6::alg8;  break;
+      case  9: alg_ptr = &OpsAlg6::alg9;  break;
+      case 10: alg_ptr = &OpsAlg6::alg10; break;
+      case 11: alg_ptr = &OpsAlg6::alg11; break;
+      case 12: alg_ptr = &OpsAlg6::alg12; break;
+      case 13: alg_ptr = &OpsAlg6::alg13; break;
+      case 14: alg_ptr = &OpsAlg6::alg14; break;
+      case 15: alg_ptr = &OpsAlg6::alg15; break;
+      case 16: alg_ptr = &OpsAlg6::alg16; break;
+      case 17: alg_ptr = &OpsAlg6::alg17; break;
+      case 18: alg_ptr = &OpsAlg6::alg18; break;
+      case 19: alg_ptr = &OpsAlg6::alg19; break;
+      case 20: alg_ptr = &OpsAlg6::alg20; break;
+      case 21: alg_ptr = &OpsAlg6::alg21; break;
+      case 22: alg_ptr = &OpsAlg6::alg22; break;
+      case 23: alg_ptr = &OpsAlg6::alg23; break;
+      case 24: alg_ptr = &OpsAlg6::alg24; break;
+      case 25: alg_ptr = &OpsAlg6::alg25; break;
+      case 26: alg_ptr = &OpsAlg6::alg26; break;
+      case 27: alg_ptr = &OpsAlg6::alg27; break;
+      case 28: alg_ptr = &OpsAlg6::alg28; break;
+      case 29: alg_ptr = &OpsAlg6::alg29; break;
+      case 30: alg_ptr = &OpsAlg6::alg30; break;
+      case 31: alg_ptr = &OpsAlg6::alg31; break;
+      case 32: alg_ptr = &OpsAlg6::alg32; break;
       }
    }
 
@@ -406,7 +406,7 @@ private:
       return this->template ops<1, /* SEL */ 5, /* A */ 0, /* C */ 1, /* D */ 1, /* LOG2_COM */ 0b10101>();
    }
 
-   int32_t (OpsAlg::*alg_ptr)() {&OpsAlg::alg1};
+   int32_t (OpsAlg6::*alg_ptr)() {&OpsAlg6::alg1};
 };
 
-} // namespace DX7
+} // namespace DX
