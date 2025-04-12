@@ -122,9 +122,9 @@ void Voice::print(unsigned n) const
 
    fmtf("OP AMS FREQ    DET R1 R2 R3 R4  L1 L2 L3 L4  BPT   CURVE    DEPTH RTE OUT KVS", "\n");
 
-   for(unsigned i = 0; i < 6; ++i)
+   for(unsigned i = 0; i < NUM_OP; ++i)
    {
-      op[i].print(6 - i);
+      op[i].print(NUM_OP - i);
    }
 
    fmtf("PITCH EG          ");
