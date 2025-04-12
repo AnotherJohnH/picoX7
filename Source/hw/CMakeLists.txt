@@ -20,6 +20,9 @@
 #  SOFTWARE.
 #-------------------------------------------------------------------------------
 
+add_library(HW INTERFACE)
+target_include_directories(HW INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/..)
+
 if(${PLT_TARGET} STREQUAL rpipico)
 
    set(hw_config_list
@@ -30,8 +33,7 @@ if(${PLT_TARGET} STREQUAL rpipico)
        PWM_DAC
        PARENT_SCOPE)
 
-   set(hw_target_libs TNY MTL TNY
-       PARENT_SCOPE)
+   target_link_libraries(HW INTERFACE TNY MTL TNY)
 
 elseif(${PLT_TARGET} STREQUAL rpipico2)
 
@@ -42,8 +44,7 @@ elseif(${PLT_TARGET} STREQUAL rpipico2)
        PWM_DAC
        PARENT_SCOPE)
 
-   set(hw_target_libs TNY MTL TNY
-       PARENT_SCOPE)
+   target_link_libraries(HW INTERFACE TNY MTL TNY)
 
 elseif(${PLT_TARGET} STREQUAL native)
 
@@ -51,7 +52,6 @@ elseif(${PLT_TARGET} STREQUAL native)
        NATIVE
        PARENT_SCOPE)
 
-   set(hw_target_libs PLT STB
-       PARENT_SCOPE)
+   target_link_libraries(HW INTERFACE PLT STB)
 
 endif()

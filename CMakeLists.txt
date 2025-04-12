@@ -20,7 +20,7 @@
 #  SOFTWARE.
 #-------------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 3.19.1)
+cmake_minimum_required(VERSION 3.20)
 
 project(picoX7
         LANGUAGES CXX ASM
@@ -34,6 +34,7 @@ add_subdirectory(Source)
 add_subdirectory(docs/Research)
 
 if(${PLT_TARGET} STREQUAL rpipico OR ${PLT_TARGET} STREQUAL rpipico2)
-   # TODO automate conversion of VERSION to hex
-   target_compile_definitions(MTL PUBLIC PLT_BCD_VERSION=0x0020)
+   math(EXPR plt_bcd_version "${CMAKE_MAJOR_VERSION} * 0x100 + ${CMAKE_MINOR_VERSION}"
+        OUTPUT_FORMAT HEXADECIMAL)
+   target_compile_definitions(MTL PUBLIC PLT_BCD_VERSION=${plt_bcd_version})
 endif()

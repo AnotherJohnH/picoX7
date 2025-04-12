@@ -26,10 +26,7 @@ add_subdirectory(DX7)
 add_subdirectory(hw)
 
 foreach(hw_config ${hw_config_list})
-
    add_executable(            picoX7_${hw_config} picoX7.cpp)
    target_compile_definitions(picoX7_${hw_config} PRIVATE HW_${hw_config})
-   target_include_directories(picoX7_${hw_config} PRIVATE .)
-   target_link_libraries(     picoX7_${hw_config} PRIVATE DX7 ${hw_target_libs})
-
+   target_link_libraries(     picoX7_${hw_config} PRIVATE DX7 HW)
 endforeach()
