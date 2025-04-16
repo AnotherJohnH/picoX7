@@ -24,7 +24,6 @@
 
 #pragma once
 
-#include "hw/Adc.h"
 #include "hw/Audio.h"
 #include "hw/Lcd.h"
 #include "hw/Led.h"

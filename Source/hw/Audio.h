@@ -26,13 +26,16 @@
 
 #include "hw/Config.h"
 
-#if defined(HW_DAC_WAVESHARE)
+#if defined(HW_DAC_I2S_WAVESHARE_REV2_1)
 #define HW_DAC_I2S
 
-#elif defined(HW_DAC_PIMORONI_VGA_DEMO)
+#elif defined(HW_DAC_I2S_PIMORONI_VGA_DEMO)
 #define HW_DAC_I2S
 
-#elif defined(HW_DAC_PIMORONI_PICO_AUDIO)
+#elif defined(HW_DAC_I2S_PIMORONI_PICO_AUDIO)
+#define HW_DAC_I2S
+
+#elif defined(HW_DAC_I2S_ANY)
 #define HW_DAC_I2S
 
 #elif defined(HW_DAC_PWM)
@@ -51,31 +54,10 @@
 
 namespace hw {
 
-#if defined(HW_DAC_WAVESHARE)
-
-#if defined(HW_ADC)
-
-//! I2S DAC, with pinout for Waveshare Pico-Audio (Rev 2.1) adjusted to allow use of ADC0
-//! XXX not piggy-back
-template <unsigned SAMPLES_PER_TICK>
-class Audio : public MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK>
-{
-public:
-   Audio(unsigned dac_freq)
-      : MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK>{dac_freq,
-                                                  MTL::PIN_29,  // SD
-                                                  MTL::PIN_32,  // LRCLK + SCLK
-                                                  MTL::PIN_27,  // MCLK
-                                                  MTL::Audio::STEREO_PAIRS_16,
-                                                  true}         // LSB LRCLK / MSB SCLK
-   {
-   }
-};
-
-#else
+#if defined(HW_DAC_I2S_WAVESHARE_REV2_1)
 
 //! I2S DAC, with pinout for Waveshare Pico-Audio (Rev 2.1)
-//! XXX piggy-back
+//! piggy-back
 template <unsigned SAMPLES_PER_TICK>
 class Audio : public MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK>
 {
@@ -91,9 +73,7 @@ public:
    }
 };
 
-#endif
-
-#elif defined(HW_DAC_PIMORONI_VGA_DEMO)
+#elif defined(HW_DAC_I2S_PIMORONI_VGA_DEMO)
 
 //! I2S DAC, with pinout for PiMoroni VGA Demo board
 template <unsigned SAMPLES_PER_TICK>
@@ -111,9 +91,9 @@ public:
    }
 };
 
-#elif defined(HW_DAC_PIMORONI_PICO_AUDIO)
+#elif defined(HW_DAC_I2S_PIMORONI_PICO_AUDIO)
 
-//! I2S DAC, with pinout for PiMoroni Pico Audio
+//! I2S DAC, with pinout for PiMoroni Pico Audio (piggy back)
 template <unsigned SAMPLES_PER_TICK>
 class Audio : public MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK>
 {
@@ -122,6 +102,24 @@ public:
       : MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK>{dac_freq,
                                                   MTL::PIN_12,     // SD
                                                   MTL::PIN_14,     // LRCLK + SCLK
+                                                  MTL::PIN_IGNORE, // No MCLK
+                                                  MTL::Audio::STEREO_PAIRS_16,
+                                                  false}           // LSB LRCLK / MSB SCLK
+   {
+   }
+};
+
+#elif defined(HW_DAC_I2S_ANY)
+
+//! I2S DAC, with pinout in common with other picoX21H project
+template <unsigned SAMPLES_PER_TICK>
+class Audio : public MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK>
+{
+public:
+   Audio(unsigned dac_freq)
+      : MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK>{dac_freq,
+                                                  MTL::PIN_31,     // SD
+                                                  MTL::PIN_32,     // LRCLK + SCLK
                                                   MTL::PIN_IGNORE, // No MCLK
                                                   MTL::Audio::STEREO_PAIRS_16,
                                                   false}           // LSB LRCLK / MSB SCLK

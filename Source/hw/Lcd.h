@@ -26,10 +26,7 @@
 
 #include "hw/Config.h"
 
-#if defined(HW_LCD_GPIO)
-#include "MTL/AlphaNumLcd_Gpio.h"
-
-#elif defined(HW_LCD_I2C)
+#if defined(HW_LCD_I2C)
 #include "MTL/AlphaNumLcd_I2C.h"
 
 #elif defined(HW_LCD_I2C_BRIDGE)
@@ -41,32 +38,18 @@
 
 namespace hw {
 
-#if defined(HW_LCD_GPIO)
+#if defined(HW_LCD_I2C)
 
-// pico pin 9-12  : DATA[0:3]
-// pico pin 14-17 : DATA[4:7]
-// pico pin 19    : RS
-// pico pin 20    : E
+// pico pin 24    : SDA
+// pico pin 25    : SCL
 
-using Lcd = MTL::AlphaNumLcd</* PIN_DATA */   MTL::PIN_9,
-                             /* PIN_R_S */    MTL::PIN_19,
-                             /* PIN_ENABLE */ MTL::PIN_20,
-                             /* COLS */       16,
-                             /* ROWS */       2,
-                             /* DL_8BIT */    true>;
-
-#elif defined(HW_LCD_I2C)
-
-// pico pin 19    : SDA
-// pico pin 20    : SCL
-
-class Lcd : public MTL::AlphaNumLcd<MTL::I2C1_P19_P20,
+class Lcd : public MTL::AlphaNumLcd<MTL::I2C1_P24_P25,
                                     /* COLS */ 16,
                                     /* ROWS */ 2>
 {
 public:
    Lcd()
-      : MTL::AlphaNumLcd<MTL::I2C1_P19_P20,
+      : MTL::AlphaNumLcd<MTL::I2C1_P24_P25,
                          /* COLS */ 16,
                          /* ROWS */ 2>{ HW_LCD_I2C_ADDR }
    {
@@ -75,16 +58,16 @@ public:
 
 #elif defined(HW_LCD_I2C_BRIDGE)
 
-// pico pin 19    : SDA
-// pico pin 20    : SCL
+// pico pin 24    : SDA
+// pico pin 25    : SCL
 
-class Lcd : public MTL::AlphaNumLcd<MTL::I2C1_P19_P20,
+class Lcd : public MTL::AlphaNumLcd<MTL::I2C1_P24_P25,
                                     /* COLS */ 16,
                                     /* ROWS */ 2>
 {
 public:
    Lcd()
-      : MTL::AlphaNumLcd<MTL::I2C1_P19_P20,
+      : MTL::AlphaNumLcd<MTL::I2C1_P24_P25,
                          /* COLS */ 16,
                          /* ROWS */ 2>{ HW_LCD_I2C_ADDR }
    {

@@ -69,25 +69,24 @@ to another I2S DAC
 |2|UART-0|Debug console in (UART) RX|
 |3|GND|UART GND|
 |6|UART-1|MIDI IN|
-|19|I2C1|SDA (for I2C LCD)|
-|20|I2C1|SCL (for I2C LCD)|
-|29|PIO|I2S DATA|
-|31|PIO|MCLK (for I2S DAC chip)|
-|32|PIO|I2S LR CLK|
-|34|PIO|I2S DATA CLK|
+|24|I2C1|SDA (for I2C LCD)|
+|25|I2C1|SCL (for I2C LCD)|
+|31|PIO|I2S DATA|
+|32|PIO|I2S DATA CLK|
+|33|PIO|I2S LR CLK|
 
-### Alternative hardware targets
+### Hardware targets
 
 Software builds for the following hardware targets...
-+ PIMORONI_PICO_AUDIO - Use the Pimoroni Pico Audio I2S DAC and an I2C LCD
++ PIMORONI_PICO_AUDIO - Use the Pimoroni Pico Audio I2S DAC
++ I2S_DAC - Any I2S DAC supporting stereo 16-bit samples at 49 KHz (no MCLK)
 + PWM_DAC - DAC implemented using the on-chip PWM and a few external resistors and capacitors on pins 21 and 22 (sound quality is poor)
-+ WAVESHARE_GPIO_LCD - The hardware described above
-+ WAVESHARE_I2C_LCD - Use an I2C LCD on pins 19+20 instead of the 8-bit parallel interface
++ WAVESHARE_REV2_1 - For the Waveshare I2S DAC (Rev2.1) with I2C LCD on pins 19+20
 + PIMORONI_VGA_DEMO - Support for the Pimoroni Pico VGA Demo Base (!!!! untested !!!!)
 
 NOTE: The LCD and LED displays are optional and will not block operation if not fitted
 
-In addition all the above targets are built for and work with RP2350 Picos as well as the older RP2040 Picos.
+In addition the above targets are built for and work with RP2350 Picos as well as the older RP2040 Picos.
 
 ### Components
 
@@ -135,9 +134,9 @@ flashable images will be found under the build sub-directory here...
 
     build/Source/picoX7_PIMORONI_PICO_AUDIO.uf2
     build/Source/picoX7_PIMORONI_VGA_DEMO.uf2
+    build/Source/picoX7_I2S_DAC.uf2
     build/Source/picoX7_PWM_DAC.uf2
-    build/Source/picoX7_WAVESHARE_GPIO_LCD.uf2
-    build/Source/picoX7_WAVESHARE_I2C_LCD.uf2
+    build/Source/picoX7_WAVESHARE_REV2_1.uf2
 
 Build the native target...
 

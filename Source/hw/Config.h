@@ -24,24 +24,13 @@
 
 #pragma once
 
-#if defined(HW_WAVESHARE_GPIO_LCD)
+#if defined(HW_WAVESHARE_REV2_1)
 
-#define HW_DESCR "WaveShare Rev2.1 I2S DAC + GPIO LCD"
-
-#define HW_MIDI_USB_DEVICE
-#define HW_MIDI_IN_UART1
-#define HW_DAC_WAVESHARE
-#define HW_LED
-#define HW_LED_7_SEG
-#define HW_LCD_GPIO
-
-#elif defined(HW_WAVESHARE_I2C_LCD)
-
-#define HW_DESCR "WaveShare Rev2.1 I2S DAC + I2C LCD"
+#define HW_DESCR "WaveShare Rev2.1 I2S DAC"
 
 #define HW_MIDI_USB_DEVICE
 #define HW_MIDI_IN_UART1
-#define HW_DAC_WAVESHARE
+#define HW_DAC_I2S_WAVESHARE_REV2_1
 #define HW_LED
 #define HW_LED_7_SEG
 #define HW_LCD_I2C
@@ -49,11 +38,11 @@
 
 #elif defined(HW_PIMORONI_PICO_AUDIO)
 
-#define HW_DESCR "Pimoroni pico audio + I2C LCD"
+#define HW_DESCR "Pimoroni pico audio I2S DAC"
 
 #define HW_MIDI_USB_DEVICE
 #define HW_MIDI_IN_UART1
-#define HW_DAC_PIMORONI_PICO_AUDIO
+#define HW_DAC_I2S_PIMORONI_PICO_AUDIO
 #define HW_LED
 #define HW_LED_7_SEG
 #define HW_LCD_I2C
@@ -61,21 +50,33 @@
 
 #elif defined(HW_PIMORONI_VGA_DEMO)
 
-#define HW_DESCR "Pimoroni VGA Demo"
+#define HW_DESCR "Pimoroni VGA Demo I2S DAC"
 
 #define HW_MIDI_USB_DEVICE
 #define HW_MIDI_IN_FAKE
-#define HW_DAC_PIMORONI_VGA_DEMO
+#define HW_DAC_I2S_PIMORONI_VGA_DEMO
 #define HW_LED
 #define HW_LED_7_SEG
 
-#elif defined(HW_PWM_DAC)
+#elif defined(HW_I2S_DAC)
 
-#define HW_DESCR "Simple PWM DAC"
+#define HW_DESCR "I2S DAC"
 
+#define HW_DAC_I2S_ANY
 #define HW_MIDI_USB_DEVICE
 #define HW_MIDI_IN_UART1
+#define HW_LED
+#define HW_LED_7_SEG
+#define HW_LCD_I2C
+#define HW_LCD_I2C_ADDR 0x3E
+
+#elif defined(HW_PWM_DAC)
+
+#define HW_DESCR "PWM DAC"
+
 #define HW_DAC_PWM
+#define HW_MIDI_USB_DEVICE
+#define HW_MIDI_IN_UART1
 #define HW_LED
 #define HW_LED_7_SEG
 #define HW_LCD_I2C
@@ -85,8 +86,8 @@
 
 #define HW_DESCR "native"
 
-#define HW_MIDI_IN_NATIVE
 #define HW_DAC_NATIVE
+#define HW_MIDI_IN_NATIVE
 
 #else
 

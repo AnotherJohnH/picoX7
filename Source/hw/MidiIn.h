@@ -39,7 +39,7 @@ namespace hw {
 
 #if defined(HW_MIDI_IN_UART1)
 
-//! Physical MIDI in on pico pin 7
+//! Physical MIDI in on pico pin 27
 class MidiIn : public MIDI::Interface
 {
 public:
@@ -54,11 +54,11 @@ private:
 
    void tx(uint8_t byte) override {}
 
-   MTL::Uart1_P6_P7 uart{/* baud */      31250,
-                         /* bits */      8,
-                         /* parity */    MTL::UART::NONE,
-                         /* stop bits */ 1,
-                         /* pull up */   true};
+   MTL::Uart1_P26_P27 uart{/* baud */      31250,
+                           /* bits */      8,
+                           /* parity */    MTL::UART::NONE,
+                           /* stop bits */ 1,
+                           /* pull up */   true};
 };
 
 #elif defined(HW_MIDI_IN_FAKE)
