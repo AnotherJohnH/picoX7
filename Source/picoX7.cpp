@@ -95,7 +95,7 @@ void SynthIO::displayLED(unsigned number)
 }
 
 
-// --- 16x12 LCD display -------------------------------------------------------
+// --- 16x2 LCD display --------------------------------------------------------
 
 #if not defined(HW_LCD_NONE)
 
