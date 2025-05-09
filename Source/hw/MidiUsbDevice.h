@@ -40,7 +40,7 @@ namespace hw {
 class MidiUSBDevice : public MIDI::Interface
 {
 public:
-   MidiUSBDevice(MIDI::InstrumentBase& instrument_,
+   MidiUSBDevice(MIDI::Instrument& instrument_,
                  uint16_t              device_id_,
                  const char*           device_name_,
                  bool                  debug_ = false)

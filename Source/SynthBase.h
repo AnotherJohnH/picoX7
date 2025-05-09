@@ -30,10 +30,12 @@
 
 //! Base class for MIDI synth
 template <unsigned N, typename VOICE, unsigned AMP_N = N>
-class SynthBase : public MIDI::Instrument<N>
+class SynthBase : public MIDI::Instrument
 {
 public:
-   SynthBase() = default;
+   SynthBase()
+      : MIDI::Instrument(N)
+   {}
 
    //! Get next sample
    int32_t getSample(unsigned first_voice_= 0,
