@@ -74,7 +74,7 @@ static hw::Led                               led {};
 
 static hw::MidiUSBDevice midi_usb {synth, 0x91C0, "picoX7", MIDI_DEBUG};
 
-extern "C" void IRQ_USBCTRL() { midi_usb.usb.irq(); }
+extern "C" void IRQ_USBCTRL() { midi_usb.irq(); }
 
 #endif
 
