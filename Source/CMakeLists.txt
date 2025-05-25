@@ -26,7 +26,14 @@ add_subdirectory(DX7)
 add_subdirectory(hw)
 
 foreach(hw_config ${hw_config_list})
-   add_executable(            picoX7_${hw_config} picoX7.cpp)
+
+   add_executable(picoX7_${hw_config} picoX7.cpp)
+
    target_compile_definitions(picoX7_${hw_config} PRIVATE HW_${hw_config})
+
    target_link_libraries(     picoX7_${hw_config} PRIVATE DX7 HW)
+
+   set_target_properties(picoX7_${hw_config} PROPERTIES
+      RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
+
 endforeach()
