@@ -62,19 +62,22 @@ static const bool     PROFILE0         = false;                 //!< Resource pr
 static const bool     PROFILE1         = false;                 //!< Resource profiling (core1)
 static const bool     MIDI_DEBUG       = false;
 
-static DX7::Synth<NUM_VOICES, /* AMP_N */ 4> synth {};
-static Usage                                 usage {};
-static hw::MidiIn                            midi_in {synth, MIDI_DEBUG};
-static hw::Led                               led {};
+static DX7::Synth<NUM_VOICES, /* AMP_N */ 4> synth{};
+static Usage                                 usage{};
+
+
+// --- Physical MIDI -----------------------------------------------------------
+
+static hw::PhysMidi phys_midi{};
 
 
 // --- USB MIDI ----------------------------------------------------------------
 
-#if defined(HW_MIDI_USB_DEVICE)
+#if defined(HW_USB_DEVICE)
 
-static hw::MidiUSBDevice midi_usb {synth, 0x91C0, "picoX7", MIDI_DEBUG};
+static hw::USBDevice usb{synth, 0x91C0, "picoX7"};
 
-extern "C" void IRQ_USBCTRL() { midi_usb.irq(); }
+extern "C" void IRQ_USBCTRL() { usb.irq(); }
 
 #endif
 
@@ -123,6 +126,11 @@ void SynthIO::displayLCD(unsigned row, const char* text)
    lcd.print(text);
 #endif
 }
+
+
+// --- LED ---------------------------------------------------------------------
+
+static hw::Led led{};
 
 
 // --- VARIABLE CONTROL --------------------------------------------------------
@@ -317,14 +325,22 @@ int main()
 
    synth.programChange(0, 0);
 
+#if defined(HW_USB_DEVICE)
+   usb.setDebug(MIDI_DEBUG);
+   usb.attachInstrument(1, synth);
+#endif
+
+   phys_midi.setDebug(MIDI_DEBUG);
+   phys_midi.attachInstrument(1, synth);
+
    audio.start();
 
    while(true)
    {
-      midi_in.tick();
+      phys_midi.tick();
 
 #if defined(HW_MIDI_USB_DEVICE)
-      midi_usb.tick();
+      usb.tick();
 #endif
 
       led = synth.isAnyVoiceOn();

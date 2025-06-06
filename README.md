@@ -23,11 +23,11 @@ To do...
    - Tune EGS simulation
    - Rate scaling
    - Portamento and glissando
-   - Optimise to squeeze in more voices
+   - Optimise to squeeze in more voices (?)
 
 Limitations...
    - DAC implementation is quite different to the original. Dynamic range might be reduced?
-   - Hitachi 6303 (~MC6803) CPU controller and firmware is not being emulated or fully simulated
+   - Hitachi 6303 (~MC6803) CPU controller and firmware are not being emulated or fully simulated
    - [8 voices](https://github.com/AnotherJohnH/picoX7/wiki/Software-Blog#16th-july-2023) (not 16!) - Running on two arm cores at ~85% CPU usage
    - 4 voices are on the left channel and 4 on the right ... stereo output needs to mixed to mono externally
 
@@ -38,17 +38,7 @@ Deviations/enhancements compared to a real DX7...
 
 See the [software blog](https://github.com/AnotherJohnH/picoX7/wiki/Software-Blog) and [hardware blog](https://github.com/AnotherJohnH/picoX7/wiki/Hardware-Blog)  for more detailed progress updates.
 
-## Software dependencies
-
-+ https://github.com/AnotherJohnH/Platform
-+ arm-none-eabi-gcc
-+ cmake via UNIX make or auto detection of ninja if installed
-+ Python3
-+ SDL2 (only for native test target)
-
-Both Pico and native targets should build on MacOS or Linux.
-
-## Hardware information
+## Hardware
 
 ![prototype](docs/breadboard_v0.04.jpg)
 
@@ -102,7 +92,7 @@ In addition the above targets are built for and work with RP2350 Picos as well a
 
 **NOTE** No particular affiliation with PiHut but they have a nice selection and excellent service
 
-## How to build
+## Software
 
 ### Checkout
 
@@ -114,6 +104,14 @@ dependent source...
 or
 
     git clone --recurse ssh://git@github.com/AnotherJohnH/picoX7.git
+
+### Software dependencies
+
++ https://github.com/AnotherJohnH/Platform
++ arm-none-eabi-gcc
++ cmake via UNIX make or auto detection of ninja if installed
++ Python3
++ SDL2 (only for native test target)
 
 ### Build
 

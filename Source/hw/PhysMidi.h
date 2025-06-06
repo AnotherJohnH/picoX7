@@ -40,20 +40,18 @@ namespace hw {
 #if defined(HW_MIDI_IN_UART1)
 
 //! Physical MIDI in on pico pin 27
-class MidiIn : public MIDI::Interface
+class PhysMidi : public MIDI::Interface
 {
 public:
-   MidiIn(MIDI::Instrument& instrument_, bool debug_)
-      : MIDI::Interface(instrument_, debug_)
-   {}
+   PhysMidi() = default;
 
-private:
    bool empty() const override { return uart.empty(); }
 
    uint8_t rx() override { return uart.rx(); }
 
    void tx(uint8_t byte) override {}
 
+private:
    MTL::Uart1_P26_P27 uart{/* baud */      31250,
                            /* bits */      8,
                            /* parity */    MTL::UART::NONE,
@@ -64,12 +62,10 @@ private:
 #elif defined(HW_MIDI_IN_FAKE)
 
 //! Fake MIDI in with hard coded messages
-class MidiIn : public MIDI::Interface
+class PhysMidi : public MIDI::Interface
 {
 public:
-   MidiIn(MIDI::Instrument& instrument_, bool debug_)
-      : MIDI::Interface(instrument_, debug_)
-   {}
+   PhysMidi() = default;
 
 private:
    bool empty() const override { return n == sizeof(data); }
@@ -91,7 +87,7 @@ private:
 
 #elif defined(HW_MIDI_IN_NATIVE)
 
-using MidiIn = PLT::MIDI::Interface;
+using PhysMidi = PLT::MIDI::Interface;
 
 #endif
 
