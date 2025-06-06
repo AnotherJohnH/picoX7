@@ -36,19 +36,19 @@ namespace hw {
 
 #if defined(HW_USB_DEVICE)
 
-//! pico micro USB : MIDI in
+//! pico micro USB : MIDI in and storage interface
 class USBDevice
    : public MIDI::Interface
    , public MTL::USBDevice
 {
 public:
-   USBDevice(MIDI::Instrument& instrument_,
-             uint16_t          device_id_,
-             const char*       device_name_)
-      : MIDI::Interface(instrument_)
-      , MTL::USBDevice("https://github.com/AnotherJohnH",
+   USBDevice(uint16_t         device_id_,
+             const char*      device_name_,
+             STB::FileSystem& file_system_)
+      : MTL::USBDevice("https://github.com/AnotherJohnH",
                        device_id_, PLT_BCD_VERSION, device_name_,
                        PLT_COMMIT)
+      , storage_if{this, file_system_}
    {}
 
    bool empty() const override { return midi_if.empty(); }
@@ -57,7 +57,8 @@ public:
 
    void tx(uint8_t byte) override {}
 
-   MTL::USBMidiInterface midi_if{this};
+   MTL::USBMidiInterface        midi_if{this};
+   MTL::USBMassStorageInterface storage_if;
 };
 
 #endif

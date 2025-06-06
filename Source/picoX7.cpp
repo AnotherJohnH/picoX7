@@ -25,6 +25,8 @@
 #include <cstdio>
 #include <unistd.h>
 
+#include "FilePortal.h"
+
 #if not defined(HW_NATIVE)
 
 #include "MTL/MTL.h"
@@ -62,6 +64,7 @@ static const bool     PROFILE0         = false;                 //!< Resource pr
 static const bool     PROFILE1         = false;                 //!< Resource profiling (core1)
 static const bool     MIDI_DEBUG       = false;
 
+static FilePortal                            file_portal{"picoX7"};
 static DX7::Synth<NUM_VOICES, /* AMP_N */ 4> synth{};
 static Usage                                 usage{};
 
@@ -75,7 +78,7 @@ static hw::PhysMidi phys_midi{};
 
 #if defined(HW_USB_DEVICE)
 
-static hw::USBDevice usb{synth, 0x91C0, "picoX7"};
+static hw::USBDevice usb{0x91C0, "picoX7", file_portal};
 
 extern "C" void IRQ_USBCTRL() { usb.irq(); }
 
@@ -308,13 +311,9 @@ int main()
    printf("\e[1,1H");
 
    printf("\n");
-   printf("Program  : picoX7 (%s)\n", HW_DESCR);
-   printf("Author   : Copyright (c) 2023 John D. Haughton\n");
-   printf("License  : MIT\n");
-   printf("Version  : %s\n", PLT_VERSION);
-   printf("Commit   : %s\n", PLT_COMMIT);
-   printf("Built    : %s %s\n", __TIME__, __DATE__);
-   printf("Compiler : %s\n", __VERSION__);
+
+   puts(file_portal.getReadme());
+
    printf("\n");
 
 #if defined(HW_DAC_I2S) || defined(HW_DAC_PWM)
@@ -339,7 +338,7 @@ int main()
    {
       phys_midi.tick();
 
-#if defined(HW_MIDI_USB_DEVICE)
+#if defined(HW_USB_DEVICE)
       usb.tick();
 #endif
 
