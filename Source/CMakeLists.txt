@@ -20,8 +20,6 @@
 #  SOFTWARE.
 #-------------------------------------------------------------------------------
 
-set(python_path ${CMAKE_CURRENT_SOURCE_DIR}/../Platform/python)
-
 add_subdirectory(DX7)
 add_subdirectory(hw)
 

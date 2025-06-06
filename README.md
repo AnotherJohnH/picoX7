@@ -132,11 +132,11 @@ Build a single hardware target e.g. rpipico2 using cmake...
 
 flashable images will be found under the build sub-directory here...
 
-    build/picoX7_I2S_DAC.uf2
-    build/picoX7_PWM_DAC.uf2
-    build/picoX7_PIMORONI_PICO_AUDIO.uf2
-    build/picoX7_PIMORONI_VGA_DEMO.uf2
-    build/picoX7_WAVESHARE_REV2_1.uf2
+    build/<target>/picoX7_I2S_DAC.uf2
+    build/<target>/picoX7_PWM_DAC.uf2
+    build/<target>/picoX7_PIMORONI_PICO_AUDIO.uf2
+    build/<target>/picoX7_PIMORONI_VGA_DEMO.uf2
+    build/<target>/picoX7_WAVESHARE_REV2_1.uf2
 
 Build the native target...
 

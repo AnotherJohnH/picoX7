@@ -20,42 +20,14 @@
 #  SOFTWARE.
 #-------------------------------------------------------------------------------
 
-add_custom_command(
-   COMMENT
-      "Auto-generate for DX7"
-   COMMAND
-      ${CMAKE_COMMAND}
-         -E env PYTHONPATH=${python_path}
-         ${CMAKE_CURRENT_SOURCE_DIR}/AUTO.py
-             ${CMAKE_CURRENT_SOURCE_DIR}/cart/rom1a.syx
-             ${CMAKE_CURRENT_SOURCE_DIR}/cart/rom1b.syx
-             ${CMAKE_CURRENT_SOURCE_DIR}/cart/rom2a.syx
-             ${CMAKE_CURRENT_SOURCE_DIR}/cart/rom2b.syx
-   DEPENDS
-      ${CMAKE_CURRENT_SOURCE_DIR}/AUTO.py
-      ${CMAKE_CURRENT_SOURCE_DIR}/cart/rom1a.syx
-      ${CMAKE_CURRENT_SOURCE_DIR}/cart/rom1b.syx
-      ${CMAKE_CURRENT_SOURCE_DIR}/cart/rom2a.syx
-      ${CMAKE_CURRENT_SOURCE_DIR}/cart/rom2b.syx
-      ${python_path}/table.py
-   OUTPUT
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx_exp_14.h
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx_exp_14.cpp
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx_exp_32.h
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx_exp_32.cpp
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx_exp_19.h
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx_exp_19.cpp
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx_log_sine_14.h
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx_log_sine_14.cpp
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_rom_1.h
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_rom_1.cpp
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_rom_2.h
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_rom_2.cpp
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_rom_3.h
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_rom_3.cpp
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_rom_4.h
-      ${CMAKE_CURRENT_BINARY_DIR}/Table_dx7_rom_4.cpp
-   )
+autogen_py(Table_dx_exp_14)
+autogen_py(Table_dx_exp_19)
+autogen_py(Table_dx_exp_32)
+autogen_py(Table_dx_log_sine_14)
+autogen_py(Table_dx7_rom_1 ${CMAKE_CURRENT_SOURCE_DIR}/cart/rom1a.syx)
+autogen_py(Table_dx7_rom_2 ${CMAKE_CURRENT_SOURCE_DIR}/cart/rom2a.syx)
+autogen_py(Table_dx7_rom_3 ${CMAKE_CURRENT_SOURCE_DIR}/cart/rom3a.syx)
+autogen_py(Table_dx7_rom_4 ${CMAKE_CURRENT_SOURCE_DIR}/cart/rom4a.syx)
 
 add_library(DX7 STATIC
    SysEx.cpp
@@ -75,4 +47,3 @@ target_include_directories(DX7
    )
 
 add_subdirectory(test)
-
