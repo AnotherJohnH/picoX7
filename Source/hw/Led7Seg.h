@@ -38,9 +38,17 @@ namespace hw {
 // pico pin 4 : DATA
 // pico pin 5 : CLOCK
 
-using Led7Seg = MTL::Led7Seg</* PIN_CLK */  MTL::PIN_5,
-                             /* PIN_DATA */ MTL::PIN_4,
-                             /* NUM_DIGITS */ 2>;
+class Led7Seg : public MTL::Led7Seg<HW_LED_7_SEG_CLK,
+                                    HW_LED_7_SEG_DAT,
+                                    /* NUM_DIGITS */ 2>
+{
+public:
+   Led7Seg()
+   {
+      MTL::config.gpio(HW_LED_7_SEG_CLK, "7-SEG LED clk");
+      MTL::config.gpio(HW_LED_7_SEG_DAT, "7-SEG LED data");
+   }
+};
 
 #endif
 

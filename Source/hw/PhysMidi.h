@@ -27,7 +27,7 @@
 #include "STB/MIDIInterface.h"
 #include "hw/Config.h"
 
-#if defined(HW_MIDI_IN_UART1)
+#if defined(HW_MIDI_IN_UART)
 #include "MTL/chip/Uart.h"
 
 #elif defined(HW_MIDI_IN_NATIVE)
@@ -37,13 +37,16 @@
 
 namespace hw {
 
-#if defined(HW_MIDI_IN_UART1)
+#if defined(HW_MIDI_IN_UART)
 
-//! Physical MIDI in on pico pin 27
+//! Physical MIDI in
 class PhysMidi : public MIDI::Interface
 {
 public:
-   PhysMidi() = default;
+   PhysMidi()
+   {
+      MTL::config.gpio(HW_MIDI_IN_UART::RX, "UART RX (MIDI in)");
+   }
 
    bool empty() const override { return uart.empty(); }
 
@@ -52,11 +55,11 @@ public:
    void tx(uint8_t byte) override {}
 
 private:
-   MTL::Uart1_P26_P27 uart{/* baud */      31250,
-                           /* bits */      8,
-                           /* parity */    MTL::UART::NONE,
-                           /* stop bits */ 1,
-                           /* pull up */   true};
+   HW_MIDI_IN_UART uart{/* baud */      31250,
+                        /* bits */      8,
+                        /* parity */    MTL::UART::NONE,
+                        /* stop bits */ 1,
+                        /* pull up */   true};
 };
 
 #elif defined(HW_MIDI_IN_FAKE)

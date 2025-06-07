@@ -64,12 +64,16 @@ class Audio : public MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK>
 public:
    Audio(unsigned dac_freq)
       : MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK>{dac_freq,
-                                                  MTL::PIN_29,  // SD
-                                                  MTL::PIN_32,  // LRCLK + SCLK
-                                                  MTL::PIN_31,  // MCLK
+                                                  HW_DAC_I2S_SD,
+                                                  HW_DAC_I2S_CLKS,
+                                                  HW_DAC_I2S_MCLK,
                                                   MTL::Audio::STEREO_PAIRS_16,
-                                                  true}         // LSB LRCLK / MSB SCLK
+                                                  /* LSB LRCLK / MSB SCLK */ true}
    {
+      MTL::config.gpio(HW_DAC_I2S_SD,       "I2S SD");
+      MTL::config.gpio(HW_DAC_I2S_CLKS,     "I2S LRCLK");
+      MTL::config.gpio(HW_DAC_I2S_CLKS + 1, "I2S SCLK");
+      MTL::config.gpio(HW_DAC_I2S_MCLK,     "I2S MCLK");
    }
 };
 
@@ -82,12 +86,15 @@ class Audio : public MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK>
 public:
    Audio(unsigned dac_freq)
       : MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK>{dac_freq,
-                                                  MTL::PIN_31,     // SD
-                                                  MTL::PIN_32,     // LRCLK + SCLK
-                                                  MTL::PIN_IGNORE, // No MCLK
+                                                  HW_DAC_I2S_SD,
+                                                  HW_DAC_I2S_CLKS,
+                                                  /* MCLK */ MTL::PIN_IGNORE,
                                                   MTL::Audio::STEREO_PAIRS_16,
-                                                  false}           // LSB LRCLK / MSB SCLK
+                                                  /* LSB LRCLK / MSB SCLK */ false}
    {
+      MTL::config.gpio(HW_DAC_I2S_SD,       "I2S SD");
+      MTL::config.gpio(HW_DAC_I2S_CLKS,     "I2S SCLK");
+      MTL::config.gpio(HW_DAC_I2S_CLKS + 1, "I2S LRCLK");
    }
 };
 
@@ -100,12 +107,15 @@ class Audio : public MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK>
 public:
    Audio(unsigned dac_freq)
       : MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK>{dac_freq,
-                                                  MTL::PIN_12,     // SD
-                                                  MTL::PIN_14,     // LRCLK + SCLK
-                                                  MTL::PIN_IGNORE, // No MCLK
+                                                  HW_DAC_I2S_SD,
+                                                  HW_DAC_I2S_CLKS, 
+                                                  /* MCLK */ MTL::PIN_IGNORE,
                                                   MTL::Audio::STEREO_PAIRS_16,
-                                                  false}           // LSB LRCLK / MSB SCLK
+                                                  /* LSB LRCLK / MSB SCLK */ false}
    {
+      MTL::config.gpio(HW_DAC_I2S_SD,       "I2S SD");
+      MTL::config.gpio(HW_DAC_I2S_CLKS,     "I2S SCLK");
+      MTL::config.gpio(HW_DAC_I2S_CLKS + 1, "I2S LRCLK");
    }
 };
 
@@ -118,24 +128,28 @@ class Audio : public MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK>
 public:
    Audio(unsigned dac_freq)
       : MTL::PioAudio<MTL::Pio0,SAMPLES_PER_TICK>{dac_freq,
-                                                  MTL::PIN_31,     // SD
-                                                  MTL::PIN_32,     // LRCLK + SCLK
-                                                  MTL::PIN_IGNORE, // No MCLK
+                                                  HW_DAC_I2S_SD,
+                                                  HW_DAC_I2S_CLKS,
+                                                  /* MCLK */ MTL::PIN_IGNORE,
                                                   MTL::Audio::STEREO_PAIRS_16,
-                                                  false}           // LSB LRCLK / MSB SCLK
+                                                  /* LSB LRCLK / MSB SCLK */ false}
    {
+      MTL::config.gpio(HW_DAC_I2S_SD,       "I2S SD");
+      MTL::config.gpio(HW_DAC_I2S_CLKS,     "I2S SCLK");
+      MTL::config.gpio(HW_DAC_I2S_CLKS + 1, "I2S LRCLK");
    }
 };
 
 #elif defined(HW_DAC_PWM)
 
 template <unsigned SAMPLES_PER_TICK>
-class Audio : public MTL::PwmAudio<MTL::PIN_21, /* BITS */ 8, SAMPLES_PER_TICK>
+class Audio : public MTL::PwmAudio<HW_DAC_PWM, /* BITS */ 8, SAMPLES_PER_TICK>
 {
 public:
    Audio(unsigned dac_freq)
-      : MTL::PwmAudio<MTL::PIN_21, /* BITS */ 8, SAMPLES_PER_TICK>{dac_freq}
+      : MTL::PwmAudio<HW_DAC_PWM, /* BITS */ 8, SAMPLES_PER_TICK>{dac_freq}
    {
+      MTL::config.gpio(HW_DAC_PWM, "PWM (audio)");
    }
 };
 

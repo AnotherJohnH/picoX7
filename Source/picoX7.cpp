@@ -312,7 +312,7 @@ int main()
 
    printf("\n");
 
-   puts(file_portal.getReadme());
+   puts(file_portal.genREADME());
 
    printf("\n");
 
