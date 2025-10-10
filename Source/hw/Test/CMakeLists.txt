@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-#  Copyright (c) 2024 John D. Haughton
+#  Copyright (c) 2025 John D. Haughton
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to deal
@@ -20,42 +20,23 @@
 #  SOFTWARE.
 #-------------------------------------------------------------------------------
 
-add_library(HW INTERFACE)
-target_include_directories(HW INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/..)
+autogen_py(Table_sine)
 
-if(${PLT_TARGET} STREQUAL rpipico)
+foreach(hw_config ${hw_config_list})
 
-   set(hw_config_list
-       I2S_DAC
-       PWM_DAC
-       WAVESHARE_REV2_1
-       PIMORONI_VGA_DEMO
-       PIMORONI_PICO_AUDIO
-       CACHE INTERNAL "Host List")
+   add_executable(test_hw_${hw_config}
+      Table_sine.cpp
+      test_hw.cpp)
 
-   target_link_libraries(HW INTERFACE TNY MTL)
+   target_include_directories(test_hw_${hw_config}
+      PUBLIC ${CMAKE_CURRENT_BINARY_DIR}
+      )
 
-   add_subdirectory(Test)
+   target_compile_definitions(test_hw_${hw_config} PRIVATE HW_${hw_config})
 
-elseif(${PLT_TARGET} STREQUAL rpipico2)
+   target_link_libraries(test_hw_${hw_config} PRIVATE HW)
 
-   set(hw_config_list
-       I2S_DAC
-       PWM_DAC
-       WAVESHARE_REV2_1
-       PIMORONI_PICO_AUDIO
-       CACHE INTERNAL "Host List")
+   set_target_properties(test_hw_${hw_config} PROPERTIES
+      RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 
-   target_link_libraries(HW INTERFACE TNY MTL)
-
-   add_subdirectory(Test)
-
-elseif(${PLT_TARGET} STREQUAL native)
-
-   set(hw_config_list
-       NATIVE
-       CACHE INTERNAL "Host List")
-
-   target_link_libraries(HW INTERFACE PLT STB)
-
-endif()
+endforeach()

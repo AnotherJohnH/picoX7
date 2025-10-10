@@ -67,8 +67,7 @@
 #define HW_LED_7_SEG_DAT  MTL::PIN_21
 #define HW_LED_7_SEG_CLK  MTL::PIN_22
 
-#define HW_DAC_PWM        MTL::PIN_26
-
+#define HW_DAC_PWM        MTL::PIN_31
 
 //------------------------------------------------------------------------------
 #elif defined(HW_WAVESHARE_REV2_1)
@@ -91,7 +90,6 @@
 #define HW_DAC_I2S_SD     MTL::PIN_29
 #define HW_DAC_I2S_CLKS   MTL::PIN_32
 #define HW_DAC_I2S_MCLK   MTL::PIN_31
-
 
 //------------------------------------------------------------------------------
 #elif defined(HW_PIMORONI_PICO_AUDIO)
