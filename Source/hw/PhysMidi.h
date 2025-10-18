@@ -28,7 +28,7 @@ class PhysMidi : public MIDI::Interface
 public:
    PhysMidi()
    {
-      MTL::config.gpio(HW_MIDI_IN_UART::RX, "UART RX (MIDI in)");
+      MTL::config.gpio(HW_MIDI_IN_UART::RX, "<UART RX (MIDI in)");
    }
 
    bool empty() const override { return uart.empty(); }

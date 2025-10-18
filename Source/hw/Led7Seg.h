@@ -28,8 +28,8 @@ class Led7Seg : public MTL::Led7Seg<HW_LED_7_SEG_CLK,
 public:
    Led7Seg()
    {
-      MTL::config.gpio(HW_LED_7_SEG_CLK, "7-SEG LED clk");
-      MTL::config.gpio(HW_LED_7_SEG_DAT, "7-SEG LED data");
+      MTL::config.gpio(HW_LED_7_SEG_CLK, ">7-SEG LED clk");
+      MTL::config.gpio(HW_LED_7_SEG_DAT, ">7-SEG LED data");
    }
 };
 

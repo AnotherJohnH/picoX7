@@ -53,10 +53,10 @@ public:
                                                   MTL::Audio::STEREO_PAIRS_16,
                                                   /* LSB LRCLK / MSB SCLK */ true}
    {
-      MTL::config.gpio(HW_DAC_I2S_SD,       "I2S SD");
-      MTL::config.gpio(HW_DAC_I2S_CLKS,     "I2S LRCLK");
-      MTL::config.gpio(HW_DAC_I2S_CLKS + 1, "I2S SCLK");
-      MTL::config.gpio(HW_DAC_I2S_MCLK,     "I2S MCLK");
+      MTL::config.gpio(HW_DAC_I2S_SD,       ">I2S SD");
+      MTL::config.gpio(HW_DAC_I2S_CLKS,     ">I2S LRCLK");
+      MTL::config.gpio(HW_DAC_I2S_CLKS + 1, ">I2S SCLK");
+      MTL::config.gpio(HW_DAC_I2S_MCLK,     ">I2S MCLK");
    }
 };
 
@@ -75,9 +75,9 @@ public:
                                                   MTL::Audio::STEREO_PAIRS_16,
                                                   /* LSB LRCLK / MSB SCLK */ false}
    {
-      MTL::config.gpio(HW_DAC_I2S_SD,       "I2S SD");
-      MTL::config.gpio(HW_DAC_I2S_CLKS,     "I2S SCLK");
-      MTL::config.gpio(HW_DAC_I2S_CLKS + 1, "I2S LRCLK");
+      MTL::config.gpio(HW_DAC_I2S_SD,       ">I2S SD");
+      MTL::config.gpio(HW_DAC_I2S_CLKS,     ">I2S SCLK");
+      MTL::config.gpio(HW_DAC_I2S_CLKS + 1, ">I2S LRCLK");
    }
 };
 
@@ -96,9 +96,9 @@ public:
                                                   MTL::Audio::STEREO_PAIRS_16,
                                                   /* LSB LRCLK / MSB SCLK */ false}
    {
-      MTL::config.gpio(HW_DAC_I2S_SD,       "I2S SD");
-      MTL::config.gpio(HW_DAC_I2S_CLKS,     "I2S SCLK");
-      MTL::config.gpio(HW_DAC_I2S_CLKS + 1, "I2S LRCLK");
+      MTL::config.gpio(HW_DAC_I2S_SD,       ">I2S SD");
+      MTL::config.gpio(HW_DAC_I2S_CLKS,     ">I2S SCLK");
+      MTL::config.gpio(HW_DAC_I2S_CLKS + 1, ">I2S LRCLK");
    }
 };
 
@@ -117,9 +117,9 @@ public:
                                                   MTL::Audio::STEREO_PAIRS_16,
                                                   /* LSB LRCLK / MSB SCLK */ false}
    {
-      MTL::config.gpio(HW_DAC_I2S_SD,       "I2S SD");
-      MTL::config.gpio(HW_DAC_I2S_CLKS,     "I2S SCLK");
-      MTL::config.gpio(HW_DAC_I2S_CLKS + 1, "I2S LRCLK");
+      MTL::config.gpio(HW_DAC_I2S_SD,       ">I2S SD");
+      MTL::config.gpio(HW_DAC_I2S_CLKS,     ">I2S SCLK");
+      MTL::config.gpio(HW_DAC_I2S_CLKS + 1, ">I2S LRCLK");
    }
 };
 
@@ -132,7 +132,7 @@ public:
    Audio(unsigned dac_freq)
       : MTL::PwmAudio<HW_DAC_PWM, /* BITS */ 8, SAMPLES_PER_TICK>{dac_freq}
    {
-      MTL::config.gpio(HW_DAC_PWM, "PWM (audio)");
+      MTL::config.gpio(HW_DAC_PWM, ">PWM (audio)");
    }
 };
 

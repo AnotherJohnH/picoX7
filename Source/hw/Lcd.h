@@ -35,8 +35,8 @@ public:
                          /* COLS */ 16,
                          /* ROWS */ 2>{ HW_LCD_I2C_ADDR }
    {
-      MTL::config.gpio(HW_LCD_I2C::SDA, "I2C SDA (16x2 LCD)");
-      MTL::config.gpio(HW_LCD_I2C::SCL, "I2C SCL (16x2 LCD)");
+      MTL::config.gpio(HW_LCD_I2C::SDA, ">I2C SDA (16x2 LCD)");
+      MTL::config.gpio(HW_LCD_I2C::SCL, ">I2C SCL (16x2 LCD)");
    }
 };
 
