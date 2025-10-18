@@ -4,7 +4,6 @@
 #-------------------------------------------------------------------------------
 
 add_subdirectory(DX7)
-add_subdirectory(hw)
 
 foreach(hw_config ${hw_config_list})
 

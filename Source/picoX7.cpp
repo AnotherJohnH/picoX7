@@ -8,6 +8,7 @@
 #include <cstdio>
 #include <unistd.h>
 
+#include "Hardware/picoX7.h"
 #include "FilePortal.h"
 
 #if not defined(HW_NATIVE)
@@ -19,7 +20,6 @@
 #endif
 
 #include "DX7/DX7Synth.h"
-#include "hw/hw.h"
 
 #include "Usage.h"
 
