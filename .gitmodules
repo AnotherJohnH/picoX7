@@ -1,6 +1,3 @@
-[submodule "Platform"]
-	path = Platform
-	url = ssh://git@github.com/AnotherJohnH/Platform.git
 [submodule "Hardware"]
 	path = Hardware
 	url = https://github.com/AnotherJohnH/Hardware.git

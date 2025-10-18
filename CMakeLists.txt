@@ -12,7 +12,6 @@ project(picoX7
 include(CTest)
 
 add_subdirectory(Platform)
-
 add_subdirectory(Source)
 add_subdirectory(docs/Research)
 
