@@ -5,7 +5,7 @@
 
 add_subdirectory(DX7)
 
-foreach(hw_config ${hw_config_list})
+foreach(hw_config ${hw_picoX7_config_list})
 
    add_executable(picoX7_${hw_config} picoX7.cpp)
 
