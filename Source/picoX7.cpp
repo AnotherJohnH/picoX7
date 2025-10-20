@@ -61,7 +61,7 @@ static hw::PhysMidi phys_midi{};
 
 #if defined(HW_USB_DEVICE)
 
-static hw::USBDevice usb{0x91C0, "picoX7", file_portal};
+static hw::UsbFileMidi usb{0x91C0, "picoX7", file_portal};
 
 extern "C" void IRQ_USBCTRL() { usb.irq(); }
 
