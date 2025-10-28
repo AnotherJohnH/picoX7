@@ -294,9 +294,7 @@ int main()
    printf("\e[1,1H");
 
    printf("\n");
-
    puts(file_portal.genREADME());
-
    printf("\n");
 
 #if defined(HW_DAC_I2S) || defined(HW_DAC_PWM)
