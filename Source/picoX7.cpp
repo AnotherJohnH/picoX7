@@ -59,42 +59,27 @@ static hw::PhysMidi phys_midi{};
 
 // --- USB MIDI ----------------------------------------------------------------
 
-#if defined(HW_USB_DEVICE)
-
 static hw::UsbFileMidi usb{0x91C0, "picoX7", file_portal};
 
 extern "C" void IRQ_USBCTRL() { usb.irq(); }
 
-#endif
-
 
 // --- 7-segment LED display ---------------------------------------------------
 
-#if defined(HW_LED_7_SEG)
-
 static hw::Led7Seg led_7seg;
-
-#endif
 
 void SynthIO::displayLED(unsigned number)
 {
-#if defined(HW_LED_7_SEG)
    led_7seg.printDec(number, number >= 100 ? 0 : 3);
-#endif
 }
 
 
 // --- 16x2 LCD display --------------------------------------------------------
 
-#if not defined(HW_LCD_NONE)
-
 static hw::Lcd lcd{};
-
-#endif
 
 void SynthIO::displayLCD(unsigned row, const char* text)
 {
-#if not defined(HW_LCD_NONE)
    if (PROFILE0 || PROFILE1)
    {
       static char temp[32];
@@ -110,7 +95,6 @@ void SynthIO::displayLCD(unsigned row, const char* text)
 
    lcd.move(0, row);
    lcd.print(text);
-#endif
 }
 
 
@@ -305,10 +289,8 @@ int main()
 
    synth.programChange(0, 0);
 
-#if defined(HW_USB_DEVICE)
    usb.setDebug(MIDI_DEBUG);
    usb.attachInstrument(1, synth);
-#endif
 
    phys_midi.setDebug(MIDI_DEBUG);
    phys_midi.attachInstrument(1, synth);
@@ -319,20 +301,14 @@ int main()
    {
       phys_midi.tick();
 
-#if defined(HW_USB_DEVICE)
       usb.tick();
-#endif
 
       led = synth.isAnyVoiceOn();
 
       if (PROFILE0 || PROFILE1)
       {
-#if defined(HW_LED_7_SEG)
          led_7seg.printDec(usage.getCPUUsage(), 3);
          usleep(100000);
-#else
-         (void) usage;
-#endif
       }
    }
 
