@@ -276,8 +276,7 @@ void hw::Audio<SAMPLES_PER_TICK>::getSamples(int16_t* buffer, unsigned n)
 int main()
 {
    // Clear screen and cursor to home
-   printf("\e[2J");
-   printf("\e[1,1H");
+   printf("\033[2J\033[H");
 
    printf("\n");
    puts(file_portal.addREADME("picoX7"));
