@@ -9,7 +9,7 @@
 #include <unistd.h>
 
 #include "Hardware/picoX7/Config.h"
-#include "FilePortal.h"
+#include "Hardware/FilePortal.h"
 
 #if not defined(HW_NATIVE)
 
@@ -47,7 +47,9 @@ static const bool     PROFILE0         = false;                 //!< Resource pr
 static const bool     PROFILE1         = false;                 //!< Resource profiling (core1)
 static const bool     MIDI_DEBUG       = false;
 
-static FilePortal                            file_portal{"picoX7"};
+static hw::FilePortal file_portal{"picoX7",
+                                  "https://github.com/AnotherJohnH/picoX7/"};
+
 static DX7::Synth<NUM_VOICES, /* AMP_N */ 4> synth{};
 static Usage                                 usage{};
 
@@ -278,7 +280,7 @@ int main()
    printf("\e[1,1H");
 
    printf("\n");
-   puts(file_portal.genREADME());
+   puts(file_portal.addREADME("picoX7"));
    printf("\n");
 
 #if defined(HW_DAC_I2S) || defined(HW_DAC_PWM)

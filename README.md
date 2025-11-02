@@ -40,9 +40,11 @@ See the [software blog](https://github.com/AnotherJohnH/picoX7/wiki/Software-Blo
 
 ## Hardware
 
-![prototype](docs/breadboard_v0.04.jpg)
+![prototype](https://github.com/AnotherJohnH/Hardware/raw/main/picoX7/docs/breadboard_v0.04.jpg)
 
-For more information on the circuit above see  the [schematic](https://github.com/AnotherJohnH/picoX7/blob/main/docs/schematic_v0.05.pdf) and the [hardware blog](https://github.com/AnotherJohnH/picoX7/wiki/Hardware-Blog)
+[Schematic](https://github.com/AnotherJohnH/Hardware/blob/main/picoX7/docs/schematic_v0.05.pdf) for the above.
+
+For more information see [README](https://github.com/AnotherJohnH/Hardware/blob/main/picoX7/README.md) and the [hardware blog](https://github.com/AnotherJohnH/picoX7/wiki/Hardware-Blog)
 
 + Currently building for an I2S DAC based around the Cirrus Logic CS4344 from WaveShare
 (see below)
