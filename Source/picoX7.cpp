@@ -296,6 +296,11 @@ int main()
    phys_midi.setDebug(MIDI_DEBUG);
    phys_midi.attachInstrument(1, synth);
 
+   // XXX the AKAI MPK mini MIDI controller sends
+   //     program changes on MIDI channel 2 #!@*4%
+   usb.attachInstrument(2, synth);
+   phys_midi.attachInstrument(2, synth);
+
    audio.start();
 
    while(true)
