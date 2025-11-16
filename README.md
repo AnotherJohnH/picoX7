@@ -83,16 +83,16 @@ Build a single hardware target e.g. rpipico2 using cmake...
 
     mkdir build
     cd build
-    cmake -DCMAKE_BUILD_TYPE=Release -DPLT_TARGET=rpipico2 -DCMAKE_TOOLCHAIN_FILE=Platform/MTL/rpipico2/toolchain.cmake ..
+    cmake -DCMAKE_BUILD_TYPE=Release -DPLT_TARGET=rp2350 -DCMAKE_TOOLCHAIN_FILE=Platform/MTL/rp2350/target/toolchain.cmake ..
     make
 
 flashable images will be found under the build sub-directory here...
 
-    build/<target>/picoX7_I2S_DAC.uf2
-    build/<target>/picoX7_PWM_DAC.uf2
-    build/<target>/picoX7_PIMORONI_PICO_AUDIO.uf2
+    build/<target>/picoX7_RPIPIOC_I2S_DAC.uf2
+    build/<target>/picoX7_RPIPIOC_PWM_DAC.uf2
+    build/<target>/picoX7_RPIPIOC_PIMORONI_PICO_AUDIO.uf2
+    build/<target>/picoX7_RPIPIOC_WAVESHARE_REV2_1.uf2
     build/<target>/picoX7_PIMORONI_VGA_DEMO.uf2
-    build/<target>/picoX7_WAVESHARE_REV2_1.uf2
 
 Build the native target...
 

@@ -15,8 +15,8 @@
 // allow building completely non functional Usage
 namespace MTL { using SysTick = uint32_t; }
 
-const unsigned FLASH_SIZE = 100;
-const unsigned RAM_SIZE   = 100;
+const unsigned FLASH_USAGE = 100;
+const unsigned RAM_USAGE   = 100;
 
 #endif
 
@@ -52,7 +52,7 @@ public:
       extern uint8_t __text_start__;
       extern uint8_t __text_end__;
 
-      return unsigned(&__text_end__ - &__text_start__) * 100 / FLASH_SIZE;
+      return unsigned(&__text_end__ - &__text_start__) * 100 / FLASH_USAGE;
    }
 
    //! Get RAM memory usage (%)
@@ -61,7 +61,7 @@ public:
       extern uint8_t __data_start__;
       extern uint8_t __bss_end__;
 
-      return (&__bss_end__ - &__data_start__) * 100 / RAM_SIZE;
+      return (&__bss_end__ - &__data_start__) * 100 / RAM_USAGE;
    }
 
 private:
