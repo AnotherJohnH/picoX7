@@ -45,8 +45,6 @@ static const unsigned NUM_VOICES       = 16;                    //!< Polyphony
 static const bool     PROFILE          = false;                 //!< Resource profiling
 static const bool     MIDI_DEBUG       = false;
 
-static hw::FilePortal file_portal{"picoX7",
-                                  "https://github.com/AnotherJohnH/picoX7/"};
 
 static DX7::Synth<NUM_VOICES, /* AMP_N */ 4> synth{};
 
@@ -63,6 +61,9 @@ static hw::PhysMidi phys_midi{};
 
 
 // --- USB MIDI ----------------------------------------------------------------
+
+static hw::FilePortal file_portal{"picoX7",
+                                  "https://github.com/AnotherJohnH/picoX7/"};
 
 static hw::UsbFileMidi usb{0x91C0, "picoX7", file_portal};
 
@@ -138,7 +139,6 @@ MTL_AUDIO_ATTACH_IRQ_0(audio);
 
 static MTL::Sio sio;
 
-//! DAC pump call-back
 void MTL::Audio::getSamples(uint32_t* buffer, unsigned n)
 {
    profiler_core0.start();
