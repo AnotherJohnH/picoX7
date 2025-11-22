@@ -21,7 +21,6 @@
 
 #include "DX7/DX7Synth.h"
 
-#include "Usage.h"
 
 // ------------------------------------------------------------------------------------
 
@@ -42,16 +41,20 @@ static const unsigned DAC_FREQ         = 49096;                 //!< DAC sample 
 static const unsigned TICK_RATE        = 375;                   //!< 6800 firmware tick (375 Hz)
 static const unsigned SAMPLES_PER_TICK = DAC_FREQ / TICK_RATE;  //!< DAC buffer size (16 bit samples)
 static const unsigned BUFFER_SIZE      = SAMPLES_PER_TICK / 2;  //!< DAC buffer size (32 bit sample pairs)
-static const unsigned NUM_VOICES       = 8;                     //!< Polyphony
-static const bool     PROFILE0         = false;                 //!< Resource profiling (core0)
-static const bool     PROFILE1         = false;                 //!< Resource profiling (core1)
+static const unsigned NUM_VOICES       = 16;                    //!< Polyphony
+static const bool     PROFILE          = false;                 //!< Resource profiling
 static const bool     MIDI_DEBUG       = false;
 
 static hw::FilePortal file_portal{"picoX7",
                                   "https://github.com/AnotherJohnH/picoX7/"};
 
 static DX7::Synth<NUM_VOICES, /* AMP_N */ 4> synth{};
-static Usage                                 usage{};
+
+
+// --- Profiler ----------------------------------------------------------------
+
+static hw::Profiler<PROFILE> profiler_core0{};
+static hw::Profiler<PROFILE> profiler_core1{};
 
 
 // --- Physical MIDI -----------------------------------------------------------
@@ -82,18 +85,8 @@ static hw::Lcd lcd{};
 
 void SynthIO::displayLCD(unsigned row, const char* text)
 {
-   if (PROFILE0 || PROFILE1)
-   {
-      static char temp[32];
-
-      switch(row)
-      {
-      case 0: snprintf(temp, sizeof(temp), "FLASH: %2u%%", usage.getFLASHUsage()); break;
-      case 1: snprintf(temp, sizeof(temp), "RAM:   %2u%%", usage.getRAMUsage());   break;
-      }
-
-      text = temp;
-   }
+   if (PROFILE)
+      return;
 
    lcd.move(0, row);
    lcd.print(text);
@@ -135,7 +128,9 @@ uint8_t SynthIO::readButtons(uint8_t row_)
 
 // --- DAC ---------------------------------------------------------------------
 
-static hw::Audio<SAMPLES_PER_TICK> audio{DAC_FREQ};
+static hw::Audio<SAMPLES_PER_TICK> audio{DAC_FREQ, /* stereo_pairs */ true};
+
+static void hwTick();
 
 #if defined(HW_DAC_I2S)
 
@@ -146,8 +141,7 @@ static MTL::Sio sio;
 //! DAC pump call-back
 void MTL::Audio::getSamples(uint32_t* buffer, unsigned n)
 {
-   if (PROFILE0)
-      usage.start();
+   profiler_core0.start();
 
    // Wakeup core-1 with
    sio.txFifoPush(uint32_t(buffer));
@@ -160,14 +154,11 @@ void MTL::Audio::getSamples(uint32_t* buffer, unsigned n)
 
    synth.tick(0, NUM_VOICES / 2);
 
-   if (PROFILE0)
-      usage.end();
+   profiler_core0.stop();
 }
 
 void main_1()
 {
-   MTL::SysTick sys_tick;
-
    while(true)
    {
       // Wait for wakeup from core-0
@@ -176,8 +167,7 @@ void main_1()
          __asm__("wfe");
       }
 
-      if (PROFILE1)
-         usage.start();
+      profiler_core1.start();
 
       uint32_t* buffer = (uint32_t*)sio.rxFifoPop();
 
@@ -188,8 +178,7 @@ void main_1()
 
       synth.tick(NUM_VOICES / 2, NUM_VOICES);
 
-      if (PROFILE1)
-         usage.end();
+      profiler_core1.stop();
    }
 }
 
@@ -202,8 +191,7 @@ static MTL::Sio sio;
 //! DAC pump call-back
 void MTL::Audio::getSamples(uint32_t* buffer, unsigned n)
 {
-   if (PROFILE0)
-      usage.start();
+   profiler_core0.start();
 
    // Wakeup core-1 with
    sio.txFifoPush(uint32_t(buffer));
@@ -219,14 +207,11 @@ void MTL::Audio::getSamples(uint32_t* buffer, unsigned n)
 
    synth.tick(0, NUM_VOICES / 2);
 
-   if (PROFILE0)
-      usage.end();
+   profiler_core0.stop();
 }
 
 void main_1()
 {
-   MTL::SysTick sys_tick;
-
    while(true)
    {
       // Wait for wakeup from core-0
@@ -235,8 +220,7 @@ void main_1()
          __asm__("wfe");
       }
 
-      if (PROFILE1)
-         usage.start();
+      profiler_core1.start();
 
       uint16_t* right_buffer = ((uint16_t*)sio.rxFifoPop()) + 1;
 
@@ -248,8 +232,7 @@ void main_1()
 
       synth.tick(NUM_VOICES / 2, NUM_VOICES);
 
-      if (PROFILE1)
-         usage.end();
+      profiler_core1.stop();
    }
 }
 
@@ -270,8 +253,22 @@ void hw::Audio<SAMPLES_PER_TICK>::getSamples(int16_t* buffer, unsigned n)
 
 #endif
 
+static void hwTick()
+{
+   phys_midi.tick();
+   usb.tick();
+}
 
-// --- Entry point -------------------------------------------------------------
+void profileReport()
+{
+   char text[32];
+
+   lcd.move(0, 0);
+   lcd.print(profiler_core0.format(text));
+
+   lcd.move(0, 1);
+   lcd.print(profiler_core1.format(text));
+}
 
 int main()
 {
@@ -305,16 +302,14 @@ int main()
 
    while(true)
    {
-      phys_midi.tick();
-
-      usb.tick();
-
       led = synth.isAnyVoiceOn();
 
-      if (PROFILE0 || PROFILE1)
+      hwTick();
+
+      if (PROFILE)
       {
-         led_7seg.printDec(usage.getCPUUsage(), 3);
-         usleep(100000);
+         profileReport();
+         usleep(500000);
       }
    }
 

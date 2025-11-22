@@ -17,7 +17,8 @@ def dx_exp_14(index_14, x):
    return (int(math.pow(2.0, exp) * 0x800 + 0.5) << (index_14 >> 10)) >> 13
 
 table.gen('dx_exp_14',
-          func = dx_exp_14,
-          typename = "uint16_t",
+          func      = dx_exp_14,
+          typename  = "uint16_t",
           log2_size = 14,
-          fmt = '04x')
+          fmt       = '04x',
+          is_const  = False)

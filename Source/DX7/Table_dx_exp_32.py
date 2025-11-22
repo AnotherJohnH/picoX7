@@ -20,7 +20,8 @@ def dx_exp_32(index_14, x):
    return exp22 << 13 if index_14 < 0x3400 else exp22 >> 3
 
 table.gen('dx_exp_32',
-          func = dx_exp_32,
-          typename = "uint32_t",
+          func      = dx_exp_32,
+          typename  = "uint32_t",
           log2_size = 14,
-          fmt = '08x')
+          fmt       = '08x',
+          is_const  = False)

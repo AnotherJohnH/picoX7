@@ -12,7 +12,8 @@ def dx_log_sine_14(index_12, x):
    return int(-math.log(abs(math.sin(phase)), 2) * 1024 + 0.5002)
 
 table.gen('dx_log_sine_14',
-          func = dx_log_sine_14,
-          typename = "uint16_t",
+          func      = dx_log_sine_14,
+          typename  = "uint16_t",
           log2_size = 12,
-          fmt = '04x')
+          fmt       = '04x',
+          is_const  = False)

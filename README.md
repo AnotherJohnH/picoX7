@@ -12,7 +12,7 @@ Slightly boring [video](https://youtu.be/ZSuNV67vHK8) of the picoX7 playing the 
 
 Done...
    + I2S (via PIO) 16-bit stereo DAC interface at 49096 Hz
-   + Use of the 2nd Arm Cortex-M, 4 voices per core
+   + Use of the 2nd Arm Cortex-M, 8 voices per core
    + MIDI in support via UART and USB (including SYSEX in)
    + YM21280 OPS simulation (logarithmic)
    + YM21290 EGS simulation
@@ -28,8 +28,7 @@ To do...
 Limitations...
    - DAC implementation is quite different to the original. Dynamic range might be reduced?
    - Hitachi 6303 (~MC6803) CPU controller and firmware are not being emulated or fully simulated
-   - [8 voices](https://github.com/AnotherJohnH/picoX7/wiki/Software-Blog#16th-july-2023) (not 16!) - Running on two arm cores at ~85% CPU usage
-   - 4 voices are on the left channel and 4 on the right ... stereo output needs to mixed to mono externally
+   - 8 voices are on the left channel and 8 on the right ... stereo output needs to mixed to mono externally
 
 Deviations/enhancements compared to a real DX7...
    + Each voice has it's own LFO
@@ -46,7 +45,7 @@ See the [software blog](https://github.com/AnotherJohnH/picoX7/wiki/Software-Blo
 
 For more information see [README](https://github.com/AnotherJohnH/Hardware/blob/main/picoX7/README.md) and the [hardware blog](https://github.com/AnotherJohnH/picoX7/wiki/Hardware-Blog)
 
-The Pico is significantly overclocked to 191.08 MHz to support 8 voices and generate a jitter free sample rate of 49096 Hz.
+The Pico is significantly overclocked to 191.08 MHz to support 16 voices and generate a jitter free sample rate of 49096 Hz.
 
 RP2350 Picos as well as the older RP2040 Picos are supported.
 

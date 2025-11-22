@@ -11,7 +11,8 @@ def dx_exp_19(index_6, x):
    return int(8 * pow(2, index_6 / 4))
 
 table.gen('dx_exp_19',
-          func = dx_exp_19,
-          typename = "uint32_t",
+          func      = dx_exp_19,
+          typename  = "uint32_t",
           log2_size = 6,
-          fmt = '05x')
+          fmt       = '05x',
+          is_const  = False)
