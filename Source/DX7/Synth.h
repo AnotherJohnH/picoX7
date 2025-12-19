@@ -8,10 +8,10 @@
 #include <cstring>
 #include <unistd.h>
 
-#include "SynthBase.h"
+#include "SynthVoiceSysEx.h"
 
 #include "SysEx.h"
-#include "DX7Voice.h"
+#include "Voice.h"
 
 #include "Table_dx7_rom_1.h"
 #include "Table_dx7_rom_2.h"
@@ -21,23 +21,13 @@
 namespace DX7 {
 
 template <unsigned N, unsigned AMP_N = N>
-class Synth : public SynthBase<N,Voice,AMP_N>
+class Synth : public SynthVoice<Voice,N,AMP_N>
 {
 public:
    Synth()
    {
       // Load ROM 1 into the internal patch memory
       memcpy(internal_patches, table_dx7_rom_1, sizeof(internal_patches));
-   }
-
-   void start()
-   {
-      this->io.displayLED(188);
-      this->io.displayLCD(0, "*    picoX7    *");
-      this->io.displayLCD(1, "*  SYNTHESIZER *");
-
-      // 1.5s
-      usleep(1500000);
    }
 
 private:
@@ -230,7 +220,7 @@ private:
       if (index_ == 0)
       {
          // 7-seg LED output
-         this->io.displayLED(number_);
+         this->setNumber(number_);
 
          // 16x2 LCD output
          char line[32];
@@ -239,7 +229,7 @@ private:
          else
             snprintf(line, sizeof(line), "%03u             ", number_);
          memcpy(line + 4, (const char*)edit_patch.name, 10);
-         this->io.displayLCD(0, line);
+         this->setText(0, line);
 
          snprintf(line, sizeof(line), "A%2u F%1u %c%c%c%c%c%c   ",
                   edit_patch.alg + 1, edit_patch.feedback,
@@ -249,7 +239,7 @@ private:
                   edit_patch.op[2].osc_mode == SysEx::FIXED ? 'F' : 'R',
                   edit_patch.op[1].osc_mode == SysEx::FIXED ? 'F' : 'R',
                   edit_patch.op[0].osc_mode == SysEx::FIXED ? 'F' : 'R');
-         this->io.displayLCD(1, line);
+         this->setText(1, line);
 
          // Console output
          if (not update_)

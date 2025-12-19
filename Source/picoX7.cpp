@@ -19,10 +19,7 @@
 
 #endif
 
-#include "DX7/DX7Synth.h"
-
-
-// ------------------------------------------------------------------------------------
+#include "DX7/Synth.h"
 
 #if not defined(HW_NATIVE)
 
@@ -42,25 +39,26 @@ static const unsigned TICK_RATE        = 375;                   //!< 6800 firmwa
 static const unsigned SAMPLES_PER_TICK = DAC_FREQ / TICK_RATE;  //!< DAC buffer size (16 bit samples)
 static const unsigned BUFFER_SIZE      = SAMPLES_PER_TICK / 2;  //!< DAC buffer size (32 bit sample pairs)
 static const unsigned NUM_VOICES       = 16;                    //!< Polyphony
-static const bool     PROFILE          = false;                 //!< Resource profiling
 static const bool     MIDI_DEBUG       = false;
+static const bool     PROFILE          = false;
+static const unsigned NUM_SYNTHS       = 1;
 
 
-static DX7::Synth<NUM_VOICES, /* AMP_N */ 4> synth{};
+static DX7::Synth<NUM_VOICES, /* AMP_N */ 4> dx7{};
+static DX7::Synth<NUM_VOICES, /* AMP_N */ 4>* synth{};
+static unsigned                              synth_index{0};
 
-
-// --- Profiler ----------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 static hw::Profiler<PROFILE> profiler_core0{};
 static hw::Profiler<PROFILE> profiler_core1{};
+static hw::PhysMidi          phys_midi{};
+static hw::Led7Seg           led_7seg;
+static hw::Lcd               lcd{};            //!< 16x2 LCD
+static hw::Led               led{};
+static hw::Buttons           buttons{/* irq */ false};
 
-
-// --- Physical MIDI -----------------------------------------------------------
-
-static hw::PhysMidi phys_midi{};
-
-
-// --- USB MIDI ----------------------------------------------------------------
+// --- USB MIDI and FILE -----------------------------------------------------------
 
 static hw::FilePortal file_portal{"picoX7",
                                   "https://github.com/AnotherJohnH/picoX7/"};
@@ -68,63 +66,6 @@ static hw::FilePortal file_portal{"picoX7",
 static hw::UsbFileMidi usb{0x91C0, "picoX7", file_portal};
 
 extern "C" void IRQ_USBCTRL() { usb.irq(); }
-
-
-// --- 7-segment LED display ---------------------------------------------------
-
-static hw::Led7Seg led_7seg;
-
-void SynthIO::displayLED(unsigned number)
-{
-   led_7seg.printDec(number, number >= 100 ? 0 : 3);
-}
-
-
-// --- 16x2 LCD display --------------------------------------------------------
-
-static hw::Lcd lcd{};
-
-void SynthIO::displayLCD(unsigned row, const char* text)
-{
-   if (PROFILE)
-      return;
-
-   lcd.move(0, row);
-   lcd.print(text);
-}
-
-
-// --- LED ---------------------------------------------------------------------
-
-static hw::Led led{};
-
-
-// --- VARIABLE CONTROL --------------------------------------------------------
-
-unsigned SynthIO::readControl()
-{
-#if defined(HW_ADC)
-   static bool    first_pass{true};
-   static hw::Adc adc{};
-
-   if (first_pass)
-   {
-      adc.startCont(/* channel */ 0);
-   }
-
-   return adc.scaledResult(100);
-#else
-   return 0;
-#endif
-}
-
-
-// --- BUTTON MATRIX -----------------------------------------------------------
-
-uint8_t SynthIO::readButtons(uint8_t row_)
-{
-   return 0;
-}
 
 
 // --- DAC ---------------------------------------------------------------------
@@ -149,10 +90,10 @@ void MTL::Audio::getSamples(uint32_t* buffer, unsigned n)
 
    for(unsigned i = 0; i < SAMPLES_PER_TICK; i += 2)
    {
-      buffer[i + 1] = synth.getSamplePair(0, NUM_VOICES / 2);
+      buffer[i + 1] = dx7.getSamplePair(0, NUM_VOICES / 2);
    }
 
-   synth.tick(0, NUM_VOICES / 2);
+   dx7.tick(0, NUM_VOICES / 2);
 
    profiler_core0.stop();
 }
@@ -173,10 +114,10 @@ void main_1()
 
       for(unsigned i = 0; i < SAMPLES_PER_TICK; i += 2)
       {
-         buffer[i + 0] = synth.getSamplePair(NUM_VOICES / 2, NUM_VOICES);
+         buffer[i + 0] = dx7.getSamplePair(NUM_VOICES / 2, NUM_VOICES);
       }
 
-      synth.tick(NUM_VOICES / 2, NUM_VOICES);
+      dx7.tick(NUM_VOICES / 2, NUM_VOICES);
 
       profiler_core1.stop();
    }
@@ -201,11 +142,11 @@ void MTL::Audio::getSamples(uint32_t* buffer, unsigned n)
 
    for(unsigned i = 0; i < SAMPLES_PER_TICK; i++)
    {
-      int16_t sample = synth.getSample(0, NUM_VOICES / 2);
+      int16_t sample = dx7.getSample(0, NUM_VOICES / 2);
       left_buffer[i * 2] = audio.packSamples(sample, 0);
    }
 
-   synth.tick(0, NUM_VOICES / 2);
+   dx7.tick(0, NUM_VOICES / 2);
 
    profiler_core0.stop();
 }
@@ -226,11 +167,11 @@ void main_1()
 
       for(unsigned i = 0; i < SAMPLES_PER_TICK; i++)
       {
-         int16_t sample = synth.getSample(NUM_VOICES / 2, NUM_VOICES);
+         int16_t sample = dx7.getSample(NUM_VOICES / 2, NUM_VOICES);
          right_buffer[i * 2] = audio.packSamples(sample, 0);
       }
 
-      synth.tick(NUM_VOICES / 2, NUM_VOICES);
+      dx7.tick(NUM_VOICES / 2, NUM_VOICES);
 
       profiler_core1.stop();
    }
@@ -239,19 +180,23 @@ void main_1()
 #elif defined(HW_DAC_NATIVE)
 
 template<>
-void hw::Audio<SAMPLES_PER_TICK>::getSamples(int16_t* buffer, unsigned n)
+void hw::Audio<SAMPLES_PER_TICK>::getSamples32(uint32_t* buffer, unsigned n)
 {
    (void) BUFFER_SIZE;
 
-   for(unsigned i = 0; i < n; i += 2)
+   for(unsigned i = 0; i < n; ++i)
    {
-      buffer[i + 1] = buffer[i] = synth.getSample(0, NUM_VOICES);
+      int16_t mono = dx7.getSample(0, NUM_VOICES);
+
+      buffer[i] = (mono << 16) | (mono & 0xFFFF);
    }
 
-   synth.tick(0, NUM_VOICES);
+   synth->tick(0, NUM_VOICES);
 }
 
 #endif
+
+// -----------------------------------------------------------------------------
 
 static void hwTick()
 {
@@ -270,6 +215,26 @@ void profileReport()
    lcd.print(profiler_core1.format(text));
 }
 
+void initSynth()
+{
+   switch(synth_index)
+   {
+   case 0: synth = &dx7;      break;
+   }
+
+   usb.attachInstrument(1, *synth);
+   phys_midi.attachInstrument(1, *synth);
+
+   // XXX the AKAI MPK mini MIDI controller sends
+   //     program changes on MIDI channel 2 #!@*4%
+   usb.attachInstrument(2, *synth);
+   phys_midi.attachInstrument(2, *synth);
+
+   synth->init();
+
+   synth->programChange(0, 0);
+}
+
 int main()
 {
    // Clear screen and cursor to home
@@ -279,38 +244,65 @@ int main()
    puts(file_portal.addREADME("picoX7"));
    printf("\n");
 
+   led_7seg.printDec(88, 0);
+
+   lcd.print("*    picoX7    *\n");
+   lcd.print("*  SYNTHESIZER *");
+
+   usleep(1000000);
+
 #if defined(HW_DAC_I2S) || defined(HW_DAC_PWM)
    MTL_start_core(1, main_1);
 #endif
 
-   synth.start();
-
-   synth.programChange(0, 0);
-
    usb.setDebug(MIDI_DEBUG);
-   usb.attachInstrument(1, synth);
-
    phys_midi.setDebug(MIDI_DEBUG);
-   phys_midi.attachInstrument(1, synth);
 
-   // XXX the AKAI MPK mini MIDI controller sends
-   //     program changes on MIDI channel 2 #!@*4%
-   usb.attachInstrument(2, synth);
-   phys_midi.attachInstrument(2, synth);
+   initSynth();
 
    audio.start();
 
    while(true)
    {
-      led = synth.isAnyVoiceOn();
+      led = synth->isAnyVoiceOn();
 
       hwTick();
 
       if (PROFILE)
-      {
          profileReport();
-         usleep(500000);
+      else
+      {
+         for(unsigned line = 0; line < 2; ++line)
+         {
+            const char* text = synth->getText(line);
+            if (text != nullptr)
+            {
+               lcd.move(0, line);
+               lcd.print(text);
+            }
+         }
       }
+
+      unsigned number{};
+      if (synth->getNumber(number))
+      {
+         led_7seg.printDec(number, number >= 100 ? 0 : 3);
+      }
+
+      bool     down{};
+      unsigned index{};
+
+      if (buttons.popEvent(index, down))
+      {
+         if (down)
+         {
+            synth_index = (synth_index + 1) % NUM_SYNTHS;
+
+            initSynth();
+         }
+      }
+
+      usleep(100000);
    }
 
    return 0;

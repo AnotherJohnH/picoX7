@@ -10,19 +10,19 @@ import table
 index    = sys.argv[0][-4]
 filename = sys.argv[1]
 
-data = []
+image = []
 
 with open(filename, 'rb') as file:
    while True:
       byte = file.read(1)
       if byte == b'':
          break
-      data.append(int.from_bytes(byte, byteorder='big', signed=False))
+      image.append(int.from_bytes(byte, byteorder='big', signed=False))
 
 offset = 6
 
 table.gen("dx7_rom_" + index,
-          func      = lambda i,x : data[i + offset],
+          func      = lambda i,x : image[i + offset],
           typename  = "uint8_t",
           log2_size = 12,
           fmt       = '02x')

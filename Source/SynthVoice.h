@@ -7,22 +7,20 @@
 
 #include <cstdint>
 
-#include "STB/MIDIInstrument.h"
+#include "Synth.h"
 
-#include "SynthIO.h"
-
-//! Base class for MIDI synth
-template <unsigned N, typename VOICE, unsigned AMP_N = N>
-class SynthBase : public MIDI::Instrument
+template <typename VOICE, unsigned NUM_VOICES, unsigned AMP_N = NUM_VOICES>
+class SynthVoice: public Synth
 {
 public:
-   SynthBase()
-      : MIDI::Instrument(N)
-   {}
+   SynthVoice()
+      : Synth(NUM_VOICES)
+   {
+   }
 
    //! Get next sample
    int32_t getSample(unsigned first_voice_= 0,
-                     unsigned num_voices_ = N)
+                     unsigned num_voices_ = NUM_VOICES)
    {
       int32_t mix {0};
 
@@ -39,7 +37,7 @@ public:
 
    //! Get next pair of samples
    int32_t getSamplePair(unsigned first_voice_ = 0,
-                         unsigned last_voice_  = N)
+                         unsigned last_voice_  = NUM_VOICES)
    {
       int32_t mix1 {0};
       int32_t mix2 {0};
@@ -63,7 +61,7 @@ public:
 
    //! Control tick
    void tick(unsigned first_voice_ = 0,
-             unsigned last_voice_  = N)
+             unsigned last_voice_  = NUM_VOICES)
    {
       for(unsigned i = first_voice_; i < last_voice_; ++i)
       {
@@ -74,7 +72,15 @@ public:
       }
    }
 
+protected:
+   VOICE  voice[NUM_VOICES];
+
 private:
+   virtual bool filterNote(uint8_t midi_note_)
+   {
+      return false;
+   }
+
    // MIDI::Instrument implementation
    void voiceMute(unsigned index_) override
    {
@@ -82,9 +88,12 @@ private:
       voice[index_].mute();
    }
 
-   void voiceOn(unsigned index_, uint8_t note_, uint8_t velocity_) override
+   void voiceOn(unsigned index_, uint8_t midi_note_, uint8_t velocity_) override
    {
-      voice[index_].noteOn(note_, velocity_);
+      if (not filterNote(midi_note_))
+      {
+         voice[index_].noteOn(midi_note_, velocity_);
+      }
    }
 
    void voiceOff(unsigned index_, uint8_t velocity_) override
@@ -114,8 +123,4 @@ private:
    {
       voice[index_].setPitchBend(value_);
    }
-
-protected:
-   VOICE   voice[N];
-   SynthIO io{};
 };
