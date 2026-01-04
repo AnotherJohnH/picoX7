@@ -13,6 +13,6 @@ include(CTest)
 
 set(HARDWARE picoX7)
 
-add_subdirectory(Hardware)
+add_subdirectory(Platform/Hardware)
 add_subdirectory(Source)
 add_subdirectory(docs/Research)
