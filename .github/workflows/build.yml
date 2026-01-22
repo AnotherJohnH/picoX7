@@ -1,0 +1,48 @@
+name: Build
+
+on:
+  pull_request:
+  push:
+    #branches:
+      #- main
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: true
+
+      - name: Install dependencies
+        run: |
+            sudo apt-get update
+            sudo apt-get install -y gcc-arm-none-eabi ninja-build libsdl2-dev cmake
+
+      - name: Build non-native targets
+        run: |
+          mkdir build-non-native
+          cd build-non-native
+          cat ../CMakeLists.txt
+          cmake -DCMAKE_BUILD_TYPE=Release -DPLT_TARGET=rpipico -DCMAKE_TOOLCHAIN_FILE=../Platform/MTL/rpipico/toolchain.cmake ..
+          cmake --build .
+          ls -l Source/*.uf2
+
+      - name: Build native target
+        run: |
+          mkdir build-native
+          cd build-native
+          cat ../CMakeLists.txt
+          cmake -DCMAKE_BUILD_TYPE=Release -DPLT_TARGET=native ..
+          cmake --build .
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: |
+                 build-non-native/Source/*.uf2
+                 build-native/Source/picoX7*
+                 build-native/docs/Research/exp_dx7
